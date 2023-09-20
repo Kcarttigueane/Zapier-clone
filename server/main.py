@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from config.database import close_mongo_connection, connect_to_mongo
 from routers.auth import auth_router
+from routers.user import users_router
 
 app = FastAPI()
 
@@ -20,3 +21,4 @@ async def root():
     return {"message": "Hello World"}
 
 app.include_router(auth_router, prefix="/api")
+app.include_router(users_router, prefix="/api")
