@@ -1,0 +1,92 @@
+{
+  "basic": {
+    "actions": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "delete": "Delete",
+      "draft": "Draft",
+      "edit": "Edit",
+      "modify": "Modify",
+      "no": "No",
+      "ok": "Ok",
+      "save": "Save",
+      "search": "Search",
+      "valid": "Valid",
+      "yes": "Yes"
+    },
+    "date": {
+      "display": "{{month}}/{{day}}",
+      "format": "DD-MM-YYYY",
+      "full": "dddd DD MMMM YYYY",
+      "withHour": "MMMM Do YYYY, H:mm:ss a",
+      "year": "Year"
+    },
+    "days": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "tomorrow": "Tomorrow"
+    },
+    "fields": {
+      "address": "Address",
+      "condition": "Condition",
+      "confirmPassword": "Confirm password",
+      "country": "Country",
+      "description": "Description",
+      "email": "Email",
+      "firstName": "First name",
+      "franchise": "Franchise",
+      "lastName": "Last name",
+      "name": "Name",
+      "password": "Password",
+      "phone1": "Main phone",
+      "phone2": "Secondary phone",
+      "socialNetwork": "Social network",
+      "state": "State",
+      "store": "Store",
+      "streetNumber": "Street number",
+      "title": "Title",
+      "type": "Type",
+      "website": "Web site",
+      "zipCode": "Zip code"
+    },
+    "hours": {
+      "12am": "12am",
+      "2am": "2am",
+      "4am": "4am",
+      "6am": "6am",
+      "8am": "8am",
+      "10am": "10am",
+      "12pm": "12pm",
+      "2pm": "2pm",
+      "4pm": "4pm",
+      "6pm": "6pm",
+      "8pm": "8pm",
+      "10pm": "10pm"
+    },
+    "misc": {
+      "rows": "rows per page"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
+  }
+}
