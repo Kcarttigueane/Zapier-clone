@@ -88,5 +88,23 @@
       "november": "November",
       "december": "December"
     }
+  },
+  "demo_guides": {
+    "slide1": {
+      "title": "Welcome to Area",
+      "description": "Transform your digital life effortlessly with Area - your personal task automation wizard"
+    },
+    "slide2": {
+      "title": "Build custom workflows in minutes",
+      "description": "Automate the busywork, so you can focus on your job, not your tools. We'll show you how."
+    },
+    "slide3": {
+      "title": "Get more power from your tools",
+      "description": "Integrate your critical work apps into workflows, reclaim your time, and focus on impactful work."
+    },
+    "slide4": {
+      "title": "Connect the apps you already love",
+      "description": "Zapier supports more apps than any other platform, so you can optimize the tools you use."
+    }
   }
 }

@@ -34,7 +34,7 @@ const Pagination: FC<PaginationProps> = ({ data, scrollX }) => {
 
         const backgroundColor = scrollX.interpolate({
           inputRange,
-          outputRange: ['#ccc', '#000', '#ccc'],
+          outputRange: ['#A1A1A1', '#000', '#A1A1A1'],
           extrapolate: 'clamp',
         });
 

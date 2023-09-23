@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Animated, ImageSourcePropType, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 
 export interface SlideItemProps {
@@ -11,13 +12,14 @@ export interface SlideItemProps {
 
 const SlideItem: FC<SlideItemProps> = ({ item }) => {
   const { width } = useWindowDimensions();
+  const { t } = useTranslation();
 
   return (
     <View style={[styles.container, { width }]}>
       <Animated.Image source={item.img} resizeMode="contain" style={[styles.image, { width: width * 0.9 }]} />
       <View style={styles.content}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.description}>{item.description}</Text>
+        <Text style={styles.title}>{t(item.title)}</Text>
+        <Text style={styles.description}>{t(item.description)}</Text>
       </View>
     </View>
   );
