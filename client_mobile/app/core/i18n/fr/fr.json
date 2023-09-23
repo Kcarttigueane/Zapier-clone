@@ -1,0 +1,110 @@
+{
+  "basic": {
+    "actions": {
+      "add": "Ajouter",
+      "cancel": "Annuler",
+      "confirm": "Confirmer",
+      "delete": "Supprimer",
+      "draft": "Brouillon",
+      "edit": "Éditer",
+      "modify": "Modifier",
+      "no": "Non",
+      "ok": "Ok",
+      "save": "Sauvegarder",
+      "search": "Rechercher",
+      "valid": "Valider",
+      "yes": "Oui"
+    },
+    "date": {
+      "display": "{{day}}/{{month}}",
+      "format": "DD-MM-YYYY",
+      "full": "dddd DD MMMM YYYY",
+      "withHour": "Do MMMM YYYY, H:mm:ss",
+      "year": "Année"
+    },
+    "days": {
+      "mon": "Lundi",
+      "tue": "Mardi",
+      "wed": "Mercredi",
+      "thu": "Jeudi",
+      "fri": "Vendredi",
+      "sat": "Samedi",
+      "sun": "Dimanche",
+      "today": "Aujourd'hui",
+      "yesterday": "Hier",
+      "tomorrow": "Demain"
+    },
+    "fields": {
+      "address": "Adresse",
+      "condition": "Condition",
+      "confirmPassword": "Confirmer le mot de passe",
+      "country": "Pays",
+      "description": "Description",
+      "email": "Mail",
+      "firstName": "Prénom",
+      "franchise": "Franchise",
+      "lastName": "Nom",
+      "name": "Nom",
+      "password": "Mot de passe",
+      "phone1": "Téléphone principal",
+      "phone2": "Téléphone secondaire",
+      "socialNetwork": "Réseaux sociaux",
+      "state": "Etat",
+      "store": "Magasin",
+      "streetNumber": "Numéro",
+      "title": "Titre",
+      "type": "Type",
+      "website": "Site internet",
+      "zipCode": "Code postal"
+    },
+    "hours": {
+      "12am": "Minuit",
+      "2am": "2h",
+      "4am": "4h",
+      "6am": "6h",
+      "8am": "8h",
+      "10am": "10h",
+      "12pm": "Midi",
+      "2pm": "14h",
+      "4pm": "16h",
+      "6pm": "18h",
+      "8pm": "20h",
+      "10pm": "22h"
+    },
+    "misc": {
+      "rows": "ligne par page"
+    },
+    "months": {
+      "january": "Janvier",
+      "february": "Février",
+      "march": "Mars",
+      "april": "Avril",
+      "may": "Mai",
+      "june": "Juin",
+      "july": "Juillet",
+      "august": "Août",
+      "september": "Septembre",
+      "october": "Octobre",
+      "november": "Novembre",
+      "december": "Décembre"
+    }
+  },
+  "demo_guides": {
+    "slide1": {
+      "title": "Bienvenue dans Area",
+      "description": "Transformez votre vie numérique facilement avec Area - votre assistant personnel pour l'automatisation des tâches"
+    },
+    "slide2": {
+      "title": "Créez des workflows personnalisés en quelques minutes",
+      "description": "Automatisez les tâches répétitives, pour que vous puissiez vous concentrer sur votre travail, pas sur vos outils. Nous allons vous montrer comment."
+    },
+    "slide3": {
+      "title": "Obtenez plus de vos outils",
+      "description": "Intégrez vos applications de travail essentielles dans des workflows, récupérez votre temps et concentrez-vous sur le travail à impact."
+    },
+    "slide4": {
+      "title": "Connectez les applications que vous aimez déjà",
+      "description": "Zapier prend en charge plus d'applications que n'importe quelle autre plateforme, vous pouvez donc optimiser les outils que vous utilisez."
+    }
+  }
+}
