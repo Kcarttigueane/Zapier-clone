@@ -68,3 +68,8 @@ yarn-error.log
 
 # UI Libray
 .tamagui
+
+# Expo
+.expo
+dist/
+web-build/

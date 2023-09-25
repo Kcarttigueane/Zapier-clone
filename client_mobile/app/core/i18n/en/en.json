@@ -106,5 +106,39 @@
       "title": "Connect the apps you already love",
       "description": "Zapier supports more apps than any other platform, so you can optimize the tools you use."
     }
+  },
+  "settings": {
+    "headerTitle": "Settings",
+    "settingScreen": {
+      "sectionHeader1": "General",
+      "profile": {
+        "title": "Profile",
+        "description": "Manage your profile"
+      },
+      "language": {
+        "title": "Language",
+        "description": "Change your language"
+      },
+      "appearance": {
+        "title": "Appearance",
+        "description": "Modify the appearance of the app"
+      },
+      "sectionHeader2": "Services",
+      "connectedServices": {
+        "title": "Connected services",
+        "description": "Manage your connected services"
+      },
+      "sectionHeader3": "Help & Support",
+      "help": {
+        "title": "Help & Support",
+        "description": "Help us improve the app",
+        "bug": "Report a bug",
+        "issue": "Report an issue",
+        "feature": "Suggest a feature",
+        "question": "Ask a question",
+        "other": "Other",
+        "textAreaPlaceholder": "Enter your message here..."
+      }
+    }
   }
 }

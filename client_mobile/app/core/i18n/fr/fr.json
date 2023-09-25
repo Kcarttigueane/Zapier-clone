@@ -106,5 +106,39 @@
       "title": "Connectez les applications que vous aimez déjà",
       "description": "Zapier prend en charge plus d'applications que n'importe quelle autre plateforme, vous pouvez donc optimiser les outils que vous utilisez."
     }
+  },
+  "settings": {
+    "headerTitle": "Paramètres",
+    "settingScreen": {
+      "sectionHeader1": "Général",
+      "profile": {
+        "title": "Profil",
+        "description": "Gérez votre profil"
+      },
+      "language": {
+        "title": "Langues",
+        "description": "Changez la langue de l'application"
+      },
+      "appearance": {
+        "title": "Apparence",
+        "description": "Modifiez l'apparence de l'application"
+      },
+      "sectionHeader2": "Services",
+      "connectedServices": {
+        "title": "Services connectés",
+        "description": "Gérez vos services connectés"
+      },
+      "sectionHeader3": "Aide et support",
+      "help": {
+        "title": "Aide et support",
+        "description": "Obtenez de l'aide",
+        "bug": "Signaler un bug",
+        "issue": "Signaler un problème",
+        "feature": "Suggérer une fonctionnalité",
+        "question": "Poser une question",
+        "other": "Autre",
+        "textAreaPlaceholder": "Décrivez votre problème ici"
+      }
+    }
   }
 }
