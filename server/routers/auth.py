@@ -4,8 +4,11 @@ import os
 from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_sso.sso.github import GithubSSO
+from fastapi_sso.sso.spotify import SpotifySSO
 
-from config.constants import ACCESS_TOKEN_EXPIRE_MINUTES, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, OAUTHLIB_INSECURE_TRANSPORT
+from config.constants import ACCESS_TOKEN_EXPIRE_MINUTES,\
+    GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, OAUTHLIB_INSECURE_TRANSPORT,\
+    SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
 from models.user import User, UserCreate
 from repository.user_repository import UserRepository
 from services.auth_service import Token, create_access_token
@@ -22,6 +25,14 @@ sso = GithubSSO(
     redirect_uri="http://localhost:8080/api/auth/callback/github",
     allow_insecure_http=True,
 )
+
+spotify_sso = SpotifySSO(
+    client_id=SPOTIFY_CLIENT_ID,
+    client_secret=SPOTIFY_CLIENT_SECRET,
+    redirect_uri="http://localhost:8080/api/auth/callback/spotify",
+    allow_insecure_http=True,
+)
+
 
 
 @auth_router.post("/token", response_model=Token)
@@ -59,4 +70,15 @@ async def auth_init():
 async def auth_callback(request: Request):
     with sso:
         user = await sso.verify_and_process(request)
+        return user
+    
+@auth_router.get("/spotify")
+async def auth_init():
+    with spotify_sso:
+        return await spotify_sso.get_login_redirect()
+    
+@auth_router.get("/callback/spotify")
+async def auth_callback(request: Request):
+    with spotify_sso:
+        user = await spotify_sso.verify_and_process(request)
         return user
