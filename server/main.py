@@ -18,7 +18,7 @@ async def shutdown_event():
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "Hello World!"}
 
 app.include_router(auth_router, prefix="/api")
 app.include_router(users_router, prefix="/api")
