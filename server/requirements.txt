@@ -18,3 +18,8 @@ sentry-sdk[fastapi]
 passlib[bcrypt]
 python-jose[cryptography]
 jwt
+starlette
+authlib
+requests
+itsdangerous
+fastapi-sso
