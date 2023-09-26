@@ -5,13 +5,14 @@ from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_sso.sso.github import GithubSSO
 from fastapi_sso.sso.spotify import SpotifySSO
+from fastapi_sso.sso.google import GoogleSSO
 
 from config.constants import ACCESS_TOKEN_EXPIRE_MINUTES,\
     GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, OAUTHLIB_INSECURE_TRANSPORT,\
-    SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET
+    SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 from models.user import User, UserCreate
 from repository.user_repository import UserRepository
-from services.auth_service import Token, create_access_token
+from services.auth_service import Token, create_user_token
 
 auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -33,6 +34,13 @@ spotify_sso = SpotifySSO(
     allow_insecure_http=True,
 )
 
+google_sso = GoogleSSO(
+    client_id=GOOGLE_CLIENT_ID,
+    client_secret=GOOGLE_CLIENT_SECRET,
+    redirect_uri="http://localhost:8080/api/auth/callback/google",
+    allow_insecure_http=True,
+)
+
 @auth_router.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await repository.authenticate_user(form_data.username, form_data.password)
@@ -42,11 +50,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
-    access_token = create_access_token(
-        data={"sub": user.email}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return create_user_token(user)
 
 
 @auth_router.post("/register", response_model=User)
@@ -58,6 +62,38 @@ async def register(user: UserCreate):
             detail="Email already registered",
         )
     return await repository.create(user)
+
+
+@auth_router.get("/google")
+async def auth_init():
+    with google_sso:
+        return await google_sso.get_login_redirect()
+    
+@auth_router.get("/callback/google")
+async def auth_callback(request: Request):
+    with google_sso:
+        code = request.query_params.get("code")
+        if not code:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Missing 'code' parameter in the callback URL.",
+            )
+        id = code
+        google_user = await google_sso.verify_and_process(request)
+        print(f"Google User: {google_user}")
+        email = google_user.email
+        username = google_user.display_name
+        user_create = UserCreate(
+            username=username,
+            email=email,
+            google_id=id,
+        )
+        existing_user = await repository.get_by_username(username)
+        if existing_user:
+            return create_user_token(existing_user)
+        new_user = await repository.create(user_create)
+        return create_user_token(new_user)
+
 
 @auth_router.get("/github")
 async def auth_init():
@@ -75,7 +111,7 @@ async def auth_callback(request: Request):
             )
         
         github_user = await sso.verify_and_process(request)
-
+        print(f"Github User: {github_user}")
         github_id = code
         email = github_user.email
         username = github_user.display_name
