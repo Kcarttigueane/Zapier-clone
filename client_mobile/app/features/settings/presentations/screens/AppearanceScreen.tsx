@@ -1,7 +1,6 @@
-import { Check } from '@tamagui/lucide-icons';
-import React from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
-import { Checkbox, XStack } from 'tamagui';
+import { CheckIcon, Checkbox, CheckboxIcon, CheckboxIndicator, HStack, Image } from '@gluestack-ui/themed';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 const appearanceData = [
   {
@@ -16,25 +15,36 @@ const appearanceData = [
 ];
 
 const AppearanceScreen = () => {
-  const onCheckedChange = () => {
-    console.log('Checked');
+  const [checked, setChecked] = useState('colorScheme');
+
+  const handleCheckboxPress = (newTheme: string) => {
+    setChecked(newTheme);
+    // setTheme(newTheme);
   };
 
   return (
-    <XStack justifyContent="center" flex={1} backgroundColor="background" gap={16} marginTop={24}>
+    <HStack justifyContent="center" flex={1} backgroundColor="background" gap={16} marginTop={24}>
       {appearanceData.map((item, index) => {
         return (
           <View style={styles.imageContainer} key={index}>
-            <Animated.Image source={item.img} resizeMode="contain" style={styles.image} />
-            <Checkbox size="$4" onCheckedChange={onCheckedChange}>
-              <Checkbox.Indicator>
-                <Check />
-              </Checkbox.Indicator>
+            <Image size="lg" source={item.img} style={styles.image} alt="mode" />
+
+            <Checkbox
+              marginLeft={8}
+              size="md"
+              isInvalid={false}
+              isDisabled={false}
+              value="off"
+              aria-label="Checkbox"
+              onPress={() => handleCheckboxPress('dark')}>
+              <CheckboxIndicator mr="$2">
+                <CheckboxIcon as={CheckIcon} />
+              </CheckboxIndicator>
             </Checkbox>
           </View>
         );
       })}
-    </XStack>
+    </HStack>
   );
 };
 

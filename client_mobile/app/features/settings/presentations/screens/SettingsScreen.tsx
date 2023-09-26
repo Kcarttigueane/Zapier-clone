@@ -1,11 +1,11 @@
+import { Avatar, AvatarFallbackText, AvatarImage, Text, VStack } from '@gluestack-ui/themed';
 import { RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { Cloud, Moon, Star, Sun } from '@tamagui/lucide-icons';
 import { TFunction } from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { SafeAreaView, SectionList, StyleSheet, Text, View } from 'react-native';
-import { Avatar, XStack, YStack } from 'tamagui';
+import { SafeAreaView, SectionList, StyleSheet, View } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 import { RootStackParamList } from '../../../../App';
 import TabItem from '../components/TabItem';
 
@@ -36,19 +36,19 @@ const settingsData = (t: TFunction): ISettingsData[] => [
         title: t('settings.settingScreen.profile.title'),
         description: t('settings.settingScreen.profile.description'),
         route: 'ProfileScreen',
-        icon: <Star />,
+        icon: <Feather name="user" />,
       },
       {
         title: t('settings.settingScreen.appearance.title'),
         description: t('settings.settingScreen.appearance.description'),
         route: 'AppearanceScreen',
-        icon: <Cloud />,
+        icon: <Feather name="user" />,
       },
       {
         title: t('settings.settingScreen.language.title'),
         description: t('settings.settingScreen.language.description'),
         route: 'LanguageScreen',
-        icon: <Sun />,
+        icon: <Feather name="user" />,
       },
     ],
   },
@@ -59,7 +59,7 @@ const settingsData = (t: TFunction): ISettingsData[] => [
         title: t('settings.settingScreen.connectedServices.title'),
         description: t('settings.settingScreen.connectedServices.description'),
         route: 'ConnectedServicesScreen',
-        icon: <Moon />,
+        icon: <Feather name="user" />,
       },
     ],
   },
@@ -70,7 +70,7 @@ const settingsData = (t: TFunction): ISettingsData[] => [
         title: t('settings.settingScreen.help.title'),
         description: t('settings.settingScreen.help.description'),
         route: 'HelpScreen',
-        icon: <Moon />,
+        icon: <Feather name="user" />,
       },
     ],
   },
@@ -87,22 +87,23 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <XStack justifyContent="flex-start" alignItems="center" space={32} marginLeft={12}>
-        <Avatar circular size="$9">
-          <Avatar.Image
-            accessibilityLabel="Cam"
-            src="https://images.unsplash.com/photo-1548142813-c348350df52b?&w=150&h=150&dpr=2&q=80"
+      <View style={styles.HeaderContainer}>
+        <Avatar size="xl">
+          <AvatarFallbackText>SS</AvatarFallbackText>
+          <AvatarImage
+            source={{
+              uri: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+            }}
           />
-          <Avatar.Fallback backgroundColor="$blue10" />
         </Avatar>
-        <YStack justifyContent="center" alignItems="flex-start" space={8}>
-          <Text>John Doe</Text>
-          <Text>johndow@gmail.com</Text>
-        </YStack>
-      </XStack>
+        <VStack justifyContent="center" alignItems="flex-start" space="md">
+          <Text style={styles.nameTitle}>John Doe</Text>
+          <Text style={styles.emailTitle}>johndow@gmail.com</Text>
+        </VStack>
+      </View>
       <SectionList
         sections={data}
-        style={{ marginTop: 24 }}
+        style={{ marginTop: 16 }}
         showsVerticalScrollIndicator={false}
         bounces={false}
         onEndReachedThreshold={0.5}
@@ -137,25 +138,23 @@ const styles = StyleSheet.create({
   HeaderContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 24,
+    gap: 48,
     paddingHorizontal: 16,
     paddingVertical: 20,
   },
   nameTitle: {
-    width: 103,
-    height: 27,
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: 'bold',
     fontStyle: 'normal',
     textAlign: 'left',
-    color: 'blue',
+    color: 'black',
   },
-  emailTile: {
+  emailTitle: {
     fontSize: 16,
     fontWeight: 'normal',
     fontStyle: 'normal',
     textAlign: 'justify',
-    color: 'red',
+    color: '#808080',
   },
   listTabsTitle: {
     alignSelf: 'flex-start',
@@ -163,6 +162,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontStyle: 'normal',
     textAlign: 'justify',
-    color: 'blue',
+    color: '#808080',
   },
 });

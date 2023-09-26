@@ -1,5 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react/no-unstable-nested-components */
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -44,6 +42,9 @@ const SettingsStackRouting = () => {
         headerTintColor: '#616161',
         headerTitleAlign: 'center',
         headerStyle: {},
+        contentStyle: {
+          backgroundColor: 'white',
+        },
       }}>
       <SettingsScreensStack.Screen
         name="SettingsScreen"
@@ -56,7 +57,9 @@ const SettingsStackRouting = () => {
       <SettingsScreensStack.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        options={{ headerTitle: generateHeaderTitle(t('settings.settingScreen.profile.title')) }}
+        options={{
+          headerTitle: generateHeaderTitle(t('settings.settingScreen.profile.title')),
+        }}
       />
       <SettingsScreensStack.Screen
         name="AppearanceScreen"

@@ -1,10 +1,9 @@
-import React from 'react';
-import './core/i18n/i18next';
-
+import { config, GluestackUIProvider } from '@gluestack-ui/themed';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import { TamaguiProvider } from 'tamagui';
-import tamaguiConfig from '../tamagui.config';
+import React from 'react';
+// import { config } from '../gluestack-ui.config';
+import './core/i18n/i18next';
 import HomeStackRouting from './core/routes/HomeStackRouting';
 import ServicesStackRouting from './core/routes/ServicesStackRouting';
 import SettingsStackRouting from './core/routes/SettingsStackRouting';
@@ -35,14 +34,8 @@ export type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 
 const App = (): JSX.Element => {
-  // const isDarkMode = useColorScheme() === 'dark';
-
-  // const backgroundStyle = {
-  //   backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  // };
-
   return (
-    <TamaguiProvider config={tamaguiConfig}>
+    <GluestackUIProvider config={config.theme}>
       <NavigationContainer>
         <Tab.Navigator>
           <Tab.Screen name="Home" component={HomeStackRouting} />
@@ -52,10 +45,7 @@ const App = (): JSX.Element => {
           <Tab.Screen name="Settings" component={SettingsStackRouting} options={{ headerShown: false }} />
         </Tab.Navigator>
       </NavigationContainer>
-    </TamaguiProvider>
-    //   <SafeAreaView style={[backgroundStyle, { flex: 1, backgroundColor: 'white' }]}>
-    //     <Slider />
-    //   </SafeAreaView>
+    </GluestackUIProvider>
   );
 };
 

@@ -3,5 +3,6 @@ module.exports = {
   extends: '@react-native',
   rules: {
     'react-hooks/exhaustive-deps': 'warn',
+    'react-native/no-inline-styles': 0,
   },
 };

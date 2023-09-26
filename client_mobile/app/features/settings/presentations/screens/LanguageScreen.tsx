@@ -1,8 +1,8 @@
+import { HStack } from '@gluestack-ui/themed';
 import i18next from 'i18next';
 import React, { useState } from 'react';
 import { Animated, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import { XStack } from 'tamagui';
 
 const LanguageScreen = () => {
   const data = [
@@ -38,9 +38,10 @@ const LanguageScreen = () => {
       keyExtractor={item => item.title}
       renderItem={({ item }) => (
         <TouchableOpacity onPress={() => changeLanguage(item.language)}>
-          <XStack
+          <HStack
             justifyContent="space-between"
             alignItems="center"
+            height={60}
             flexDirection="row"
             marginVertical={8}
             borderRadius={12}
@@ -50,13 +51,13 @@ const LanguageScreen = () => {
             elevation={3}
             padding={16}
             marginHorizontal={12}>
-            <XStack alignItems="center" justifyContent="flex-start" flexDirection="row">
+            <HStack alignItems="center" justifyContent="flex-start" flexDirection="row">
               <Animated.Image source={item.imageUrl} resizeMode="contain" style={{ height: 20, width: 30 }} />
 
               <Text style={styles.title}>{item.title}</Text>
-            </XStack>
-            <View>{selectedLanguage === item.title && <AntDesign name="checkcircle" size={24} color="black" />}</View>
-          </XStack>
+            </HStack>
+            <View>{selectedLanguage === item.title && <AntDesign name="checkcircle" size={20} color="#000000" />}</View>
+          </HStack>
         </TouchableOpacity>
       )}
     />

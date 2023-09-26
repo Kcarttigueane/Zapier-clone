@@ -39,7 +39,6 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
-*.log
 
 # fastlane
 #
@@ -65,11 +64,3 @@ yarn-error.log
 
 # testing
 /coverage
-
-# UI Libray
-.tamagui
-
-# Expo
-.expo
-dist/
-web-build/

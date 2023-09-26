@@ -1,17 +1,16 @@
+import { ChevronRightIcon, Icon, VStack } from '@gluestack-ui/themed';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import { YStack } from 'tamagui';
 
 const TabItem = ({ item, handlePress }: any) => {
   return (
     <TouchableOpacity onPress={() => handlePress(item)}>
       <View style={styles.listItem}>
-        <YStack alignItems="flex-start" justifyContent="center" width="90%">
-          <Text style={styles.listItemText}>{item.title}</Text>
+        <VStack alignItems="flex-start" justifyContent="center" width="90%" gap={2}>
+          <Text style={styles.listTitle}>{item.title}</Text>
           <Text style={styles.listItemDescription}>{item.description}</Text>
-        </YStack>
-        <MaterialIcons name="keyboard-arrow-right" size={24} style={styles.icon} color="#242424" />
+        </VStack>
+        <Icon as={ChevronRightIcon} size="lg" />
       </View>
     </TouchableOpacity>
   );
@@ -21,17 +20,16 @@ export default TabItem;
 
 const styles = StyleSheet.create({
   listItem: {
-    borderRadius: 10,
-    marginHorizontal: 8,
-    marginVertical: 8,
+    borderRadius: 12,
+    margin: 8,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ffffff',
-    height: 66,
+    height: 72,
     padding: 10,
     elevation: 4,
   },
-  listItemText: {
+  listTitle: {
     marginLeft: 10,
     fontSize: 16,
     fontWeight: 'bold',
