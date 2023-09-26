@@ -33,8 +33,6 @@ spotify_sso = SpotifySSO(
     allow_insecure_http=True,
 )
 
-
-
 @auth_router.post("/token", response_model=Token)
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await repository.authenticate_user(form_data.username, form_data.password)
@@ -69,9 +67,36 @@ async def auth_init():
 @auth_router.get("/callback/github")
 async def auth_callback(request: Request):
     with sso:
-        user = await sso.verify_and_process(request)
-        return user
-    
+        code = request.query_params.get('code')
+        if not code:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Missing 'code' parameter in the callback URL.",
+            )
+        
+        github_user = await sso.verify_and_process(request)
+
+        github_id = code
+        email = github_user.email
+        username = github_user.display_name
+
+        user_create = UserCreate(
+            username=username,
+            email=email,
+            github_id=github_id,
+        )
+
+        existing_user = await repository.get_by_username(username)
+        if existing_user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="User already exists",
+            )
+
+        new_user = await repository.create(user_create)
+
+        return new_user
+
 @auth_router.get("/spotify")
 async def auth_init():
     with spotify_sso:

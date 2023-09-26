@@ -33,7 +33,10 @@ class UserRepository:
 
     async def create(self, user: UserCreate) -> User:
         user_dict = user.dict()
-        user_dict["password"] = get_password_hash(user_dict["password"])
+        try:
+            user_dict["password"] = get_password_hash(user_dict["password"])
+        except TypeError:
+            pass
         user_id = await get_database()["Users"].insert_one(user_dict)
         return await self.get(user_id.inserted_id)
 
@@ -45,3 +48,7 @@ class UserRepository:
         user = await self.get_by_email(email)
         print(user)
         return user if user and verify_password(password, user.password) else None
+    
+    async def get_by_username(self, username: str) -> User:
+        user_data = await self.collection.find_one({"username": username})
+        return None if user_data is None else User(**user_data)
