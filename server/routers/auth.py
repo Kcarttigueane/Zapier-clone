@@ -75,8 +75,9 @@ async def auth_callback(request: Request):
             )
         
         github_user = await sso.verify_and_process(request)
+        print(github_user)
 
-        github_id = code
+        github_id = github_user.id
         email = github_user.email
         username = github_user.display_name
 
@@ -86,16 +87,25 @@ async def auth_callback(request: Request):
             github_id=github_id,
         )
 
-        existing_user = await repository.get_by_username(username)
+        existing_user = await repository.get_by_github_id(github_id)
         if existing_user:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User already exists",
+            access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
+            access_token = create_access_token(
+                data={"sub": existing_user.email}, expires_delta=access_token_expires
             )
+            return {"access_token": access_token, "token_type": "bearer"}
+        user_create = UserCreate(
+                    username=username,
+                    email=email,
+                    github_id=github_id,
+                )
 
         new_user = await repository.create(user_create)
-
-        return new_user
+        access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
+        access_token = create_access_token(
+            data={"sub": new_user.username}, expires_delta=access_token_expires
+        )
+        return {"access_token": access_token, "token_type": "bearer"}
 
 @auth_router.get("/spotify")
 async def auth_init():
