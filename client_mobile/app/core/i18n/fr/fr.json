@@ -13,7 +13,8 @@
       "save": "Sauvegarder",
       "search": "Rechercher",
       "valid": "Valider",
-      "yes": "Oui"
+      "yes": "Oui",
+      "wait": "Veuillez patienter..."
     },
     "date": {
       "display": "{{day}}/{{month}}",

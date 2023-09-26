@@ -13,7 +13,8 @@
       "save": "Save",
       "search": "Search",
       "valid": "Valid",
-      "yes": "Yes"
+      "yes": "Yes",
+      "wait": "Please wait..."
     },
     "date": {
       "display": "{{month}}/{{day}}",

@@ -13,8 +13,10 @@ import {
 } from '@gluestack-ui/themed';
 import React, { useState } from 'react';
 import { SafeAreaView, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const ProfileScreen = () => {
+  const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const handleState = () => {
     setShowPassword(showState => {
@@ -29,13 +31,13 @@ const ProfileScreen = () => {
       </Text>
       <VStack space="md" margin="$2" padding="$2">
         <Text lineHeight="$xs" color="#484848" fontWeight="bold">
-          Email
+          {t('basic.fields.email')}
         </Text>
         <Input variant="outline" size="xl" borderWidth={2} isDisabled>
           <InputField placeholder="Enter Text here" />
         </Input>
         <Text lineHeight="$xs" color="#484848" fontWeight="bold">
-          Password
+          {t('basic.fields.password')}
         </Text>
         <Input variant="outline" size="xl" borderWidth={2} isDisabled>
           <InputField type={showPassword ? 'text' : 'password'} />
@@ -46,7 +48,7 @@ const ProfileScreen = () => {
         <Button isDisabled={false} bg="$darkBlue600" gap={6}>
           <ButtonSpinner mr="$1" />
           <ButtonText fontWeight="$medium" fontSize="$sm">
-            Please wait...
+            {t('basic.actions.wait')}
           </ButtonText>
         </Button>
       </VStack>
