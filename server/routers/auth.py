@@ -75,35 +75,24 @@ async def auth_callback(request: Request):
             )
         
         github_user = await sso.verify_and_process(request)
-        print(github_user)
-
-        github_id = github_user.id
-        email = github_user.email
-        username = github_user.display_name
 
         user_create = UserCreate(
-            username=username,
-            email=email,
-            github_id=github_id,
+            username=github_user.id,
+            email=github_user.email,
+            github_id=github_user.display_name,
         )
 
-        existing_user = await repository.get_by_github_id(github_id)
+        existing_user = await repository.get_by_github_id(github_user.id)
         if existing_user:
             access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
             access_token = create_access_token(
-                data={"sub": existing_user.email}, expires_delta=access_token_expires
+                data={"sub": existing_user.github_id}, expires_delta=access_token_expires
             )
             return {"access_token": access_token, "token_type": "bearer"}
-        user_create = UserCreate(
-                    username=username,
-                    email=email,
-                    github_id=github_id,
-                )
-
         new_user = await repository.create(user_create)
         access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
         access_token = create_access_token(
-            data={"sub": new_user.username}, expires_delta=access_token_expires
+            data={"sub": new_user.github_id}, expires_delta=access_token_expires
         )
         return {"access_token": access_token, "token_type": "bearer"}
 
@@ -115,5 +104,24 @@ async def auth_init():
 @auth_router.get("/callback/spotify")
 async def auth_callback(request: Request):
     with spotify_sso:
-        user = await spotify_sso.verify_and_process(request)
-        return user
+        spotify_user = await spotify_sso.verify_and_process(request)
+
+        user_create = UserCreate(
+            username=spotify_user.display_name,
+            email=spotify_user.email,
+            spotify_id=spotify_user.id,
+        )
+
+        existing_user = await repository.get_by_spotify_id(spotify_user.id)
+        if existing_user:
+            access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
+            access_token = create_access_token(
+                data={"sub": existing_user.spotify_id}, expires_delta=access_token_expires
+            )
+            return {"access_token": access_token, "token_type": "bearer"}
+        new_user = await repository.create(user_create)
+        access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
+        access_token = create_access_token(
+            data={"sub": new_user.github_id}, expires_delta=access_token_expires
+        )
+        return {"access_token": access_token, "token_type": "bearer"}
