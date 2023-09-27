@@ -5,8 +5,9 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 import jwt
 from pydantic import BaseModel
+from models.user import User, UserCreate
 
-from config.constants import ALGORITHM, SECRET_KEY
+from config.constants import ALGORITHM, SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES
 from repository.user_repository import UserRepository
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
@@ -77,3 +78,10 @@ def raise_unauthorized_exception(detail="Unauthorized"):
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail=detail,
     )
+
+def create_user_token(user: User):
+    access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
+    access_token = create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    return access_token

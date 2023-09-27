@@ -34,7 +34,8 @@ class UserRepository:
     async def create(self, user: UserCreate) -> User:
         user_dict = user.dict()
         try:
-            user_dict["password"] = get_password_hash(user_dict["password"])
+            if user.password != None:
+                user_dict["password"] = get_password_hash(user_dict["password"])
         except TypeError:
             pass
         user_id = await get_database()["Users"].insert_one(user_dict)
@@ -59,4 +60,8 @@ class UserRepository:
 
     async def get_by_spotify_id(self, spotify_id: str) -> User:
         user_data = await self.collection.find_one({"spotify_id": spotify_id})
+        return None if user_data is None else User(**user_data)
+    
+    async def get_by_google_id(self, id: str) -> User:
+        user_data = await self.collection.find_one({"google_id": id})
         return None if user_data is None else User(**user_data)

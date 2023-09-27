@@ -11,6 +11,7 @@ class UserCreate(BaseModel):
     password: Optional[str] = Field(None)
     github_id: Optional[str] = Field(None)
     spotify_id: Optional[str] = Field(None)
+    google_id: Optional[str] = Field(None)
 
     class Config:
         schema_extra = {
@@ -19,7 +20,8 @@ class UserCreate(BaseModel):
                 "email": "johndoe@example.com",
                 "password": "your_password",
                 "github_id": "your_github_id",
-                "spotify_id": "your_spotify_id"
+                "spotify_id": "your_spotify_id",
+                "google_id": "your_google_id",
             }
         }
 
