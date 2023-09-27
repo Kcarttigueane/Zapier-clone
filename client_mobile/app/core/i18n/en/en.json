@@ -14,7 +14,8 @@
       "search": "Search",
       "valid": "Valid",
       "yes": "Yes",
-      "wait": "Please wait..."
+      "wait": "Please wait...",
+      "or": "or"
     },
     "date": {
       "display": "{{month}}/{{day}}",
@@ -36,6 +37,7 @@
       "tomorrow": "Tomorrow"
     },
     "fields": {
+      "keepMeLoggedIn": "Keep me logged in",
       "address": "Address",
       "condition": "Condition",
       "confirmPassword": "Confirm password",
@@ -141,5 +143,19 @@
         "textAreaPlaceholder": "Enter your message here..."
       }
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "welcome": "Welcome back to the app !"
+    },
+    "register": {
+      "title": "Register",
+      "welcome": "Create an account to get started!"
+    },
+    "passwordForgotten": "Forgot your password ?",
+    "noAccount": "Don't have an account ?",
+    "haveAccount": "Already have an account ?",
+    "terms": "Agree to our Terms of Service and Privacy Policy."
   }
 }

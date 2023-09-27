@@ -14,7 +14,8 @@
       "search": "Rechercher",
       "valid": "Valider",
       "yes": "Oui",
-      "wait": "Veuillez patienter..."
+      "wait": "Veuillez patienter...",
+      "or": "ou"
     },
     "date": {
       "display": "{{day}}/{{month}}",
@@ -36,6 +37,7 @@
       "tomorrow": "Demain"
     },
     "fields": {
+      "keepMeLoggedIn": "Rester connecté",
       "address": "Adresse",
       "condition": "Condition",
       "confirmPassword": "Confirmer le mot de passe",
@@ -141,5 +143,19 @@
         "textAreaPlaceholder": "Décrivez votre problème ici"
       }
     }
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion",
+      "welcome": "Bon retour parmis nous !"
+    },
+    "register": {
+      "title": "Inscrivez-vous",
+      "welcome": "Create an account to get started!"
+    },
+    "passwordForgotten": "Mot de passe oublié ?",
+    "noAccount": "Pas encore de compte ?",
+    "haveAccount": "Déjà un compte ?",
+    "terms": "Acceptez nos conditions d'utilisation."
   }
 }
