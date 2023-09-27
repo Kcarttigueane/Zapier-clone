@@ -153,6 +153,10 @@
       "title": "Register",
       "welcome": "Create an account to get started!"
     },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "welcome": "Enter your email address to reset your password"
+    },
     "passwordForgotten": "Forgot your password ?",
     "noAccount": "Don't have an account ?",
     "haveAccount": "Already have an account ?",

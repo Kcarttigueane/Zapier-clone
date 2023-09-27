@@ -37,12 +37,16 @@ import {
   Text,
   VStack,
 } from '@gluestack-ui/themed';
+import { RouteProp } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Formik } from 'formik';
+import i18next from 'i18next';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, SafeAreaView, StyleSheet } from 'react-native';
-import i18n from '../../../../core/i18n/i18next';
-import { languageSelectionValues, validationSchema } from '../../utils/formValidation';
+import { RootStackParamList } from '../../../../App';
+import { validationSchema } from '../../utils/formValidation';
+import { languageSelectionValues } from '../../utils/languageSelection';
 
 const IMAGE_PATH = '../../../../core/assets';
 
@@ -66,9 +70,19 @@ interface RegisterDTO {
   password: string;
 }
 
-const RegisterScreen = () => {
+type RegisterScreenRouteProp = RouteProp<RootStackParamList, 'Register'>;
+type RegisterScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
+type RegisterScreenProps = {
+  route: RegisterScreenRouteProp;
+  navigation: RegisterScreenNavigationProp;
+};
+
+const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const { t } = useTranslation();
-  const [languageSelected, setLanguageSelected] = useState('fr');
+  const { language } = i18next;
+  const [languageSelected, setLanguageSelected] = useState(
+    language === languageSelectionValues[0].value ? languageSelectionValues[0].value : languageSelectionValues[1].value,
+  );
 
   const [showPassword, setShowPassword] = useState(false);
   const handleState = () => {
@@ -79,12 +93,11 @@ const RegisterScreen = () => {
 
   const onSubmit = async (values: RegisterDTO) => {
     console.log(values);
-    // await loginFn(values.email, values.password);
   };
 
   const handleLanguageChange = (value: string) => {
     setLanguageSelected(value);
-    i18n.changeLanguage(value);
+    i18next.changeLanguage(value);
   };
 
   const selectedLanguageLabel = languageSelectionValues.find(lang => lang.value === languageSelected)?.label;
@@ -136,7 +149,7 @@ const RegisterScreen = () => {
         <HStack space="sm" mt="$2" justifyContent="center" alignItems="center">
           <Divider orientation="horizontal" bg="$trueGray300" width="24%" />
           <Text size="md" marginHorizontal={8}>
-            Or
+            {t('basic.actions.or')}
           </Text>
           <Divider orientation="horizontal" bg="$trueGray300" width="24%" />
         </HStack>
@@ -206,7 +219,7 @@ const RegisterScreen = () => {
         </Formik>
         <HStack space="sm" justifyContent="center" alignItems="center">
           <Text fontSize={16}>{t('auth.haveAccount')}</Text>
-          <Link justifyContent="center" alignItems="center" onPress={() => console.log('Register pressed')}>
+          <Link justifyContent="center" alignItems="center" onPress={() => navigation.navigate('Login')}>
             <LinkText color="#2F4EFF" fontWeight="bold" fontSize={16}>
               {t('auth.login.title')}
             </LinkText>
@@ -228,11 +241,6 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 8,
-  },
-  formContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    gap: 16,
   },
   title: {
     fontSize: 28,

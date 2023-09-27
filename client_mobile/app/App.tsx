@@ -14,6 +14,7 @@ export type RootStackParamList = {
   // ! Auth:
   Login: undefined;
   Register: undefined;
+  ForgotPassword: undefined;
   // ! Home:
   HomeScreen: undefined;
   // ! Activity:

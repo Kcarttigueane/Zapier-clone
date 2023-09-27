@@ -40,12 +40,13 @@ import {
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Formik } from 'formik';
+import i18next from 'i18next';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, SafeAreaView, StyleSheet } from 'react-native';
 import { RootStackParamList } from '../../../../App';
-import i18n from '../../../../core/i18n/i18next';
-import { languageSelectionValues, validationSchema } from '../../utils/formValidation';
+import { validationSchema } from '../../utils/formValidation';
+import { languageSelectionValues } from '../../utils/languageSelection';
 
 const IMAGE_PATH = '../../../../core/assets';
 
@@ -78,7 +79,10 @@ interface LoginDTO {
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const { t } = useTranslation();
-  const [languageSelected, setLanguageSelected] = useState('fr');
+  const { language } = i18next;
+  const [languageSelected, setLanguageSelected] = useState(
+    language === languageSelectionValues[0].value ? languageSelectionValues[0].value : languageSelectionValues[1].value,
+  );
 
   const [showPassword, setShowPassword] = useState(false);
   const handleState = () => {
@@ -89,12 +93,11 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
   const onSubmit = async (values: LoginDTO) => {
     console.log(values);
-    // await loginFn(values.email, values.password);
   };
 
   const handleLanguageChange = (value: string) => {
     setLanguageSelected(value);
-    i18n.changeLanguage(value);
+    i18next.changeLanguage(value);
   };
 
   const selectedLanguageLabel = languageSelectionValues.find(lang => lang.value === languageSelected)?.label;
@@ -146,7 +149,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         <HStack space="sm" mt="$2" justifyContent="center" alignItems="center">
           <Divider orientation="horizontal" bg="$trueGray300" width="24%" />
           <Text size="md" marginHorizontal={8}>
-            Or
+            {t('basic.actions.or')}
           </Text>
           <Divider orientation="horizontal" bg="$trueGray300" width="24%" />
         </HStack>
@@ -200,7 +203,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
                       <FormControlErrorText>{errors.password}</FormControlErrorText>
                     </FormControlError>
                   )}
-                  <Link alignSelf="flex-end">
+                  <Link alignSelf="flex-end" onPress={() => navigation.navigate('ForgotPassword')}>
                     <LinkText color="#2F4EFF" fontWeight="bold" fontSize={14}>
                       {t('auth.passwordForgotten')}
                     </LinkText>
@@ -243,11 +246,6 @@ const styles = StyleSheet.create({
   },
   image: {
     borderRadius: 8,
-  },
-  formContainer: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    gap: 16,
   },
   title: {
     fontSize: 28,

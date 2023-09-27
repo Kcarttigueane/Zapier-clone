@@ -153,6 +153,10 @@
       "title": "Inscrivez-vous",
       "welcome": "Create an account to get started!"
     },
+    "forgotPassword": {
+      "title": "Mot de passe oublié",
+      "welcome": "Entrez votre adresse mail pour réinitialiser votre mot de passe."
+    },
     "passwordForgotten": "Mot de passe oublié ?",
     "noAccount": "Pas encore de compte ?",
     "haveAccount": "Déjà un compte ?",
