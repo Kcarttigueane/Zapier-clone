@@ -20,7 +20,7 @@ import urllib.parse
 
 services_router = APIRouter(prefix="/services", tags=["Services"])
 
-spotify_redirect_uri = 'http://127.0.0.1:8080/api/services/callback/spotify'
+spotify_redirect_uri = 'http://localhost:8080/api/services/callback/spotify'
 
 def generate_random_string(length):
     letters_and_digits = string.ascii_letters + string.digits
@@ -33,7 +33,7 @@ def generate_random_string(length):
 )
 async def authorize_spotify_access():
     state = generate_random_string(16)
-    scope = 'user-read-private user-read-email'
+    scope = 'user-read-private user-read-email playlist-read-private'
 
     spotify_auth_url = f"https://accounts.spotify.com/authorize?" \
                         f"response_type=code" \

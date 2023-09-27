@@ -80,7 +80,6 @@ async def auth_callback(request: Request):
             )
         id = code
         google_user = await google_sso.verify_and_process(request)
-        print(f"Google User: {google_user}")
         email = google_user.email
         username = google_user.display_name
         user_create = UserCreate(

@@ -17,7 +17,7 @@ uvicorn[standard]
 sentry-sdk[fastapi]
 passlib[bcrypt]
 python-jose[cryptography]
-jwt
+PyJWT
 starlette
 authlib
 requests
