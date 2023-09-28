@@ -5,6 +5,7 @@ from fastapi import HTTPException, status
 from config.database import get_database
 from models.py_object_id import PyObjectId
 from models.user import User, UserCreate
+from models.auth_token import AuthToken
 from utils.password_utils import get_password_hash, verify_password
 
 
@@ -57,3 +58,11 @@ class UserRepository:
     async def get_by_google_id(self, id: str) -> User:
         user_data = await self.collection.find_one({"google_id": id})
         return None if user_data is None else User(**user_data)
+    
+    async def update_google_access_token(self, user_id: PyObjectId, token: AuthToken):
+        user = await self.collection.find_one({"_id": user_id})
+        if user:
+            user["google_access_token"] = token.dict()
+            await self.collection.replace_one({"_id": user_id}, user)
+        else:
+            raise ValueError(f"User with ID {user_id} not found")
