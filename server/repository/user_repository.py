@@ -49,9 +49,17 @@ class UserRepository:
         user = await self.get_by_email(email)
         print(user)
         return user if user and verify_password(password, user.password) else None
-    
+
     async def get_by_username(self, username: str) -> User:
         user_data = await self.collection.find_one({"username": username})
+        return None if user_data is None else User(**user_data)
+
+    async def get_by_github_id(self, github_id: str) -> User:
+        user_data = await self.collection.find_one({"github_id": github_id})
+        return None if user_data is None else User(**user_data)
+
+    async def get_by_spotify_id(self, spotify_id: str) -> User:
+        user_data = await self.collection.find_one({"spotify_id": spotify_id})
         return None if user_data is None else User(**user_data)
     
     async def get_by_google_id(self, id: str) -> User:
