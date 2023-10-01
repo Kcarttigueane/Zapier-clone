@@ -11,7 +11,7 @@ type AuthActions = {
 };
 
 const initialState: AuthState = {
-	isLoggedIn: false,
+	isLoggedIn: true,
 	isLoading: false,
 	error: null,
 };
