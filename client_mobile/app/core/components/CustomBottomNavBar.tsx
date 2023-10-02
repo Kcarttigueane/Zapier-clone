@@ -1,7 +1,7 @@
+import { AddIcon, GlobeIcon, GripVerticalIcon, Icon, MenuIcon, SettingsIcon } from '@gluestack-ui/themed';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { Icon, AddIcon, SettingsIcon, GripVerticalIcon, MenuIcon, GlobeIcon, Center } from '@gluestack-ui/themed';
 
 const CustomBottomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
   const getIcon = (routeName: string, color: string): any => {
@@ -18,7 +18,7 @@ const CustomBottomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, n
               backgroundColor: '#613EEA',
               alignItems: 'center',
               justifyContent: 'center',
-              borderRadius: 50, // Appliquer la bordure arrondie ici
+              borderRadius: 50,
               width: 70,
               elevation: 5,
               height: 70,
@@ -61,7 +61,7 @@ const CustomBottomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, n
         return (
           <TouchableOpacity key={index} onPress={onPress} style={styles.tab}>
             {getIcon(route.name, color)}
-            {isFocused && route.name != 'Zap' && <Text style={{ color }}>{label}</Text>}
+            {isFocused && route.name !== 'Zap' && <Text style={{ color }}>{label}</Text>}
           </TouchableOpacity>
         );
       })}

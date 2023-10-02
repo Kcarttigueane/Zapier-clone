@@ -103,10 +103,11 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
       </View>
       <SectionList
         sections={data}
-        style={{ marginTop: 16 }}
+        style={{ marginTop: 12 }}
         showsVerticalScrollIndicator={false}
         bounces={false}
         onEndReachedThreshold={0.5}
+        contentContainerStyle={{ paddingBottom: 120 }}
         SectionSeparatorComponent={() => <View style={{ height: 10 }} />}
         keyExtractor={(item, index) => item.title + index}
         renderItem={({ item }) => TabItem({ item, handlePress })}
