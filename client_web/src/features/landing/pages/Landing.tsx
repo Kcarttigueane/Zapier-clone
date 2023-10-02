@@ -1,6 +1,6 @@
 import React from 'react';
 import Footer from '../../../core/components/Footer';
-import "./Landing.css";
+import './Landing.css';
 
 const Landing: React.FC = () => {
 	const handleLogin = () => {
@@ -72,7 +72,11 @@ const Landing: React.FC = () => {
 					</div>
 				</div>
 				<div style={{ display: 'flex', flexDirection: 'row' }}>
-					<img src="../src/core/assets/demo_page/mockup_phone.png" alt="mockup phone" style={{ width: 252, height: 413 }} />
+					<img
+						src="../src/core/assets/demo_page/mockup_phone.png"
+						alt="mockup phone"
+						style={{ width: 252, height: 413 }}
+					/>
 					<img
 						src="../src/core/assets/demo_page/second_mockup_phone.png"
 						alt="second_mockup_phone"
