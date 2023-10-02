@@ -2,6 +2,7 @@ import { config, GluestackUIProvider } from '@gluestack-ui/themed';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
+import CustomBottomTabBar from './core/components/CustomBottomNavBar';
 import './core/i18n/i18next';
 import AuthStackRouting from './core/routes/AuthStackRouting';
 import HomeStackRouting from './core/routes/HomeStackRouting';
@@ -36,13 +37,13 @@ export type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <GluestackUIProvider config={config.theme}>
       <NavigationContainer>
         {isLoggedIn ? (
-          <Tab.Navigator>
+          <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
             <Tab.Screen name="Home" component={HomeStackRouting} />
             <Tab.Screen name="Activity" component={ZapStackRouting} />
             <Tab.Screen name="Zap" component={CreateZapScreen} />

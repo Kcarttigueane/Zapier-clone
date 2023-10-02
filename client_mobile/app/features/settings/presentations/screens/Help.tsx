@@ -43,7 +43,7 @@ const Help = () => {
           </SelectTrigger>
           <SelectPortal>
             <SelectBackdrop />
-            <SelectContent>
+            <SelectContent height="100%">
               <SelectDragIndicatorWrapper>
                 <SelectDragIndicator />
               </SelectDragIndicatorWrapper>
