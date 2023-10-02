@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@ant-design/icons-react-native": "^2.3.2",
     "@gluestack-style/react": "^0.2.51",
     "@gluestack-ui/themed": "^0.1.51",
     "@react-navigation/bottom-tabs": "^6.5.9",
