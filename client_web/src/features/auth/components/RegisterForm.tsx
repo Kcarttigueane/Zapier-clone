@@ -3,11 +3,12 @@ import { Button, Form, Input } from 'antd';
 import { Formik } from 'formik';
 import React from 'react';
 import * as Yup from 'yup';
+import { useAuthStore } from '../../../core/store/useAuthStore';
 
 const initialValues = {
-	username: '',
-	email: '',
-	password: '',
+	username: 'oliver',
+	email: 'oliver.lewis@masurao.jp',
+	password: 'password',
 };
 
 const validationSchema = Yup.object({
@@ -23,9 +24,13 @@ interface LoginDTO {
 }
 const RegisterForm: React.FC = () => {
 	const [form] = Form.useForm();
+	const { register } = useAuthStore((state) => state);
 
-	const onSubmit = async (values: LoginDTO) => {
+	const onRegisterSubmit = async (values: LoginDTO) => {
 		console.log(values);
+		const { username, email, password } = values;
+
+		register(username, email, password);
 	};
 
 	return (
@@ -90,7 +95,15 @@ const RegisterForm: React.FC = () => {
 							/>
 						</Form.Item>
 						<Form.Item style={{ marginTop: 24 }}>
-							<Button type="primary" shape="round" size="large" htmlType="submit" block>
+							<Button
+								type="primary"
+								shape="round"
+								size="large"
+								htmlType="submit"
+								block
+								onClick={() => onRegisterSubmit(values)}
+								disabled={Object.keys(errors).length > 0}
+							>
 								Submit
 							</Button>
 						</Form.Item>

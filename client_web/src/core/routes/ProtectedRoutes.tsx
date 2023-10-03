@@ -1,15 +1,15 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import useAuthStoreBase from '../../features/auth/store/authStore';
+import { useAuthStore } from '../store/useAuthStore';
 
 type Props = {
 	children: React.ReactNode;
 };
 
 const ProtectedRoute: React.FC<Props> = ({ children }) => {
-	const { isLoggedIn } = useAuthStoreBase((state) => state);
+	const { isAuthenticated } = useAuthStore((state) => state);
 
-	if (isLoggedIn) {
+	if (isAuthenticated) {
 		return <>{children}</>;
 	}
 
