@@ -13,6 +13,7 @@ import SettingsScreen from '../../features/settings/presentations/screens/Settin
 
 const SettingsScreensStack = createNativeStackNavigator<RootStackParamList>();
 
+
 const generateHeaderTitle = (title: string) => () =>
   (
     <Text
@@ -25,9 +26,13 @@ const generateHeaderTitle = (title: string) => () =>
     </Text>
   );
 
+const handleLogout = () => {
+  console.log("logout");
+}
+
 const logoutButton = (
   <View style={{ marginRight: 10 }}>
-    <TouchableOpacity onPress={() => console.log('logout')}>
+    <TouchableOpacity onPress={handleLogout}>
       <MaterialCommunityIcons name="logout" size={24} color="red" />
     </TouchableOpacity>
   </View>
