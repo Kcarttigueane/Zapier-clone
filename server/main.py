@@ -7,6 +7,7 @@ from routers.services_drive import services_router_drive
 from routers.services_gmail import services_router_gmail
 from routers.services_calendar import services_router_calendar
 from routers.services_youtube import services_router_youtube
+from routers.services_discord import services_router_discord
 
 from routers.automations import automation_router
 
@@ -34,4 +35,5 @@ app.include_router(services_router_gmail, prefix='/api')
 app.include_router(services_router_drive, prefix='/api')
 app.include_router(services_router_calendar, prefix='/api')
 app.include_router(services_router_youtube, prefix='/api')
+app.include_router(services_router_discord, prefix='/api')
 app.include_router(automation_router, prefix='/api')

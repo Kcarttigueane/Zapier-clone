@@ -85,7 +85,6 @@ async def authorize_spotify_access_callback(request: Request):
                 refresh_token=response['refresh_token'],
                 scopes=[response['scopes']],
                 expires_in=response['expires_in']
-
             )
             token = await user_respository.update_service_access_token(user.id, auth_token, "spotify_token")
             return token
