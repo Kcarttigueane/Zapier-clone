@@ -12,7 +12,7 @@ from config.constants import ACCESS_TOKEN_EXPIRE_MINUTES,\
     SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 from models.user import User, UserCreate
 from repository.user_repository import UserRepository
-from services.auth_service import Token, create_user_token
+from services.auth_service import Token, create_user_token, create_access_token
 
 auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -110,27 +110,18 @@ async def auth_callback(request: Request):
             )
         
         github_user = await sso.verify_and_process(request)
-        print(f"Github User: {github_user}")
-        github_id = code
-        email = github_user.email
-        username = github_user.display_name
 
         user_create = UserCreate(
-            username=username,
-            email=email,
-            github_id=github_id,
+            username=github_user.id,
+            email=github_user.email,
+            github_id=github_user.display_name,
         )
 
-        existing_user = await repository.get_by_username(username)
+        existing_user = await repository.get_by_github_id(github_user.id)
         if existing_user:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="User already exists",
-            )
-
+            return create_user_token(existing_user)
         new_user = await repository.create(user_create)
-
-        return new_user
+        return create_user_token(new_user)
 
 @auth_router.get("/spotify")
 async def auth_init():
@@ -140,5 +131,16 @@ async def auth_init():
 @auth_router.get("/callback/spotify")
 async def auth_callback(request: Request):
     with spotify_sso:
-        user = await spotify_sso.verify_and_process(request)
-        return user
+        spotify_user = await spotify_sso.verify_and_process(request)
+
+        user_create = UserCreate(
+            username=spotify_user.display_name,
+            email=spotify_user.email,
+            spotify_id=spotify_user.id,
+        )
+
+        existing_user = await repository.get_by_spotify_id(spotify_user.id)
+        if existing_user:
+            return create_user_token(existing_user)
+        new_user = await repository.create(user_create)
+        return create_user_token(new_user)

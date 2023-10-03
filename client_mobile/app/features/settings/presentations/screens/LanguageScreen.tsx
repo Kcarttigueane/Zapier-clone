@@ -21,6 +21,7 @@ const LanguageScreen = () => {
   const [selectedLanguage, setSelectedLanguage] = useState(
     i18next.language === data[0].language ? data[0].title : data[1].title,
   );
+
   const changeLanguage = (language: string) => {
     i18next.changeLanguage(language);
     setSelectedLanguage(language === data[0].language ? data[0].title : data[1].title);
