@@ -21,3 +21,4 @@ class TokenManager(BaseModel):
     spotify_token: Optional[AuthToken] = Field(None)
     tinder_token: Optional[AuthToken] = Field(None)
     twitter_token: Optional[AuthToken] = Field(None)
+    discord_token: Optional[AuthToken] = Field(None)
