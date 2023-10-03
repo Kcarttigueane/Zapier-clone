@@ -1,4 +1,6 @@
 DS_Store
 .env
 .vscode
+*__pycache__
 __pycache__
+client_secret_648065420240-uhj68ojuts1bro413agqblc1e7q8bc96.apps.googleusercontent.com.json

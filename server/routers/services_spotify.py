@@ -4,9 +4,11 @@ from typing import List
 from fastapi import APIRouter, Depends, status, HTTPException, Request
 
 from httpx import AsyncClient
+from typing import Optional
 
 from models.py_object_id import PyObjectId
 from models.user import User, UserCreate
+from models.auth_token import AuthToken
 from services.auth_service import get_current_user, check_access_token, raise_unauthorized_exception
 from services.user_service import UserService
 from config.constants import ACCESS_TOKEN_EXPIRE_MINUTES,\
@@ -16,23 +18,24 @@ from starlette.responses import RedirectResponse
 import random
 import string
 import urllib.parse
+from urllib.parse import urlparse, parse_qs
+from repository.user_repository import UserRepository
+from source.actions.google_drive import check_latests_file
+from source.reactions.google_gmail import send_email_to_user
 
 
-services_router = APIRouter(prefix="/services", tags=["Services"])
+services_router_spotify = APIRouter(prefix="/services", tags=["Services"])
 
 spotify_redirect_uri = 'http://localhost:8080/api/services/callback/spotify'
 
-def generate_random_string(length):
-    letters_and_digits = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters_and_digits) for _ in range(length))
+user_respository = UserRepository()
 
-
-@services_router.get(
+@services_router_spotify.get(
     "/spotify",
     summary="Request autorizathion to spotify access data",    
 )
-async def authorize_spotify_access():
-    state = generate_random_string(16)
+async def authorize_spotify_access(current_user: User = Depends(get_current_user)):
+    state = current_user.username
     scope = 'user-read-private user-read-email playlist-read-private'
 
     spotify_auth_url = f"https://accounts.spotify.com/authorize?" \
@@ -46,7 +49,7 @@ async def authorize_spotify_access():
     return RedirectResponse(spotify_auth_url)
 
 
-@services_router.get(
+@services_router_spotify.get(
     "/callback/spotify",
 )
 async def authorize_spotify_access_callback(request: Request):
@@ -55,6 +58,9 @@ async def authorize_spotify_access_callback(request: Request):
     
     if state is None:
         return {"error": "state_mismatch"}
+    
+    user = await user_respository.get_by_username(state)
+
     token_data = {
         "code": code,
         "redirect_uri": spotify_redirect_uri,
@@ -73,6 +79,15 @@ async def authorize_spotify_access_callback(request: Request):
         )
         print(f"Spotify Response: {response.json()}")
         if response.status_code == 200:
-            return {"access_token": response.json()['access_token'], "expires_in": response.json()["expires_in"]}
+            response = response.json()
+            auth_token = AuthToken(
+                token=response['access_token'],
+                refresh_token=response['refresh_token'],
+                scopes=[response['scopes']],
+                expires_in=response['expires_in']
+
+            )
+            token = await user_respository.update_service_access_token(user.id, auth_token, "spotify_token")
+            return token
         else:
             raise HTTPException(status_code=response.status_code, detail=response.text)

@@ -14,3 +14,12 @@ SPOTIFY_CLIENT_ID = config["SPOTIFY_CLIENT_ID"]
 SPOTIFY_CLIENT_SECRET = config["SPOTIFY_CLIENT_SECRET"]
 GOOGLE_CLIENT_ID = config["GOOGLE_CLIENT_ID"]
 GOOGLE_CLIENT_SECRET = config["GOOGLE_CLIENT_SECRET"]
+
+POLLED_TIME = 5
+
+action_dict_format = {
+    "head": '',
+    "body": '',
+    "tail": '',
+    'last_checked': None
+}
