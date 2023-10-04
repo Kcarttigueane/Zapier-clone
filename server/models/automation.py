@@ -26,12 +26,12 @@ class Action:
 
 
 class ActionAnswer:
-    def __init__(self, last_polled: datetime, last_obj_checked: datetime = None, header: str = "", body: str = '', tail: str = ""):
-        self.last_polled = last_polled
+    def __init__(self, last_obj_checked: datetime = None, header: str = "", body: str = '', tail: str = "", passed: bool = True):
         self.last_obj_checked = last_obj_checked
         self.header = header
         self.body = body
         self.tail = tail
+        self.passed = passed
 
     def __str__(self):
         return f"ActionAnswer(last_polled={self.last_polled}, last_obj_checked={self.last_obj_checked}, header='{self.header}', body='{self.body}', tail='{self.tail}')"

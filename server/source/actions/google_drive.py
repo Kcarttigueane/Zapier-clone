@@ -56,8 +56,9 @@ def check_latests_file(user: User, action: Action) -> ActionAnswer :
                 result_str += f'{file_name} {created_time} ({file_id})\n'
                 last_checked_file_date = created_time_datetime
 
+        passed = (result_str != "")
         body = result_str
-        response = ActionAnswer(last_polled=datetime.now(), last_obj_checked=last_checked_file_date, header=header, body=body)
+        response = ActionAnswer(last_obj_checked=last_checked_file_date, header=header, body=body, passed=passed)
         return response
 
     except HttpError as error:

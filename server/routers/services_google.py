@@ -46,7 +46,7 @@ user_repository = UserRepository()
 
 @services_router_google.get(
     "/google/{service:path}",
-    summary="Request autorizathion to google calendar access data",
+    summary="Request autorizathion to google access data",
 )
 async def authorize_google_access(service: str, current_user: User = Depends(get_current_user)):
     redirect_uri =  google_redirect_uri + service
@@ -65,7 +65,6 @@ async def authorize_google_access(service: str, current_user: User = Depends(get
     )
 
     return RedirectResponse(authorization_url)
-
 
 
 def credentials_to_dict(credentials):
@@ -93,6 +92,7 @@ async def authorize_google_access_callback(service: str, request: Request):
     authorization_response = str(request.url)
     flow.fetch_token(authorization_response=authorization_response)
     credentials = credentials_to_dict(flow.credentials)
+    
     user = await user_repository.get_by_username(state)
 
     auth_token = AuthToken(
