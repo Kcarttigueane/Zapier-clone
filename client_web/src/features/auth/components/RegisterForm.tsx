@@ -1,8 +1,9 @@
 import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuthStore } from '../../../core/store/useAuthStore';
 
@@ -18,28 +19,45 @@ const validationSchema = Yup.object({
 	password: Yup.string().required('Required'),
 });
 
-interface LoginDTO {
+interface RegisterDTO {
 	username: string;
 	email: string;
 	password: string;
 }
+
 const RegisterForm: React.FC = () => {
 	const { t } = useTranslation();
 	const [form] = Form.useForm();
-	const { register } = useAuthStore((state) => state);
+	const { registerFn } = useAuthStore((state) => state);
+	const navigate = useNavigate();
+	const [messageApi, contextHolder] = message.useMessage();
 
-	const onRegisterSubmit = async (values: LoginDTO) => {
-		console.log(values);
+	const onRegisterSubmit = async (values: RegisterDTO) => {
 		const { username, email, password } = values;
-
-		register(username, email, password);
+		try {
+			await registerFn(username, email, password);
+			await messageApi.open({
+				type: 'success',
+				content: 'Successfully registered',
+				duration: 2,
+			});
+			navigate('/dashboard');
+		} catch (error) {
+			if (error instanceof Error) {
+				messageApi.open({
+					type: 'error',
+					content: error.message || 'Something went wrong',
+				});
+			}
+		}
 	};
 
 	return (
 		<>
+			{contextHolder}
 			<Formik
 				initialValues={initialValues}
-				onSubmit={(values: LoginDTO) => {
+				onSubmit={(values: RegisterDTO) => {
 					console.log(values);
 				}}
 				validationSchema={validationSchema}

@@ -2,13 +2,20 @@ import { create } from 'zustand';
 import { UserModel } from '../models/user';
 import useUserStore from './useUserStore';
 
-const BASE_URL = 'http:///127.0.0.1:8000/api';
+const BASE_URL = 'http://127.0.0.1:8080/api';
 
 type AuthState = {
 	isAuthenticated: boolean;
-	login: (email: string, password: string) => Promise<void>;
-	register: (username: string, email: string, password: string) => Promise<void>;
-	logout: () => void;
+};
+
+type AuthActions = {
+	isAuthenticated: boolean;
+	loginFn: (email: string, password: string) => Promise<void>;
+	registerFn: (username: string, email: string, password: string) => Promise<UserModel>;
+	logoutFn: () => void;
+	loginWithGoogle: () => Promise<void>;
+	loginWithSpotify: () => Promise<void>;
+	loginWithGitHub: () => Promise<void>;
 };
 
 type LoginResponse = {
@@ -16,36 +23,51 @@ type LoginResponse = {
 	token_type: string;
 };
 
-export const useAuthStore = create<AuthState>()((set) => ({
-	isAuthenticated: false,
-	login: async (email, password) => {
-		const userToken: LoginResponse = await fetch(`${BASE_URL}/auth/token`, {
-			method: 'POST',
-			body: JSON.stringify({ email, password }),
-		}).then((res) => res.json());
+export const useAuthStore = create<AuthState & AuthActions>()((set) => {
+	return {
+		isAuthenticated: false,
+		loginFn: async (email, password) => {
+			const userToken: LoginResponse = await fetch(`${BASE_URL}/auth/token`, {
+				method: 'POST',
+				body: JSON.stringify({ email, password }),
+			}).then((res) => res.json());
+			if (userToken) {
+				useUserStore.getState().fetchCurrentUser(userToken.access_token);
+			}
+		},
+		registerFn: async (username, email, password) => {
+			try {
+				const response = await fetch(`${BASE_URL}/auth/register`, {
+					method: 'POST',
+					headers: {
+						'Content-type': 'application/json; charset=UTF-8',
+					},
+					body: JSON.stringify({ username, email, password }),
+				});
 
-		console.log('user', userToken);
+				if (!response.ok) {
+					const errorData = await response.json();
+					throw new Error(errorData.message || 'Registration failed');
+				}
 
-		if (userToken) {
-			useUserStore.getState().fetchCurrentUser(userToken.access_token);
-		}
-	},
-	register: async (username, email, password) => {
-		const user: UserModel = await fetch(`${BASE_URL}/auth/register`, {
-			method: 'POST',
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-			},
-			body: JSON.stringify({ username, email, password }),
-		}).then((res) => res.json());
+				const user: UserModel = await response.json();
+				useUserStore.getState().setUser(user);
+				set({ isAuthenticated: true });
+				return user;
+			} catch (error) {
+				console.error('Registration error:', error);
+				throw error;
+			}
+		},
 
-		if (user) {
-			set({ isAuthenticated: true });
-			useUserStore.getState().setUser(user);
-		}
-	},
-	logout: () => {
-		set({ isAuthenticated: false });
-		useUserStore.getState().clearUser();
-	},
-}));
+		logoutFn: () => {
+			set({ isAuthenticated: false });
+			useUserStore.getState().clearUser();
+		},
+		loginWithGoogle: async () => {
+			window.location.href = `${BASE_URL}/auth/google`;
+		},
+		loginWithSpotify: async () => {},
+		loginWithGitHub: async () => {},
+	};
+});

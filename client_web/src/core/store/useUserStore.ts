@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { UserModel } from '../models/user';
 
-const BASE_URL = 'http:///127.0.0.1:8000/api';
+const BASE_URL = 'http://127.0.0.1:8080/api';
 
 const initialUserState: UserModel = {
 	id: 0,
@@ -13,7 +13,7 @@ const initialUserState: UserModel = {
 	updatedAt: new Date(),
 };
 
-type InitialUserActions = {
+type UserActions = {
 	setUser: (user: UserModel) => void;
 	clearUser: () => void;
 	fetchCurrentUser: (accessToken: string) => Promise<void>;
@@ -21,7 +21,7 @@ type InitialUserActions = {
 	deleteUser: (userId: number) => Promise<void>;
 };
 
-const useUserStore = create<UserModel & InitialUserActions>()((set, _) => ({
+const useUserStore = create<UserModel & UserActions>()((set, _) => ({
 	...initialUserState,
 	setUser: (user) => set(() => ({ ...user })),
 	clearUser: () => set(() => initialUserState),

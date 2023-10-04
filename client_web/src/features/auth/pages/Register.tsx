@@ -46,10 +46,6 @@ const greetingStyle: React.CSSProperties = {
 const Register = () => {
 	const navigate = useNavigate();
 
-	const handleChange = (value: string) => {
-		console.log(`selected ${value}`);
-	};
-
 	const [selectedLanguage, setSelectedLanguage] = useState(
 		i18next.language === 'fr' ? 'fr' : i18next.language === 'en' ? 'en' : 'es',
 	);
