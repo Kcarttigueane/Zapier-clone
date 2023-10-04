@@ -64,6 +64,15 @@ const ZapStyle: React.CSSProperties = {
 	justifyContent: 'center',
 };
 
+const MiniZapStyle: React.CSSProperties = {
+	display: 'flex',
+	flexDirection: 'column',
+	alignItems: 'center',
+	fontWeight: 'bold',
+	fontSize: '14px',
+	gap: '5px',
+};
+
 const DividerStyle: React.CSSProperties = {
 	width: '68px',
 	border: '1px solid #757575',
@@ -232,55 +241,67 @@ const Dashboard = () => {
 				<Layout style={MainZapStyle}>
 					<Text style={TitleStyle}>Create a Zap</Text>
 					<div style={ZapStyle}>
-						<Select
-							showSearch
-							placeholder="Select a Service"
-							optionFilterProp="children"
-							onChange={onServiceChange1}
-							onSearch={onSearch}
-							filterOption={filterOption}
-							style={InputStyle}
-							options={serviceOptions}
-						/>
+						<div style={MiniZapStyle}>
+							<Text>Connect this service...</Text>
+							<Select
+								showSearch
+								placeholder="Select a Service"
+								optionFilterProp="children"
+								onChange={onServiceChange1}
+								onSearch={onSearch}
+								filterOption={filterOption}
+								style={InputStyle}
+								options={serviceOptions}
+							/>
+						</div>
 						<span style={DividerStyle} />
 						<PlusCircleOutlined style={{ fontSize: '32px', color: '#757575', padding: '0 5px' }} />
 						<span style={DividerStyle} />
-						<Select
-							showSearch
-							placeholder="Select a Service"
-							optionFilterProp="children"
-							onChange={onServiceChange2}
-							onSearch={onSearch}
-							filterOption={filterOption}
-							style={InputStyle}
-							options={serviceOptions}
-						/>
+						<div style={MiniZapStyle}>
+							<Text>...with this one.</Text>
+							<Select
+								showSearch
+								placeholder="Select a Service"
+								optionFilterProp="children"
+								onChange={onServiceChange2}
+								onSearch={onSearch}
+								filterOption={filterOption}
+								style={InputStyle}
+								options={serviceOptions}
+							/>
+						</div>
 					</div>
 					{selectedService1 && selectedService2 ? (
 						<div style={ZapStyle}>
-							<Select
-								showSearch
-								placeholder="Select a Service"
-								optionFilterProp="children"
-								onChange={onTriggerChange}
-								onSearch={onSearch}
-								filterOption={filterOption}
-								style={InputStyle}
-								options={triggerOptions}
-							/>
+							<div style={MiniZapStyle}>
+								<Text>Choose a Trigger</Text>
+								<Select
+									showSearch
+									placeholder="Select a Service"
+									optionFilterProp="children"
+									onChange={onTriggerChange}
+									onSearch={onSearch}
+									filterOption={filterOption}
+									style={InputStyle}
+									options={triggerOptions}
+								/>
+							</div>
 							<span style={DividerStyle} />
 							<PlusCircleOutlined style={{ fontSize: '32px', color: '#757575', padding: '0 5px' }} />
 							<span style={DividerStyle} />
-							<Select
-								showSearch
-								placeholder="Select a Service"
-								optionFilterProp="children"
-								onChange={onReactionChange}
-								onSearch={onSearch}
-								filterOption={filterOption}
-								style={InputStyle}
-								options={reactionOptions}
-							/>
+							<div style={MiniZapStyle}>
+								<Text>Choose a Reaction</Text>
+								<Select
+									showSearch
+									placeholder="Select a Service"
+									optionFilterProp="children"
+									onChange={onReactionChange}
+									onSearch={onSearch}
+									filterOption={filterOption}
+									style={InputStyle}
+									options={reactionOptions}
+								/>
+							</div>
 						</div>
 					) : null}
 					{selectedTrigger && selectedReaction ? (
