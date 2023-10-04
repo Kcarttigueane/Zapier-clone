@@ -106,15 +106,15 @@
       "el2": "Sincroniza con la aplicación web",
       "el3": "Mayor seguridad"
       },
-    "slide1": {
+    "card1": {
       "title": "Crea flujos de trabajo personalizados en minutos",
       "description": "Automatiza el trabajo repetitivo, para que puedas enfocarte en tu trabajo, no en tus herramientas. Te mostraremos cómo."
     },
-    "slide2": {
+    "card2": {
       "title": "Obtén más poder de tus herramientas",
       "description": "Integra tus aplicaciones de trabajo críticas en flujos de trabajo, recupera tu tiempo y enfócate en el trabajo impactante."
     },
-    "slide3": {
+    "card3": {
       "title": "Conecta las aplicaciones que ya amas",
       "description": "Zapier soporta más aplicaciones que cualquier otra plataforma, para que puedas optimizar las herramientas que usas."
     }

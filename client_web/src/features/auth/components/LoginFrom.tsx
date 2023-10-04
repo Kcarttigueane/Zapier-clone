@@ -73,7 +73,7 @@ const LoginForm: React.FC = () => {
 						</Form.Item>
 						<Form.Item style={{ marginTop: 24 }}>
 							<Button type="primary" shape="round" size="large" htmlType="submit" block>
-							{t('basic.fields.submit')}
+								{t('basic.fields.submit')}
 							</Button>
 						</Form.Item>
 					</Form>

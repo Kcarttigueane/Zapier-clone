@@ -106,15 +106,15 @@
       "el2" : "Synchronisé avec l'application Web",
       "el3" : "Sécurisé et privé"
     },
-    "slide1": {
+    "card1": {
       "title": "Créez des workflows personnalisés en quelques minutes",
       "description": "Automatisez les tâches répétitives, pour que vous puissiez vous concentrer sur votre travail, pas sur vos outils. Nous allons vous montrer comment."
     },
-    "slide2": {
+    "card2": {
       "title": "Obtenez plus de vos outils",
       "description": "Intégrez vos applications de travail essentielles dans des workflows, récupérez votre temps et concentrez-vous sur le travail à impact."
     },
-    "slide3": {
+    "card3": {
       "title": "Connectez les applications que vous aimez déjà",
       "description": "Zapier prend en charge plus d'applications que n'importe quelle autre plateforme, vous pouvez donc optimiser les outils que vous utilisez."
     }

@@ -1,9 +1,6 @@
-import { Avatar, Button, Card, Image, Layout, Space, Typography, theme } from 'antd';
+import { Avatar, Button, Card, Image, Layout, Space, Typography } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import React, { useEffect, useState } from 'react';
-import ConnectedServices from '../../settings/components/ConnectedServices';
-import GeneralSettings from '../../settings/components/GeneralSettings';
-import HelpAndSupport from '../../settings/components/HelpAndSupport';
 import { useTranslation } from 'react-i18next';
 
 import Meta from 'antd/es/card/Meta';
@@ -87,26 +84,7 @@ const Landing: React.FC = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
-	const {
-		token: { colorBgContainer },
-	} = theme.useToken();
-
-
 	const [selectedMenu, setSelectedMenu] = useState<string>('1');
-
-
-	const renderRightContent = () => {
-		switch (selectedMenu) {
-			case '1':
-				return <GeneralSettings />;
-			case '2':
-				return <ConnectedServices />;
-			case '3':
-				return <HelpAndSupport />;
-			default:
-				return null;
-		}
-	};
 
 	useEffect(() => {
 		console.log(selectedMenu);
@@ -132,10 +110,10 @@ const Landing: React.FC = () => {
 					</Space>
 					<Space size="large">
 						<Button type="text" shape="round" size="large" onClick={() => navigate('/auth/login')}>
-						{t('auth.login.title')}
+							{t('auth.login.title')}
 						</Button>
 						<Button shape="round" size="large" onClick={() => navigate('/auth/register')}>
-						{t('auth.register.title')}
+							{t('auth.register.title')}
 						</Button>
 					</Space>
 				</Header>
@@ -144,8 +122,12 @@ const Landing: React.FC = () => {
 						<Flex align="center" justify="space-between" gap={24}>
 							<Image width={120} src={GoogleLogo} alt="Logo Google" preview={false} />
 							<div>
-								<p style={{ fontSize: 60, fontWeight: 'bold', textAlign: 'center', marginTop: 0 }}>{t('demo_guides.automation.title')}</p>
-								<p style={{ fontSize: 36, fontWeight: 'bold', textAlign: 'center' }}>{t('demo_guides.automation.description')}</p>
+								<p style={{ fontSize: 60, fontWeight: 'bold', textAlign: 'center', marginTop: 0 }}>
+									{t('demo_guides.automation.title')}
+								</p>
+								<p style={{ fontSize: 36, fontWeight: 'bold', textAlign: 'center' }}>
+									{t('demo_guides.automation.description')}
+								</p>
 							</div>
 							<Image width={120} src={DiscordLogo} alt="Logo Discord" preview={false} />
 						</Flex>
@@ -202,8 +184,8 @@ const Landing: React.FC = () => {
 						>
 							<Meta
 								style={{ textAlign: 'center' }}
-								title={t('demo_guides.slide1.title')}
-								description={t('demo_guides.slide1.description')}
+								title={t('demo_guides.card1.title')}
+								description={t('demo_guides.card1.description')}
 							/>
 						</Card>
 						<Card
@@ -212,8 +194,8 @@ const Landing: React.FC = () => {
 						>
 							<Meta
 								style={{ textAlign: 'center' }}
-								title={t('demo_guides.slide2.title')}
-								description={t('demo_guides.slide2.description')}
+								title={t('demo_guides.card2.title')}
+								description={t('demo_guides.card2.description')}
 							/>
 						</Card>
 						<Card
@@ -222,8 +204,8 @@ const Landing: React.FC = () => {
 						>
 							<Meta
 								style={{ textAlign: 'center' }}
-								title={t('demo_guides.slide3.title')}
-								description={t('demo_guides.slide3.description')}
+								title={t('demo_guides.card3.title')}
+								description={t('demo_guides.card3.description')}
 							/>
 						</Card>
 					</div>

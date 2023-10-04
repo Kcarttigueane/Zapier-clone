@@ -87,7 +87,7 @@ const Register = () => {
 						<Space style={{ alignSelf: 'center' }}>
 							<Text>{t('auth.haveAccount')}</Text>
 							<Button type="link" onClick={() => navigate('/auth/login')}>
-							{t('auth.login.title')}
+								{t('auth.login.title')}
 							</Button>
 						</Space>
 					</Space>

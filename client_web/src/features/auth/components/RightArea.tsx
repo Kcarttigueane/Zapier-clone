@@ -18,7 +18,6 @@ const textStyles: React.CSSProperties = {
 };
 
 const RightArea: React.FC = () => {
-
 	const { t } = useTranslation();
 
 	return (
