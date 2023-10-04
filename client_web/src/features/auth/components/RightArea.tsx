@@ -6,6 +6,7 @@ import Reddit from '../../../core/assets/logo3D/Reddit.png';
 import Tinder from '../../../core/assets/logo3D/Tinder.png';
 import Twitter from '../../../core/assets/logo3D/Twitter.png';
 import Flex from '../../../core/components/Flex';
+import { useTranslation } from 'react-i18next';
 
 const { Text } = Typography;
 
@@ -17,6 +18,9 @@ const textStyles: React.CSSProperties = {
 };
 
 const RightArea: React.FC = () => {
+
+	const { t } = useTranslation();
+
 	return (
 		<Flex
 			direction="column"
@@ -35,7 +39,7 @@ const RightArea: React.FC = () => {
 				<Image width={120} src={Twitter} alt="Twitter Logo" preview={false} />
 			</Space>
 
-			<Text style={textStyles}>Link your favorite apps and simplify your life by using the power of automation.</Text>
+			<Text style={textStyles}>{t('auth.rightArea.text')}</Text>
 		</Flex>
 	);
 };

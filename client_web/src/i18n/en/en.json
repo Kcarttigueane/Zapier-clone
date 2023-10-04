@@ -58,7 +58,8 @@
       "title": "Title",
       "type": "Type",
       "website": "Web site",
-      "zipCode": "Zip code"
+      "zipCode": "Zip code",
+      "submit": "Submit"
     },
     "hours": {
       "12am": "12am",
@@ -93,45 +94,51 @@
     }
   },
   "demo_guides": {
-    "slide1": {
-      "title": "Welcome to Area",
-      "description": "Transform your digital life effortlessly with Area - your personal task automation wizard"
+    "automation": {
+      "title": "Automation is key",
+      "description": "Save time and get more done"
     },
-    "slide2": {
+    "connect": {
+      "p1": "Connect your favorite service to create",
+      "p2": "a seamless digital directly from your",
+      "p3:": "smart phone.",
+      "el1" : "Intelligent Triggers & Reactions",
+      "el2" : "Sync with the Web App",
+      "el3" : "Secure & Private"
+    },
+    "slide1": {
       "title": "Build custom workflows in minutes",
       "description": "Automate the busywork, so you can focus on your job, not your tools. We'll show you how."
     },
-    "slide3": {
+    "slide2": {
       "title": "Get more power from your tools",
       "description": "Integrate your critical work apps into workflows, reclaim your time, and focus on impactful work."
     },
-    "slide4": {
+    "slide3": {
       "title": "Connect the apps you already love",
       "description": "Zapier supports more apps than any other platform, so you can optimize the tools you use."
     }
   },
   "settings": {
     "headerTitle": "Settings",
+    "placeholder": "input search texte",
+    "enabled": "enabled",
+    "disabled": "disabled",
     "settingScreen": {
-      "sectionHeader1": "General",
       "profile": {
-        "title": "Profile",
-        "description": "Manage your profile"
+        "title": "General Settings",
+        "pic": "Profile picture",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone number",
+        "pushNotif": "Push Notifications",
+        "emailNotif": "Email Notifications",
+        "mode": "Dark Mode"
       },
-      "language": {
-        "title": "Language",
-        "description": "Change your language"
-      },
-      "appearance": {
-        "title": "Appearance",
-        "description": "Modify the appearance of the app"
-      },
-      "sectionHeader2": "Services",
       "connectedServices": {
         "title": "Connected services",
         "description": "Manage your connected services"
       },
-      "sectionHeader3": "Help & Support",
       "help": {
         "title": "Help & Support",
         "description": "Help us improve the app",
@@ -156,6 +163,9 @@
     "forgotPassword": {
       "title": "Forgot password",
       "welcome": "Enter your email address to reset your password"
+    },
+    "rightArea": {
+      "text": "Link your favorite apps and simplify your life by using the power of automation."
     },
     "passwordForgotten": "Forgot your password ?",
     "noAccount": "Don't have an account ?",

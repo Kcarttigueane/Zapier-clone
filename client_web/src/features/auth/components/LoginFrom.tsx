@@ -63,7 +63,7 @@ const LoginForm: React.FC = () => {
 							<Input.Password
 								prefix={<LockOutlined style={{ marginRight: 8 }} />}
 								size="large"
-								placeholder="input password"
+								placeholder={t('basic.fields.password')}
 								id="password"
 								name="password"
 								value={values.password}
@@ -73,7 +73,7 @@ const LoginForm: React.FC = () => {
 						</Form.Item>
 						<Form.Item style={{ marginTop: 24 }}>
 							<Button type="primary" shape="round" size="large" htmlType="submit" block>
-								Submit
+							{t('basic.fields.submit')}
 							</Button>
 						</Form.Item>
 					</Form>
