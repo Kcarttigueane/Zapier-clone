@@ -1,0 +1,165 @@
+{
+  "basic": {
+    "actions": {
+      "add": "Añadir",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "delete": "Eliminar",
+      "draft": "Borrador",
+      "edit": "Editar",
+      "modify": "Modificar",
+      "no": "No",
+      "ok": "Ok",
+      "save": "Guardar",
+      "search": "Buscar",
+      "valid": "Válido",
+      "yes": "Sí",
+      "wait": "Por favor espera...",
+      "or": "o"
+    },
+    "date": {
+      "display": "{{month}}/{{day}}",
+      "format": "DD-MM-YYYY",
+      "full": "dddd DD MMMM YYYY",
+      "withHour": "MMMM Do YYYY, H:mm:ss a",
+      "year": "Año"
+    },
+    "days": {
+      "mon": "Lunes",
+      "tue": "Martes",
+      "wed": "Miércoles",
+      "thu": "Jueves",
+      "fri": "Viernes",
+      "sat": "Sábado",
+      "sun": "Domingo",
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "tomorrow": "Mañana"
+    },
+    "fields": {
+      "keepMeLoggedIn": "Mantenerme conectado",
+      "address": "Dirección",
+      "condition": "Condición",
+      "confirmPassword": "Confirmar contraseña",
+      "country": "País",
+      "description": "Descripción",
+      "email": "Correo electrónico",
+      "firstName": "Nombre",
+      "franchise": "Franquicia",
+      "lastName": "Apellido",
+      "name": "Nombre",
+      "password": "Contraseña",
+      "phone1": "Teléfono principal",
+      "phone2": "Teléfono secundario",
+      "socialNetwork": "Red social",
+      "state": "Estado",
+      "store": "Tienda",
+      "streetNumber": "Número de calle",
+      "title": "Título",
+      "type": "Tipo",
+      "website": "Sitio web",
+      "zipCode": "Código postal"
+    },
+    "hours": {
+      "12am": "12am",
+      "2am": "2am",
+      "4am": "4am",
+      "6am": "6am",
+      "8am": "8am",
+      "10am": "10am",
+      "12pm": "12pm",
+      "2pm": "2pm",
+      "4pm": "4pm",
+      "6pm": "6pm",
+      "8pm": "8pm",
+      "10pm": "10pm"
+    },
+    "misc": {
+      "rows": "filas por página"
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    }
+  },
+  "demo_guides": {
+    "slide1": {
+      "title": "Bienvenido a Area",
+      "description": "Transforma tu vida digital sin esfuerzo con Area - tu asistente personal de automatización de tareas"
+    },
+    "slide2": {
+      "title": "Crea flujos de trabajo personalizados en minutos",
+      "description": "Automatiza el trabajo repetitivo, para que puedas enfocarte en tu trabajo, no en tus herramientas. Te mostraremos cómo."
+    },
+    "slide3": {
+      "title": "Obtén más poder de tus herramientas",
+      "description": "Integra tus aplicaciones de trabajo críticas en flujos de trabajo, recupera tu tiempo y enfócate en el trabajo impactante."
+    },
+    "slide4": {
+      "title": "Conecta las aplicaciones que ya amas",
+      "description": "Zapier soporta más aplicaciones que cualquier otra plataforma, para que puedas optimizar las herramientas que usas."
+    }
+  },
+  "settings": {
+    "headerTitle": "Configuraciones",
+    "settingScreen": {
+      "sectionHeader1": "General",
+      "profile": {
+        "title": "Perfil",
+        "description": "Administra tu perfil"
+      },
+      "language": {
+        "title": "Idioma",
+        "description": "Cambia tu idioma"
+      },
+      "appearance": {
+        "title": "Apariencia",
+        "description": "Modifica la apariencia de la aplicación"
+      },
+      "sectionHeader2": "Servicios",
+      "connectedServices": {
+        "title": "Servicios conectados",
+        "description": "Administra tus servicios conectados"
+      },
+      "sectionHeader3": "Ayuda y Soporte",
+      "help": {
+        "title": "Ayuda y Soporte",
+        "description": "Ayúdanos a mejorar la aplicación",
+        "bug": "Reportar un error",
+        "issue": "Reportar un problema",
+        "feature": "Sugerir una característica",
+        "question": "Hacer una pregunta",
+        "other": "Otro",
+        "textAreaPlaceholder": "Ingresa tu mensaje aquí..."
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "welcome": "¡Bienvenido de nuevo a la aplicación!"
+    },
+    "register": {
+      "title": "Registrarse",
+      "welcome": "¡Crea una cuenta para empezar!"
+    },
+    "forgotPassword": {
+      "title": "Olvidé mi contraseña",
+      "welcome": "Ingresa tu dirección de correo electrónico para restablecer tu contraseña"
+    },
+    "passwordForgotten": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes una cuenta?",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "terms": "Acepta nuestros Términos de Servicio y Política de Privacidad."
+  }
+}

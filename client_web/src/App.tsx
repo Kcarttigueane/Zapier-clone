@@ -2,6 +2,7 @@ import { ConfigProvider, theme } from 'antd';
 import { useState } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import router from './core/routes/router';
+import './i18n/i18next';
 
 const App = () => {
 	const { defaultAlgorithm, darkAlgorithm } = theme;

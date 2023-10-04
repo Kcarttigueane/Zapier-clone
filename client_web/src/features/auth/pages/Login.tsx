@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RightArea from '../components/RightArea';
 
 import { Button, Divider, Select, Space, Typography } from 'antd';
+import i18next from 'i18next';
 import { useNavigate } from 'react-router-dom';
 import Flex from '../../../core/components/Flex';
 import LoginForm from '../components/LoginFrom';
@@ -49,6 +50,15 @@ const Login = () => {
 		console.log(`selected ${value}`);
 	};
 
+	const [selectedLanguage, setSelectedLanguage] = useState(
+		i18next.language === 'fr' ? 'fr' : i18next.language === 'en' ? 'en' : 'es',
+	);
+
+	const changeLanguage = (language: string) => {
+		i18next.changeLanguage(language);
+		setSelectedLanguage(language);
+	};
+
 	return (
 		<div style={mainContainerStyle}>
 			<div style={mainBoxStyle}>
@@ -56,13 +66,13 @@ const Login = () => {
 					<Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 16 }}>
 						<h2 style={{ color: '#000', fontSize: 32 }}>Area.</h2>
 						<Select
-							defaultValue="French"
+							defaultValue={selectedLanguage}
 							style={{ width: 60 }}
-							onChange={handleChange}
+							onChange={changeLanguage}
 							options={[
-								{ value: 'French', label: '🇫🇷' },
-								{ value: 'English', label: '🇬🇧' },
-								{ value: 'Spanish', label: '🇪🇸' },
+								{ value: 'fr', label: '🇫🇷' },
+								{ value: 'en', label: '🇬🇧' },
+								{ value: 'es', label: '🇪🇸' },
 							]}
 						/>
 					</Space>

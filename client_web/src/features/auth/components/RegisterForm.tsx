@@ -2,6 +2,7 @@ import { LockOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input } from 'antd';
 import { Formik } from 'formik';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { useAuthStore } from '../../../core/store/useAuthStore';
 
@@ -23,6 +24,7 @@ interface LoginDTO {
 	password: string;
 }
 const RegisterForm: React.FC = () => {
+	const { t } = useTranslation();
 	const [form] = Form.useForm();
 	const { register } = useAuthStore((state) => state);
 
@@ -62,7 +64,7 @@ const RegisterForm: React.FC = () => {
 							/>
 						</Form.Item>
 						<Form.Item
-							label="Email"
+							label={t('basic.fields.email')}
 							validateStatus={touched.email && errors.email ? 'error' : undefined}
 							help={touched.email && errors.email ? errors.email : undefined}
 							hasFeedback
@@ -79,7 +81,7 @@ const RegisterForm: React.FC = () => {
 							/>
 						</Form.Item>
 						<Form.Item
-							label="Password"
+							label={t('basic.fields.password')}
 							validateStatus={touched.password && errors.password ? 'error' : undefined}
 							help={touched.password && errors.password ? errors.password : undefined}
 						>
