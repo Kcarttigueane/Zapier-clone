@@ -1,7 +1,7 @@
-FROM python:latest
+FROM python:3.11-alpine
 WORKDIR /usr/app/server
 COPY requirements.txt .
-RUN pip3 install --upgrade pip setuptools
+RUN pip3 install --upgrade setuptools pip
 RUN pip3 install -r requirements.txt
 COPY . .
 EXPOSE 8080

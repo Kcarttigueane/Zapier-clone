@@ -1,8 +1,8 @@
-FROM node:current-alpine
+FROM node:20-alpine
 
 WORKDIR /usr/app/client_web
 
-RUN apk update && npm install -g pnpm && pnpm install vite --save-dev
+RUN npm install -g pnpm && pnpm install vite --save-dev
 
 COPY package*.json ./
 
