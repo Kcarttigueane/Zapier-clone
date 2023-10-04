@@ -3,14 +3,8 @@ import { UserModel } from '../models/user';
 
 const BASE_URL = 'http://127.0.0.1:8080/api';
 
-const initialUserState: UserModel = {
-	id: 0,
-	email: '',
-	passwordHash: '',
-	status: 'active',
-	emailVerified: false,
-	createdAt: new Date(),
-	updatedAt: new Date(),
+type UserState = {
+	user: UserModel | null;
 };
 
 type UserActions = {
@@ -21,10 +15,10 @@ type UserActions = {
 	deleteUser: (userId: number) => Promise<void>;
 };
 
-const useUserStore = create<UserModel & UserActions>()((set, _) => ({
-	...initialUserState,
-	setUser: (user) => set(() => ({ ...user })),
-	clearUser: () => set(() => initialUserState),
+const useUserStore = create<UserState & UserActions>()((set, _) => ({
+	user: null,
+	setUser: (user) => set(() => ({ user })),
+	clearUser: () => set(() => ({ user: null })),
 	fetchCurrentUser: async (accessToken: string) => {
 		try {
 			const response = await fetch(`${BASE_URL}/users/me`, {
@@ -41,14 +35,14 @@ const useUserStore = create<UserModel & UserActions>()((set, _) => ({
 
 			const user: UserModel = await response.json();
 
-			set({ ...user });
+			set({ user });
 		} catch (error) {
 			console.error('Error fetching current user:', error);
 		}
 	},
 	updateUser: async (user) => {
 		try {
-			const userId = useUserStore.getState().id;
+			const userId = useUserStore.getState().user?.id;
 
 			const response = await fetch(`/users/${userId}`, {
 				method: 'PUT',
@@ -63,21 +57,21 @@ const useUserStore = create<UserModel & UserActions>()((set, _) => ({
 			}
 
 			const updatedUser: UserModel = await response.json();
-			set({ ...updatedUser });
+			set({ user: updatedUser });
 		} catch (error) {
 			console.error('Error updating user:', error);
 		}
 	},
 	deleteUser: async () => {
 		try {
-			const userId = useUserStore.getState().id;
+			const userId = useUserStore.getState().user?.id;
 			const response = await fetch(`/users/${userId}`, { method: 'DELETE' });
 
 			if (!response.ok) {
 				throw new Error('Failed to delete user');
 			}
 
-			set(() => initialUserState);
+			set({ user: null });
 		} catch (error) {
 			console.error('Error deleting user:', error);
 		}

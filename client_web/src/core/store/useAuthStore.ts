@@ -10,6 +10,7 @@ type AuthState = {
 
 type AuthActions = {
 	isAuthenticated: boolean;
+	setIsAuthenticated: (isAuthenticated: boolean) => void;
 	loginFn: (email: string, password: string) => Promise<void>;
 	registerFn: (username: string, email: string, password: string) => Promise<UserModel>;
 	logoutFn: () => void;
@@ -26,6 +27,7 @@ type LoginResponse = {
 export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 	return {
 		isAuthenticated: false,
+		setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 		loginFn: async (email, password) => {
 			const userToken: LoginResponse = await fetch(`${BASE_URL}/auth/token`, {
 				method: 'POST',
@@ -67,7 +69,11 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 		loginWithGoogle: async () => {
 			window.location.href = `${BASE_URL}/auth/google`;
 		},
-		loginWithSpotify: async () => {},
-		loginWithGitHub: async () => {},
+		loginWithSpotify: async () => {
+			window.location.href = `${BASE_URL}/auth/spotify`;
+		},
+		loginWithGitHub: async () => {
+			window.location.href = `${BASE_URL}/auth/github`;
+		},
 	};
 });
