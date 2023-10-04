@@ -23,12 +23,13 @@ def get_weeks_time_frame():
 
 def get_this_weeks_events(user: User):
     google_access_token = user.token_manager.google_calendar_token
-    google_access_token = decrypt_token(google_access_token)
+    token, refresh_token = decrypt_token(google_access_token)
+    
     credentials = client.OAuth2Credentials(
-        access_token=google_access_token.token,  # set access_token to None since we use a refresh token
+        access_token=token,
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
-        refresh_token=google_access_token.refresh_token,
+        refresh_token=refresh_token,
         token_expiry=None,
         token_uri=GOOGLE_TOKEN_URI,
         user_agent=None,

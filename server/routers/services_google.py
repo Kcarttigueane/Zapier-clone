@@ -7,8 +7,9 @@ from services.auth_service import get_current_user
 from config.constants import ALGORITHM, SECRET_KEY
 from starlette.responses import RedirectResponse
 from repository.user_repository import UserRepository
-from source.reactions.google_calendar import get_this_weeks_events
-
+from models.automation import Action
+from source.actions.google_youtube import check_youtube_like
+from datetime import datetime
 
 import google.oauth2.credentials
 import google_auth_oauthlib.flow
@@ -100,6 +101,9 @@ async def authorize_google_access_callback(service: str, request: Request):
         refresh_token=credentials['refresh_token'],
         scopes=credentials["scopes"]
     )
-
     token = await user_repository.update_service_access_token(user.id, auth_token, f"google_{service}_token")
+    if (service == "youtube"):
+        action = Action(datetime.now())
+        youtube_user = await user_repository.get(user.id)
+        check_youtube_like(youtube_user, action=action)
     return token

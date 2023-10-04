@@ -31,7 +31,6 @@ class UserRepository:
         return [User(**user) for user in await self.collection.find().to_list(1000)]
 
     async def update(self, user_id: PyObjectId, user: UserCreate) -> User:
-        print(f"Update User {user.dict()}")
         await self.collection.replace_one({"_id": user_id}, user.dict())
         return User(**await self.collection.find_one({"_id": user_id}))
 

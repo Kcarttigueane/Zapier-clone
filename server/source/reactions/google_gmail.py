@@ -6,6 +6,7 @@ from googleapiclient.errors import HttpError
 from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI, client
 from email.message import EmailMessage
 import base64
+from email.mime.text import MIMEText
 
 
 from config.constants import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
@@ -15,12 +16,13 @@ def send_email_to_user(user: User, action_answer: ActionAnswer):
     content = action_answer.body
     subject = action_answer.header
     google_access_token = user.token_manager.google_gmail_token
-    google_access_token = decrypt_token(google_access_token)
+    token, refresh_token = decrypt_token(google_access_token)
+    
     credentials = client.OAuth2Credentials(
-        access_token=google_access_token.token,  # set access_token to None since we use a refresh token
+        access_token=token,
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
-        refresh_token=google_access_token.refresh_token,
+        refresh_token=refresh_token,
         token_expiry=None,
         token_uri=GOOGLE_TOKEN_URI,
         user_agent=None,
@@ -29,9 +31,8 @@ def send_email_to_user(user: User, action_answer: ActionAnswer):
 
     try:
         service = build('gmail', 'v1', credentials=credentials)
-        message = EmailMessage()
+        message = MIMEText(content, 'html')
 
-        message.set_content(content)
 
         message['To'] = user.email
         message['From'] = user.email
