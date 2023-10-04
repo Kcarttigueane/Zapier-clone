@@ -17,6 +17,7 @@
     "@react-navigation/native-stack": "^6.9.14",
     "formik": "^2.4.5",
     "i18next": "^23.5.1",
+    "lucide-react-native": "^0.284.0",
     "react": "18.2.0",
     "react-i18next": "^13.2.2",
     "react-native": "0.72.5",

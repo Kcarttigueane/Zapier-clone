@@ -71,7 +71,7 @@ const HomeScreen = () => {
 const styles = StyleSheet.create({
   card: {
     marginBottom: 30,
-    width: '90%',
+    width: '92%',
     elevation: 5,
     backgroundColor: 'white',
     height: 160,
@@ -79,8 +79,7 @@ const styles = StyleSheet.create({
     paddingLeft: 30,
     paddingRight: 30,
     paddingTop: 10,
-    overflow: 'hidden',
-    marginHorizontal: 5,
+    marginHorizontal: 12,
   },
   titleTabs: {
     fontSize: 18,
