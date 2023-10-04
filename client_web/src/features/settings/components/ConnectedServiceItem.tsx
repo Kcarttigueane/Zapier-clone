@@ -1,5 +1,6 @@
 import { Image, Space, Switch } from 'antd';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ConnectedServiceItemProps {
 	imageUrl: string;
@@ -18,11 +19,12 @@ const cardStyle: React.CSSProperties = {
 };
 
 const ConnectedServiceItem: React.FC<ConnectedServiceItemProps> = ({ imageUrl, serviceName, defaultChecked }) => {
+	const { t } = useTranslation();
 	return (
 		<Space style={cardStyle}>
 			<Image width={32} src={imageUrl} />
 			<p style={{ margin: '0 0 0 16px' }}>{serviceName}</p>
-			<Switch checkedChildren="Enabled" unCheckedChildren="Disabled" defaultChecked={defaultChecked} />
+			<Switch checkedChildren={t('settings.enabled')} unCheckedChildren={t('settings.disabled')} defaultChecked={defaultChecked} />
 		</Space>
 	);
 };

@@ -58,7 +58,8 @@
       "title": "Título",
       "type": "Tipo",
       "website": "Sitio web",
-      "zipCode": "Código postal"
+      "zipCode": "Código postal",
+      "submit": "Entregar"
     },
     "hours": {
       "12am": "12am",
@@ -93,45 +94,51 @@
     }
   },
   "demo_guides": {
-    "slide1": {
-      "title": "Bienvenido a Area",
-      "description": "Transforma tu vida digital sin esfuerzo con Area - tu asistente personal de automatización de tareas"
+    "automation": {
+      "title": "La automatización es clave",
+      "description": "Ahorre tiempo y haga más"
     },
-    "slide2": {
+    "connect": {
+      "p1": "Conecta tu servicio favorito para crear",
+      "p2": "un flujo digital transparente directamente desde tu",
+      "p3": "teléfono inteligente.",
+      "el1": "Dispara acciones inteligentes",
+      "el2": "Sincroniza con la aplicación web",
+      "el3": "Mayor seguridad"
+      },
+    "card1": {
       "title": "Crea flujos de trabajo personalizados en minutos",
       "description": "Automatiza el trabajo repetitivo, para que puedas enfocarte en tu trabajo, no en tus herramientas. Te mostraremos cómo."
     },
-    "slide3": {
+    "card2": {
       "title": "Obtén más poder de tus herramientas",
       "description": "Integra tus aplicaciones de trabajo críticas en flujos de trabajo, recupera tu tiempo y enfócate en el trabajo impactante."
     },
-    "slide4": {
+    "card3": {
       "title": "Conecta las aplicaciones que ya amas",
       "description": "Zapier soporta más aplicaciones que cualquier otra plataforma, para que puedas optimizar las herramientas que usas."
     }
   },
   "settings": {
     "headerTitle": "Configuraciones",
+    "placeholder": "introducir texto de búsqueda",
+    "enabled" : "activado",
+    "disabled": "desactivado",
     "settingScreen": {
-      "sectionHeader1": "General",
       "profile": {
-        "title": "Perfil",
-        "description": "Administra tu perfil"
+        "title": "Configuración General",
+        "pic": "Foto de perfil",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "phone": "Número de teléfono",
+        "pushNotif": "Notificaciones Push",
+        "emailNotif": "Notificaciones por correo electrónico",
+        "mode": "Modo oscuro"
       },
-      "language": {
-        "title": "Idioma",
-        "description": "Cambia tu idioma"
-      },
-      "appearance": {
-        "title": "Apariencia",
-        "description": "Modifica la apariencia de la aplicación"
-      },
-      "sectionHeader2": "Servicios",
       "connectedServices": {
         "title": "Servicios conectados",
         "description": "Administra tus servicios conectados"
       },
-      "sectionHeader3": "Ayuda y Soporte",
       "help": {
         "title": "Ayuda y Soporte",
         "description": "Ayúdanos a mejorar la aplicación",
@@ -156,6 +163,9 @@
     "forgotPassword": {
       "title": "Olvidé mi contraseña",
       "welcome": "Ingresa tu dirección de correo electrónico para restablecer tu contraseña"
+    },
+    "rightArea": {
+      "text": "Vincula tus aplicaciones favoritas y simplifica tu vida utilizando el poder de la automatización."
     },
     "passwordForgotten": "¿Olvidaste tu contraseña?",
     "noAccount": "¿No tienes una cuenta?",

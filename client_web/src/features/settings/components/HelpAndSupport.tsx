@@ -1,5 +1,6 @@
 import { Select, Space } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
+import { useTranslation } from 'react-i18next';
 
 const containerStyle: React.CSSProperties = {
 	border: '1px solid #d9d9d9',
@@ -8,6 +9,8 @@ const containerStyle: React.CSSProperties = {
 };
 
 const HelpAndSupport = () => {
+
+	const { t } = useTranslation();
 	const onSelectChange = (value: string) => {
 		console.log(`selected ${value}`);
 	};
@@ -28,7 +31,7 @@ const HelpAndSupport = () => {
 			<Select
 				style={{ width: 400 }}
 				showSearch
-				placeholder="What king of help do you need?"
+				placeholder={t('settings.settingScreen.help.description')}
 				optionFilterProp="children"
 				onChange={onSelectChange}
 				onSearch={onSearch}
@@ -36,19 +39,19 @@ const HelpAndSupport = () => {
 				options={[
 					{
 						value: 'bug',
-						label: 'Bug',
+						label: t('settings.settingScreen.help.bug'),
 					},
 					{
 						value: 'feature',
-						label: 'Features Suggestions',
+						label: t('settings.settingScreen.help.feature'),
 					},
 					{
 						value: 'questions',
-						label: 'Questions',
+						label: t('settings.settingScreen.help.question'),
 					},
 					{
 						value: 'others',
-						label: 'Others',
+						label: t('settings.settingScreen.help.other'),
 					},
 				]}
 			/>
@@ -57,7 +60,7 @@ const HelpAndSupport = () => {
 				maxLength={100}
 				onChange={onInputChange}
 				style={{ height: 120, resize: 'none' }}
-				placeholder="Add Tinder as a service"
+				placeholder={t('settings.settingScreen.help.textAreaPlaceholder')}
 			/>
 		</Space>
 	);

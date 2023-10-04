@@ -1,9 +1,7 @@
-import { Avatar, Button, Card, Image, Layout, Space, Typography, theme } from 'antd';
+import { Avatar, Button, Card, Image, Layout, Space, Typography } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
 import React, { useEffect, useState } from 'react';
-import ConnectedServices from '../../settings/components/ConnectedServices';
-import GeneralSettings from '../../settings/components/GeneralSettings';
-import HelpAndSupport from '../../settings/components/HelpAndSupport';
+import { useTranslation } from 'react-i18next';
 
 import Meta from 'antd/es/card/Meta';
 import { useNavigate } from 'react-router-dom';
@@ -84,32 +82,9 @@ const guideStyle: React.CSSProperties = {
 
 const Landing: React.FC = () => {
 	const navigate = useNavigate();
-	const {
-		token: { colorBgContainer },
-	} = theme.useToken();
-
-	const handleLogin = () => {
-		alert('Bouton Login cliqué !');
-	};
-
-	const handleStarted = () => {
-		alert('Bouton Get started cliqué !');
-	};
+	const { t } = useTranslation();
 
 	const [selectedMenu, setSelectedMenu] = useState<string>('1');
-
-	const renderRightContent = () => {
-		switch (selectedMenu) {
-			case '1':
-				return <GeneralSettings />;
-			case '2':
-				return <ConnectedServices />;
-			case '3':
-				return <HelpAndSupport />;
-			default:
-				return null;
-		}
-	};
 
 	useEffect(() => {
 		console.log(selectedMenu);
@@ -135,10 +110,10 @@ const Landing: React.FC = () => {
 					</Space>
 					<Space size="large">
 						<Button type="text" shape="round" size="large" onClick={() => navigate('/auth/login')}>
-							Log In
+							{t('auth.login.title')}
 						</Button>
 						<Button shape="round" size="large" onClick={() => navigate('/auth/register')}>
-							Get Started
+							{t('auth.register.title')}
 						</Button>
 					</Space>
 				</Header>
@@ -147,8 +122,12 @@ const Landing: React.FC = () => {
 						<Flex align="center" justify="space-between" gap={24}>
 							<Image width={120} src={GoogleLogo} alt="Logo Google" preview={false} />
 							<div>
-								<p style={{ fontSize: 60, fontWeight: 'bold', textAlign: 'center', marginTop: 0 }}>Automation is key</p>
-								<p style={{ fontSize: 36, fontWeight: 'bold', textAlign: 'center' }}>Save time and get more done</p>
+								<p style={{ fontSize: 60, fontWeight: 'bold', textAlign: 'center', marginTop: 0 }}>
+									{t('demo_guides.automation.title')}
+								</p>
+								<p style={{ fontSize: 36, fontWeight: 'bold', textAlign: 'center' }}>
+									{t('demo_guides.automation.description')}
+								</p>
 							</div>
 							<Image width={120} src={DiscordLogo} alt="Logo Discord" preview={false} />
 						</Flex>
@@ -170,15 +149,15 @@ const Landing: React.FC = () => {
 					<Flex align="center" justify="space-around" gap={24} style={{ width: '100%' }}>
 						<Flex direction="column" justify="flex-start">
 							<>
-								<Text style={titleStyle}>Connect your favorite service to create</Text>
-								<Text style={titleStyle}>a seamless digital directly from your</Text>
-								<Text style={titleStyle}>smart phone.</Text>
+								<Text style={titleStyle}>{t('demo_guides.connect.p1')}</Text>
+								<Text style={titleStyle}>{t('demo_guides.connect.p2')}</Text>
+								<Text style={titleStyle}>{t('demo_guides.connect.p3')}</Text>
 							</>
 
 							<ul style={{ marginTop: '24px' }}>
-								<li style={{ fontSize: 16, fontWeight: 'bold' }}>Intelligent Triggers & Reactions</li>
-								<li style={{ fontSize: 16, fontWeight: 'bold' }}>Sync with the Web App</li>
-								<li style={{ fontSize: 16, fontWeight: 'bold' }}>Secure & Private</li>
+								<li style={{ fontSize: 16, fontWeight: 'bold' }}>{t('demo_guides.connect.el1')}</li>
+								<li style={{ fontSize: 16, fontWeight: 'bold' }}>{t('demo_guides.connect.el2')}</li>
+								<li style={{ fontSize: 16, fontWeight: 'bold' }}>{t('demo_guides.connect.el3')}</li>
 							</ul>
 							<Space style={{ marginTop: '32px', alignSelf: 'center' }} size={24}>
 								<Image width={180} src={GoogleStoreLogo} alt="Logo Tinder" preview={false} />
@@ -205,8 +184,8 @@ const Landing: React.FC = () => {
 						>
 							<Meta
 								style={{ textAlign: 'center' }}
-								title="Build custom workflows in minutes "
-								description="Automate the busy work, so you can focus on your job, not your tools We'll show you how"
+								title={t('demo_guides.card1.title')}
+								description={t('demo_guides.card1.description')}
 							/>
 						</Card>
 						<Card
@@ -215,8 +194,8 @@ const Landing: React.FC = () => {
 						>
 							<Meta
 								style={{ textAlign: 'center' }}
-								title="Get more power from your tools"
-								description="Integrate your critical work apps into workflows, reclaim your time, and focus on impactful work."
+								title={t('demo_guides.card2.title')}
+								description={t('demo_guides.card2.description')}
 							/>
 						</Card>
 						<Card
@@ -225,8 +204,8 @@ const Landing: React.FC = () => {
 						>
 							<Meta
 								style={{ textAlign: 'center' }}
-								title="Connect the apps you already love"
-								description="Zapier supports more apps than any other platform, so you can optimize the tools you use."
+								title={t('demo_guides.card3.title')}
+								description={t('demo_guides.card3.description')}
 							/>
 						</Card>
 					</div>
