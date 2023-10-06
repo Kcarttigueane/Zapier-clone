@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { TextInput, View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 import { Icon, ScrollView, SearchIcon } from '@gluestack-ui/themed';
+import { useNavigation } from '@react-navigation/native';
 
 const SearchBar = () => {
   const [text, setText] = useState('');
@@ -33,12 +34,21 @@ const SearchBar = () => {
   );
 };
 
-const Cards = ({ title, url }: { title: string; url: any }) => {
+const Cards = ({ title, url,}: { title: string; url: any }) => {
+
+  const navigation : any = useNavigation();
+
+
+  const handleDetails = () => {
+    console.log('clicked with ' + title);
+    navigation.navigate('ServiceDetailScreen');
+  }
+
   return (
-    <View style={styles.cards}>
+    <TouchableOpacity onPress={handleDetails} style={styles.cards}>
       <Image style={{ width: '60%', height: '50%' }} source={url} />
-      <Text style={{ fontFamily: 'Inter', fontSize: 16, color: 'black', fontWeight: 800, marginTop: 20 }}>{title}</Text>
-    </View>
+      <Text style={{ fontFamily: 'Inter', fontSize: 16, color: 'black', fontWeight: '800', marginTop: 20 }}>{title}</Text>
+      </TouchableOpacity>
   );
 };
 
