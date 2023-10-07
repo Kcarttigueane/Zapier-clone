@@ -7,7 +7,12 @@ const HomeScreensStack = createNativeStackNavigator<RootStackParamList>();
 
 const HomeStackRouting = () => {
   return (
-    <HomeScreensStack.Navigator>
+    <HomeScreensStack.Navigator
+      screenOptions={{
+        contentStyle: {
+          backgroundColor: 'white',
+        },
+      }}>
       <HomeScreensStack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
     </HomeScreensStack.Navigator>
   );

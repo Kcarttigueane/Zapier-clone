@@ -68,12 +68,6 @@ const HomeScreen = () => {
               {mockupAutomation.map((item, index) => (
                 <AutomationCard item={item} key={index} />
               ))}
-              {/* <AutomationCard message="If Every day at 10:15 PM, then Send me an email at JohnDoe@gmail.com" />
-              <AutomationCard message="This is a test at example@gmail.com" />
-              <AutomationCard message="This is a test at example@gmail.com" />
-              <AutomationCard message="This is a test at example@gmail.com" />
-              <AutomationCard message="This is a test at example@gmail.com" />
-              <AutomationCard message="This is a test at example@gmail.com" /> */}
             </ScrollView>
           </View>
         </TabsTabPanel>
