@@ -8,12 +8,12 @@ const LanguageScreen = () => {
   const data = [
     {
       title: 'French',
-      imageUrl: require('../../../../core/assets/fr_flag.png'),
+      imageUrl: require('../../../core/assets/fr_flag.png'),
       language: 'fr',
     },
     {
       title: 'English',
-      imageUrl: require('../../../../core/assets/en_flag.png'),
+      imageUrl: require('../../../core/assets/en_flag.png'),
       language: 'en',
     },
   ];

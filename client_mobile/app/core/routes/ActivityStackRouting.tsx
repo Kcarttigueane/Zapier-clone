@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { RootStackParamList } from '../../App';
-import ActivityScreen from '../../features/activity/presentation/screen/ActivityScreen';
+import ActivityScreen from '../../features/activity/screen/ActivityScreen';
 
 const ActivityScreensStack = createNativeStackNavigator<RootStackParamList>();
 

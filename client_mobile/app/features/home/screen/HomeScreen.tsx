@@ -23,20 +23,20 @@ const mockupAutomation: MockupAutomationData[] = [
   {
     id: 1,
     title: 'If Every day at 10:15 PM, then Send me an email at johnDoe@gmail.com',
-    serviceLogo1: require('../../../../core/assets/facebook.png'),
-    serviceLogo2: require('../../../../core/assets/discord.png'),
+    serviceLogo1: require('../../../core/assets/facebook.png'),
+    serviceLogo2: require('../../../core/assets/discord.png'),
   },
   {
     id: 2,
     title: 'Send a message discord when a new email arrives',
-    serviceLogo1: require('../../../../core/assets/discord.png'),
-    serviceLogo2: require('../../../../core/assets/spotify.png'),
+    serviceLogo1: require('../../../core/assets/discord.png'),
+    serviceLogo2: require('../../../core/assets/spotify.png'),
   },
   {
     id: 3,
     title: 'Send a message discord when a new email arrives',
-    serviceLogo1: require('../../../../core/assets/discord.png'),
-    serviceLogo2: require('../../../../core/assets/gmail.png'),
+    serviceLogo1: require('../../../core/assets/discord.png'),
+    serviceLogo2: require('../../../core/assets/gmail.png'),
   },
 ];
 
@@ -52,7 +52,7 @@ const HomeScreen = () => {
       <TabsTabList style={styles.tabsContainer}>
         <TabsTab value="All" onPress={() => handleTabClick('All')}>
           <TabsTabTitle style={[styles.titleTabs, { borderBottomWidth: activeTab === 'All' ? 3 : 0 }]}>
-            All (0)
+            All {`(${mockupAutomation.length})`}
           </TabsTabTitle>
         </TabsTab>
         <TabsTab value="Archived" onPress={() => handleTabClick('Archived')}>
