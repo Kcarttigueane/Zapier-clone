@@ -6,6 +6,7 @@ interface FlexProps {
 	align?: 'flex-start' | 'center' | 'flex-end' | 'stretch' | 'baseline';
 	justify?: 'flex-start' | 'center' | 'flex-end' | 'space-between' | 'space-around' | 'space-evenly';
 	gap?: number | string;
+	flex?: number | string;
 	style?: CSSProperties;
 }
 
@@ -15,6 +16,7 @@ const Flex: FC<FlexProps> = ({
 	align = 'stretch',
 	justify = 'flex-start',
 	gap = 0,
+	flex,
 	style,
 	...props
 }) => {
