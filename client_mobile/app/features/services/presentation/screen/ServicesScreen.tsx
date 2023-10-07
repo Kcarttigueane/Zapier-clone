@@ -34,21 +34,21 @@ const SearchBar = () => {
   );
 };
 
-const Cards = ({ title, url,}: { title: string; url: any }) => {
-
-  const navigation : any = useNavigation();
-
+const Cards = ({ title, url }: { title: string; url: any }) => {
+  const navigation: any = useNavigation();
 
   const handleDetails = () => {
     console.log('clicked with ' + title);
     navigation.navigate('ServiceDetailScreen');
-  }
+  };
 
   return (
     <TouchableOpacity onPress={handleDetails} style={styles.cards}>
       <Image style={{ width: '60%', height: '50%' }} source={url} />
-      <Text style={{ fontFamily: 'Inter', fontSize: 16, color: 'black', fontWeight: '800', marginTop: 20 }}>{title}</Text>
-      </TouchableOpacity>
+      <Text style={{ fontFamily: 'Inter', fontSize: 16, color: 'black', fontWeight: '800', marginTop: 20 }}>
+        {title}
+      </Text>
+    </TouchableOpacity>
   );
 };
 
@@ -75,7 +75,7 @@ const ServicesScreen = () => {
         {cardsData.map((data, index) => (
           <Cards key={index} title={data.title} url={data.url} />
         ))}
-        <View style={{ height: 100, width: 1000 }}></View>
+        <View style={{ height: 100, width: 1000 }} />
       </ScrollView>
     </View>
   );
