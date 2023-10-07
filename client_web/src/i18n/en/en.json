@@ -1,0 +1,175 @@
+{
+  "basic": {
+    "actions": {
+      "add": "Add",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "delete": "Delete",
+      "draft": "Draft",
+      "edit": "Edit",
+      "modify": "Modify",
+      "no": "No",
+      "ok": "Ok",
+      "save": "Save",
+      "search": "Search",
+      "valid": "Valid",
+      "yes": "Yes",
+      "wait": "Please wait...",
+      "or": "or"
+    },
+    "date": {
+      "display": "{{month}}/{{day}}",
+      "format": "DD-MM-YYYY",
+      "full": "dddd DD MMMM YYYY",
+      "withHour": "MMMM Do YYYY, H:mm:ss a",
+      "year": "Year"
+    },
+    "days": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "tomorrow": "Tomorrow"
+    },
+    "fields": {
+      "keepMeLoggedIn": "Keep me logged in",
+      "address": "Address",
+      "condition": "Condition",
+      "confirmPassword": "Confirm password",
+      "country": "Country",
+      "description": "Description",
+      "email": "Email",
+      "firstName": "First name",
+      "franchise": "Franchise",
+      "lastName": "Last name",
+      "name": "Name",
+      "password": "Password",
+      "phone1": "Main phone",
+      "phone2": "Secondary phone",
+      "socialNetwork": "Social network",
+      "state": "State",
+      "store": "Store",
+      "streetNumber": "Street number",
+      "title": "Title",
+      "type": "Type",
+      "website": "Web site",
+      "zipCode": "Zip code",
+      "submit": "Submit"
+    },
+    "hours": {
+      "12am": "12am",
+      "2am": "2am",
+      "4am": "4am",
+      "6am": "6am",
+      "8am": "8am",
+      "10am": "10am",
+      "12pm": "12pm",
+      "2pm": "2pm",
+      "4pm": "4pm",
+      "6pm": "6pm",
+      "8pm": "8pm",
+      "10pm": "10pm"
+    },
+    "misc": {
+      "rows": "rows per page"
+    },
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    }
+  },
+  "demo_guides": {
+    "automation": {
+      "title": "Automation is key",
+      "description": "Save time and get more done"
+    },
+    "connect": {
+      "p1": "Connect your favorite service to create",
+      "p2": "a seamless digital directly from your",
+      "p3:": "smart phone.",
+      "el1" : "Intelligent Triggers & Reactions",
+      "el2" : "Sync with the Web App",
+      "el3" : "Secure & Private"
+    },
+    "card1": {
+      "title": "Build custom workflows in minutes",
+      "description": "Automate the busywork, so you can focus on your job, not your tools. We'll show you how."
+    },
+    "card2": {
+      "title": "Get more power from your tools",
+      "description": "Integrate your critical work apps into workflows, reclaim your time, and focus on impactful work."
+    },
+    "card3": {
+      "title": "Connect the apps you already love",
+      "description": "Zapier supports more apps than any other platform, so you can optimize the tools you use."
+    }
+  },
+  "settings": {
+    "headerTitle": "Settings",
+    "placeholder": "input search texte",
+    "enabled": "enabled",
+    "disabled": "disabled",
+    "settingScreen": {
+      "profile": {
+        "title": "General Settings",
+        "pic": "Profile picture",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Phone number",
+        "pushNotif": "Push Notifications",
+        "emailNotif": "Email Notifications",
+        "mode": "Dark Mode"
+      },
+      "connectedServices": {
+        "title": "Connected services",
+        "description": "Manage your connected services"
+      },
+      "help": {
+        "title": "Help & Support",
+        "description": "Help us improve the app",
+        "bug": "Report a bug",
+        "issue": "Report an issue",
+        "feature": "Suggest a feature",
+        "question": "Ask a question",
+        "other": "Other",
+        "textAreaPlaceholder": "Enter your message here..."
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "welcome": "Welcome back to the app !"
+    },
+    "register": {
+      "title": "Register",
+      "welcome": "Create an account to get started!"
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "welcome": "Enter your email address to reset your password"
+    },
+    "rightArea": {
+      "text": "Link your favorite apps and simplify your life by using the power of automation."
+    },
+    "passwordForgotten": "Forgot your password ?",
+    "noAccount": "Don't have an account ?",
+    "haveAccount": "Already have an account ?",
+    "terms": "Agree to our Terms of Service and Privacy Policy."
+  }
+}

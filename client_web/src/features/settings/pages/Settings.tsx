@@ -2,6 +2,7 @@ import { BellOutlined, MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Image, Input, Layout, Space, theme } from 'antd';
 import { Footer } from 'antd/es/layout/layout';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Flex from '../../../core/components/Flex';
 import ConnectedServices from '../components/ConnectedServices';
 import GeneralSettings from '../components/GeneralSettings';
@@ -68,6 +69,7 @@ const Settings = () => {
 	} = theme.useToken();
 
 	const [selectedMenu, setSelectedMenu] = useState<string>('1');
+	const { t } = useTranslation();
 
 	const renderRightContent = () => {
 		switch (selectedMenu) {
@@ -93,7 +95,7 @@ const Settings = () => {
 					<Avatar size={60} src={<img src={'/logo.jpg'} alt="Logo" />} />
 					<p style={{ margin: '0 0 0 16px' }}>Area.</p>
 				</Space>
-				<Input.Search placeholder="input search text" size="large" allowClear bordered style={searchBarStyle} />
+				<Input.Search placeholder={t('settings.placeholder')} size="large" allowClear bordered style={searchBarStyle} />
 				<Space style={rightHeaderStyle} size="large">
 					<Badge count={5} size="small">
 						<BellOutlined style={{ fontSize: '20px' }} />

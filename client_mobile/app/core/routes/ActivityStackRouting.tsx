@@ -7,7 +7,12 @@ const ActivityScreensStack = createNativeStackNavigator<RootStackParamList>();
 
 const ActivityStackRouting = () => {
   return (
-    <ActivityScreensStack.Navigator>
+    <ActivityScreensStack.Navigator
+      screenOptions={{
+        contentStyle: {
+          backgroundColor: 'white',
+        },
+      }}>
       <ActivityScreensStack.Screen name="ActivityScreen" component={ActivityScreen} options={{ headerShown: false }} />
     </ActivityScreensStack.Navigator>
   );

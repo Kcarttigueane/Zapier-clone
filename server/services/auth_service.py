@@ -9,6 +9,7 @@ from models.user import User, UserCreate
 
 from config.constants import ALGORITHM, SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES
 from repository.user_repository import UserRepository
+from models.auth_token import AuthToken
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
 
@@ -21,6 +22,15 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email: str = None
 
+def decrypt_token(token_obj: AuthToken) -> AuthToken:
+    payload = jwt.decode(token_obj.token, SECRET_KEY, algorithms=[ALGORITHM])
+    token = payload.get("token")
+    payload = jwt.decode(token_obj.refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
+    refresh_token = payload.get("refresh_token")
+    return token, refresh_token
+
+def encrypt_token(data: dict):
+    return jwt.encode(data.copy(), SECRET_KEY, algorithm=ALGORITHM)
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
@@ -39,6 +49,7 @@ async def check_access_token(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
+        print(f"Check access token: {token}")
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
         if email is None:
@@ -60,6 +71,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         headers={"WWW-Authenticate": "Bearer"},
     )
     try:
+        print(f"Check access token: {token}")
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         email: str = payload.get("sub")
         if email is None:

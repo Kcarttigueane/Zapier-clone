@@ -1,66 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Touchable, TouchableOpacity } from 'react-native';
-import { Box, VStack, Text, ScrollView } from '@gluestack-ui/themed';
-import { Tabs, TabsTabList, TabsTab, TabsTabTitle, TabsTabPanels, TabsTabPanel } from '@gluestack-ui/themed';
-import { MailIcon, ClockIcon } from '@gluestack-ui/themed';
+import {
+  ScrollView,
+  Tabs,
+  TabsTab,
+  TabsTabList,
+  TabsTabPanel,
+  TabsTabPanels,
+  TabsTabTitle,
+  Text,
+} from '@gluestack-ui/themed';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import AutomationCard from '../components/AutomationCard';
 
-const Card = ({ message }: { message: string }) => {
-  const handleCardClick = (message: string) => {
-    console.log('click with message ' + message);
-  };
+export interface MockupAutomationData {
+  id: number;
+  title: string;
+  serviceLogo1: any;
+  serviceLogo2: any;
+}
 
-  return (
-    <TouchableOpacity onPress={() => handleCardClick(message)}>
-      <Box style={styles.card}>
-        <VStack px={6} pt={4} pb={6}>
-          <Box style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 20 }}>
-            <MailIcon w="$8" h="$8" style={{ color: 'black' }} />
-            <ClockIcon w="$8" h="$8" style={{ color: 'black', marginLeft: 10 }} />
-          </Box>
-          <Text fontSize="$xl" fontWeight="bold" color="black" fontFamily="Inter">
-            {message}
-          </Text>
-        </VStack>
-      </Box>
-    </TouchableOpacity>
-  );
-};
+const mockupAutomation: MockupAutomationData[] = [
+  {
+    id: 1,
+    title: 'If Every day at 10:15 PM, then Send me an email at johnDoe@gmail.com',
+    serviceLogo1: require('../../../../core/assets/facebook.png'),
+    serviceLogo2: require('../../../../core/assets/discord.png'),
+  },
+  {
+    id: 2,
+    title: 'Send a message discord when a new email arrives',
+    serviceLogo1: require('../../../../core/assets/discord.png'),
+    serviceLogo2: require('../../../../core/assets/spotify.png'),
+  },
+  {
+    id: 3,
+    title: 'Send a message discord when a new email arrives',
+    serviceLogo1: require('../../../../core/assets/discord.png'),
+    serviceLogo2: require('../../../../core/assets/gmail.png'),
+  },
+];
 
 const HomeScreen = () => {
-  const [activeTab, setActiveTab] = useState('tab1');
+  const [activeTab, setActiveTab] = useState('All');
 
   const handleTabClick = (tabName: string) => {
     setActiveTab(tabName);
   };
 
   return (
-    <Tabs value="tab1">
-      <TabsTabList style={{ paddingLeft: 30, marginBottom: 20, flexDirection: 'row' }}>
-        <TabsTab value="tab1" onPress={() => handleTabClick('tab1')} style={{ borderRadius: 0, marginRight: -10 }}>
-          <TabsTabTitle style={[styles.titleTabs, { borderBottomWidth: activeTab === 'tab1' ? 3 : 0 }]}>
+    <Tabs value="All" style={styles.screenContainer}>
+      <TabsTabList style={styles.tabsContainer}>
+        <TabsTab value="All" onPress={() => handleTabClick('All')}>
+          <TabsTabTitle style={[styles.titleTabs, { borderBottomWidth: activeTab === 'All' ? 3 : 0 }]}>
             All (0)
           </TabsTabTitle>
         </TabsTab>
-        <TabsTab value="tab2" onPress={() => handleTabClick('tab2')} style={{ borderRadius: 0 }}>
-          <TabsTabTitle style={[styles.titleTabs, { borderBottomWidth: activeTab === 'tab2' ? 3 : 0 }]}>
+        <TabsTab value="Archived" onPress={() => handleTabClick('Archived')}>
+          <TabsTabTitle style={[styles.titleTabs, { borderBottomWidth: activeTab === 'Archived' ? 3 : 0 }]}>
             Archived (0)
           </TabsTabTitle>
         </TabsTab>
       </TabsTabList>
       <TabsTabPanels>
-        <TabsTabPanel value="tab1">
-          <View style={{ alignItems: 'center' }}>
-            <ScrollView>
-              <Card message="If Every day at 10:15 PM, then Send me an email at JohnDoe@gmail.com" />
-              <Card message="This is a test at example@gmail.com" />
-              <Card message="This is a test at example@gmail.com" />
-              <Card message="This is a test at example@gmail.com" />
-              <Card message="This is a test at example@gmail.com" />
-              <View style={{ height: 120 }}></View>
+        <TabsTabPanel value="All">
+          <View style={{ paddingBottom: 60 }}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 12, marginBottom: 12 }}>
+              {mockupAutomation.map((item, index) => (
+                <AutomationCard item={item} key={index} />
+              ))}
             </ScrollView>
           </View>
         </TabsTabPanel>
-        <TabsTabPanel value="tab2">
+        <TabsTabPanel value="Archived">
           <Text>Archived</Text>
         </TabsTabPanel>
       </TabsTabPanels>
@@ -69,21 +80,15 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  card: {
-    marginBottom: 30,
-    width: '92%',
-    elevation: 5,
-    backgroundColor: 'white',
-    height: 160,
-    borderRadius: 20,
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingTop: 10,
-    marginHorizontal: 12,
+  screenContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 24,
+  },
+  tabsContainer: {
+    alignSelf: 'center',
   },
   titleTabs: {
     fontSize: 18,
-    fontFamily: 'Inter',
     fontWeight: 'bold',
     color: 'black',
   },

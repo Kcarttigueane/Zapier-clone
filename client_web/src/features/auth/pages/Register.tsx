@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import RightArea from '../components/RightArea';
 
 import { Button, Divider, Select, Space, Typography } from 'antd';
+import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Flex from '../../../core/components/Flex';
 import RegisterForm from '../components/RegisterForm';
@@ -44,8 +46,19 @@ const greetingStyle: React.CSSProperties = {
 
 const Register = () => {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
+
 	const handleChange = (value: string) => {
 		console.log(`selected ${value}`);
+	};
+
+	const [selectedLanguage, setSelectedLanguage] = useState(
+		i18next.language === 'fr' ? 'fr' : i18next.language === 'en' ? 'en' : 'es',
+	);
+
+	const changeLanguage = (language: string) => {
+		i18next.changeLanguage(language);
+		setSelectedLanguage(language);
 	};
 
 	return (
@@ -55,26 +68,26 @@ const Register = () => {
 					<Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 16 }}>
 						<h2 style={{ color: '#000', fontSize: 32 }}>Area.</h2>
 						<Select
-							defaultValue="French"
+							defaultValue={selectedLanguage}
 							style={{ width: 60 }}
-							onChange={handleChange}
+							onChange={changeLanguage}
 							options={[
-								{ value: 'French', label: '🇫🇷' },
-								{ value: 'English', label: '🇬🇧' },
-								{ value: 'Spanish', label: '🇪🇸' },
+								{ value: 'fr', label: '🇫🇷' },
+								{ value: 'en', label: '🇬🇧' },
+								{ value: 'es', label: '🇪🇸' },
 							]}
 						/>
 					</Space>
-					<Text style={titleStyle}>Register</Text>
-					<Text style={greetingStyle}>Welcome To The App</Text>
+					<Text style={titleStyle}>{t('auth.register.title')}</Text>
+					<Text style={greetingStyle}>{t('auth.register.welcome')}</Text>
 					<Services />
 					<Space style={{ width: '60%' }} direction="vertical">
-						<Divider plain>Or</Divider>
+						<Divider plain>{t('basic.actions.or')}</Divider>
 						<RegisterForm />
 						<Space style={{ alignSelf: 'center' }}>
-							<Text>Already have an account ?</Text>
+							<Text>{t('auth.haveAccount')}</Text>
 							<Button type="link" onClick={() => navigate('/auth/login')}>
-								Log In
+								{t('auth.login.title')}
 							</Button>
 						</Space>
 					</Space>
