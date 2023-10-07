@@ -41,7 +41,7 @@ google_sso = GoogleSSO(
     allow_insecure_http=True,
 )
 
-@auth_router.post("/token", response_model=Token)
+@auth_router.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await repository.authenticate_user(form_data.username, form_data.password)
     if user is None:
@@ -50,7 +50,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    return create_user_token(user)
+    return {"access_token": create_user_token(user)}
 
 
 @auth_router.post("/register", response_model=User)
@@ -89,9 +89,9 @@ async def auth_callback(request: Request):
         )
         existing_user = await repository.get_by_username(username)
         if existing_user:
-            return create_user_token(existing_user)
+            return {"access_token": create_user_token(existing_user)}
         new_user = await repository.create(user_create)
-        return create_user_token(new_user)
+        return {"access_token": create_user_token(new_user)}
 
 
 @auth_router.get("/github")
@@ -119,9 +119,9 @@ async def auth_callback(request: Request):
 
         existing_user = await repository.get_by_github_id(github_user.id)
         if existing_user:
-            return create_user_token(existing_user)
+            return {"access_token": create_user_token(existing_user)}
         new_user = await repository.create(user_create)
-        return create_user_token(new_user)
+        return {"access_token": create_user_token(new_user)}
 
 @auth_router.get("/spotify")
 async def auth_init():
@@ -141,6 +141,6 @@ async def auth_callback(request: Request):
 
         existing_user = await repository.get_by_spotify_id(spotify_user.id)
         if existing_user:
-            return create_user_token(existing_user)
+            return {"access_token": create_user_token(existing_user)}
         new_user = await repository.create(user_create)
-        return create_user_token(new_user)
+        return {"access_token": create_user_token(new_user)}

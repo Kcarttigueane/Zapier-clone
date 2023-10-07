@@ -1,6 +1,7 @@
 import { Space } from 'antd';
 import React from 'react';
 import ConnectedServiceItem from './ConnectedServiceItem';
+import { useTranslation } from 'react-i18next';
 
 const containerStyle: React.CSSProperties = {
 	border: '1px solid #d9d9d9',
@@ -18,9 +19,10 @@ const labelStyle: React.CSSProperties = {
 };
 
 const ConnectedServices = () => {
+	const { t } = useTranslation();
 	return (
 		<Space direction="vertical" size={12} style={containerStyle}>
-			<div style={labelStyle}>List of your Connected Services</div>
+			<div style={labelStyle}>{t('settings.settingScreen.connectedServices.description')}</div>
 			<ConnectedServiceItem
 				imageUrl="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/2560px-Gmail_icon_%282020%29.svg.png"
 				serviceName="Gmail"

@@ -12,16 +12,16 @@ from config.constants import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, action_dict
 
 def check_latests_file(user: User, action: Action) -> ActionAnswer :
     last_polled = action.last_polled
-    last_checked_file = action.last_checked_object
+    last_checked_file = action.last_obj_checked
 
     google_access_token = user.token_manager.google_drive_token
-    google_access_token = decrypt_token(google_access_token)
+    token, refresh_token = decrypt_token(google_access_token)
     
     credentials = client.OAuth2Credentials(
-        access_token=google_access_token.token,  # set access_token to None since we use a refresh token
+        access_token=token,
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
-        refresh_token=google_access_token.refresh_token,
+        refresh_token=refresh_token,
         token_expiry=None,
         token_uri=GOOGLE_TOKEN_URI,
         user_agent=None,
@@ -39,7 +39,7 @@ def check_latests_file(user: User, action: Action) -> ActionAnswer :
         ).execute()
         items = results.get('files', [])
 
-        header = "Latest Files Created in Drive"
+        header = "[Area] New File(s) Created in your Google Drive"
         last_checked_file_date = after_date
 
         if not items:
@@ -53,11 +53,22 @@ def check_latests_file(user: User, action: Action) -> ActionAnswer :
             file_id = item['id']
 
             if created_time_datetime > after_date:
-                result_str += f'{file_name} {created_time} ({file_id})\n'
+                formatted_created_time = datetime.strptime(created_time, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%d/%m/%Y")
+                file_name_link = f'<a href="https://docs.google.com/document/d/{file_id}">{file_name}</a>'
+                result_str += f'{file_name_link}: Created at {formatted_created_time}\n'
                 last_checked_file_date = created_time_datetime
 
-        passed = (result_str != "")
-        body = result_str
+        passed = bool(result_str != "")
+        body = f"""
+            <html>
+                <body>
+                    <p><strong>New Files Created</strong></p>
+                    <br>
+                    {result_str}
+                </body>
+            </html>
+        """
+        print(f"Passed: {passed}")
         response = ActionAnswer(last_obj_checked=last_checked_file_date, header=header, body=body, passed=passed)
         return response
 

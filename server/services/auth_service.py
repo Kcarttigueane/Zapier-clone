@@ -24,10 +24,10 @@ class TokenData(BaseModel):
 
 def decrypt_token(token_obj: AuthToken) -> AuthToken:
     payload = jwt.decode(token_obj.token, SECRET_KEY, algorithms=[ALGORITHM])
-    token_obj.token = payload.get("token")
+    token = payload.get("token")
     payload = jwt.decode(token_obj.refresh_token, SECRET_KEY, algorithms=[ALGORITHM])
-    token_obj.refresh_token = payload.get("refresh_token")
-    return token_obj
+    refresh_token = payload.get("refresh_token")
+    return token, refresh_token
 
 def encrypt_token(data: dict):
     return jwt.encode(data.copy(), SECRET_KEY, algorithm=ALGORITHM)
