@@ -13,7 +13,6 @@ import SettingsScreen from '../../features/settings/presentations/screens/Settin
 
 const SettingsScreensStack = createNativeStackNavigator<RootStackParamList>();
 
-
 const generateHeaderTitle = (title: string) => () =>
   (
     <Text
@@ -27,8 +26,8 @@ const generateHeaderTitle = (title: string) => () =>
   );
 
 const handleLogout = () => {
-  console.log("logout");
-}
+  console.log('logout');
+};
 
 const logoutButton = (
   <View style={{ marginRight: 10 }}>
