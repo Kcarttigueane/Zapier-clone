@@ -1,7 +1,7 @@
 import { AlignLeft, Power, PowerOff } from 'lucide-react-native';
 import React from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, View } from 'react-native';
-import ActivityCard from '../components/ActityCard';
+import ActivityCard from '../components/ActivityCard';
 
 const ActivityScreen = () => {
   const cards = [

@@ -12,6 +12,8 @@ import ZapStackRouting from './core/routes/ZapStackRouting';
 import CreateZapScreen from './features/zap/presentation/screen/CreateZapScreen';
 
 export type RootStackParamList = {
+  // ! Demo
+  Demo: undefined;
   // ! Auth:
   Login: undefined;
   Register: undefined;

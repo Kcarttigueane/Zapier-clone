@@ -4,13 +4,13 @@ import { StyleSheet, View } from 'react-native';
 
 const appearanceData = [
   {
-    img: require('../../../../core/assets/dark_mode.png'),
+    img: require('../../../core/assets/dark_mode.png'),
   },
   {
-    img: require('../../../../core/assets/light_mode.png'),
+    img: require('../../../core/assets/light_mode.png'),
   },
   {
-    img: require('../../../../core/assets/system_mode.png'),
+    img: require('../../../core/assets/system_mode.png'),
   },
 ];
 

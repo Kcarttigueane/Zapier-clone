@@ -4,12 +4,12 @@ import { useTranslation } from 'react-i18next';
 import { Text, TouchableOpacity, View } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { RootStackParamList } from '../../App';
-import AppearanceScreen from '../../features/settings/presentations/screens/AppearanceScreen';
-import ConnectedServices from '../../features/settings/presentations/screens/ConnectedServices';
-import Help from '../../features/settings/presentations/screens/Help';
-import LanguageScreen from '../../features/settings/presentations/screens/LanguageScreen';
-import ProfileScreen from '../../features/settings/presentations/screens/ProfileScreen';
-import SettingsScreen from '../../features/settings/presentations/screens/SettingsScreen';
+import AppearanceScreen from '../../features/settings/screens/AppearanceScreen';
+import ConnectedServices from '../../features/settings/screens/ConnectedServices';
+import Help from '../../features/settings/screens/Help';
+import LanguageScreen from '../../features/settings/screens/LanguageScreen';
+import ProfileScreen from '../../features/settings/screens/ProfileScreen';
+import SettingsScreen from '../../features/settings/screens/SettingsScreen';
 
 const SettingsScreensStack = createNativeStackNavigator<RootStackParamList>();
 
