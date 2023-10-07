@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { BellOutlined, MenuOutlined, UserOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { BellOutlined, MenuOutlined, UserOutlined, PlusCircleOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Input, Layout, Space, Typography, Select, Button } from 'antd';
 import { Footer } from 'antd/es/layout/layout';
+
+import Youtube from '../../../core/assets/logo2D/Youtube.png';
+import Spotify from '../../../core/assets/logo2D/Spotify.png';
 
 const { Text } = Typography;
 const { Header, Content } = Layout;
@@ -41,6 +44,7 @@ const contentStyle: React.CSSProperties = {
 };
 
 const MainZapStyle: React.CSSProperties = {
+	display: 'flex',
 	alignItems: 'center',
 	padding: '30px 0 50px 0',
 	minHeight: '306px',
@@ -81,6 +85,45 @@ const DividerStyle: React.CSSProperties = {
 const InputStyle: React.CSSProperties = {
 	width: '286px',
 	height: '48px',
+};
+
+const CardsContainerStyle: React.CSSProperties = {
+	display: 'grid',
+	justifyContent: 'space-between',
+	gridTemplateColumns: 'repeat(3, 1fr)',
+	alignContent: 'center',
+	gap: '16px',
+	padding: '16px',
+};
+
+const CardStyle: React.CSSProperties = {
+	width: '370px',
+	height: '222px',
+	boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25)',
+	borderRadius: '5px',
+	overflow: 'hidden',
+};
+
+const CardHeaderStyle: React.CSSProperties = {
+	width: '100%',
+	height: '80%',
+	backgroundColor: '#FFFDF9',
+};
+
+const CardServicesStyle: React.CSSProperties = {
+	display: 'flex',
+	padding: '30px 0 20px 30px',
+	gap: '10px',
+};
+
+const CardFooterStyle: React.CSSProperties = {
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	padding: '0 30px 0 30px',
+	width: '100%',
+	height: '20%',
+	backgroundColor: '#D9D9D9',
 };
 
 const footerStyle: React.CSSProperties = {
@@ -319,6 +362,29 @@ const Dashboard = () => {
 						</Button>
 					) : null}
 				</Layout>
+				<div style={CardsContainerStyle}>
+					<div style={CardStyle}>
+						<div style={CardHeaderStyle}>
+							<div style={CardServicesStyle}>
+								<img
+									src={Youtube}
+									alt="Youtube logo"
+									style={{ width: '60px', height: '60px', border: '1px solid #E8E7E4', borderRadius: '8px' }}
+								/>
+								<img
+									src={Spotify}
+									alt="Spotify logo"
+									style={{ width: '60px', height: '60px', border: '1px solid #E8E7E4', borderRadius: '8px' }}
+								/>
+							</div>
+							<Text style={{ fontSize: '18px', paddingLeft: '30px' }}>Add liked song to your playlist</Text>
+						</div>
+						<div style={CardFooterStyle}>
+							<Text style={{ fontSize: '15px' }}>Youtube + Spotify</Text>
+							<ArrowRightOutlined style={{ fontSize: '20px', color: '#FF4F00' }} />
+						</div>
+					</div>
+				</div>
 			</Content>
 			<Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
 		</Layout>
