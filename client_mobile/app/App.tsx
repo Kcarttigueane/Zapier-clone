@@ -44,7 +44,7 @@ const App = () => {
       <NavigationContainer>
         {isLoggedIn ? (
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
-            <Tab.Screen name="Home" component={HomeStackRouting} />
+            <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Activity" component={ZapStackRouting} />
             <Tab.Screen name="Zap" component={CreateZapScreen} />
             <Tab.Screen name="Services" component={ServicesStackRouting} />
