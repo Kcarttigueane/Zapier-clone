@@ -29,8 +29,8 @@ import i18next from 'i18next';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView, StyleSheet } from 'react-native';
-import { emailValidationSchema } from '../../utils/formValidation';
-import { languageSelectionValues } from '../../utils/languageSelection';
+import { emailValidationSchema } from '../utils/formValidation';
+import { languageSelectionValues } from '../utils/languageSelection';
 
 const ForgotPasswordScreen = () => {
   const { t } = useTranslation();

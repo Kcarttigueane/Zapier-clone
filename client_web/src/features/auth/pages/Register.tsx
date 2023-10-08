@@ -3,6 +3,7 @@ import RightArea from '../components/RightArea';
 
 import { Button, Divider, Select, Space, Typography } from 'antd';
 import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Flex from '../../../core/components/Flex';
 import RegisterForm from '../components/RegisterForm';
@@ -45,6 +46,7 @@ const greetingStyle: React.CSSProperties = {
 
 const Register = () => {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const [selectedLanguage, setSelectedLanguage] = useState(
 		i18next.language === 'fr' ? 'fr' : i18next.language === 'en' ? 'en' : 'es',
@@ -72,16 +74,16 @@ const Register = () => {
 							]}
 						/>
 					</Space>
-					<Text style={titleStyle}>Register</Text>
-					<Text style={greetingStyle}>Welcome To The App</Text>
+					<Text style={titleStyle}>{t('auth.register.title')}</Text>
+					<Text style={greetingStyle}>{t('auth.register.welcome')}</Text>
 					<Services />
 					<Space style={{ width: '60%' }} direction="vertical">
-						<Divider plain>Or</Divider>
+						<Divider plain>{t('basic.actions.or')}</Divider>
 						<RegisterForm />
 						<Space style={{ alignSelf: 'center' }}>
-							<Text>Already have an account ?</Text>
+							<Text>{t('auth.haveAccount')}</Text>
 							<Button type="link" onClick={() => navigate('/auth/login')}>
-								Log In
+								{t('auth.login.title')}
 							</Button>
 						</Space>
 					</Space>

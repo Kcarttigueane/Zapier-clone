@@ -6,11 +6,11 @@ const ConnectedServices = () => {
   const data = [
     {
       title: 'Gmail',
-      imageUrl: require('../../../../core/assets/gmail.png'),
+      imageUrl: require('../../../core/assets/gmail.png'),
     },
     {
       title: 'Google Calendar',
-      imageUrl: require('../../../../core/assets/google_calendar.png'),
+      imageUrl: require('../../../core/assets/google_calendar.png'),
     },
   ];
 

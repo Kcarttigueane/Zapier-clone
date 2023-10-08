@@ -1,6 +1,5 @@
 import { Input, Space } from 'antd';
-import PhoneInput from 'antd-phone-input';
-import FormItem from 'antd/es/form/FormItem';
+import { useTranslation } from 'react-i18next';
 import SettingItem from './SettingItem';
 import UploadNewImage from './UploadNewImage';
 
@@ -11,25 +10,22 @@ const containerStyle: React.CSSProperties = {
 };
 
 const GeneralSettings = () => {
+	const { t } = useTranslation();
+
 	return (
 		<Space direction="vertical" size={32} style={containerStyle}>
-			<SettingItem label="Profile picture">
+			<SettingItem label={t('settings.settingScreen.profile.pic')}>
 				<UploadNewImage />
 			</SettingItem>
-			<SettingItem label="Name">
+			<SettingItem label={t('settings.settingScreen.profile.name')}>
 				<Input placeholder="John Doe" size="large" />
 			</SettingItem>
-			<SettingItem label="Email">
+			<SettingItem label={t('settings.settingScreen.profile.email')}>
 				<Input placeholder="johndoe@gmail.com" size="large" />
 			</SettingItem>
-			<SettingItem label="Phone number">
-				<FormItem name="phone">
-					<PhoneInput enableSearch />
-				</FormItem>
-			</SettingItem>
-			<SettingItem label="Push Notifications" switchable defaultChecked />
-			<SettingItem label="Email Notifications" switchable defaultChecked />
-			<SettingItem label="Dark Mode" switchable defaultChecked />
+			<SettingItem label={t('settings.settingScreen.profile.pushNotif')} switchable defaultChecked />
+			<SettingItem label={t('settings.settingScreen.profile.emailNotif')} switchable defaultChecked />
+			<SettingItem label={t('settings.settingScreen.profile.mode')} switchable defaultChecked />
 		</Space>
 	);
 };

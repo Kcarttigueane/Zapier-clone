@@ -1,11 +1,12 @@
-from fastapi import FastAPI
-from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
+from typing import List, Optional
 
+from pydantic import BaseModel, EmailStr, Field
+
+from models.auth_token import TokenManager
+from models.automation import Automation
 from models.db_model_mixin import DbModelMixin
 from models.py_object_id import PyObjectId
-from models.auth_token import TokenManager
-from models.automation import Automation, AutomationCreate
+
 
 class UserCreate(BaseModel):
     username: str
@@ -30,6 +31,7 @@ class UserCreate(BaseModel):
                 "automations": "your_automation_list",
             }
         }
+
 
 class User(DbModelMixin, UserCreate):
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")

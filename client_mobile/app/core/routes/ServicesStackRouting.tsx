@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { RootStackParamList } from '../../App';
-import ServiceDetailScreen from '../../features/services/presentation/screen/ServiceDetailScreen';
-import ServicesScreen from '../../features/services/presentation/screen/ServicesScreen';
+import ServiceDetailScreen from '../../features/services/screen/ServiceDetailScreen';
+import ServicesScreen from '../../features/services/screen/ServicesScreen';
 
 const ServicesScreensStack = createNativeStackNavigator<RootStackParamList>();
 

@@ -1,19 +1,24 @@
-from datetime import timedelta
 import os
 
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi_sso.sso.github import GithubSSO
-from fastapi_sso.sso.spotify import SpotifySSO
 from fastapi_sso.sso.google import GoogleSSO
+from fastapi_sso.sso.spotify import SpotifySSO
 
-from config.constants import ACCESS_TOKEN_EXPIRE_MINUTES,\
-    GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, OAUTHLIB_INSECURE_TRANSPORT,\
-    SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
+from config.constants import (
+    GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET,
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    OAUTHLIB_INSECURE_TRANSPORT,
+    SPOTIFY_CLIENT_ID,
+    SPOTIFY_CLIENT_SECRET,
+)
 from models.user import User, UserCreate
 from repository.user_repository import UserRepository
-from services.auth_service import Token, create_user_token, create_access_token
+from services.auth_service import create_user_token
 
 auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -42,7 +47,8 @@ google_sso = GoogleSSO(
     allow_insecure_http=True,
 )
 
-@auth_router.post("/token", response_model=Token)
+
+@auth_router.post("/token")
 async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends()):
     user = await repository.authenticate_user(form_data.username, form_data.password)
     if user is None:
@@ -51,7 +57,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
             detail="Incorrect email or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    return create_user_token(user)
+    return {"access_token": create_user_token(user)}
 
 
 @auth_router.post("/register", response_model=User)
@@ -76,6 +82,7 @@ async def auth_init():
             status_code=500, detail="An error occurred while initial"
         ) from e
 
+
 @auth_router.get("/callback/google")
 async def auth_callback(request: Request):
     with google_sso:
@@ -97,7 +104,9 @@ async def auth_callback(request: Request):
         existing_user = await repository.get_by_username(username)
         if existing_user:
             access_token = create_user_token(existing_user)
-            frontend_redirect_url = f"http://localhost:8081/dashboard?token={access_token}"
+            frontend_redirect_url = (
+                f"http://localhost:8081/dashboard?token={access_token}"
+            )
             return RedirectResponse(url=frontend_redirect_url)
 
         new_user = await repository.create(user_create)
@@ -112,10 +121,11 @@ async def auth_init():
     with sso:
         return await sso.get_login_redirect()
 
+
 @auth_router.get("/callback/github")
 async def auth_callback(request: Request):
     with sso:
-        code = request.query_params.get('code')
+        code = request.query_params.get("code")
         if not code:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -133,7 +143,9 @@ async def auth_callback(request: Request):
         existing_user = await repository.get_by_github_id(github_user.id)
         if existing_user:
             access_token = create_user_token(existing_user)
-            frontend_redirect_url = f"http://localhost:8081/dashboard?token={access_token}"
+            frontend_redirect_url = (
+                f"http://localhost:8081/dashboard?token={access_token}"
+            )
             return RedirectResponse(url=frontend_redirect_url)
 
         new_user = await repository.create(user_create)
@@ -147,6 +159,7 @@ async def auth_callback(request: Request):
 async def auth_init():
     with spotify_sso:
         return await spotify_sso.get_login_redirect()
+
 
 @auth_router.get("/callback/spotify")
 async def auth_callback(request: Request):
@@ -162,7 +175,9 @@ async def auth_callback(request: Request):
         existing_user = await repository.get_by_spotify_id(spotify_user.id)
         if existing_user:
             access_token = create_user_token(existing_user)
-            frontend_redirect_url = f"http://localhost:8081/dashboard?token={access_token}"
+            frontend_redirect_url = (
+                f"http://localhost:8081/dashboard?token={access_token}"
+            )
             return RedirectResponse(url=frontend_redirect_url)
 
         new_user = await repository.create(user_create)

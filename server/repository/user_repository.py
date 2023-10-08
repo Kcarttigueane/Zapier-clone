@@ -14,6 +14,7 @@ import jwt
 def encrypt_token(data: dict):
     return jwt.encode(data.copy(), SECRET_KEY, algorithm=ALGORITHM)
 
+
 class UserRepository:
     @property
     def collection(self):
@@ -31,7 +32,6 @@ class UserRepository:
         return [User(**user) for user in await self.collection.find().to_list(1000)]
 
     async def update(self, user_id: PyObjectId, user: UserCreate) -> User:
-        print(f"Update User {user.dict()}")
         await self.collection.replace_one({"_id": user_id}, user.dict())
         return User(**await self.collection.find_one({"_id": user_id}))
 
@@ -68,12 +68,14 @@ class UserRepository:
     async def get_by_spotify_id(self, spotify_id: str) -> User:
         user_data = await self.collection.find_one({"spotify_id": spotify_id})
         return None if user_data is None else User(**user_data)
-    
+
     async def get_by_google_id(self, id: str) -> User:
         user_data = await self.collection.find_one({"google_id": id})
         return None if user_data is None else User(**user_data)
 
-    async def update_service_access_token(self, user_id: PyObjectId, token: AuthToken, service: str) -> AuthToken:
+    async def update_service_access_token(
+        self, user_id: PyObjectId, token: AuthToken, service: str
+    ) -> AuthToken:
         user = await self.collection.find_one({"_id": user_id})
         token.token = encrypt_token({"token": token.token})
         token.refresh_token = encrypt_token({"refresh_token": token.refresh_token})

@@ -26,7 +26,7 @@ type LoginResponse = {
 
 export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 	return {
-		isAuthenticated: false,
+		isAuthenticated: true,
 		setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 		loginFn: async (email, password) => {
 			const userToken: LoginResponse = await fetch(`${BASE_URL}/auth/token`, {
