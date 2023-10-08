@@ -1,14 +1,14 @@
 from typing import List
 
+import jwt
 from fastapi import HTTPException, status
 
-from config.database import get_database
 from config.constants import ALGORITHM, SECRET_KEY
+from config.database import get_database
+from models.auth_token import AuthToken
 from models.py_object_id import PyObjectId
 from models.user import User, UserCreate
-from models.auth_token import AuthToken
 from utils.password_utils import get_password_hash, verify_password
-import jwt
 
 
 def encrypt_token(data: dict):
@@ -41,7 +41,7 @@ class UserRepository:
     async def create(self, user: UserCreate) -> User:
         user_dict = user.dict()
         try:
-            if user.password != None:
+            if user.password is not None:
                 user_dict["password"] = get_password_hash(user_dict["password"])
         except TypeError:
             pass

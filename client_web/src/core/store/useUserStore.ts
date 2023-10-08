@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { UserModel } from '../models/user';
 
-const BASE_URL = 'http://127.0.0.1:8080/api';
+const BASE_URL = 'http://127.0.0.1:8000/api';
 
 type UserState = {
 	user: UserModel | null;
@@ -15,7 +15,7 @@ type UserActions = {
 	deleteUser: (userId: number) => Promise<void>;
 };
 
-const useUserStore = create<UserState & UserActions>()((set, _) => ({
+const useUserStore = create<UserState & UserActions>()((set) => ({
 	user: null,
 	setUser: (user) => set(() => ({ user })),
 	clearUser: () => set(() => ({ user: null })),
@@ -27,13 +27,9 @@ const useUserStore = create<UserState & UserActions>()((set, _) => ({
 					'Content-Type': 'application/json',
 					Authorization: `Bearer ${accessToken}`,
 				},
-			});
+			}).then((res) => res.json());
 
-			if (!response.ok) {
-				throw new Error('Failed to fetch current user');
-			}
-
-			const user: UserModel = await response.json();
+			const user: UserModel = response;
 
 			set({ user });
 		} catch (error) {

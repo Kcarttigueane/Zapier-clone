@@ -2,10 +2,11 @@ import { create } from 'zustand';
 import { UserModel } from '../models/user';
 import useUserStore from './useUserStore';
 
-const BASE_URL = 'http://127.0.0.1:8080/api';
+const BASE_URL = 'http://0.0.0.0:8080/api';
 
 type AuthState = {
 	isAuthenticated: boolean;
+	error?: string;
 };
 
 type AuthActions = {
@@ -14,27 +15,32 @@ type AuthActions = {
 	loginFn: (email: string, password: string) => Promise<void>;
 	registerFn: (username: string, email: string, password: string) => Promise<UserModel>;
 	logoutFn: () => void;
-	loginWithGoogle: () => Promise<void>;
-	loginWithSpotify: () => Promise<void>;
-	loginWithGitHub: () => Promise<void>;
+	loginWithGoogle: () => void;
+	loginWithSpotify: () => void;
+	loginWithGitHub: () => void;
 };
 
-type LoginResponse = {
-	access_token: string;
-	token_type: string;
+const initialState: AuthState = {
+	isAuthenticated: false,
+	error: undefined,
 };
 
 export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 	return {
-		isAuthenticated: true,
+		...initialState,
 		setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 		loginFn: async (email, password) => {
-			const userToken: LoginResponse = await fetch(`${BASE_URL}/auth/token`, {
+			const formData = new FormData();
+			formData.append('username', email);
+			formData.append('password', password);
+
+			const response = await fetch(`${BASE_URL}/auth/token`, {
 				method: 'POST',
-				body: JSON.stringify({ email, password }),
+				body: formData,
 			}).then((res) => res.json());
-			if (userToken) {
-				useUserStore.getState().fetchCurrentUser(userToken.access_token);
+
+			if (response) {
+				set({ isAuthenticated: true });
 			}
 		},
 		registerFn: async (username, email, password) => {
@@ -61,18 +67,17 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 				throw error;
 			}
 		},
-
 		logoutFn: () => {
 			set({ isAuthenticated: false });
 			useUserStore.getState().clearUser();
 		},
-		loginWithGoogle: async () => {
+		loginWithGoogle: () => {
 			window.location.href = `${BASE_URL}/auth/google`;
 		},
-		loginWithSpotify: async () => {
+		loginWithSpotify: () => {
 			window.location.href = `${BASE_URL}/auth/spotify`;
 		},
-		loginWithGitHub: async () => {
+		loginWithGitHub: () => {
 			window.location.href = `${BASE_URL}/auth/github`;
 		},
 	};

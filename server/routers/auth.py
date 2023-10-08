@@ -117,13 +117,13 @@ async def auth_callback(request: Request):
 
 
 @auth_router.get("/github")
-async def auth_init():
+async def github_auth_init():
     with sso:
         return await sso.get_login_redirect()
 
 
 @auth_router.get("/callback/github")
-async def auth_callback(request: Request):
+async def github_auth_callback(request: Request):
     with sso:
         code = request.query_params.get("code")
         if not code:
@@ -156,13 +156,13 @@ async def auth_callback(request: Request):
 
 
 @auth_router.get("/spotify")
-async def auth_init():
+async def spotify_auth_init():
     with spotify_sso:
         return await spotify_sso.get_login_redirect()
 
 
 @auth_router.get("/callback/spotify")
-async def auth_callback(request: Request):
+async def spotify_auth_callback(request: Request):
     with spotify_sso:
         spotify_user = await spotify_sso.verify_and_process(request)
 
