@@ -1,19 +1,27 @@
+import { Button, ButtonText, VStack } from '@gluestack-ui/themed';
 import React from 'react';
-import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
-const ReactionButton = ({ message }: { message: string }) => {
-  const handleClickTrigger = () => {
+const TriggerButton = ({ message }: { message: string }) => {
+  const handleClickAction = () => {
     console.log('click on button with trigger or reaction : ' + message);
   };
 
   return (
-    <TouchableOpacity style={styles.buttonTrigger} onPress={handleClickTrigger}>
-      <Text style={{ color: 'black', fontFamily: 'Inter', fontSize: 16, fontWeight: '700' }}>{message}</Text>
-    </TouchableOpacity>
+    <Button
+      size="md"
+      variant="outline"
+      action="secondary"
+      isDisabled={false}
+      isFocusVisible={false}
+      style={{ width: '90%', height: 50, borderRadius: 30, borderWidth: 2 }}
+      onPress={handleClickAction}>
+      <ButtonText>{message} </ButtonText>
+    </Button>
   );
 };
 
-const ReactionZap = ({ url }: { url: any }) => {
+const TriggerZap = ({ url }: { url: any }) => {
   return (
     <View style={{ alignItems: 'center' }}>
       <View style={styles.card}>
@@ -24,7 +32,7 @@ const ReactionZap = ({ url }: { url: any }) => {
             color: 'black',
             fontWeight: 'bold',
           }}>
-          Choose a Reaction
+          Choose a Trigger
         </Text>
         <View style={{ width: 100, height: 90 }}>
           <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={url} resizeMode="cover" />
@@ -34,8 +42,10 @@ const ReactionZap = ({ url }: { url: any }) => {
           sed blandit libero
         </Text>
       </View>
-      <ReactionButton message="Post a message to a channel" />
-      <ReactionButton message="Post a message to a channel" />
+      <VStack space="lg" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
+        <TriggerButton message="New comment on tweet" />
+        <TriggerButton message="New like on tweet" />
+      </VStack>
     </View>
   );
 };
@@ -65,4 +75,4 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 });
-export default ReactionZap;
+export default TriggerZap;

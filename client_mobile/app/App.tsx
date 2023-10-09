@@ -4,12 +4,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useState } from 'react';
 import CustomBottomTabBar from './core/components/CustomBottomNavBar';
 import './core/i18n/i18next';
+import ActivityStackRouting from './core/routes/ActivityStackRouting';
 import AuthStackRouting from './core/routes/AuthStackRouting';
 import HomeStackRouting from './core/routes/HomeStackRouting';
 import ServicesStackRouting from './core/routes/ServicesStackRouting';
 import SettingsStackRouting from './core/routes/SettingsStackRouting';
 import ZapStackRouting from './core/routes/ZapStackRouting';
-import CreateZapScreen from './features/zap/presentation/screen/CreateZapScreen';
 
 export type RootStackParamList = {
   // ! Demo
@@ -49,8 +49,8 @@ const App = () => {
         {isLoggedIn ? (
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
             <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />
-            <Tab.Screen name="Activity" component={ZapStackRouting} options={{ headerShown: false }} />
-            <Tab.Screen name="Zap" component={CreateZapScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Activity" component={ActivityStackRouting} options={{ headerShown: false }} />
+            <Tab.Screen name="Zap" component={ZapStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Services" component={ServicesStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Settings" component={SettingsStackRouting} options={{ headerShown: false }} />
           </Tab.Navigator>
