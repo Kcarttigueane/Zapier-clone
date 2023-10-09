@@ -24,6 +24,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 @app.on_event("startup")
 async def startup_event():
     await connect_to_mongo()
@@ -34,14 +35,14 @@ async def shutdown_event():
     await close_mongo_connection()
 
 
-
 @app.get("/")
 async def root():
     return {"message": "Hello World!"}
 
+
 app.include_router(auth_router, prefix="/api")
 app.include_router(users_router, prefix="/api")
 app.include_router(services_router_spotify, prefix="/api")
-app.include_router(services_router_google, prefix='/api')
-app.include_router(services_router_discord, prefix='/api')
-app.include_router(automation_router, prefix='/api')
+app.include_router(services_router_google, prefix="/api")
+app.include_router(services_router_discord, prefix="/api")
+app.include_router(automation_router, prefix="/api")

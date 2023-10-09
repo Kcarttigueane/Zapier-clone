@@ -1,10 +1,6 @@
-from fastapi import FastAPI
-from pydantic import BaseModel, EmailStr, Field
-from typing import Optional, List
+from typing import List, Optional
 
-from models.db_model_mixin import DbModelMixin
-from models.py_object_id import PyObjectId
-
+from pydantic import BaseModel, Field
 
 
 class AuthToken(BaseModel):
@@ -12,6 +8,7 @@ class AuthToken(BaseModel):
     refresh_token: Optional[str] = Field(None)
     scopes: Optional[List[str]] = Field(None)
     expires_in: Optional[int] = Field(None)
+
 
 class TokenManager(BaseModel):
     google_drive_token: Optional[AuthToken] = Field(None)

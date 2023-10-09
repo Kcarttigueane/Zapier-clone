@@ -1,10 +1,14 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status
 
 from models.py_object_id import PyObjectId
 from models.user import User, UserCreate
-from services.auth_service import get_current_user, check_access_token, raise_unauthorized_exception
+from services.auth_service import (
+    check_access_token,
+    get_current_user,
+    raise_unauthorized_exception,
+)
 from services.user_service import UserService
 
 users_router = APIRouter(prefix="/users", tags=["User"])
@@ -29,8 +33,7 @@ async def get_me(current_user: User = Depends(get_current_user)):
     summary="Create a new user",
 )
 async def create_user(
-    user: UserCreate,
-    is_authorized: bool = Depends(check_access_token)
+    user: UserCreate, is_authorized: bool = Depends(check_access_token)
 ):
     if not is_authorized:
         raise_unauthorized_exception()
@@ -43,9 +46,7 @@ async def create_user(
     status_code=status.HTTP_200_OK,
     summary="List all users",
 )
-async def list_users(
-    is_authorized: bool = Depends(check_access_token)
-):
+async def list_users(is_authorized: bool = Depends(check_access_token)):
     if not is_authorized:
         raise_unauthorized_exception()
     return await service.get_users()
@@ -58,8 +59,7 @@ async def list_users(
     summary="Get a single user",
 )
 async def get_user(
-    user_id: PyObjectId,
-    is_authorized: bool = Depends(check_access_token)
+    user_id: PyObjectId, is_authorized: bool = Depends(check_access_token)
 ):
     if not is_authorized:
         raise_unauthorized_exception()
@@ -75,7 +75,7 @@ async def get_user(
 async def update_user(
     user_id: PyObjectId,
     user: UserCreate,
-    is_authorized: bool = Depends(check_access_token)
+    is_authorized: bool = Depends(check_access_token),
 ):
     if not is_authorized:
         raise_unauthorized_exception()
@@ -89,8 +89,7 @@ async def update_user(
     summary="Delete a user",
 )
 async def delete_user(
-    user_id: PyObjectId,
-    is_authorized: bool = Depends(check_access_token)
+    user_id: PyObjectId, is_authorized: bool = Depends(check_access_token)
 ):
     if not is_authorized:
         raise_unauthorized_exception()
