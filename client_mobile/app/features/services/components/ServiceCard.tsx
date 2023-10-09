@@ -8,16 +8,11 @@ type ServiceCardProps = {
 };
 
 const ServiceCard: FC<ServiceCardProps> = ({ item: { title, logo }, navigation }) => {
-  console.log('title', title);
-
-  const handleDetails = () => {
-    console.log('clicked with ' + title);
-    navigation.navigate('ServiceDetailScreen', { title });
-  };
+  const handleDetails = () => navigation.navigate('ServiceDetailScreen', { title });
 
   return (
     <TouchableOpacity onPress={handleDetails} style={styles.cards}>
-      <Image style={{ width: '60%', height: '50%' }} source={logo} />
+      <Image style={{ width: '60%', height: '50%' }} source={logo} alt={title} />
       <Text style={{ fontSize: 16, color: 'black', fontWeight: '800', marginTop: 20 }}>{title}</Text>
     </TouchableOpacity>
   );

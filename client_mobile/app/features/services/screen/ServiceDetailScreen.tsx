@@ -1,11 +1,14 @@
 import { Button, ButtonText, ScrollView } from '@gluestack-ui/themed';
-import { useRoute } from '@react-navigation/native';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { RootStackParamList } from '../../../App';
 import ServiceAutomationCard from '../components/ServiceAutomationCard';
 
+type ServiceDetailRouteProp = RouteProp<RootStackParamList, 'ServiceDetailScreen'>;
+
 const ServiceDetailScreen = () => {
-  const route: any = useRoute();
+  const route = useRoute<ServiceDetailRouteProp>();
   const { title } = route.params;
 
   return (

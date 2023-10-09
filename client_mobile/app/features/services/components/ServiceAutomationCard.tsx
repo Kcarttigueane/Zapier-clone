@@ -66,7 +66,12 @@ const ServiceAutomationCard = ({
             borderColor: '#E8E7E4',
             borderWidth: 2,
           }}>
-          <Image style={{ width: '100%', height: '100%' }} resizeMode="cover" source={serviceImages[service2]} />
+          <Image
+            style={{ width: '100%', height: '100%' }}
+            resizeMode="cover"
+            source={serviceImages[service2]}
+            alt="Service Logo"
+          />
         </View>
       </View>
       <Text style={{ textAlign: 'center', marginBottom: 20, fontSize: 16, fontWeight: 'bold', color: 'black' }}>
