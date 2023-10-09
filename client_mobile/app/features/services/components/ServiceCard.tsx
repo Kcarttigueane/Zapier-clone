@@ -2,8 +2,10 @@ import React, { FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { ServicesScreenNavigationProp } from '../screen/ServicesScreen';
 
+type ImageRequireType = ReturnType<typeof require>;
+
 type ServiceCardProps = {
-  item: { title: string; logo: any };
+  item: { title: string; logo: ImageRequireType };
   navigation: ServicesScreenNavigationProp;
 };
 
