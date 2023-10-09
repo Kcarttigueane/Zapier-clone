@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { RootStackParamList } from '../../App';
-import ActivityScreen from '../../features/activity/screen/ActivityScreen';
+import CreateZapScreen from '../../features/zap/screen/CreateZapScreen';
 
 const ZapScreensStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -13,7 +13,7 @@ const ZapStackRouting = () => {
           backgroundColor: 'white',
         },
       }}>
-      <ZapScreensStack.Screen name="CreateZapScreen" component={ActivityScreen} options={{ headerShown: false }} />
+      <ZapScreensStack.Screen name="CreateZapScreen" component={CreateZapScreen} options={{ headerShown: false }} />
     </ZapScreensStack.Navigator>
   );
 };
