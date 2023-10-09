@@ -6,11 +6,11 @@ const BASE_URL = 'http://0.0.0.0:8080/api';
 
 type AuthState = {
 	isAuthenticated: boolean;
+	accessToken?: string;
 	error?: string;
 };
 
 type AuthActions = {
-	isAuthenticated: boolean;
 	setIsAuthenticated: (isAuthenticated: boolean) => void;
 	loginFn: (email: string, password: string) => Promise<void>;
 	registerFn: (username: string, email: string, password: string) => Promise<UserModel>;
@@ -22,6 +22,7 @@ type AuthActions = {
 
 const initialState: AuthState = {
 	isAuthenticated: false,
+	accessToken: undefined,
 	error: undefined,
 };
 
@@ -41,6 +42,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 
 			if (response) {
 				set({ isAuthenticated: true });
+				localStorage.setItem('access_token', response.access_token);
 			}
 		},
 		registerFn: async (username, email, password) => {
@@ -60,6 +62,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 
 				const user: UserModel = await response.json();
 				useUserStore.getState().setUser(user);
+				useAuthStore.getState().loginFn(email, password);
 				set({ isAuthenticated: true });
 				return user;
 			} catch (error) {

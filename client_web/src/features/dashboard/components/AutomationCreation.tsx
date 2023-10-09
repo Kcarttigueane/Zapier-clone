@@ -2,6 +2,7 @@ import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Select, Typography } from 'antd';
 import { useState } from 'react';
 import Flex from '../../../core/components/Flex';
+import { useAutomationStore } from '../../../core/store/useAutomationStore';
 
 const { Text } = Typography;
 
@@ -112,6 +113,8 @@ const AutomationCreation = () => {
 	const [selectedService2, setSelectedService2] = useState<string | null>(null);
 	const [selectedTrigger, setSelectedTrigger] = useState<string | null>(null);
 	const [selectedReaction, setSelectedReaction] = useState<string | null>(null);
+
+	const { createAutomation } = useAutomationStore(state => state);
 
 	const onServiceChange1 = (value: string) => {
 		console.log(`selected ${value}`);
@@ -245,6 +248,7 @@ const AutomationCreation = () => {
 						fontSize: '20px',
 						fontWeight: 'bold',
 					}}
+					onClick={createAutomation}
 				>
 					Try It!
 				</Button>
