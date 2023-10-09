@@ -1,10 +1,10 @@
 import { Image, Text } from '@gluestack-ui/themed';
-import React from 'react';
+import React, { FC } from 'react';
 import { View } from 'react-native';
 
-interface ServiceImages {
-  [key: string]: any;
-}
+type ImageRequireType = ReturnType<typeof require>;
+
+interface ServiceImages extends Record<string, ImageRequireType> {}
 
 const serviceImages: ServiceImages = {
   Gmail: require('../../../core/assets/gmail.png'),
@@ -23,15 +23,13 @@ const serviceImages: ServiceImages = {
   Twitter: require('../../../core/assets/X.png'),
 };
 
-const ServiceAutomationCard = ({
-  service1,
-  service2,
-  message,
-}: {
-  service1: string;
-  service2: string;
+interface ServiceAutomationCardProps {
+  service1: keyof ServiceImages;
+  service2: keyof ServiceImages;
   message: string;
-}) => {
+}
+
+const ServiceAutomationCard: FC<ServiceAutomationCardProps> = ({ service1, service2, message }) => {
   return (
     <View
       style={{
@@ -54,7 +52,12 @@ const ServiceAutomationCard = ({
             borderColor: '#E8E7E4',
             borderWidth: 2,
           }}>
-          <Image style={{ width: '100%', height: '100%' }} resizeMode="cover" source={serviceImages[service1]} />
+          <Image
+            style={{ width: '100%', height: '100%' }}
+            resizeMode="cover"
+            source={serviceImages[service1]}
+            alt="Service Logo"
+          />
         </View>
         <View
           style={{
