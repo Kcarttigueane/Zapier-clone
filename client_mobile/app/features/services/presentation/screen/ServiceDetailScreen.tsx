@@ -1,6 +1,7 @@
 import { Button, ButtonText, ScrollView } from '@gluestack-ui/themed';
 import React from 'react';
 import { Text, View, Image, StyleSheet } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 
 const Cards = ({ service1, service2, message }: { service1: string; service2: string; message: string }) => {
   interface ServiceImages {
@@ -13,6 +14,7 @@ const Cards = ({ service1, service2, message }: { service1: string; service2: st
     Facebook: require('../../../../core/assets/facebook.png'),
     Spotify: require('../../../../core/assets/spotify.png'),
     Drive: require('../../../../core/assets/google_drive.png'),
+    Calendar: require('../../../../core/assets/google_calendar.png'),
     Apple: require('../../../../core/assets/apple.png'),
     Discord: require('../../../../core/assets/discord.png'),
     Reddit: require('../../../../core/assets/reddit.png'),
@@ -73,16 +75,19 @@ const Cards = ({ service1, service2, message }: { service1: string; service2: st
   );
 };
 
-const ServiceDetailScreen = ({ title }: { title: string }) => {
+const ServiceDetailScreen = () => {
+  const route: any = useRoute();
+  const title = route.params.title;
+
   return (
     <View>
       <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
         <Text style={{ fontSize: 22, fontWeight: 'bold', color: '#616161', textAlign: 'center', marginTop: 10 }}>
-          Title Service {title}
+          Service {title}
         </Text>
         <View style={styles.cardsContainer}>
           <Text style={{ fontSize: 22, color: 'white', fontWeight: 'bold', fontFamily: 'Inter' }}>
-            Title integrations
+            {title} integrations
           </Text>
           <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Inter', textAlign: 'center' }}>
             Whether you're part of a school club, gaming group, worldwide art community, or just a handful of friends
@@ -107,11 +112,11 @@ const ServiceDetailScreen = ({ title }: { title: string }) => {
             marginVertical: 50,
             fontWeight: 'bold',
           }}>
-          Popular Title workflows & automation
+          Popular {title} workflows & automation
         </Text>
-        <Cards service1="Gmail" service2="Facebook" message="Add new leads to an email list" />
-        <Cards service1="Discord" service2="Spotify" message="Share playlist on server" />
-        <Cards service1="Drive" service2="Weater" message="Add weather rapport on drive" />
+        <Cards service1={title} service2="Facebook" message="Add new leads to an email list" />
+        <Cards service1={title} service2="Spotify" message="Share playlist on server" />
+        <Cards service1={title} service2="Weater" message="Add weather rapport on drive" />
       </ScrollView>
     </View>
   );
