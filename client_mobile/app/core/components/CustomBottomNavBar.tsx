@@ -1,10 +1,10 @@
 import { AddIcon, GlobeIcon, GripVerticalIcon, Icon, MenuIcon, SettingsIcon } from '@gluestack-ui/themed';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const CustomBottomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, navigation }) => {
-  const getIcon = (routeName: string, color: string): any => {
+  const getIcon = (routeName: string, color: string): ReactNode => {
     switch (routeName) {
       case 'Home':
         return <Icon as={GlobeIcon} size="xl" style={{ color }} />;

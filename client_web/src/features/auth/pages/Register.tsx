@@ -48,10 +48,6 @@ const Register = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
-	const handleChange = (value: string) => {
-		console.log(`selected ${value}`);
-	};
-
 	const [selectedLanguage, setSelectedLanguage] = useState(
 		i18next.language === 'fr' ? 'fr' : i18next.language === 'en' ? 'en' : 'es',
 	);

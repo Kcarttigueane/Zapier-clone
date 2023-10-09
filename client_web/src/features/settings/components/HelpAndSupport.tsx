@@ -9,7 +9,6 @@ const containerStyle: React.CSSProperties = {
 };
 
 const HelpAndSupport = () => {
-
 	const { t } = useTranslation();
 	const onSelectChange = (value: string) => {
 		console.log(`selected ${value}`);

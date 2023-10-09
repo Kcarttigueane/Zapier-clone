@@ -1,18 +1,19 @@
 from typing import List
 
+import jwt
 from fastapi import HTTPException, status
 
-from config.database import get_database
 from config.constants import ALGORITHM, SECRET_KEY
+from config.database import get_database
+from models.auth_token import AuthToken
 from models.py_object_id import PyObjectId
 from models.user import User, UserCreate
-from models.auth_token import AuthToken
 from utils.password_utils import get_password_hash, verify_password
-import jwt
 
 
 def encrypt_token(data: dict):
     return jwt.encode(data.copy(), SECRET_KEY, algorithm=ALGORITHM)
+
 
 class UserRepository:
     @property
@@ -40,7 +41,7 @@ class UserRepository:
     async def create(self, user: UserCreate) -> User:
         user_dict = user.dict()
         try:
-            if user.password != None:
+            if user.password is not None:
                 user_dict["password"] = get_password_hash(user_dict["password"])
         except TypeError:
             pass
@@ -67,12 +68,14 @@ class UserRepository:
     async def get_by_spotify_id(self, spotify_id: str) -> User:
         user_data = await self.collection.find_one({"spotify_id": spotify_id})
         return None if user_data is None else User(**user_data)
-    
+
     async def get_by_google_id(self, id: str) -> User:
         user_data = await self.collection.find_one({"google_id": id})
         return None if user_data is None else User(**user_data)
 
-    async def update_service_access_token(self, user_id: PyObjectId, token: AuthToken, service: str) -> AuthToken:
+    async def update_service_access_token(
+        self, user_id: PyObjectId, token: AuthToken, service: str
+    ) -> AuthToken:
         user = await self.collection.find_one({"_id": user_id})
         token.token = encrypt_token({"token": token.token})
         token.refresh_token = encrypt_token({"refresh_token": token.refresh_token})

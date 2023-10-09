@@ -1,7 +1,7 @@
 import { Space } from 'antd';
 import React from 'react';
-import ConnectedServiceItem from './ConnectedServiceItem';
 import { useTranslation } from 'react-i18next';
+import ConnectedServiceItem from './ConnectedServiceItem';
 
 const containerStyle: React.CSSProperties = {
 	border: '1px solid #d9d9d9',
@@ -20,6 +20,7 @@ const labelStyle: React.CSSProperties = {
 
 const ConnectedServices = () => {
 	const { t } = useTranslation();
+
 	return (
 		<Space direction="vertical" size={12} style={containerStyle}>
 			<div style={labelStyle}>{t('settings.settingScreen.connectedServices.description')}</div>

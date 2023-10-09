@@ -69,7 +69,6 @@ const automationKeyStyle: React.CSSProperties = {
 const guideStyle: React.CSSProperties = {
 	width: '100%',
 	backgroundColor: '#EEEEEE',
-	height: '600px',
 	boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.4)',
 	borderRadius: '20px',
 	display: 'flex',
@@ -179,8 +178,8 @@ const Landing: React.FC = () => {
 					</Flex>
 					<div style={guideStyle}>
 						<Card
-							style={{ width: 500, borderRadius: '20px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}
-							cover={<Image src={WorkflowLogo} alt="Workflow" width={500} style={{ padding: 24 }} preview={false} />}
+							style={{ width: '30%', borderRadius: '20px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}
+							cover={<Image src={WorkflowLogo} alt="Workflow" width="100%" style={{ padding: 24 }} preview={false} />}
 						>
 							<Meta
 								style={{ textAlign: 'center' }}
@@ -189,8 +188,8 @@ const Landing: React.FC = () => {
 							/>
 						</Card>
 						<Card
-							style={{ width: 500, borderRadius: '20px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}
-							cover={<Image src={TriggerAction} alt="Workflow" width={500} style={{ padding: 24 }} preview={false} />}
+							style={{ width: '30%', borderRadius: '20px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}
+							cover={<Image src={TriggerAction} alt="Workflow" width="100%" style={{ padding: 24 }} preview={false} />}
 						>
 							<Meta
 								style={{ textAlign: 'center' }}
@@ -199,8 +198,8 @@ const Landing: React.FC = () => {
 							/>
 						</Card>
 						<Card
-							style={{ width: 500, borderRadius: '20px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}
-							cover={<Image src={ConnectApps} alt="Workflow" width={500} style={{ padding: 24 }} preview={false} />}
+							style={{ width: '30%', borderRadius: '20px', boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px' }}
+							cover={<Image src={ConnectApps} alt="Workflow" width="100%" style={{ padding: 24 }} preview={false} />}
 						>
 							<Meta
 								style={{ textAlign: 'center' }}

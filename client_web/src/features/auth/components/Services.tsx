@@ -1,9 +1,10 @@
 import { Image, Space } from 'antd';
 import React from 'react';
 
-import Facebook from '../../../core/assets/logo2D/Facebook.png';
+import Github from '../../../core/assets/logo2D/github.png';
 import Google from '../../../core/assets/logo2D/Google.png';
 import Spotify from '../../../core/assets/logo2D/Spotify.png';
+import { useAuthStore } from '../../../core/store/useAuthStore';
 
 const imageStyle: React.CSSProperties = {
 	borderRadius: '12px',
@@ -13,16 +14,18 @@ const imageStyle: React.CSSProperties = {
 };
 
 const Services: React.FC = () => {
+	const { loginWithGoogle, loginWithSpotify, loginWithGitHub } = useAuthStore();
+
 	return (
 		<Space size={40} style={{ display: 'flex', justifyContent: 'center' }}>
-			<Space style={imageStyle}>
+			<Space style={imageStyle} onClick={() => loginWithSpotify()}>
 				<Image width={40} src={Spotify} preview={false} />
 			</Space>
-			<Space style={imageStyle}>
+			<Space style={imageStyle} onClick={() => loginWithGoogle()}>
 				<Image width={40} src={Google} preview={false} />
 			</Space>
-			<Space style={imageStyle}>
-				<Image width={40} src={Facebook} preview={false} />
+			<Space style={imageStyle} onClick={() => loginWithGitHub()}>
+				<Image width={40} src={Github} preview={false} />
 			</Space>
 		</Space>
 	);

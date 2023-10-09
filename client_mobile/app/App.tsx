@@ -12,6 +12,8 @@ import ZapStackRouting from './core/routes/ZapStackRouting';
 import CreateZapScreen from './features/zap/presentation/screen/CreateZapScreen';
 
 export type RootStackParamList = {
+  // ! Demo
+  Demo: undefined;
   // ! Auth:
   Login: undefined;
   Register: undefined;
@@ -24,7 +26,9 @@ export type RootStackParamList = {
   CreateZapScreen: undefined;
   // ! Services:
   ServicesScreen: undefined;
-  ServiceDetailScreen: undefined;
+  ServiceDetailScreen: {
+    title: string;
+  };
   // ! Settings:
   SettingsScreen: undefined;
   AppearanceScreen: undefined;
@@ -44,10 +48,10 @@ const App = () => {
       <NavigationContainer>
         {isLoggedIn ? (
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
-            <Tab.Screen name="Home" component={HomeStackRouting} />
-            <Tab.Screen name="Activity" component={ZapStackRouting} />
-            <Tab.Screen name="Zap" component={CreateZapScreen} />
-            <Tab.Screen name="Services" component={ServicesStackRouting} />
+            <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />
+            <Tab.Screen name="Activity" component={ZapStackRouting} options={{ headerShown: false }} />
+            <Tab.Screen name="Zap" component={CreateZapScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Services" component={ServicesStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Settings" component={SettingsStackRouting} options={{ headerShown: false }} />
           </Tab.Navigator>
         ) : (
