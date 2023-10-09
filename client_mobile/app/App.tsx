@@ -26,7 +26,9 @@ export type RootStackParamList = {
   CreateZapScreen: undefined;
   // ! Services:
   ServicesScreen: undefined;
-  ServiceDetailScreen: undefined;
+  ServiceDetailScreen: {
+    title: string;
+  };
   // ! Settings:
   SettingsScreen: undefined;
   AppearanceScreen: undefined;
@@ -39,7 +41,7 @@ export type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   return (
     <GluestackUIProvider config={config.theme}>
@@ -48,8 +50,8 @@ const App = () => {
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
             <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Activity" component={ZapStackRouting} options={{ headerShown: false }} />
-            <Tab.Screen name="Zap" component={CreateZapScreen} />
-            <Tab.Screen name="Services" component={ServicesStackRouting} />
+            <Tab.Screen name="Zap" component={CreateZapScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Services" component={ServicesStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Settings" component={SettingsStackRouting} options={{ headerShown: false }} />
           </Tab.Navigator>
         ) : (

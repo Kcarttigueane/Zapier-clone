@@ -8,12 +8,17 @@ const ServicesScreensStack = createNativeStackNavigator<RootStackParamList>();
 
 const ServicesStackRouting = () => {
   return (
-    <ServicesScreensStack.Navigator>
+    <ServicesScreensStack.Navigator
+      screenOptions={{
+        contentStyle: {
+          backgroundColor: 'white',
+        },
+      }}>
       <ServicesScreensStack.Screen name="ServicesScreen" component={ServicesScreen} options={{ headerShown: false }} />
       <ServicesScreensStack.Screen
         name="ServiceDetailScreen"
         component={ServiceDetailScreen}
-        options={{ headerShown: false }}
+        options={{ headerShown: true }}
       />
     </ServicesScreensStack.Navigator>
   );
