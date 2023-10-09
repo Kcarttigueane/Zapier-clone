@@ -18,6 +18,9 @@ type AuthActions = {
 	loginWithGoogle: () => void;
 	loginWithSpotify: () => void;
 	loginWithGitHub: () => void;
+	authorizeGoogleService: (service: string) => void; 
+	authorizeSpotifyService: () => void; 
+	authorizeDiscordService: () => void;
 };
 
 const initialState: AuthState = {
@@ -82,6 +85,18 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 		},
 		loginWithGitHub: () => {
 			window.location.href = `${BASE_URL}/auth/github`;
+		},
+		authorizeGoogleService: (service: string) => {
+			const userToken = localStorage.getItem('access_token');
+			window.location.href = `${BASE_URL}/services/google/${service}?token=${userToken}`
+		},
+		authorizeSpotifyService: () => {
+			const userToken = localStorage.getItem('access_token');
+			window.location.href = `${BASE_URL}/services/spotify?token=${userToken}`
+		},
+		authorizeDiscordService: () => {
+			const userToken = localStorage.getItem('access_token');
+			window.location.href = `${BASE_URL}/services/discord?token=${userToken}`
 		},
 	};
 });
