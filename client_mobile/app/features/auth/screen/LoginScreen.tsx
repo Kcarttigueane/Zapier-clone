@@ -44,11 +44,11 @@ import i18next from 'i18next';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, SafeAreaView, StyleSheet } from 'react-native';
-import { RootStackParamList } from '../../../../App';
-import { validationSchema } from '../../utils/formValidation';
-import { languageSelectionValues } from '../../utils/languageSelection';
+import { RootStackParamList } from '../../../App';
+import { validationSchema } from '../utils/formValidation';
+import { languageSelectionValues } from '../utils/languageSelection';
 
-const IMAGE_PATH = '../../../../core/assets';
+const IMAGE_PATH = '../../../core/assets';
 
 const socialButtonLogo = [
   {
@@ -65,19 +65,19 @@ const socialButtonLogo = [
   },
 ];
 
-interface RegisterDTO {
+type LoginScreenRouteProp = RouteProp<RootStackParamList, 'Login'>;
+type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
+type LoginScreenProps = {
+  route: LoginScreenRouteProp;
+  navigation: LoginScreenNavigationProp;
+};
+
+interface LoginDTO {
   email: string;
   password: string;
 }
 
-type RegisterScreenRouteProp = RouteProp<RootStackParamList, 'Register'>;
-type RegisterScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Register'>;
-type RegisterScreenProps = {
-  route: RegisterScreenRouteProp;
-  navigation: RegisterScreenNavigationProp;
-};
-
-const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
+const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const { t } = useTranslation();
   const { language } = i18next;
   const [languageSelected, setLanguageSelected] = useState(
@@ -91,7 +91,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
     });
   };
 
-  const onSubmit = async (values: RegisterDTO) => {
+  const onSubmit = async (values: LoginDTO) => {
     console.log(values);
   };
 
@@ -135,8 +135,8 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
         </Select>
       </HStack>
       <VStack justifyContent="center" space="lg" alignItems="center">
-        <Text style={styles.title}>{t('auth.register.title')}</Text>
-        <Text style={styles.subTitle}>{t('auth.register.welcome')}</Text>
+        <Text style={styles.title}>{t('auth.login.title')}</Text>
+        <Text style={styles.subTitle}>{t('auth.login.welcome')}</Text>
         <HStack justifyContent="center" alignItems="center" gap={48} mt="$3">
           {socialButtonLogo.map((item, index) => {
             return (
@@ -203,25 +203,30 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                       <FormControlErrorText>{errors.password}</FormControlErrorText>
                     </FormControlError>
                   )}
+                  <Link alignSelf="flex-end" onPress={() => navigation.navigate('ForgotPassword')}>
+                    <LinkText color="#2F4EFF" fontWeight="bold" fontSize={14}>
+                      {t('auth.passwordForgotten')}
+                    </LinkText>
+                  </Link>
                 </VStack>
                 <Checkbox size="md" isInvalid={false} isDisabled={false} value="off" aria-label="Keep me signed in">
                   <CheckboxIndicator mr="$2" aria-label="Keep me signed in">
                     <CheckboxIcon as={CheckIcon} />
                   </CheckboxIndicator>
-                  <CheckboxLabel fontSize={14}>{t('auth.terms')}</CheckboxLabel>
+                  <CheckboxLabel>{t('basic.fields.keepMeLoggedIn')}</CheckboxLabel>
                 </Checkbox>
                 <Button height={48} borderRadius={25} backgroundColor="#2F4EFF" onPress={() => handleSubmit()}>
-                  <ButtonText color="$white">{t('auth.register.title')}</ButtonText>
+                  <ButtonText color="$white">{t('auth.login.title')}</ButtonText>
                 </Button>
               </VStack>
             </FormControl>
           )}
         </Formik>
         <HStack space="sm" justifyContent="center" alignItems="center">
-          <Text fontSize={16}>{t('auth.haveAccount')}</Text>
-          <Link justifyContent="center" alignItems="center" onPress={() => navigation.navigate('Login')}>
+          <Text fontSize={16}>{t('auth.noAccount')}</Text>
+          <Link justifyContent="center" alignItems="center" onPress={() => navigation.navigate('Register')}>
             <LinkText color="#2F4EFF" fontWeight="bold" fontSize={16}>
-              {t('auth.login.title')}
+              {t('auth.register.title')}
             </LinkText>
           </Link>
         </HStack>
@@ -230,7 +235,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   );
 };
 
-export default RegisterScreen;
+export default LoginScreen;
 
 const styles = StyleSheet.create({
   container: {

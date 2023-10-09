@@ -1,15 +1,15 @@
 import logging
 from datetime import datetime, timedelta, timezone
 
+import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-import jwt
 from pydantic import BaseModel
-from models.user import User, UserCreate
 
-from config.constants import ALGORITHM, SECRET_KEY, ACCESS_TOKEN_EXPIRE_MINUTES
-from repository.user_repository import UserRepository
+from config.constants import ACCESS_TOKEN_EXPIRE_MINUTES, ALGORITHM, SECRET_KEY
 from models.auth_token import AuthToken
+from models.user import User
+from repository.user_repository import UserRepository
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/auth/token")
 
@@ -22,6 +22,7 @@ class Token(BaseModel):
 class TokenData(BaseModel):
     email: str = None
 
+
 def decrypt_token(token_obj: AuthToken) -> AuthToken:
     payload = jwt.decode(token_obj.token, SECRET_KEY, algorithms=[ALGORITHM])
     token = payload.get("token")
@@ -29,8 +30,10 @@ def decrypt_token(token_obj: AuthToken) -> AuthToken:
     refresh_token = payload.get("refresh_token")
     return token, refresh_token
 
+
 def encrypt_token(data: dict):
     return jwt.encode(data.copy(), SECRET_KEY, algorithm=ALGORITHM)
+
 
 def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode = data.copy()
@@ -58,9 +61,7 @@ async def check_access_token(token: str = Depends(oauth2_scheme)):
     except jwt.PyJWTError as e:
         raise credentials_exception from e
     user = await UserRepository().get_by_email(token_data.email)
-    if user:
-        return True
-    return False
+    return bool(user)
 
 
 async def get_current_user(token: str = Depends(oauth2_scheme)):
@@ -91,9 +92,9 @@ def raise_unauthorized_exception(detail="Unauthorized"):
         detail=detail,
     )
 
+
 def create_user_token(user: User):
     access_token_expires = timedelta(minutes=float(ACCESS_TOKEN_EXPIRE_MINUTES))
-    access_token = create_access_token(
+    return create_access_token(
         data={"sub": user.email}, expires_delta=access_token_expires
     )
-    return access_token

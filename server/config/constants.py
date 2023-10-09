@@ -19,9 +19,4 @@ DISCORD_CLIENT_SECRET = config["DISCORD_CLIENT_SECRET"]
 
 POLLED_TIME = 1
 
-action_dict_format = {
-    "head": '',
-    "body": '',
-    "tail": '',
-    'last_checked': None
-}
+action_dict_format = {"head": "", "body": "", "tail": "", "last_checked": None}

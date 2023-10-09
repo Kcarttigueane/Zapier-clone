@@ -6,7 +6,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView, SectionList, StyleSheet, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import { RootStackParamList } from '../../../../App';
+import { RootStackParamList } from '../../../App';
 import TabItem from '../components/TabItem';
 
 type SettingsScreenRouteProp = RouteProp<RootStackParamList, 'SettingsScreen'>;

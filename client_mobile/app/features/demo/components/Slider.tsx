@@ -1,11 +1,21 @@
+import { RouteProp } from '@react-navigation/native';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useRef, useState } from 'react';
 import { Animated, FlatList, NativeScrollEvent, NativeSyntheticEvent, StyleSheet, View } from 'react-native';
-import Slides from '../../data/demo';
+import { RootStackParamList } from '../../../App';
+import Slides from '../data/demo';
 import NextButton from './NextButton';
 import Pagination from './Pagination';
 import SlideItem from './SlideItem';
 
-const Slider = () => {
+type DemoRouteProp = RouteProp<RootStackParamList, 'Demo'>;
+type DemoNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Demo'>;
+type DemoProps = {
+  route: DemoRouteProp;
+  navigation: DemoNavigationProp;
+};
+
+const Slider = ({ navigation }: DemoProps) => {
   const [index, setIndex] = useState(0);
   const scrollX = useRef(new Animated.Value(0)).current;
 
@@ -33,7 +43,7 @@ const Slider = () => {
     if (index < Slides.length - 1) {
       slideRef.current?.scrollToIndex({ index: index + 1 });
     } else {
-      console.log('End of the slides');
+      navigation.navigate('Login');
     }
   };
 

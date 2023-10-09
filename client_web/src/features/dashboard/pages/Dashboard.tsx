@@ -3,6 +3,7 @@ import { Content, Footer } from 'antd/es/layout/layout';
 import React from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
 import AutomationCreation from '../components/AutomationCreation';
+import RecommendSection from '../components/RecommendSection';
 
 const layoutStyle: React.CSSProperties = {
 	minHeight: '100vh',
@@ -10,13 +11,19 @@ const layoutStyle: React.CSSProperties = {
 };
 
 const contentStyle: React.CSSProperties = {
-	padding: '100px 24px',
+	padding: '48px 24px',
 	color: '#000',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '50px',
+	alignItems: 'center',
 };
 
 const MainZapStyle: React.CSSProperties = {
+	display: 'flex',
 	alignItems: 'center',
 	padding: '30px 0 50px 0',
+	width: '90%',
 	borderRadius: '25px',
 	boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25), 0 -2px 4px rgba(0, 0, 0, 0.25)',
 	backgroundColor: '#FAFAFA',
@@ -39,6 +46,7 @@ const Dashboard = () => {
 				<Layout style={MainZapStyle}>
 					<AutomationCreation />
 				</Layout>
+				<RecommendSection />
 			</Content>
 			<Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
 		</Layout>

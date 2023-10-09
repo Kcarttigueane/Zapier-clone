@@ -12,6 +12,8 @@ import ZapStackRouting from './core/routes/ZapStackRouting';
 import CreateZapScreen from './features/zap/presentation/screen/CreateZapScreen';
 
 export type RootStackParamList = {
+  // ! Demo
+  Demo: undefined;
   // ! Auth:
   Login: undefined;
   Register: undefined;
@@ -37,15 +39,15 @@ export type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <GluestackUIProvider config={config.theme}>
       <NavigationContainer>
         {isLoggedIn ? (
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
-            <Tab.Screen name="Home" component={HomeStackRouting} />
-            <Tab.Screen name="Activity" component={ZapStackRouting} />
+            <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />
+            <Tab.Screen name="Activity" component={ZapStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Zap" component={CreateZapScreen} />
             <Tab.Screen name="Services" component={ServicesStackRouting} />
             <Tab.Screen name="Settings" component={SettingsStackRouting} options={{ headerShown: false }} />

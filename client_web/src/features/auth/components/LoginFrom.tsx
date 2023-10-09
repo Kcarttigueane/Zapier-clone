@@ -1,13 +1,15 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { useAuthStore } from '../../../core/store/useAuthStore';
 
 const initialValues = {
-	email: '',
-	password: '',
+	email: 'oliver.lewis@masurao.jp',
+	password: 'password',
 };
 
 const validationSchema = Yup.object({
@@ -22,13 +24,33 @@ interface LoginDTO {
 const LoginForm: React.FC = () => {
 	const { t } = useTranslation();
 	const [form] = Form.useForm();
+	const { loginFn } = useAuthStore((state) => state);
+	const navigate = useNavigate();
+	const [messageApi, contextHolder] = message.useMessage();
 
-	const onSubmit = async (values: LoginDTO) => {
-		console.log(values);
+	const onLoginSubmit = async (values: LoginDTO) => {
+		const { email, password } = values;
+		try {
+			await loginFn(email, password);
+			await messageApi.open({
+				type: 'success',
+				content: 'Successfully registered',
+				duration: 2,
+			});
+			navigate('/dashboard');
+		} catch (error) {
+			if (error instanceof Error) {
+				messageApi.open({
+					type: 'error',
+					content: error.message || 'Something went wrong',
+				});
+			}
+		}
 	};
 
 	return (
 		<>
+			{contextHolder}
 			<Formik
 				initialValues={initialValues}
 				onSubmit={(values: LoginDTO) => {
@@ -72,7 +94,14 @@ const LoginForm: React.FC = () => {
 							/>
 						</Form.Item>
 						<Form.Item style={{ marginTop: 24 }}>
-							<Button type="primary" shape="round" size="large" htmlType="submit" block>
+							<Button
+								type="primary"
+								shape="round"
+								size="large"
+								htmlType="submit"
+								block
+								onClick={() => onLoginSubmit(values)}
+							>
 								{t('basic.fields.submit')}
 							</Button>
 						</Form.Item>
