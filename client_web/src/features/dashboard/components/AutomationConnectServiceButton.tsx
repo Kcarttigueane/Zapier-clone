@@ -22,7 +22,6 @@ const serviceToImageSrc: Record<string, string> = {
 	'gmail': Gmail,
 	'youtube': Youtube,
 	'spotify': Spotify,
-	// Add more mappings as needed
 };
 
 const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connected, onClick, style }) => {

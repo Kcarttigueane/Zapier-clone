@@ -5,7 +5,6 @@ import Flex from '../../../core/components/Flex';
 import { useAutomationStore } from '../../../core/store/useAutomationStore';
 import useUserStore from '../../../core/store/useUserStore';
 import { useAuthStore } from '../../../core/store/useAuthStore';
-import { UserModel } from '../../../core/models/user';
 import { use } from 'i18next';
 import ConnectServiceButton from './AutomationConnectServiceButton';
 import Spotify from '../../../core/assets/logo2D/Spotify.png';
@@ -246,7 +245,6 @@ const AutomationCreation = () => {
 						style={InputStyle}
 						options={serviceOptions}
 					/>
-
 				</Flex>
 				<span style={DividerStyle} />
 				<PlusCircleOutlined style={{ fontSize: '32px', color: '#757575', padding: '0 5px', marginTop: '24px' }} />
