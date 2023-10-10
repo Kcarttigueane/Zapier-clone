@@ -5,7 +5,7 @@ import Flex from '../../../core/components/Flex';
 import { useAutomationStore } from '../../../core/store/useAutomationStore';
 import useUserStore from '../../../core/store/useUserStore';
 import { useAuthStore } from '../../../core/store/useAuthStore';
-import { use } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import ConnectServiceButton from './AutomationConnectServiceButton';
 import Spotify from '../../../core/assets/logo2D/Spotify.png';
 import Youtube from '../../../core/assets/logo2D/Youtube.png';
@@ -13,6 +13,7 @@ import Discord from '../../../core/assets/logo2D/Discord.png';
 import Gmail from '../../../core/assets/logo2D/Gmail.png';
 import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
 import GoogleCalendar from '../../../core/assets/logo2D/GoogleCalandar.png';
+import { TFunction } from 'i18next';
 
 
 const { Text } = Typography;
@@ -67,63 +68,70 @@ const serviceOptions = [
 	},
 ];
 
-const triggerOptions = [
-	{
-		value: 'receive like',
-		label: 'Receive Like',
-	},
-	{
-		value: 'receive replie',
-		label: 'Receive Replie',
-	},
-	{
-		value: 'new folder',
-		label: 'New Folder',
-	},
-	{
-		value: 'new file',
-		label: 'New File',
-	},
-	{
-		value: 'event',
-		label: 'Event',
-	},
-	{
-		value: 'birthday event',
-		label: 'Birthday Event',
-	},
-	{
-		value: 'hourly forecast',
-		label: 'Hourly Forecast',
-	},
-	{
-		value: 'liked video',
-		label: 'Liked Video',
-	},
-	{
-		value: 'new attachement',
-		label: 'New Attachement',
-	},
-];
+const transformTriggerOptions = (t: TFunction) => {
+	const triggerOptions = [
+		{
+			value: 'receive like',
+			label: t('home.trigger.like'),
+		},
+		{
+			value: 'receive reply',
+			label: t('home.trigger.reply'),
+		},
+		{
+			value: 'new folder',
+			label: t('home.trigger.folder'),
+		},
+		{
+			value: 'new file',
+			label: t('home.trigger.file'),
+		},
+		{
+			value: 'event',
+			label: t('home.trigger.event'),
+		},
+		{
+			value: 'birthday event',
+			label: t('home.trigger.birthday'),
+		},
+		{
+			value: 'hourly forecast',
+			label: t('home.trigger.forecast'),
+		},
+		{
+			value: 'liked video',
+			label: t('home.trigger.video'),
+		},
+		{
+			value: 'new attachment',
+			label: t('home.trigger.attachment'),
+		},
+	];
 
-const reactionOptions = [
-	{
-		value: 'app notification',
-		label: 'App Notification',
-	},
-	{
-		value: 'send message',
-		label: 'Send Message',
-	},
-	{
-		value: 'add to playlist',
-		label: 'Add to Playlist',
-	},
-	{
-		value: 'upload file',
-		label: 'Upload File',
-	},
-];
+	return triggerOptions;
+};
+
+const transformReactionOptions = (t: TFunction) => {
+	const reactionOptions = [
+		{
+			value: 'app notification',
+			label: t('home.reaction.notification'),
+		},
+		{
+			value: 'send message',
+			label: t('home.reaction.message'),
+		},
+		{
+			value: 'add to playlist',
+			label: t('home.reaction.playlist'),
+		},
+		{
+			value: 'upload file',
+			label: t('home.reaction.file'),
+		},
+	];
+	return reactionOptions;
+};
 
 const serviceToTokenDict: Record<string, string> = {
 	'discord': 'discord_token',
@@ -153,6 +161,7 @@ const AutomationCreation = () => {
 	const { authorizeGoogleService, authorizeSpotifyService, authorizeDiscordService } = useAuthStore();
 	const [user, setUser] = useState<any | null>(null);
 	const [messageApi, contextHolder] = message.useMessage();
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		const fetchUser = async (accessToken: string) => {
@@ -232,7 +241,7 @@ const AutomationCreation = () => {
 	return (
 		<>
 			{contextHolder}
-			<Text style={TitleStyle}>Create a Zap</Text>
+			<Text style={TitleStyle}>{t('home.create.title')}</Text>
 			<Flex align="center" justify="center">
 				<Flex direction="column" align="center" justify="center" gap="6px">
 					<Text
@@ -241,11 +250,11 @@ const AutomationCreation = () => {
 							fontWeight: 'bold',
 						}}
 					>
-						Connect this service...
+						{t('home.create.action1')}
 					</Text>
 					<Select
 						showSearch
-						placeholder="Select a Service"
+						placeholder={t('home.create.service')}
 						optionFilterProp="children"
 						onChange={onServiceChange1}
 						onSearch={onSearch}
@@ -264,11 +273,11 @@ const AutomationCreation = () => {
 							fontWeight: 'bold',
 						}}
 					>
-						...with this one.
+						{t('home.create.reaction1')}
 					</Text>
 					<Select
 						showSearch
-						placeholder="Select a Service"
+						placeholder={t('home.create.service')}
 						optionFilterProp="children"
 						onChange={onServiceChange2}
 						onSearch={onSearch}
@@ -287,17 +296,17 @@ const AutomationCreation = () => {
 								fontWeight: 'bold',
 							}}
 						>
-							Choose a Trigger
+							{t('home.create.action2')}
 						</Text>
 						<Select
 							showSearch
-							placeholder="Select a Service"
+							placeholder={t('home.create.action2')}
 							optionFilterProp="children"
 							onChange={onTriggerChange}
 							onSearch={onSearch}
 							filterOption={filterOption}
 							style={InputStyle}
-							options={triggerOptions}
+							options={transformTriggerOptions(t)}
 						/>
 					</Flex>
 					<span style={DividerStyle} />
@@ -310,17 +319,17 @@ const AutomationCreation = () => {
 								fontWeight: 'bold',
 							}}
 						>
-							Choose a Reaction
+							{t('home.create.reaction2')}
 						</Text>
 						<Select
 							showSearch
-							placeholder="Select a Service"
+							placeholder={t('home.create.reaction2')}
 							optionFilterProp="children"
 							onChange={onReactionChange}
 							onSearch={onSearch}
 							filterOption={filterOption}
 							style={InputStyle}
-							options={reactionOptions}
+							options={transformReactionOptions(t)}
 						/>
 					</Flex>
 				</Flex>
@@ -352,7 +361,7 @@ const AutomationCreation = () => {
 					onClick={createAutomation}
 					disabled={!serviceConnected1 || !serviceConnected2}
 				>
-					{serviceConnected1 && serviceConnected2 ? "Try It!" : "Authorize Services"}
+					{serviceConnected1 && serviceConnected2 ? t('home.create.enabled') : t('home.create.disabled')}
 				</Button>
 			) : null}
 		</>

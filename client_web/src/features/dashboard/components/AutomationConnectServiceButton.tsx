@@ -1,4 +1,5 @@
 import { FC, CSSProperties } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button, Image } from 'antd';
 import Spotify from '../../../core/assets/logo2D/Spotify.png';
 import Youtube from '../../../core/assets/logo2D/Youtube.png';
@@ -37,6 +38,7 @@ const defaultStyles: CSSProperties = {
 
 
 const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connected, onClick, style }) => {
+	const { t } = useTranslation();
 	const handleClick = () => {
 		onClick(service);
 	};
@@ -49,7 +51,7 @@ const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connecte
 	return (
 		connected ? (
 			<Button style={buttonStyle} disabled={true}>
-				Already Connected
+				{t('home.create.connected')}
 			</Button>
 		) : (
 			<Button style={buttonStyle} onClick={handleClick}>
@@ -58,7 +60,7 @@ const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connecte
 					alt={service}
 					style={{ width: '30px', height: '30px',  verticalAlign: 'middle', marginRight: 15}}
 				/>
-				Authorize
+				{t('home.create.authorize')}
 			</Button>
 		)
 	);
