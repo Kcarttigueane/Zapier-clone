@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Select, Typography } from 'antd';
+import { Button, Select, Typography, message } from 'antd';
 import { useState, useEffect } from 'react';
 import Flex from '../../../core/components/Flex';
 import { useAutomationStore } from '../../../core/store/useAutomationStore';
@@ -125,7 +125,7 @@ const reactionOptions = [
 	},
 ];
 
-const service_to_token_dict: Record<string, string> = {
+const serviceToTokenDict: Record<string, string> = {
 	'discord': 'discord_token',
 	'google calendar': 'google_calendar_token',
 	'google drive': 'google_drive_token',
@@ -134,7 +134,7 @@ const service_to_token_dict: Record<string, string> = {
 	'spotify': 'spotify_token',
 };
 
-const service_to_route: Record<string, string> = {
+const serviceToRoute: Record<string, string> = {
 	'google calendar': 'calendar',
 	'google drive': 'drive',
 	'gmail': 'gmail',
@@ -152,6 +152,7 @@ const AutomationCreation = () => {
 	const { fetchCurrentUser } = useUserStore((state) => state);
 	const { authorizeGoogleService, authorizeSpotifyService, authorizeDiscordService } = useAuthStore();
 	const [user, setUser] = useState<any | null>(null);
+	const [messageApi, contextHolder] = message.useMessage();
 
 	useEffect(() => {
 		const fetchUser = async (accessToken: string) => {
@@ -159,10 +160,16 @@ const AutomationCreation = () => {
 				const userModel = await fetchCurrentUser(accessToken);
 				if (userModel) {
 					setUser(userModel);
-				} else {
 				}
 			} catch (error) {
 				console.error('Error fetching current user:', error);
+				if (error instanceof Error) {
+					messageApi.open({
+						type: 'error',
+						content: error.message || 'Something went wrong',
+						duration: 1,
+					});
+				}
 			}
 		};
 		const userToken = localStorage.getItem('access_token');
@@ -174,24 +181,24 @@ const AutomationCreation = () => {
 
 	const { createAutomation } = useAutomationStore(state => state);
 
+	function checkServiceConnection(value: string) {
+		const serviceTokenName = serviceToTokenDict[value];
+		const tokenManager = user['token_manager'];
+		const serviceObj = tokenManager[serviceTokenName];
+		const isConnected = serviceObj != null;
+		return isConnected;
+	}
+
 	const onServiceChange1 = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedService1(value);
-		const service_token_name = service_to_token_dict[value];
-		const token_manager = user['token_manager'];
-		const service_obj = token_manager[service_token_name];
-		const is_connected = service_obj != null;
-		setServiceConnected1(is_connected);
+		setServiceConnected1(checkServiceConnection(value));
 	};
 
 	const onServiceChange2 = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedService2(value);
-		const service_token_name = service_to_token_dict[value];
-		const token_manager = user['token_manager'];
-		const service_obj = token_manager[service_token_name];
-		const is_connected = service_obj != null;
-		setServiceConnected2(is_connected);
+		setServiceConnected2(checkServiceConnection(value));
 	};
 
 	const onTriggerChange = (value: string) => {
@@ -214,7 +221,7 @@ const AutomationCreation = () => {
 	const handleConnectService = (service: string) => {
 		const googleServices = ["google calendar", "gmail", "google drive", "youtube"];
 		if (googleServices.includes(service)) {
-			authorizeGoogleService(service_to_route[service]);
+			authorizeGoogleService(serviceToRoute[service]);
 		} else if (service == "spotify") {
 			authorizeSpotifyService()
 		} else if (service == "discord") {
@@ -224,6 +231,7 @@ const AutomationCreation = () => {
 
 	return (
 		<>
+			{contextHolder}
 			<Text style={TitleStyle}>Create a Zap</Text>
 			<Flex align="center" justify="center">
 				<Flex direction="column" align="center" justify="center" gap="6px">
@@ -323,12 +331,12 @@ const AutomationCreation = () => {
 						fontSize: '14px',
 						fontWeight: 'bold',
 						marginRight: 'auto',
-					}}></ConnectServiceButton>
+					}} />
 					<ConnectServiceButton service={selectedService2} connected={serviceConnected2} onClick={handleConnectService} style={{
 						fontSize: '14px',
 						fontWeight: 'bold',
 						marginLeft: 'auto',
-					}}></ConnectServiceButton>
+					}} />
 				</Flex>
 			) : null}
 			{selectedTrigger && selectedReaction ? (

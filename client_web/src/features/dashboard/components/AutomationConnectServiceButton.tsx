@@ -1,5 +1,5 @@
 import { FC, CSSProperties } from 'react';
-import { Button } from 'antd';
+import { Button, Image } from 'antd';
 import Spotify from '../../../core/assets/logo2D/Spotify.png';
 import Youtube from '../../../core/assets/logo2D/Youtube.png';
 import Discord from '../../../core/assets/logo2D/Discord.png';
@@ -24,20 +24,21 @@ const serviceToImageSrc: Record<string, string> = {
 	'spotify': Spotify,
 };
 
+const defaultStyles: CSSProperties = {
+	alignItems: 'center',
+	width: '200px',
+	height: '50px',
+	borderRadius: '50px',
+	fontSize: '20px',
+	fontWeight: 'bold',
+	display: 'flex',
+	justifyContent: 'center'
+};
+
+
 const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connected, onClick, style }) => {
 	const handleClick = () => {
 		onClick(service);
-	};
-
-	const defaultStyles: CSSProperties = {
-		alignItems: 'center',
-		width: '200px',
-		height: '50px',
-		borderRadius: '50px',
-		fontSize: '20px',
-		fontWeight: 'bold',
-		display: 'flex',
-		justifyContent: 'center'
 	};
 
 	const buttonStyle = {
@@ -52,7 +53,7 @@ const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connecte
 			</Button>
 		) : (
 			<Button style={buttonStyle} onClick={handleClick}>
-				<img
+				<Image
 					src={serviceToImageSrc[service.toLowerCase()]}
 					alt={service}
 					style={{ width: '30px', height: '30px',  verticalAlign: 'middle', marginRight: 15}}
