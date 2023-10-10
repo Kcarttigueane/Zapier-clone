@@ -21,7 +21,7 @@ const ProtectedRoute: FC<Props> = ({ children }) => {
 			localStorage.setItem('access_token', token);
 			useAuthStore.setState({ isAuthenticated: true });
 			fetchCurrentUser(token);
-			navigate('/dashboard');
+			navigate('/dashboard2.0');
 		}
 	}, [location, navigate]);
 
