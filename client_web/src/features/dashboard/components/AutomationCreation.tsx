@@ -8,6 +8,12 @@ import { useAuthStore } from '../../../core/store/useAuthStore';
 import { UserModel } from '../../../core/models/user';
 import { use } from 'i18next';
 import ConnectServiceButton from './AutomationConnectServiceButton';
+import Spotify from '../../../core/assets/logo2D/Spotify.png';
+import Youtube from '../../../core/assets/logo2D/Youtube.png';
+import Discord from '../../../core/assets/logo2D/Discord.png';
+import Gmail from '../../../core/assets/logo2D/Gmail.png';
+import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
+import GoogleCalendar from '../../../core/assets/logo2D/GoogleCalandar.png';
 
 
 const { Text } = Typography;
@@ -33,26 +39,32 @@ const serviceOptions = [
 	{
 		value: 'youtube',
 		label: 'YouTube',
+		icon: Youtube,
 	},
 	{
 		value: 'google drive',
 		label: 'Google Drive',
+		icon: GoogleDrive,
 	},
 	{
 		value: 'google calendar',
 		label: 'Google Calendar',
+		icon: GoogleCalendar,
 	},
 	{
 		value: 'gmail',
 		label: 'Gmail',
+		icon: Gmail,
 	},
 	{
 		value: 'spotify',
 		label: 'Spotify',
+		icon: Spotify,
 	},
 	{
 		value: 'discord',
 		label: 'Discord',
+		icon: Discord,
 	},
 ];
 
@@ -160,7 +172,6 @@ const AutomationCreation = () => {
 		}
 	}, []);
 
-	console.log("User: ", user);
 
 	const { createAutomation } = useAutomationStore(state => state);
 
@@ -235,6 +246,7 @@ const AutomationCreation = () => {
 						style={InputStyle}
 						options={serviceOptions}
 					/>
+
 				</Flex>
 				<span style={DividerStyle} />
 				<PlusCircleOutlined style={{ fontSize: '32px', color: '#757575', padding: '0 5px', marginTop: '24px' }} />
@@ -307,7 +319,7 @@ const AutomationCreation = () => {
 					</Flex>
 				</Flex>
 			) : null}
-			{selectedTrigger && selectedReaction && selectedService1 && selectedService2 && user ? (
+			{selectedTrigger && selectedReaction && selectedService1 && selectedService2 && user && (!serviceConnected1 || !serviceConnected2) ? (
 				<Flex justify-content="space-between" style={{ width: '40%' }}>
 					<ConnectServiceButton service={selectedService1} connected={serviceConnected1} onClick={handleConnectService} style={{
 						fontSize: '14px',
