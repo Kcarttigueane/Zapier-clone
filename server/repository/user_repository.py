@@ -72,6 +72,14 @@ class UserRepository:
     async def get_by_google_id(self, id: str) -> User:
         user_data = await self.collection.find_one({"google_id": id})
         return None if user_data is None else User(**user_data)
+    
+    async def update_access_token(self, user_id: PyObjectId, token: str):
+        user = await self.collection.find_one({"_id": user_id})
+        if user:
+            user["access_token"] = token
+            await self.collection.replace_one({"_id": user_id}, user)
+        else:
+            raise ValueError(f"User with ID {user_id} not found")
 
     async def update_service_access_token(
         self, user_id: PyObjectId, token: AuthToken, service: str

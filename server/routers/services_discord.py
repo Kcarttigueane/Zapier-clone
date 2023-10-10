@@ -1,6 +1,6 @@
 import urllib.parse
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Query, HTTPException, Request, status
 from httpx import AsyncClient
 from starlette.responses import RedirectResponse
 
@@ -20,7 +20,8 @@ user_repository = UserRepository()
     "/discord",
     summary="Request authorization to discord access data",
 )
-async def authorize_discord_access(current_user: User = Depends(get_current_user)):
+async def authorize_discord_access(token: str = Query(..., description="Authorization token")):
+    current_user = await get_current_user(token)
     state = current_user.username
     scope = "identify"
 
@@ -71,7 +72,12 @@ async def authorize_discord_access_callback(request: Request):
             scopes=[response["scope"]],
             expires_in=response["expires_in"],
         )
-        token = await user_repository.update_service_access_token(
+        await user_repository.update_service_access_token(
             user.id, auth_token, "discord_token"
         )
-        return token
+        access_token = user.access_token
+
+        frontend_redirect_url = (
+                    f"http://localhost:8081/dashboard?token={access_token}"
+                )
+        return RedirectResponse(url=frontend_redirect_url)

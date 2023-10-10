@@ -1,7 +1,7 @@
 import base64
 import urllib.parse
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Query, HTTPException, Request, status
 from httpx import AsyncClient
 from starlette.responses import RedirectResponse
 
@@ -27,7 +27,8 @@ user_repository = UserRepository()
     "/spotify",
     summary="Request authorization to spotify access data",
 )
-async def authorize_spotify_access(current_user: User = Depends(get_current_user)):
+async def authorize_spotify_access(token: str = Query(..., description="Authorization token")):
+    current_user = await get_current_user(token)
     state = current_user.username
     scope = "user-read-private user-read-email playlist-read-private"
 
@@ -79,10 +80,17 @@ async def authorize_spotify_access_callback(request: Request):
         auth_token = AuthToken(
             token=response["access_token"],
             refresh_token=response["refresh_token"],
-            scopes=[response["scopes"]],
+            scopes=[response["scope"]],
             expires_in=response["expires_in"],
         )
-        token = await user_repository.update_service_access_token(
+
+        await user_repository.update_service_access_token(
             user.id, auth_token, "spotify_token"
         )
-        return token
+        
+        access_token = user.access_token
+
+        frontend_redirect_url = (
+                    f"http://localhost:8081/dashboard?token={access_token}"
+                )
+        return RedirectResponse(url=frontend_redirect_url)
