@@ -15,6 +15,7 @@ class UserCreate(BaseModel):
     github_id: Optional[str] = Field(None)
     spotify_id: Optional[str] = Field(None)
     google_id: Optional[str] = Field(None)
+    access_token: Optional[str] = Field(None)
     token_manager: Optional[TokenManager] = Field(TokenManager())
     automations: Optional[List[Automation]] = Field(default_factory=list)
 

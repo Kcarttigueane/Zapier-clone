@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import google_auth_oauthlib.flow
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, Query
 from starlette.responses import RedirectResponse
 
 from models.auth_token import AuthToken
@@ -46,8 +46,9 @@ user_repository = UserRepository()
     summary="Request autorizathion to google access data",
 )
 async def authorize_google_access(
-    service: str, current_user: User = Depends(get_current_user)
+    service: str, token: str = Query(..., description="Authorization token"),
 ):
+    current_user = await get_current_user(token)
     redirect_uri = google_redirect_uri + service
     scopes = google_scopes[service]
     username = current_user.username
@@ -98,11 +99,13 @@ async def authorize_google_access_callback(service: str, request: Request):
         refresh_token=credentials["refresh_token"],
         scopes=credentials["scopes"],
     )
-    token = await user_repository.update_service_access_token(
+    await user_repository.update_service_access_token(
         user.id, auth_token, f"google_{service}_token"
     )
-    if service == "youtube":
-        action = Action(datetime.now())
-        youtube_user = await user_repository.get(user.id)
-        check_youtube_like(youtube_user, action=action)
-    return token
+    
+    access_token = user.access_token
+
+    frontend_redirect_url = (
+                f"http://localhost:8081/dashboard?token={access_token}"
+            )
+    return RedirectResponse(url=frontend_redirect_url)

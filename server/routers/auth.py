@@ -104,6 +104,7 @@ async def auth_callback(request: Request):
         existing_user = await repository.get_by_username(username)
         if existing_user:
             access_token = create_user_token(existing_user)
+            await repository.update_access_token(existing_user.id, access_token)
             frontend_redirect_url = (
                 f"http://localhost:8081/dashboard?token={access_token}"
             )
@@ -112,6 +113,7 @@ async def auth_callback(request: Request):
         new_user = await repository.create(user_create)
 
         access_token = create_user_token(new_user)
+        await repository.update_access_token(new_user.id, access_token)
         frontend_redirect_url = f"http://localhost:8081/dashboard?token={access_token}"
         return RedirectResponse(url=frontend_redirect_url)
 
@@ -143,6 +145,7 @@ async def github_auth_callback(request: Request):
         existing_user = await repository.get_by_github_id(github_user.id)
         if existing_user:
             access_token = create_user_token(existing_user)
+            await repository.update_access_token(existing_user.id, access_token)
             frontend_redirect_url = (
                 f"http://localhost:8081/dashboard?token={access_token}"
             )
@@ -151,6 +154,7 @@ async def github_auth_callback(request: Request):
         new_user = await repository.create(user_create)
 
         access_token = create_user_token(new_user)
+        await repository.update_access_token(new_user.id, access_token)
         frontend_redirect_url = f"http://localhost:8081/dashboard?token={access_token}"
         return RedirectResponse(url=frontend_redirect_url)
 
@@ -175,6 +179,7 @@ async def spotify_auth_callback(request: Request):
         existing_user = await repository.get_by_spotify_id(spotify_user.id)
         if existing_user:
             access_token = create_user_token(existing_user)
+            await repository.update_access_token(existing_user.id, access_token)
             frontend_redirect_url = (
                 f"http://localhost:8081/dashboard?token={access_token}"
             )
@@ -183,5 +188,6 @@ async def spotify_auth_callback(request: Request):
         new_user = await repository.create(user_create)
 
         access_token = create_user_token(new_user)
+        await repository.update_access_token(new_user.id, access_token)
         frontend_redirect_url = f"http://localhost:8081/dashboard?token={access_token}"
         return RedirectResponse(url=frontend_redirect_url)

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { UserModel } from '../models/user';
 
-const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = 'http://127.0.0.1:8080/api';
 
 type UserState = {
 	user: UserModel | null;
@@ -10,7 +10,7 @@ type UserState = {
 type UserActions = {
 	setUser: (user: UserModel) => void;
 	clearUser: () => void;
-	fetchCurrentUser: (accessToken: string) => Promise<void>;
+	fetchCurrentUser: (accessToken: string) => Promise<UserModel | undefined>;
 	updateUser: (userId: number, user: Partial<UserModel>) => Promise<void>;
 	deleteUser: (userId: number) => Promise<void>;
 };
@@ -32,6 +32,7 @@ const useUserStore = create<UserState & UserActions>()((set) => ({
 			const user: UserModel = response;
 
 			set({ user });
+			return user;
 		} catch (error) {
 			console.error('Error fetching current user:', error);
 		}

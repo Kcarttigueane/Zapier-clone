@@ -171,5 +171,36 @@
     "noAccount": "Don't have an account ?",
     "haveAccount": "Already have an account ?",
     "terms": "Agree to our Terms of Service and Privacy Policy."
+  },
+  "home": {
+    "create": {
+      "title": "Create a Zap",
+      "action1": "Connect this service...",
+      "reaction1": "...with this one.",
+      "action2": "Choose a Trigger",
+      "reaction2": "Choose a Reaction",
+      "authorize": "Authorize",
+      "connected": "Already Connected",
+      "disabled": "Authorize Services",
+      "enabled": "Try It!",
+      "service": "Select a Service"
+    },
+    "trigger": {
+      "like": "Recieve Like",
+      "reply": "Recieve Reply",
+      "folder": "New Folder",
+      "file": "New File",
+      "event": "Event",
+      "birthday": "Birthday Event",
+      "forecast": "Hourly Forecast",
+      "video": "Liked Video",
+      "attachment": "New Attachment"
+    },
+    "reaction": {
+      "notification": "App Notification",
+      "message": "Send Message",
+      "playlist": "Add to Playlist",
+      "file": "Upload File"
+    }
   }
 }
