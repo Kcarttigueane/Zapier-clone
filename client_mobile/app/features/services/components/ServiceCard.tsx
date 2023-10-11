@@ -10,7 +10,8 @@ type ServiceCardProps = {
 };
 
 const ServiceCard: FC<ServiceCardProps> = ({ item: { title, logo }, navigation }) => {
-  const handleDetails = () => navigation.navigate('ServiceDetailScreen', { title });
+  // const handleDetails = () => navigation.navigate('ServiceDetailScreen', { title });
+  const handleDetails = () => navigation.navigate('ZapReactionScreen', { logo });
 
   return (
     <TouchableOpacity onPress={handleDetails} style={styles.cards}>

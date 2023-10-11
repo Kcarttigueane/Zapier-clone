@@ -11,6 +11,8 @@ import ServicesStackRouting from './core/routes/ServicesStackRouting';
 import SettingsStackRouting from './core/routes/SettingsStackRouting';
 import ZapStackRouting from './core/routes/ZapStackRouting';
 
+type ImageRequireType = ReturnType<typeof require>;
+
 export type RootStackParamList = {
   // ! Demo
   Demo: undefined;
@@ -28,6 +30,9 @@ export type RootStackParamList = {
   ServicesScreen: undefined;
   ServiceDetailScreen: {
     title: string;
+  };
+  ZapReactionScreen: {
+    logo: ImageRequireType;
   };
   // ! Settings:
   SettingsScreen: undefined;

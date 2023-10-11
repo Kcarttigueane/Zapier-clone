@@ -1,8 +1,11 @@
 import { Button, ButtonText, VStack } from '@gluestack-ui/themed';
 import React from 'react';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { RootStackParamList } from '../../../App';
 
-type ImageRequireType = ReturnType<typeof require>;
+// type ImageRequireType = ReturnType<typeof require>;
+type ZapReactionRouteProp = RouteProp<RootStackParamList, 'ZapReactionScreen'>;
 
 const ReactionButton = ({ message }: { message: string }) => {
   const handleClickAction = () => {
@@ -23,7 +26,9 @@ const ReactionButton = ({ message }: { message: string }) => {
   );
 };
 
-const ReactionZap = ({ url }: { url: ImageRequireType }) => {
+const ReactionZap = () => {
+  const route = useRoute<ZapReactionRouteProp>();
+  const { logo } = route.params;
   return (
     <View style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
       <View style={styles.card}>
@@ -37,7 +42,7 @@ const ReactionZap = ({ url }: { url: ImageRequireType }) => {
           Choose a Reaction
         </Text>
         <View style={{ width: 100, height: 90 }}>
-          <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={url} resizeMode="cover" />
+          <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={logo} resizeMode="cover" />
         </View>
         <Text style={{ textAlign: 'center', fontSize: 18, color: 'black' }}>
           A free email service developed by Google. Users can access Gmail on the web and using third-party programs
