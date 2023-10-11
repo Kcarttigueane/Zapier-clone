@@ -6,11 +6,11 @@ const BASE_URL = 'http://0.0.0.0:8080/api';
 
 type AuthState = {
 	isAuthenticated: boolean;
+	accessToken?: string;
 	error?: string;
 };
 
 type AuthActions = {
-	isAuthenticated: boolean;
 	setIsAuthenticated: (isAuthenticated: boolean) => void;
 	loginFn: (email: string, password: string) => Promise<void>;
 	registerFn: (username: string, email: string, password: string) => Promise<UserModel>;
@@ -18,10 +18,14 @@ type AuthActions = {
 	loginWithGoogle: () => void;
 	loginWithSpotify: () => void;
 	loginWithGitHub: () => void;
+	authorizeGoogleService: (service: string) => void; 
+	authorizeSpotifyService: () => void; 
+	authorizeDiscordService: () => void;
 };
 
 const initialState: AuthState = {
 	isAuthenticated: false,
+	accessToken: undefined,
 	error: undefined,
 };
 
@@ -41,6 +45,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 
 			if (response) {
 				set({ isAuthenticated: true });
+				localStorage.setItem('access_token', response.access_token);
 			}
 		},
 		registerFn: async (username, email, password) => {
@@ -60,6 +65,7 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 
 				const user: UserModel = await response.json();
 				useUserStore.getState().setUser(user);
+				useAuthStore.getState().loginFn(email, password);
 				set({ isAuthenticated: true });
 				return user;
 			} catch (error) {
@@ -79,6 +85,18 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 		},
 		loginWithGitHub: () => {
 			window.location.href = `${BASE_URL}/auth/github`;
+		},
+		authorizeGoogleService: (service: string) => {
+			const userToken = localStorage.getItem('access_token');
+			window.location.href = `${BASE_URL}/services/google/${service}?token=${userToken}`
+		},
+		authorizeSpotifyService: () => {
+			const userToken = localStorage.getItem('access_token');
+			window.location.href = `${BASE_URL}/services/spotify?token=${userToken}`
+		},
+		authorizeDiscordService: () => {
+			const userToken = localStorage.getItem('access_token');
+			window.location.href = `${BASE_URL}/services/discord?token=${userToken}`
 		},
 	};
 });

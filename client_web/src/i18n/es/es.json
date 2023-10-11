@@ -105,7 +105,7 @@
       "el1": "Dispara acciones inteligentes",
       "el2": "Sincroniza con la aplicación web",
       "el3": "Mayor seguridad"
-      },
+    },
     "card1": {
       "title": "Crea flujos de trabajo personalizados en minutos",
       "description": "Automatiza el trabajo repetitivo, para que puedas enfocarte en tu trabajo, no en tus herramientas. Te mostraremos cómo."
@@ -122,7 +122,7 @@
   "settings": {
     "headerTitle": "Configuraciones",
     "placeholder": "introducir texto de búsqueda",
-    "enabled" : "activado",
+    "enabled": "activado",
     "disabled": "desactivado",
     "settingScreen": {
       "profile": {
@@ -171,5 +171,36 @@
     "noAccount": "¿No tienes una cuenta?",
     "haveAccount": "¿Ya tienes una cuenta?",
     "terms": "Acepta nuestros Términos de Servicio y Política de Privacidad."
+  },
+  "home": {
+    "create": {
+      "title": "Crear un Zap",
+      "action1": "Conectar este servicio...",
+      "reaction1": "...con este otro.",
+      "action2": "Elegir un Desencadenante",
+      "reaction2": "Elegir una Reacción",
+      "authorize": "Autorizar",
+      "connected": "Ya Conectado",
+      "disabled": "Autorizar Servicios",
+      "enabled": "¡Pruébalo!",
+      "service": "Seleccione un servicio"
+    },
+    "trigger": {
+      "like": "Recibir Me Gusta",
+      "reply": "Recibir Respuesta",
+      "folder": "Nueva Carpeta",
+      "file": "Nuevo Archivo",
+      "event": "Evento",
+      "birthday": "Evento de Cumpleaños",
+      "forecast": "Pronóstico Horario",
+      "video": "Video Gustado",
+      "attachment": "Nuevo Adjunto"
+    },
+    "reaction": {
+      "notification": "Notificación de la Aplicación",
+      "message": "Enviar Mensaje",
+      "playlist": "Agregar a la Lista de Reproducción",
+      "file": "Subir Archivo"
+    }
   }
 }

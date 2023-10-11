@@ -35,7 +35,7 @@ const LoginForm: React.FC = () => {
 			await messageApi.open({
 				type: 'success',
 				content: 'Successfully registered',
-				duration: 2,
+				duration: 1,
 			});
 			navigate('/dashboard');
 		} catch (error) {
