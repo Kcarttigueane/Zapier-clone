@@ -3,7 +3,6 @@ import React from 'react';
 import { RootStackParamList } from '../../App';
 import ServiceDetailScreen from '../../features/services/screen/ServiceDetailScreen';
 import ServicesScreen from '../../features/services/screen/ServicesScreen';
-import ReactionZap from '../../features/zap/screen/ReactionZap'; // Importez la nouvelle route
 
 const ServicesScreensStack = createNativeStackNavigator<RootStackParamList>();
 
@@ -21,7 +20,6 @@ const ServicesStackRouting = () => {
         component={ServiceDetailScreen}
         options={{ headerShown: true }}
       />
-      <ServicesScreensStack.Screen name="ZapReactionScreen" component={ReactionZap} options={{ headerShown: true }} />
     </ServicesScreensStack.Navigator>
   );
 };

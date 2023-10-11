@@ -26,13 +26,16 @@ export type RootStackParamList = {
   ActivityScreen: undefined;
   // ! Zap:
   CreateZapScreen: undefined;
+  ZapReactionScreen: {
+    logo: ImageRequireType;
+  };
+  ZapTriggerScreen: {
+    logo: ImageRequireType;
+  };
   // ! Services:
   ServicesScreen: undefined;
   ServiceDetailScreen: {
     title: string;
-  };
-  ZapReactionScreen: {
-    logo: ImageRequireType;
   };
   // ! Settings:
   SettingsScreen: undefined;

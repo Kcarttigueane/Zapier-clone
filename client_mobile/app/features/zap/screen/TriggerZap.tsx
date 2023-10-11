@@ -1,6 +1,10 @@
 import { Button, ButtonText, VStack } from '@gluestack-ui/themed';
 import React from 'react';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { RootStackParamList } from '../../../App';
+
+type ZapReactionRouteProp = RouteProp<RootStackParamList, 'ZapReactionScreen'>;
 
 const TriggerButton = ({ message }: { message: string }) => {
   const handleClickAction = () => {
@@ -21,7 +25,9 @@ const TriggerButton = ({ message }: { message: string }) => {
   );
 };
 
-const TriggerZap = ({ url }: { url: any }) => {
+const TriggerZap = () => {
+  const route = useRoute<ZapReactionRouteProp>();
+  const { logo } = route.params;
   return (
     <View style={{ alignItems: 'center' }}>
       <View style={styles.card}>
@@ -35,7 +41,7 @@ const TriggerZap = ({ url }: { url: any }) => {
           Choose a Trigger
         </Text>
         <View style={{ width: 100, height: 90 }}>
-          <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={url} resizeMode="cover" />
+          <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={logo} resizeMode="cover" />
         </View>
         <Text style={{ textAlign: 'center', fontFamily: 'Inter', fontSize: 18, color: 'black' }}>
           neque egestas congue quisque egestas diam in arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc
