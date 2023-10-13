@@ -26,6 +26,7 @@ export type RootStackParamList = {
   ActivityScreen: undefined;
   // ! Zap:
   CreateZapScreen: undefined;
+  ServicesZapScreen: undefined;
   ZapReactionScreen: {
     logo: ImageRequireType;
   };

@@ -1,16 +1,16 @@
 import React, { FC } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { ServicesScreenNavigationProp } from '../screen/ServicesScreen';
+import { ZapScreenNavigationProp } from '../screen/CreateZapScreen';
 
 type ImageRequireType = ReturnType<typeof require>;
 
-type ServiceCardProps = {
+type ZapCardProps = {
   item: { title: string; logo: ImageRequireType };
-  navigation: ServicesScreenNavigationProp;
+  navigation: ZapScreenNavigationProp;
 };
 
-const ServiceCard: FC<ServiceCardProps> = ({ item: { title, logo }, navigation }) => {
-  const handleDetails = () => navigation.navigate('ServiceDetailScreen', { title });
+const ServiceZapCard: FC<ZapCardProps> = ({ item: { title, logo }, navigation }) => {
+  const handleDetails = () => navigation.navigate('ZapTriggerScreen', { logo });
 
   return (
     <TouchableOpacity onPress={handleDetails} style={styles.cards}>
@@ -33,4 +33,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ServiceCard;
+export default ServiceZapCard;
