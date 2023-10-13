@@ -5,6 +5,8 @@ import { ZapScreenNavigationProp } from '../screen/CreateZapScreen';
 
 import ServiceZapCard from '../components/ServiceZapCard';
 import ZapSearchBar from '../components/ZapSearchBar';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { RootStackParamList } from '../../../App';
 
 const cardsData = [
   { title: 'Gmail', logo: require('../../../core/assets/gmail.png') },
@@ -25,9 +27,14 @@ type ZapServiceProps = {
   navigation: ZapScreenNavigationProp;
 };
 
+type ServiceDetailRouteProp = RouteProp<RootStackParamList, 'ServicesZapScreen'>;
+
 const ServicesZapScreen = ({ navigation }: ZapServiceProps) => {
   const [filteredCards, setFilteredCards] = useState(cardsData);
   const [searchText, setSearchText] = useState('');
+  const route = useRoute<ServiceDetailRouteProp>();
+  const { isTrigger } = route.params;
+  console.log(isTrigger);
 
   useEffect(() => {
     const filtered = cardsData.filter(card => card.title.toLowerCase().includes(searchText.toLowerCase()));
@@ -39,7 +46,7 @@ const ServicesZapScreen = ({ navigation }: ZapServiceProps) => {
       <ZapSearchBar onChangeText={setSearchText} value={searchText} />
       <ScrollView contentContainerStyle={styles.cardsContainer} showsVerticalScrollIndicator={false}>
         {filteredCards.map((data, index) => (
-          <ServiceZapCard key={index} item={data} navigation={navigation} />
+          <ServiceZapCard key={index} item={data} navigation={navigation} isTrigger={isTrigger} />
         ))}
         <View style={{ height: 100, width: 1000 }} />
       </ScrollView>

@@ -12,10 +12,10 @@ type ZapScreenProps = {
 };
 
 const CreateZapScreen = ({ navigation }: ZapScreenProps) => {
-  const isTrigger = true; // Définissez votre valeur de boolean ici
+  const isTrigger = false; //change this to modify if its add a Trigger or Reaction
   return (
     <View>
-      <TouchableOpacity onPress={() => navigation.navigate('ServicesZapScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('ServicesZapScreen', { isTrigger })}>
         <Text>CreateZapScreen</Text>
       </TouchableOpacity>
     </View>

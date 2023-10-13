@@ -7,10 +7,17 @@ type ImageRequireType = ReturnType<typeof require>;
 type ZapCardProps = {
   item: { title: string; logo: ImageRequireType };
   navigation: ZapScreenNavigationProp;
+  isTrigger: boolean;
 };
 
-const ServiceZapCard: FC<ZapCardProps> = ({ item: { title, logo }, navigation }) => {
-  const handleDetails = () => navigation.navigate('ZapTriggerScreen', { logo });
+const ServiceZapCard: FC<ZapCardProps> = ({ item: { title, logo }, navigation, isTrigger }) => {
+  const handleDetails = () => {
+    if (isTrigger) {
+      navigation.navigate('ZapTriggerScreen', { logo });
+    } else {
+      navigation.navigate('ZapReactionScreen', { logo });
+    }
+  };
 
   return (
     <TouchableOpacity onPress={handleDetails} style={styles.cards}>
