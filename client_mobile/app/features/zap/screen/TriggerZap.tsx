@@ -3,12 +3,14 @@ import React from 'react';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { RootStackParamList } from '../../../App';
+import { ZapScreenNavigationProp } from '../screen/CreateZapScreen';
 
 type ZapReactionRouteProp = RouteProp<RootStackParamList, 'ZapReactionScreen'>;
 
-const TriggerButton = ({ message }: { message: string }) => {
+const TriggerButton = ({ message, navigation }: { message: string; navigation: ZapScreenNavigationProp }) => {
   const handleClickAction = () => {
     console.log('click on button with trigger or reaction : ' + message);
+    navigation.navigate('CreateZapScreen');
   };
 
   return (
@@ -25,7 +27,7 @@ const TriggerButton = ({ message }: { message: string }) => {
   );
 };
 
-const TriggerZap = () => {
+const TriggerZap = ({ navigation }: { navigation: ZapScreenNavigationProp }) => {
   const route = useRoute<ZapReactionRouteProp>();
   const { logo } = route.params;
   return (
@@ -49,8 +51,8 @@ const TriggerZap = () => {
         </Text>
       </View>
       <VStack space="lg" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
-        <TriggerButton message="New comment on tweet" />
-        <TriggerButton message="New like on tweet" />
+        <TriggerButton message="New comment on tweet" navigation={navigation} />
+        <TriggerButton message="New like on tweet" navigation={navigation} />
       </VStack>
     </View>
   );

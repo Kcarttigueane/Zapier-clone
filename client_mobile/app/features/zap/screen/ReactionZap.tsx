@@ -3,13 +3,14 @@ import React from 'react';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { RootStackParamList } from '../../../App';
+import { ZapScreenNavigationProp } from '../screen/CreateZapScreen';
 
-// type ImageRequireType = ReturnType<typeof require>;
 type ZapReactionRouteProp = RouteProp<RootStackParamList, 'ZapReactionScreen'>;
 
-const ReactionButton = ({ message }: { message: string }) => {
+const ReactionButton = ({ message, navigation }: { message: string; navigation: ZapScreenNavigationProp }) => {
   const handleClickAction = () => {
     console.log('click on button with trigger or reaction : ' + message);
+    navigation.navigate('CreateZapScreen');
   };
 
   return (
@@ -26,7 +27,7 @@ const ReactionButton = ({ message }: { message: string }) => {
   );
 };
 
-const ReactionZap = () => {
+const ReactionZap = ({ navigation }: { navigation: ZapScreenNavigationProp }) => {
   const route = useRoute<ZapReactionRouteProp>();
   const { logo } = route.params;
   return (
@@ -50,8 +51,8 @@ const ReactionZap = () => {
         </Text>
       </View>
       <VStack space="lg" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
-        <ReactionButton message="Post a message to a channel" />
-        <ReactionButton message="Post a message to a channel" />
+        <ReactionButton message="Post a message to a channel" navigation={navigation} />
+        <ReactionButton message="Post a message to a channel" navigation={navigation} />
       </VStack>
     </View>
   );

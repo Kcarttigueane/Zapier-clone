@@ -34,7 +34,6 @@ const ServicesZapScreen = ({ navigation }: ZapServiceProps) => {
   const [searchText, setSearchText] = useState('');
   const route = useRoute<ServiceDetailRouteProp>();
   const { isTrigger } = route.params;
-  console.log(isTrigger);
 
   useEffect(() => {
     const filtered = cardsData.filter(card => card.title.toLowerCase().includes(searchText.toLowerCase()));
