@@ -35,8 +35,8 @@ const items: MenuProps['items'] = [
 		key: '1',
 		label: (
 			<Space size="small">
-				<SettingOutlined />
-				<Text>Settings</Text>
+				<UnorderedListOutlined />
+				<Text>Dashboard</Text>
 			</Space>
 		),
 	},
@@ -44,20 +44,20 @@ const items: MenuProps['items'] = [
 		key: '2',
 		label: (
 			<Space size="small">
-				<LogoutOutlined />
-				<Text>Logout</Text>
+				<SettingOutlined />
+				<Text>Settings</Text>
 			</Space>
 		),
 	},
 	{
 		key: '3',
 		label: (
-			<Space size='small'>
-				<UnorderedListOutlined />
-				<Text>Dashboard</Text>
+			<Space size="small">
+				<LogoutOutlined />
+				<Text>Logout</Text>
 			</Space>
-		)
-	}
+		),
+	},
 ];
 
 const CustomNavBar = () => {
@@ -66,13 +66,13 @@ const CustomNavBar = () => {
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		switch (key) {
 			case '1':
-				navigate('/settings');
+				navigate('/dashboard');
 				break;
 			case '2':
-				navigate('/auth/login');
+				navigate('/settings');
 				break;
 			case '3':
-				navigate('/dashboard');
+				navigate('/auth/login');
 				break;
 			default:
 				message.info(`Click on item ${key}`);
