@@ -13,7 +13,6 @@ import Youtube from '../../../core/assets/logo2D/Youtube.png';
 import { useAutomationStore } from '../../../core/store/useAutomationStore';
 import useUserStore from '../../../core/store/useUserStore';
 import { transformAutomationsToDataTable } from '../utils/dashboardUtils';
-import { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';
 
 
@@ -58,7 +57,7 @@ const AutomationTable = () => {
 				if (error instanceof Error) {
 					messageApi.open({
 						type: 'error',
-						content: error.message || 'Something went wrong',
+						content: error.message || t('error'),
 						duration: 5,
 					});
 				}

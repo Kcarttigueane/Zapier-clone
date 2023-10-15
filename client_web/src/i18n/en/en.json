@@ -217,5 +217,6 @@
     "cancel": "Cancel",
     "ok": "OK",
     "time": "{{time}} ago"
-  }
+  },
+  "error": "Something went wrong"
 }

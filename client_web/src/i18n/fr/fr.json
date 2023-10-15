@@ -216,5 +216,6 @@
     "cancel": "Annuler",
     "ok": "OK",
     "time": "Il ya {{time}}"
-  }
+  },
+  "error": "Quelque chose s'est mal passé"
 }

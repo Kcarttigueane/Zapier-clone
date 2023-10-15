@@ -217,5 +217,6 @@
     "cancel": "Cancelar",
     "ok": "Aceptar",
     "time": "Hace {{time}}"
-  }
+  },
+  "error": "Algo salió mal"
 }
