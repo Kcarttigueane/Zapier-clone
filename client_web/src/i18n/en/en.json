@@ -22,7 +22,11 @@
       "format": "DD-MM-YYYY",
       "full": "dddd DD MMMM YYYY",
       "withHour": "MMMM Do YYYY, H:mm:ss a",
-      "year": "Year"
+      "year": "Year",
+      "week": "week",
+      "hour": "hour",
+      "minute": "minute",
+      "second": "second"
     },
     "days": {
       "mon": "Monday",
@@ -202,5 +206,17 @@
       "playlist": "Add to Playlist",
       "file": "Upload File"
     }
-  }
+  },
+  "dashboard": {
+    "filter": "Filter Automations",
+    "service": "Service",
+    "name": "Name",
+    "polled": "Last Polled",
+    "running": "Running",
+    "confirm": "Sure to delete?",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "time": "{{time}} ago"
+  },
+  "error": "Something went wrong"
 }

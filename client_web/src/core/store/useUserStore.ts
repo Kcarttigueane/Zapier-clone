@@ -10,7 +10,7 @@ type UserState = {
 type UserActions = {
 	setUser: (user: UserModel) => void;
 	clearUser: () => void;
-	fetchCurrentUser: (accessToken: string) => Promise<UserModel | undefined>;
+	fetchCurrentUser: (accessToken: string) => Promise<any | undefined>;
 	updateUser: (userId: number, user: Partial<UserModel>) => Promise<void>;
 	deleteUser: (userId: number) => Promise<void>;
 };

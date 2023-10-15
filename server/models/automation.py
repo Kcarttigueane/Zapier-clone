@@ -10,6 +10,10 @@ from models.py_object_id import PyObjectId
 class AutomationCreate(BaseModel):
     action: Optional[str] = Field(None)
     reaction: Optional[str] = Field(None)
+    action_service: Optional[str] = Field(None)
+    reaction_service: Optional[str] = Field(None)
+    name: Optional[str] = Field(None)
+    active: Optional[bool] = Field(True)
     last_polled: Optional[datetime] = Field(default_factory=datetime.utcnow)
     last_obj_checked: Optional[datetime] = Field(None)
     first_poll: Optional[bool] = Field(True)

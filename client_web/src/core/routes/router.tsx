@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Login from '../../features/auth/pages/Login';
 import Register from '../../features/auth/pages/Register';
+import Home from '../../features/home/pages/Home';
 import Dashboard from '../../features/dashboard/pages/Dashboard';
 import Landing from '../../features/landing/pages/Landing';
 import Settings from '../../features/settings/pages/Settings';
@@ -12,6 +13,16 @@ const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <Landing />,
+		errorElement: <Error404 />,
+		loader: LoadingPage,
+	},
+	{
+		path: '/home',
+		element: (
+			<ProtectedRoute>
+				<Home />
+			</ProtectedRoute>
+		),
 		errorElement: <Error404 />,
 		loader: LoadingPage,
 	},
