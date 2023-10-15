@@ -30,7 +30,7 @@ user_repository = UserRepository()
 async def authorize_spotify_access(token: str = Query(..., description="Authorization token")):
     current_user = await get_current_user(token)
     state = current_user.username
-    scope = "user-read-private user-read-email playlist-read-private"
+    scope = "user-read-private user-read-email playlist-read-private playlist-modify-private user-library-modify"
 
     spotify_auth_url = (
         f"https://accounts.spotify.com/authorize?"

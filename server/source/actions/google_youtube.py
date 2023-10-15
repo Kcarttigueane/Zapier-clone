@@ -1,30 +1,15 @@
+from models.user import User
+from models.automation import Action, ActionAnswer
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI, client
-
-from config.constants import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
-from models.automation import Action, ActionAnswer
-from models.user import User
-from services.auth_service import decrypt_token
+from source.helpers import get_google_credentials
 
 
 def check_youtube_like(user: User, action: Action) -> ActionAnswer:
     first_poll = action.first_poll
     stored_objs = action.stored_objs
 
-    google_access_token = user.token_manager.google_youtube_token
-    token, refresh_token = decrypt_token(google_access_token)
-
-    credentials = client.OAuth2Credentials(
-        access_token=token,
-        client_id=GOOGLE_CLIENT_ID,
-        client_secret=GOOGLE_CLIENT_SECRET,
-        refresh_token=refresh_token,
-        token_expiry=None,
-        token_uri=GOOGLE_TOKEN_URI,
-        user_agent=None,
-        revoke_uri=GOOGLE_REVOKE_URI,
-    )
+    credentials = get_google_credentials(user.token_manager.google_youtube_token)
 
     try:
         service = build("youtube", "v3", credentials=credentials)
@@ -39,7 +24,7 @@ def check_youtube_like(user: User, action: Action) -> ActionAnswer:
             objs = []
             new_stored_objs = []
             for video in response.get("items", []):
-                video_title = video_title
+                video_title = video["snippet"]["title"]
                 if video_title not in stored_objs:
                     objs.append(video_title)
                 new_stored_objs.append(video_title)
