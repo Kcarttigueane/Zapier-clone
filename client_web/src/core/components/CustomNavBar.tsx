@@ -1,4 +1,4 @@
-import { BellOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import { BellOutlined, LogoutOutlined, SettingOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Dropdown, Input, MenuProps, Space, Typography, message } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
@@ -49,6 +49,15 @@ const items: MenuProps['items'] = [
 			</Space>
 		),
 	},
+	{
+		key: '3',
+		label: (
+			<Space size='small'>
+				<UnorderedListOutlined />
+				<Text>Dashboard</Text>
+			</Space>
+		)
+	}
 ];
 
 const CustomNavBar = () => {
@@ -61,6 +70,9 @@ const CustomNavBar = () => {
 				break;
 			case '2':
 				navigate('/auth/login');
+				break;
+			case '3':
+				navigate('/dashboard');
 				break;
 			default:
 				message.info(`Click on item ${key}`);

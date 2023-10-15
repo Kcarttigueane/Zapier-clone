@@ -1,8 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Login from '../../features/auth/pages/Login';
 import Register from '../../features/auth/pages/Register';
+import Home from '../../features/home/pages/Home';
 import Dashboard from '../../features/dashboard/pages/Dashboard';
-import DashboardAutomations from '../../features/dashboard2.0/pages/Dashboard';
 import Landing from '../../features/landing/pages/Landing';
 import Settings from '../../features/settings/pages/Settings';
 import Error404 from '../pages/Error404';
@@ -17,20 +17,20 @@ const router = createBrowserRouter([
 		loader: LoadingPage,
 	},
 	{
-		path: '/dashboard',
+		path: '/home',
 		element: (
 			<ProtectedRoute>
-				<Dashboard />
+				<Home />
 			</ProtectedRoute>
 		),
 		errorElement: <Error404 />,
 		loader: LoadingPage,
 	},
 	{
-		path: '/dashboard2.0',
+		path: '/dashboard',
 		element: (
 			<ProtectedRoute>
-				<DashboardAutomations />
+				<Dashboard />
 			</ProtectedRoute>
 		),
 		errorElement: <Error404 />,

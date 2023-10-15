@@ -1,9 +1,9 @@
-import { Table, Typography, message, Image, Popconfirm, Switch } from 'antd';
+import { Table, Typography, message, Image, Popconfirm, Switch, Space, Input, Button } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import { useState, useEffect } from 'react';
 import useUserStore from '../../../core/store/useUserStore';
 import { useTranslation } from 'react-i18next';
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, ExclamationCircleFilled } from '@ant-design/icons';
 import { useAutomationStore } from '../../../core/store/useAutomationStore';
 import Spotify from '../../../core/assets/logo2D/Spotify.png';
 import Youtube from '../../../core/assets/logo2D/Youtube.png';
@@ -12,6 +12,7 @@ import Gmail from '../../../core/assets/logo2D/Gmail.png';
 import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
 import GoogleCalendar from '../../../core/assets/logo2D/GoogleCalandar.png';
 import Tinder from '../../../core/assets/logo2D/Tinder.png'
+import { act } from 'react-dom/test-utils';
 
 
 const { Text } = Typography;
@@ -67,10 +68,11 @@ const serviceToImageSrc: Record<string, string> = {
 
 const AutomationTable = () => {
 	const { fetchCurrentUser } = useUserStore((state) => state);
-	const [user, setUser] = useState<any | null>(null);
+	const [inputString, setInputString] = useState<string>("");
 	const { t } = useTranslation();
 	const [messageApi, contextHolder] = message.useMessage();
 	const [automations, setAutomations] = useState<Array<any>>([]);
+	const [displayAutomations, setDisplayAutomations]	= useState<Array<any>>([]);
 	const { updateAutomation, deleteAutomation } = useAutomationStore(state => state);
 
 	const handleDelete = (key: React.Key) => {
@@ -95,8 +97,8 @@ const AutomationTable = () => {
 			dataIndex: 'service',
 			render: (_, record: { key: React.Key }) => {
 				const keyAsNumber = Number(record.key);
-				const actionImage = serviceToImageSrc[automations[keyAsNumber]['action_service'].toLowerCase()];
-				const reactionImage = serviceToImageSrc[automations[keyAsNumber]['reaction_service'].toLowerCase()];
+				const actionImage = serviceToImageSrc[displayAutomations[keyAsNumber]['action_service'].toLowerCase()];
+				const reactionImage = serviceToImageSrc[displayAutomations[keyAsNumber]['reaction_service'].toLowerCase()];
 				console.log("Action Image: ", actionImage);
 				return (
 					<div>
@@ -126,7 +128,7 @@ const AutomationTable = () => {
 			dataIndex: 'operation',
 			width: 100,
 			render: (_, record: { key: React.Key }) => (
-				<Popconfirm title={"Sure to delete?"} onConfirm={() => handleDelete(record.key)}>
+				<Popconfirm title={"Sure to delete?"} icon={<ExclamationCircleFilled color='blue' />} onConfirm={() => handleDelete(record.key)}>
 					<a>
 						<DeleteOutlined style={{ fontSize: '20px', color: 'red' }} />
 					</a>
@@ -144,7 +146,7 @@ const AutomationTable = () => {
 
 				return (
 					<a>
-						<Switch checked={automations[keyAsNumber]['active']} onChange={handleSwitchRunning(record.key)} />
+						<Switch checked={displayAutomations[keyAsNumber]['active']} onChange={handleSwitchRunning(record.key)} />
 					</a>
 				);
 			},
@@ -158,10 +160,10 @@ const AutomationTable = () => {
 			try {
 				const userModel = await fetchCurrentUser(accessToken);
 				if (userModel) {
-					setUser(userModel);
 					const userAutomations = userModel['automations'];
 					console.log("Automations: ", userAutomations);
 					setAutomations(userAutomations);
+					setDisplayAutomations(userAutomations);
 				}
 			} catch (error) {
 				console.error('Error fetching current user:', error);
@@ -180,11 +182,32 @@ const AutomationTable = () => {
 		}
 	}, []);
 
+
+
+	const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setInputString(event.target.value);
+		let filteredAutomations = automations;
+		if (event.target.value != "") {
+			filteredAutomations = automations.filter((automation) => {
+				const nameMatches = automation['name'].toLowerCase().includes(inputString.toLowerCase());
+				const actionMatches = automation['action_service'].toLowerCase().includes(inputString.toLowerCase());
+				const reactionMatches = automation['reaction_service'].toLowerCase().includes(inputString.toLowerCase());
+
+				return nameMatches || actionMatches || reactionMatches;
+			});
+		}
+		setDisplayAutomations(filteredAutomations);
+	};
+
 	return (
 		<>
 			{contextHolder}
+			<Space.Compact style={{ width: '90%' }}>
+				<Input defaultValue="Combine input and button" size='large' onChange={handleInputChange} value={inputString} placeholder='Filter Automations' />
+				<Button type="primary" style={{ backgroundColor: 'black' }} size='large'>Submit</Button>
+			</Space.Compact>
 			{automations !== null ? (
-				<Table columns={columns} dataSource={transformAutomationsToDataTable(automations)} style={{ width: "90%" }} />
+				<Table columns={columns} dataSource={transformAutomationsToDataTable(displayAutomations)} style={{ width: "90%" }} />
 			) : null}
 		</>
 	);

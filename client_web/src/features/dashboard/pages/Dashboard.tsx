@@ -2,8 +2,7 @@ import { Layout } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 import React from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
-import AutomationCreation from '../components/AutomationCreation';
-import RecommendSection from '../components/RecommendSection';
+import AutomationTable from '../components/AutomationTable';
 
 const layoutStyle: React.CSSProperties = {
 	minHeight: '100vh',
@@ -38,19 +37,19 @@ const footerStyle: React.CSSProperties = {
 	background: '#fff',
 };
 
+
 const Dashboard = () => {
-	return (
-		<Layout style={layoutStyle}>
-			<CustomNavBar />
-			<Content style={contentStyle}>
+    return (
+        <Layout style={layoutStyle}>
+            <CustomNavBar />
+            <Content style={contentStyle}>
 				<Layout style={MainZapStyle}>
-					<AutomationCreation />
+                    <AutomationTable/>
 				</Layout>
-				<RecommendSection />
 			</Content>
-			<Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
-		</Layout>
-	);
-};
+            <Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
+        </Layout>
+    )
+}
 
 export default Dashboard;
