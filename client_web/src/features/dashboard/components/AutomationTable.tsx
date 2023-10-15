@@ -13,6 +13,10 @@ import Youtube from '../../../core/assets/logo2D/Youtube.png';
 import { useAutomationStore } from '../../../core/store/useAutomationStore';
 import useUserStore from '../../../core/store/useUserStore';
 import { transformAutomationsToDataTable } from '../utils/dashboardUtils';
+import { TFunction } from 'i18next';
+import { useTranslation } from 'react-i18next';
+
+
 
 interface DataType {
 	key: React.Key;
@@ -38,6 +42,7 @@ const AutomationTable = () => {
 	const [automations, setAutomations] = useState<Array<any>>([]);
 	const [displayAutomations, setDisplayAutomations] = useState<Array<any>>([]);
 	const { updateAutomation, deleteAutomation } = useAutomationStore((state) => state);
+	const { t } = useTranslation();
 
 	useEffect(() => {
 		const fetchUser = async (accessToken: string) => {
@@ -45,7 +50,6 @@ const AutomationTable = () => {
 				const userModel = await fetchCurrentUser(accessToken);
 				if (userModel) {
 					const userAutomations = userModel.automations;
-					console.log('Automations: ', userAutomations);
 					setAutomations(userAutomations);
 					setDisplayAutomations(userAutomations);
 				}
@@ -71,6 +75,7 @@ const AutomationTable = () => {
 		deleteAutomation(automations[keyAsNumber]);
 		const updatedAutomations = automations.filter((_, index) => index !== keyAsNumber);
 		setAutomations(updatedAutomations);
+		setDisplayAutomations(updatedAutomations);
 	};
 
 	const handleSwitchRunning = (key: React.Key) => (newState: boolean) => {
@@ -78,19 +83,19 @@ const AutomationTable = () => {
 		const updatedAutomations = [...automations];
 		updatedAutomations[keyAsNumber] = { ...updatedAutomations[keyAsNumber], active: newState };
 		setAutomations(updatedAutomations);
+		setDisplayAutomations(updatedAutomations);
 		updateAutomation(updatedAutomations[keyAsNumber]);
 	};
 
 	const columns: ColumnsType<DataType> = [
 		{
-			title: 'Services',
+			title: t('dashboard.service'),
 			key: 'service',
 			dataIndex: 'service',
 			render: (_, record: { key: React.Key }) => {
 				const keyAsNumber = Number(record.key);
 				const actionImage = serviceToImageSrc[displayAutomations[keyAsNumber].action_service.toLowerCase()];
 				const reactionImage = serviceToImageSrc[displayAutomations[keyAsNumber].reaction_service.toLowerCase()];
-				console.log('Action Image: ', actionImage);
 				return (
 					<div>
 						<div
@@ -122,12 +127,12 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: 'Name',
+			title: t('dashboard.name'),
 			dataIndex: 'name',
 			key: 'name',
 		},
 		{
-			title: 'Last Polled',
+			title: t('dashboard.polled'),
 			dataIndex: 'lastPolled',
 			key: 'lastPolled',
 		},
@@ -138,7 +143,7 @@ const AutomationTable = () => {
 			width: 100,
 			render: (_, record: { key: React.Key }) => (
 				<Popconfirm
-					title={'Sure to delete?'}
+					title={t('dashboard.confirm')}
 					icon={<ExclamationCircleFilled color="blue" />}
 					onConfirm={() => handleDelete(record.key)}
 				>
@@ -149,7 +154,7 @@ const AutomationTable = () => {
 			),
 		},
 		{
-			title: 'Running',
+			title: t('dashboard.running'),
 			dataIndex: 'running',
 			key: 'running',
 			width: 100,
@@ -189,12 +194,13 @@ const AutomationTable = () => {
 					size="large"
 					onChange={handleInputChange}
 					value={inputString}
-					placeholder="Filter Automations"
+					placeholder={t('dashboard.filter')}
 					allowClear
 				/>
 			</Space.Compact>
 			{automations !== null ? (
 				<Table
+					locale={{ emptyText: 'No Current Automations' }}
 					columns={columns}
 					dataSource={transformAutomationsToDataTable(displayAutomations)}
 					style={{ width: '90%' }}
