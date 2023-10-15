@@ -8,14 +8,13 @@ from repository.user_repository import UserRepository, encrypt_token
 import base64
 
 
-async def spotify_refresh_token(user: User) -> User:
+async def spotify_refresh_token(user: User, force: bool = False) -> User:
     user_repository = UserRepository()
     spotify_token = user.token_manager.spotify_token
 
-    if not is_expired(spotify_token):
+    if not is_expired(spotify_token) and not force:
         return user
 
-    print("Spotify Token Expired")
     _, refresh_token = decrypt_token(spotify_token)
 
     headers = {
@@ -43,7 +42,7 @@ async def spotify_refresh_token(user: User) -> User:
         await user_repository.update_service_access_token(
             user.id, auth_token, "spotify_token"
         )
-        user_dict = user.dict()
+        user_dict = user.dict().copy()
         auth_token.token = encrypt_token({"token": auth_token.token})
         auth_token.refresh_token = encrypt_token(
             {"refresh_token": auth_token.refresh_token}

@@ -77,8 +77,14 @@ async def add_songs_to_playlist(user: User, action_answer: ActionAnswer):
     user = await spotify_refresh_token(user)
     spotify_access_token = user.token_manager.spotify_token
     token, _ = decrypt_token(spotify_access_token)
-
     spotify_id = get_user_id(token)
+
+    if spotify_id == None:
+        user = await spotify_refresh_token(user, force=True)
+        spotify_access_token = user.token_manager.spotify_token
+        token, _ = decrypt_token(spotify_access_token)
+        spotify_id = get_user_id(token)
+
     playlist_id = create_playlist(spotify_id, "Area", token)
     track_uris = []
 

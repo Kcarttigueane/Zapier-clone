@@ -1,4 +1,5 @@
 from datetime import datetime
+import asyncio
 from typing import Dict, Coroutine
 from source.actions.google_drive import check_latests_file
 from source.actions.google_youtube import check_youtube_like
@@ -101,13 +102,11 @@ async def get_automations():
             user_changed = False
 
             for j, automation in enumerate(user_dict["automations"]):
-                if check_poll_time(automation):
+                if check_poll_time(automation) and automation['active']:
                     user_dict = await automate(user_dict, automation, j)
                     user_changed = True
 
             if user_changed:
                 await collection.replace_one({"_id": user.id}, user_dict)
                 all_users[i] = User(**user_dict)
-
-
-# asyncio.run(get_automations())
+        await asyncio.sleep(60)
