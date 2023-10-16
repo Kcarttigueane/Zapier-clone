@@ -1,0 +1,222 @@
+{
+  "basic": {
+    "actions": {
+      "add": "Añadir",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar",
+      "delete": "Eliminar",
+      "draft": "Borrador",
+      "edit": "Editar",
+      "modify": "Modificar",
+      "no": "No",
+      "ok": "Ok",
+      "save": "Guardar",
+      "search": "Buscar",
+      "valid": "Válido",
+      "yes": "Sí",
+      "wait": "Por favor espera...",
+      "or": "o"
+    },
+    "date": {
+      "display": "{{month}}/{{day}}",
+      "format": "DD-MM-YYYY",
+      "full": "dddd DD MMMM YYYY",
+      "withHour": "MMMM Do YYYY, H:mm:ss a",
+      "year": "Año",
+      "week": "semana",
+      "hour": "hora",
+      "minute": "minuto",
+      "second": "segundo"
+    },
+    "days": {
+      "mon": "Lunes",
+      "tue": "Martes",
+      "wed": "Miércoles",
+      "thu": "Jueves",
+      "fri": "Viernes",
+      "sat": "Sábado",
+      "sun": "Domingo",
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "tomorrow": "Mañana"
+    },
+    "fields": {
+      "keepMeLoggedIn": "Mantenerme conectado",
+      "address": "Dirección",
+      "condition": "Condición",
+      "confirmPassword": "Confirmar contraseña",
+      "country": "País",
+      "description": "Descripción",
+      "email": "Correo electrónico",
+      "firstName": "Nombre",
+      "franchise": "Franquicia",
+      "lastName": "Apellido",
+      "name": "Nombre",
+      "password": "Contraseña",
+      "phone1": "Teléfono principal",
+      "phone2": "Teléfono secundario",
+      "socialNetwork": "Red social",
+      "state": "Estado",
+      "store": "Tienda",
+      "streetNumber": "Número de calle",
+      "title": "Título",
+      "type": "Tipo",
+      "website": "Sitio web",
+      "zipCode": "Código postal",
+      "submit": "Entregar"
+    },
+    "hours": {
+      "12am": "12am",
+      "2am": "2am",
+      "4am": "4am",
+      "6am": "6am",
+      "8am": "8am",
+      "10am": "10am",
+      "12pm": "12pm",
+      "2pm": "2pm",
+      "4pm": "4pm",
+      "6pm": "6pm",
+      "8pm": "8pm",
+      "10pm": "10pm"
+    },
+    "misc": {
+      "rows": "filas por página"
+    },
+    "months": {
+      "january": "Enero",
+      "february": "Febrero",
+      "march": "Marzo",
+      "april": "Abril",
+      "may": "Mayo",
+      "june": "Junio",
+      "july": "Julio",
+      "august": "Agosto",
+      "september": "Septiembre",
+      "october": "Octubre",
+      "november": "Noviembre",
+      "december": "Diciembre"
+    }
+  },
+  "demo_guides": {
+    "automation": {
+      "title": "La automatización es clave",
+      "description": "Ahorre tiempo y haga más"
+    },
+    "connect": {
+      "p1": "Conecta tu servicio favorito para crear",
+      "p2": "un flujo digital transparente directamente desde tu",
+      "p3": "teléfono inteligente.",
+      "el1": "Dispara acciones inteligentes",
+      "el2": "Sincroniza con la aplicación web",
+      "el3": "Mayor seguridad"
+    },
+    "card1": {
+      "title": "Crea flujos de trabajo personalizados en minutos",
+      "description": "Automatiza el trabajo repetitivo, para que puedas enfocarte en tu trabajo, no en tus herramientas. Te mostraremos cómo."
+    },
+    "card2": {
+      "title": "Obtén más poder de tus herramientas",
+      "description": "Integra tus aplicaciones de trabajo críticas en flujos de trabajo, recupera tu tiempo y enfócate en el trabajo impactante."
+    },
+    "card3": {
+      "title": "Conecta las aplicaciones que ya amas",
+      "description": "Zapier soporta más aplicaciones que cualquier otra plataforma, para que puedas optimizar las herramientas que usas."
+    }
+  },
+  "settings": {
+    "headerTitle": "Configuraciones",
+    "placeholder": "introducir texto de búsqueda",
+    "enabled": "activado",
+    "disabled": "desactivado",
+    "settingScreen": {
+      "profile": {
+        "title": "Configuración General",
+        "pic": "Foto de perfil",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "phone": "Número de teléfono",
+        "pushNotif": "Notificaciones Push",
+        "emailNotif": "Notificaciones por correo electrónico",
+        "mode": "Modo oscuro"
+      },
+      "connectedServices": {
+        "title": "Servicios conectados",
+        "description": "Administra tus servicios conectados"
+      },
+      "help": {
+        "title": "Ayuda y Soporte",
+        "description": "Ayúdanos a mejorar la aplicación",
+        "bug": "Reportar un error",
+        "issue": "Reportar un problema",
+        "feature": "Sugerir una característica",
+        "question": "Hacer una pregunta",
+        "other": "Otro",
+        "textAreaPlaceholder": "Ingresa tu mensaje aquí..."
+      }
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar sesión",
+      "welcome": "¡Bienvenido de nuevo a la aplicación!"
+    },
+    "register": {
+      "title": "Registrarse",
+      "welcome": "¡Crea una cuenta para empezar!"
+    },
+    "forgotPassword": {
+      "title": "Olvidé mi contraseña",
+      "welcome": "Ingresa tu dirección de correo electrónico para restablecer tu contraseña"
+    },
+    "rightArea": {
+      "text": "Vincula tus aplicaciones favoritas y simplifica tu vida utilizando el poder de la automatización."
+    },
+    "passwordForgotten": "¿Olvidaste tu contraseña?",
+    "noAccount": "¿No tienes una cuenta?",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "terms": "Acepta nuestros Términos de Servicio y Política de Privacidad."
+  },
+  "home": {
+    "create": {
+      "title": "Crear un Zap",
+      "action1": "Conectar este servicio...",
+      "reaction1": "...con este otro.",
+      "action2": "Elegir un Desencadenante",
+      "reaction2": "Elegir una Reacción",
+      "authorize": "Autorizar",
+      "connected": "Ya Conectado",
+      "disabled": "Autorizar Servicios",
+      "enabled": "¡Pruébalo!",
+      "service": "Seleccione un servicio"
+    },
+    "trigger": {
+      "like": "Recibir Me Gusta",
+      "reply": "Recibir Respuesta",
+      "folder": "Nueva Carpeta",
+      "file": "Nuevo Archivo",
+      "event": "Evento",
+      "birthday": "Evento de Cumpleaños",
+      "forecast": "Pronóstico Horario",
+      "video": "Video Gustado",
+      "attachment": "Nuevo Adjunto"
+    },
+    "reaction": {
+      "notification": "Notificación de la Aplicación",
+      "message": "Enviar Mensaje",
+      "playlist": "Agregar a la Lista de Reproducción",
+      "file": "Subir Archivo"
+    }
+  },
+  "dashboard": {
+    "filter": "Filtrar automatizaciones",
+    "service": "Servicio",
+    "name": "Nombre",
+    "polled": "Última consulta",
+    "running": "En ejecución",
+    "confirm": "¿Seguro que deseas eliminar?",
+    "cancel": "Cancelar",
+    "ok": "Aceptar",
+    "time": "Hace {{time}}"
+  },
+  "error": "Algo salió mal"
+}
