@@ -5,6 +5,7 @@ import { PlusCircle } from 'lucide-react-native';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../../App';
+import { useTranslation } from 'react-i18next';
 
 type ZapScreenRouteProp = RouteProp<RootStackParamList, 'CreateZapScreen'>;
 export type ZapScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'CreateZapScreen'>;
@@ -14,9 +15,10 @@ type ZapScreenProps = {
 };
 
 const CreateZapScreen = ({ navigation }: ZapScreenProps) => {
+  const { t } = useTranslation();
   return (
     <SafeAreaView style={styles.container}>
-      <Heading style={styles.title}>Create a Zap</Heading>
+      <Heading style={styles.title}>{t('zap.createZapScreen.title')}</Heading>
       <View
         style={{
           display: 'flex',
@@ -27,27 +29,27 @@ const CreateZapScreen = ({ navigation }: ZapScreenProps) => {
         }}>
         <View style={{ display: 'flex', alignItems: 'center' }}>
           <TouchableOpacity style={[styles.bigButton, styles.shadow]}>
-            <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>Trigger</Text>
+            <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>{t('zap.createZapScreen.button1')}</Text>
             <TouchableOpacity
               style={styles.smallButton}
               onPress={() => navigation.navigate('ServicesZapScreen', { isTrigger: true })}>
-              <Text style={styles.smallButtonText}>Add</Text>
+              <Text style={styles.smallButtonText}>{t('basic.actions.add')}</Text>
             </TouchableOpacity>
           </TouchableOpacity>
           <View style={styles.verticalLine} />
           <PlusCircle size={40} style={{ borderWidth: 1, color: 'black' }} />
           <View style={styles.verticalLine} />
           <TouchableOpacity style={[styles.bigButton, styles.shadow]}>
-            <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>Action</Text>
+            <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>{t('zap.createZapScreen.button2')}</Text>
             <TouchableOpacity
               style={styles.smallButton}
               onPress={() => navigation.navigate('ServicesZapScreen', { isTrigger: false })}>
-              <Text style={styles.smallButtonText}>Add</Text>
+              <Text style={styles.smallButtonText}>{t('basic.actions.add')}</Text>
             </TouchableOpacity>
           </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.confirmButton}>
-          <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>Continue</Text>
+          <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>{t('zap.createZapScreen.submit')}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

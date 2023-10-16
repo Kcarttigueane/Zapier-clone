@@ -4,6 +4,7 @@ import { RouteProp, useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
 import { RootStackParamList } from '../../../App';
 import { ZapScreenNavigationProp } from '../screen/CreateZapScreen';
+import { useTranslation } from 'react-i18next';
 
 type ZapReactionRouteProp = RouteProp<RootStackParamList, 'ZapReactionScreen'>;
 
@@ -30,6 +31,7 @@ const TriggerButton = ({ message, navigation }: { message: string; navigation: Z
 const TriggerZap = ({ navigation }: { navigation: ZapScreenNavigationProp }) => {
   const route = useRoute<ZapReactionRouteProp>();
   const { logo } = route.params;
+  const { t } = useTranslation();
   return (
     <View style={{ alignItems: 'center' }}>
       <View style={styles.card}>
@@ -40,7 +42,7 @@ const TriggerZap = ({ navigation }: { navigation: ZapScreenNavigationProp }) => 
             color: 'black',
             fontWeight: 'bold',
           }}>
-          Choose a Trigger
+          {t('zap.triggerScreen.title')}
         </Text>
         <View style={{ width: 100, height: 90 }}>
           <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={logo} resizeMode="cover" />
