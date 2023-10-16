@@ -21,8 +21,6 @@ const ProtectedRoute: FC<Props> = ({ children }) => {
 			fetchCurrentUser(token);
 			navigate('/home');
 		}
-
-
 	}, [location, navigate]);
 
 	if (!isAuthenticated) {
