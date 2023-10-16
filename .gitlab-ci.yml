@@ -54,10 +54,10 @@ deploy:
     - chmod 700 ~/.ssh
     - eval $(ssh-agent -s)
     - echo "$SSH_PRIVATE_KEY"
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - cp $SSH_PRIVATE_KEY ~/.ssh/id_rsa
     - mkdir -p /root/.ssh
     - chmod 700 /root/.ssh
-    - echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa
+    - cp $SSH_PRIVATE_KEY /root/.ssh/id_rsa
     - chmod 600 /root/.ssh/id_rsa
     - ssh-keyscan -H $IP_PREPROD >> ~/.ssh/known_hosts
     - ssh-keyscan -H $IP_PREPROD >> /root/.ssh/known_hosts
