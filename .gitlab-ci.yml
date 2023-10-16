@@ -53,7 +53,6 @@ deploy:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY"
     - cp $SSH_PRIVATE_KEY ~/.ssh/id_rsa
     - mkdir -p /root/.ssh
     - chmod 700 /root/.ssh
