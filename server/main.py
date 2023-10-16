@@ -7,8 +7,9 @@ from routers.services_spotify import services_router_spotify
 from routers.services_google import services_router_google
 from config.constants import CLIENT_URL
 from routers.services_discord import services_router_discord
-
 from routers.automations import automation_router
+from source.automation import get_automations
+import asyncio
 
 app = FastAPI()
 
@@ -24,10 +25,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 @app.on_event("startup")
 async def startup_event():
     await connect_to_mongo()
+    asyncio.create_task(get_automations())
 
 
 @app.on_event("shutdown")

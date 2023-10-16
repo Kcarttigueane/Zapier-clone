@@ -22,7 +22,11 @@
       "format": "DD-MM-YYYY",
       "full": "dddd DD MMMM YYYY",
       "withHour": "MMMM Do YYYY, H:mm:ss a",
-      "year": "Año"
+      "year": "Año",
+      "week": "semana",
+      "hour": "hora",
+      "minute": "minuto",
+      "second": "segundo"
     },
     "days": {
       "mon": "Lunes",
@@ -202,5 +206,17 @@
       "playlist": "Agregar a la Lista de Reproducción",
       "file": "Subir Archivo"
     }
-  }
+  },
+  "dashboard": {
+    "filter": "Filtrar automatizaciones",
+    "service": "Servicio",
+    "name": "Nombre",
+    "polled": "Última consulta",
+    "running": "En ejecución",
+    "confirm": "¿Seguro que deseas eliminar?",
+    "cancel": "Cancelar",
+    "ok": "Aceptar",
+    "time": "Hace {{time}}"
+  },
+  "error": "Algo salió mal"
 }

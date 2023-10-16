@@ -1,32 +1,16 @@
-from datetime import datetime
-
+from models.user import User
+from models.automation import Action, ActionAnswer
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI, client
-
-from config.constants import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
-from models.automation import Action, ActionAnswer
-from models.user import User
-from services.auth_service import decrypt_token
+from datetime import datetime
+from source.helpers import get_google_credentials
 
 
 def check_latests_file(user: User, action: Action) -> ActionAnswer:
     last_polled = action.last_polled
     last_checked_file = action.last_obj_checked
 
-    google_access_token = user.token_manager.google_drive_token
-    token, refresh_token = decrypt_token(google_access_token)
-
-    credentials = client.OAuth2Credentials(
-        access_token=token,
-        client_id=GOOGLE_CLIENT_ID,
-        client_secret=GOOGLE_CLIENT_SECRET,
-        refresh_token=refresh_token,
-        token_expiry=None,
-        token_uri=GOOGLE_TOKEN_URI,
-        user_agent=None,
-        revoke_uri=GOOGLE_REVOKE_URI,
-    )
+    credentials = get_google_credentials(user.token_manager.google_drive_token)
 
     after_date = last_checked_file if last_checked_file != None else last_polled
 
@@ -50,6 +34,8 @@ def check_latests_file(user: User, action: Action) -> ActionAnswer:
             return "No files found."
 
         result_str = ""
+        objs = []
+
         for item in items:
             file_name = item["name"]
             created_time = item["createdTime"]
@@ -64,6 +50,7 @@ def check_latests_file(user: User, action: Action) -> ActionAnswer:
                 ).strftime("%d/%m/%Y")
                 file_name_link = f'<a href="https://docs.google.com/document/d/{file_id}">{file_name}</a>'
                 result_str += f"{file_name_link}: Created at {formatted_created_time}\n"
+                objs.append(result_str)
                 last_checked_file_date = created_time_datetime
 
         passed = bool(result_str != "")
@@ -82,6 +69,7 @@ def check_latests_file(user: User, action: Action) -> ActionAnswer:
             header=header,
             body=body,
             passed=passed,
+            objs=objs,
         )
         return response
 

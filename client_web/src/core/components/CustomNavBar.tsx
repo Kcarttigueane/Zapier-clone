@@ -1,4 +1,4 @@
-import { BellOutlined, LogoutOutlined, SettingOutlined } from '@ant-design/icons';
+import { BellOutlined, LogoutOutlined, SettingOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { Avatar, Badge, Dropdown, Input, MenuProps, Space, Typography, message } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
@@ -35,13 +35,22 @@ const items: MenuProps['items'] = [
 		key: '1',
 		label: (
 			<Space size="small">
+				<UnorderedListOutlined />
+				<Text>Dashboard</Text>
+			</Space>
+		),
+	},
+	{
+		key: '2',
+		label: (
+			<Space size="small">
 				<SettingOutlined />
 				<Text>Settings</Text>
 			</Space>
 		),
 	},
 	{
-		key: '2',
+		key: '3',
 		label: (
 			<Space size="small">
 				<LogoutOutlined />
@@ -57,9 +66,12 @@ const CustomNavBar = () => {
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		switch (key) {
 			case '1':
-				navigate('/settings');
+				navigate('/dashboard');
 				break;
 			case '2':
+				navigate('/settings');
+				break;
+			case '3':
 				navigate('/auth/login');
 				break;
 			default:

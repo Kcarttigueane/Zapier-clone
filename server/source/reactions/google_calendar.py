@@ -3,6 +3,9 @@ from datetime import datetime, timedelta
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI, client
+from datetime import datetime, timedelta
+from source.helpers import get_google_credentials
+from models.automation import ActionAnswer
 
 from config.constants import GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET
 from models.user import User
@@ -20,20 +23,8 @@ def get_weeks_time_frame():
     return start_date, end_date
 
 
-def get_this_weeks_events(user: User):
-    google_access_token = user.token_manager.google_calendar_token
-    token, refresh_token = decrypt_token(google_access_token)
-
-    credentials = client.OAuth2Credentials(
-        access_token=token,
-        client_id=GOOGLE_CLIENT_ID,
-        client_secret=GOOGLE_CLIENT_SECRET,
-        refresh_token=refresh_token,
-        token_expiry=None,
-        token_uri=GOOGLE_TOKEN_URI,
-        user_agent=None,
-        revoke_uri=GOOGLE_REVOKE_URI,
-    )
+def get_this_weeks_events(user: User, action_answer: ActionAnswer):
+    credentials = get_google_credentials(user.token_manager.google_calendar_token)
 
     try:
         service = build("calendar", "v3", credentials=credentials)

@@ -22,7 +22,11 @@
       "format": "DD-MM-YYYY",
       "full": "dddd DD MMMM YYYY",
       "withHour": "Do MMMM YYYY, H:mm:ss",
-      "year": "Année"
+      "year": "Année",
+      "week": "semaine",
+      "hour": "heure",
+      "minute": "minute",
+      "second": "seconde"
     },
     "days": {
       "mon": "Lundi",
@@ -201,6 +205,17 @@
       "playlist": "Ajouter à la Playlist",
       "file": "Téléverser un Fichier"
     }
-}
-
+  },
+  "dashboard": {
+    "filter": "Filtrer les automatisations",
+    "service": "Service",
+    "name": "Nom",
+    "polled": "Dernière automation",
+    "running": "Active",
+    "confirm": "Êtes-vous sûr de vouloir supprimer ?",
+    "cancel": "Annuler",
+    "ok": "OK",
+    "time": "Il ya {{time}}"
+  },
+  "error": "Quelque chose s'est mal passé"
 }

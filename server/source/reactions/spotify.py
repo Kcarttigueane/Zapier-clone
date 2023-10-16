@@ -1,3 +1,8 @@
+from models.user import User
+from models.automation import ActionAnswer
+from services.auth_service import decrypt_token
+from source.refresh_token import spotify_refresh_token
+import requests
 import json
 
 import requests
@@ -52,9 +57,52 @@ def get_existing_playlist_id(user_id, playlist_name, access_token):
     return None
 
 
-def add_songs_to_playlist(user: User, action_answer: ActionAnswer):
-    objs = action_answer.objs
-    spotify_access_token = user.token_manager.spotify_token
-    token, refresh_token = decrypt_token(spotify_access_token)
+def get_track_uri(song_name, access_token):
+    url = f"https://api.spotify.com/v1/search"
+    headers = {"Authorization": f"Bearer {access_token}"}
+    params = {"q": song_name, "type": "track", "limit": 1}
+    response = requests.get(url, headers=headers, params=params)
 
+    if response.status_code == 200:
+        data = response.json()
+        if data["tracks"]["items"]:
+            return data["tracks"]["items"][0]["uri"]
+    else:
+        print(f"Failed to get track URI for '{song_name}': {response.text}")
+    return None
+
+
+async def add_songs_to_playlist(user: User, action_answer: ActionAnswer):
+    objs = action_answer.objs
+    user = await spotify_refresh_token(user)
+    spotify_access_token = user.token_manager.spotify_token
+    token, _ = decrypt_token(spotify_access_token)
     spotify_id = get_user_id(token)
+
+    if spotify_id == None:
+        user = await spotify_refresh_token(user, force=True)
+        spotify_access_token = user.token_manager.spotify_token
+        token, _ = decrypt_token(spotify_access_token)
+        spotify_id = get_user_id(token)
+
+    playlist_id = create_playlist(spotify_id, "Area", token)
+    track_uris = []
+
+    for song_name in objs:
+        track_uri = get_track_uri(song_name, token)
+        if track_uri:
+            track_uris.append(track_uri)
+
+    if track_uris != []:
+        url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+        }
+        data = {"uris": track_uris}
+        response = requests.post(url, headers=headers, data=json.dumps(data))
+
+        if response.status_code == 201:
+            print("Tracks added to the playlist successfully.")
+        else:
+            print(f"Failed to add tracks to the playlist: {response.text}")
