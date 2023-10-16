@@ -5,13 +5,11 @@ import useUserStore from './useUserStore';
 const BASE_URL = 'http://0.0.0.0:8080/api';
 
 type AuthState = {
-	isAuthenticated: boolean;
 	accessToken?: string;
 	error?: string;
 };
 
 type AuthActions = {
-	setIsAuthenticated: (isAuthenticated: boolean) => void;
 	loginFn: (email: string, password: string) => Promise<void>;
 	registerFn: (username: string, email: string, password: string) => Promise<UserModel>;
 	logoutFn: () => void;
@@ -24,7 +22,6 @@ type AuthActions = {
 };
 
 const initialState: AuthState = {
-	isAuthenticated: false,
 	accessToken: undefined,
 	error: undefined,
 };
@@ -32,7 +29,6 @@ const initialState: AuthState = {
 export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 	return {
 		...initialState,
-		setIsAuthenticated: (isAuthenticated) => set({ isAuthenticated }),
 		loginFn: async (email, password) => {
 			const formData = new FormData();
 			formData.append('username', email);
@@ -44,7 +40,6 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 			}).then((res) => res.json());
 
 			if (response) {
-				set({ isAuthenticated: true });
 				localStorage.setItem('access_token', response.access_token);
 			}
 		},
@@ -66,7 +61,6 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 				const user: UserModel = await response.json();
 				useUserStore.getState().setUser(user);
 				useAuthStore.getState().loginFn(email, password);
-				set({ isAuthenticated: true });
 				return user;
 			} catch (error) {
 				console.error('Registration error:', error);
@@ -74,7 +68,6 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 			}
 		},
 		logoutFn: () => {
-			set({ isAuthenticated: false });
 			useUserStore.getState().clearUser();
 		},
 		loginWithGoogle: () => {
