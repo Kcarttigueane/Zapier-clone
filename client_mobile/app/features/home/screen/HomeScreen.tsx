@@ -6,11 +6,11 @@ import {
   TabsTabPanel,
   TabsTabPanels,
   TabsTabTitle,
-  Text,
 } from '@gluestack-ui/themed';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import AutomationCard from '../components/AutomationCard';
+import ArchivedCard from '../components/ArchivedCard';
 
 export interface MockupAutomationData {
   id: number;
@@ -72,7 +72,13 @@ const HomeScreen = () => {
           </View>
         </TabsTabPanel>
         <TabsTabPanel value="Archived">
-          <Text>Archived</Text>
+          <View style={{ paddingBottom: 60 }}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ marginTop: 12, marginBottom: 12 }}>
+              {mockupAutomation.map((item, index) => (
+                <ArchivedCard item={item} key={index} />
+              ))}
+            </ScrollView>
+          </View>
         </TabsTabPanel>
       </TabsTabPanels>
     </Tabs>
