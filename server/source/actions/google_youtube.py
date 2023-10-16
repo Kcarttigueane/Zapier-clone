@@ -19,7 +19,7 @@ def check_youtube_like(user: User, action: Action) -> ActionAnswer:
             stored_objs = []
             for video in response.get("items", []):
                 stored_objs.append(video["snippet"]["title"])
-            return ActionAnswer(stored_objs=stored_objs)
+            return ActionAnswer(stored_objs=stored_objs, objs=stored_objs)
         else:
             objs = []
             new_stored_objs = []

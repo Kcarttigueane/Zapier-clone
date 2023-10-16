@@ -18,6 +18,6 @@ DISCORD_CLIENT_ID = config["DISCORD_CLIENT_ID"]
 DISCORD_CLIENT_SECRET = config["DISCORD_CLIENT_SECRET"]
 DISCORD_BOT_TOKEN = config["DISCORD_BOT_TOKEN"]
 
-POLLED_TIME = 1
+POLLED_TIME = 0.2
 
 action_dict_format = {"head": "", "body": "", "tail": "", "last_checked": None}

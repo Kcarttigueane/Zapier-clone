@@ -93,10 +93,10 @@ async def automate(user_dict, automation, i):
 
 async def get_automations():
     await connect_to_mongo()
-    collection = get_database()["Users"]
-    all_users = await get_all_users(collection)
 
     while True:
+        collection = get_database()["Users"]
+        all_users = await get_all_users(collection)
         for i, user in enumerate(all_users):
             user_dict = user.dict()
             user_changed = False
@@ -109,4 +109,4 @@ async def get_automations():
             if user_changed:
                 await collection.replace_one({"_id": user.id}, user_dict)
                 all_users[i] = User(**user_dict)
-        await asyncio.sleep(60)
+        await asyncio.sleep(20)
