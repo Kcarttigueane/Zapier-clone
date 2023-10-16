@@ -39,6 +39,9 @@ export const useAutomationStore = create<AutomationState & AutomationActions>()(
         body: JSON.stringify({
           action: 'youtube_new_like',
           reaction: 'spotify_add_song',
+          name: "Like song -> Add to playlist",
+          action_service: "Youtube",
+          reaction_service: "Spotify"
         }),
       });
 
