@@ -82,7 +82,7 @@ const CustomNavBar = () => {
 	return (
 		<Header style={headerStyle}>
 			<Space>
-				<Avatar size={60} src={<img src={'/logo.jpg'} alt="Logo" />} onClick={() => navigate('/dashboard')} />
+				<Avatar size={60} src={<img src={'/logo.jpg'} alt="Logo" />} onClick={() => navigate('/home')} />
 				<p style={{ margin: '0 0 0 16px' }}>Area.</p>
 			</Space>
 			<Input.Search placeholder="input search text" size="large" allowClear bordered style={searchBarStyle} />
