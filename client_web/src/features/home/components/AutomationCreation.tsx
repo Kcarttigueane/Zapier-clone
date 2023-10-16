@@ -7,14 +7,8 @@ import useUserStore from '../../../core/store/useUserStore';
 import { useAuthStore } from '../../../core/store/useAuthStore';
 import { useTranslation } from 'react-i18next';
 import ConnectServiceButton from './AutomationConnectServiceButton';
-import Spotify from '../../../core/assets/logo2D/Spotify.png';
-import Youtube from '../../../core/assets/logo2D/Youtube.png';
-import Discord from '../../../core/assets/logo2D/Discord.png';
-import Gmail from '../../../core/assets/logo2D/Gmail.png';
-import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
-import GoogleCalendar from '../../../core/assets/logo2D/GoogleCalandar.png';
 import { TFunction } from 'i18next';
-
+import { useCookies } from 'react-cookie';
 
 import TwitterIcon from '../../../core/assets/logo-svg-2D/Twitter.svg';
 import GoogleDriveIcon from '../../../core/assets/logo-svg-2D/Google-drive.svg';
@@ -264,8 +258,10 @@ const AutomationCreation = () => {
 	const { fetchCurrentUser } = useUserStore((state) => state);
 	const { authorizeGoogleService, authorizeSpotifyService, authorizeDiscordService } = useAuthStore();
 	const [user, setUser] = useState<any | null>(null);
+	const [userLoaded, setUserLoaded] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
 	const { t } = useTranslation();
+	const [cookies, setCookie, removeCookie] = useCookies(['first-selected-service', 'second-selected-service', 'selected-trigger', 'selected-reaction']);
 
 	useEffect(() => {
 		const fetchUser = async (accessToken: string) => {
@@ -273,6 +269,7 @@ const AutomationCreation = () => {
 				const userModel = await fetchCurrentUser(accessToken);
 				if (userModel) {
 					setUser(userModel);
+					setUserLoaded(true);
 				}
 			} catch (error) {
 				console.error('Error fetching current user:', error);
@@ -292,6 +289,29 @@ const AutomationCreation = () => {
 	}, []);
 
 
+	useEffect(() => {
+		const checkCookies = () => {
+			if (userLoaded) { // Check if user data has been loaded
+				if (cookies['first-selected-service']) {
+					setSelectedService1(cookies['first-selected-service']);
+					setServiceConnected1(checkServiceConnection(cookies['first-selected-service']));
+				}
+				if (cookies['second-selected-service']) {
+					setSelectedService2(cookies['second-selected-service']);
+					setServiceConnected2(checkServiceConnection(cookies['second-selected-service']));
+				}
+				if (cookies['selected-trigger']) {
+					setSelectedTrigger(cookies['selected-trigger']);
+				}
+				if (cookies['selected-reaction']) {
+					setSelectedReaction(cookies['selected-reaction']);
+				}
+			}
+		};
+		checkCookies();
+	}, [userLoaded]);
+
+
 	const { createAutomation } = useAutomationStore(state => state);
 
 	function checkServiceConnection(value: string) {
@@ -306,23 +326,28 @@ const AutomationCreation = () => {
 		console.log(`selected ${value}`);
 		setSelectedService1(value);
 		setServiceConnected1(checkServiceConnection(value));
+		setCookie('first-selected-service', value = value);
 	};
 
 	const onServiceChange2 = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedService2(value);
 		setServiceConnected2(checkServiceConnection(value));
+		setCookie('second-selected-service', value = value);
 	};
 
 	const onTriggerChange = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedTrigger(value);
+		setCookie('selected-trigger', value = value);
 	};
 
 	const onReactionChange = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedReaction(value);
+		setCookie('selected-reaction', value = value);
 	};
+
 
 	const onSearch = (value: string) => {
 		console.log('search:', value);
@@ -345,7 +370,7 @@ const AutomationCreation = () => {
 	return (
 		<>
 			<style>
-			{`
+				{`
 				.ant-select-selection-search-input {
 					padding-left: 30px !important;
 				}
@@ -366,6 +391,7 @@ const AutomationCreation = () => {
 					</Text>
 					<Select
 						showSearch
+						value={selectedService1}
 						placeholder={t('home.create.service')}
 						optionFilterProp="children"
 						onChange={onServiceChange1}
@@ -389,6 +415,7 @@ const AutomationCreation = () => {
 					</Text>
 					<Select
 						showSearch
+						value={selectedService2}
 						placeholder={t('home.create.service')}
 						optionFilterProp="children"
 						onChange={onServiceChange2}
@@ -412,6 +439,7 @@ const AutomationCreation = () => {
 						</Text>
 						<Select
 							showSearch
+							value={selectedTrigger}
 							placeholder={t('home.create.action2')}
 							optionFilterProp="children"
 							onChange={onTriggerChange}
@@ -435,6 +463,7 @@ const AutomationCreation = () => {
 						</Text>
 						<Select
 							showSearch
+							value={selectedReaction}
 							placeholder={t('home.create.reaction2')}
 							optionFilterProp="children"
 							onChange={onReactionChange}
