@@ -80,7 +80,7 @@ const serviceOptions1 = [
 		),
 	},
 	{
-		value: 'weahter',
+		value: 'weather',
 		label: (
 			<div style={{ display: 'flex', alignItems: 'center' }}>
 				<img src={WeatherIcon} alt="Meteo icon" style={{ width: '25px', marginRight: '8px' }} />
@@ -288,7 +288,6 @@ const AutomationCreation = () => {
 		}
 	}, []);
 
-
 	useEffect(() => {
 		const checkCookies = () => {
 			if (userLoaded) { // Check if user data has been loaded
@@ -310,7 +309,6 @@ const AutomationCreation = () => {
 		};
 		checkCookies();
 	}, [userLoaded]);
-
 
 	const { createAutomation } = useAutomationStore(state => state);
 

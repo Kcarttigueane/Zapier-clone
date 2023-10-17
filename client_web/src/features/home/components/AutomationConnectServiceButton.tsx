@@ -7,7 +7,11 @@ import Discord from '../../../core/assets/logo2D/Discord.png';
 import Gmail from '../../../core/assets/logo2D/Gmail.png';
 import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
 import GoogleCalendar from '../../../core/assets/logo2D/GoogleCalandar.png';
-
+import Twitter from '../../../core/assets/logo2D/Twitter.png';
+import OpenMeteo from '../../../core/assets/logo2D/OpenMeteo.png';
+import Whatsapp from '../../../core/assets/logo2D/Whatsapp.png';
+import Signal from '../../../core/assets/logo2D/Signal.png';
+import Notification from '../../../core/assets/logo2D/Notification.png';
 
 type ConnectServiceButtonProps = {
 	service: string;
@@ -23,6 +27,11 @@ const serviceToImageSrc: Record<string, string> = {
 	'gmail': Gmail,
 	'youtube': Youtube,
 	'spotify': Spotify,
+	'notification': Notification,
+	'whatsapp': Whatsapp,
+	'signal': Signal,
+	'twitter': Twitter,
+	'weather': OpenMeteo
 };
 
 const defaultStyles: CSSProperties = {

@@ -78,6 +78,6 @@ async def authorize_discord_access_callback(request: Request):
         access_token = user.access_token
 
         frontend_redirect_url = (
-                    f"http://localhost:8081/dashboard?token={access_token}"
+                    f"http://localhost:8081/home?token={access_token}"
                 )
         return RedirectResponse(url=frontend_redirect_url)
