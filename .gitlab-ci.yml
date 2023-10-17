@@ -12,7 +12,8 @@ check-web:
     - pnpm install
   script:
     - pnpm lint
-  when: manual
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 check-mobile:
   stage: check
@@ -22,7 +23,8 @@ check-mobile:
     - npm install
   script:
     - npm run lint
-  when: manual
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 check-server:
   stage: check
