@@ -11,7 +11,7 @@ check-web:
     - npm install -g pnpm
     - pnpm install
   script:
-    - pnpm fix
+    - pnpm lint
   when: manual
 
 check-mobile:
@@ -21,7 +21,7 @@ check-mobile:
     - cd client_mobile
     - npm install
   script:
-    - npm lint
+    - npm run lint
   when: manual
 
 check-server:
