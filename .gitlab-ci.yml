@@ -3,7 +3,16 @@ stages:
   - build
   - deploy
 
-test-server:
+check-web:
+  stage: check
+  image: node:16
+  before_script:
+    - pnpm install
+  script:
+    - pnpm fix
+  when: manual
+
+check-server:
   stage: check
   image: python:3.12
   before_script:
