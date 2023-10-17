@@ -7,9 +7,19 @@ check-web:
   stage: check
   image: node:16
   before_script:
+    - npm install -g pnpm
     - pnpm install
   script:
     - pnpm fix
+  when: manual
+
+check-mobile:
+  stage: check
+  image: node:16
+  before_script:
+    - npm install
+  script:
+    - npm lint
   when: manual
 
 check-server:
