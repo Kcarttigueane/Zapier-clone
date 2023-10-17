@@ -7,6 +7,7 @@ check-web:
   stage: check
   image: node:16
   before_script:
+    - cd client_web
     - npm install -g pnpm
     - pnpm install
   script:
@@ -17,6 +18,7 @@ check-mobile:
   stage: check
   image: node:16
   before_script:
+    - cd client_mobile
     - npm install
   script:
     - npm lint
