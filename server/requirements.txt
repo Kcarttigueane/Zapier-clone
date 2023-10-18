@@ -1,8 +1,8 @@
 fastapi
 uvicorn[standard]
 motor
-pydantic
-pydantic[email]
+pydantic===1.10.13
+pydantic[email]===1.10.13
 python-dotenv
 
 # Auth
@@ -11,4 +11,4 @@ passlib[bcrypt]
 python-jose[cryptography]
 Authlib
 pyjwt
-
+python-multipart
