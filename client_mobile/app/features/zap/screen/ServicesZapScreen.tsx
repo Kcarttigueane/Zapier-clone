@@ -1,12 +1,12 @@
 import { ScrollView } from '@gluestack-ui/themed';
-import { RouteProp } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
-import { RootStackParamList } from '../../../App';
+import { ZapScreenNavigationProp } from '../screen/CreateZapScreen';
 
-import ServiceCard from '../components/ServiceCard';
-import ServiceSearchBar from '../components/ServiceSearchBar';
+import ServiceZapCard from '../components/ServiceZapCard';
+import ZapSearchBar from '../components/ZapSearchBar';
+import { RouteProp, useRoute } from '@react-navigation/native';
+import { RootStackParamList } from '../../../App';
 
 const cardsData = [
   { title: 'Gmail', logo: require('../../../core/assets/gmail.png') },
@@ -23,16 +23,17 @@ const cardsData = [
   { title: 'Youtube', logo: require('../../../core/assets/ytb.png') },
 ];
 
-type ServicesScreenRouteProp = RouteProp<RootStackParamList, 'ServicesScreen'>;
-export type ServicesScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ServicesScreen'>;
-type ServicesScreenProps = {
-  route: ServicesScreenRouteProp;
-  navigation: ServicesScreenNavigationProp;
+type ZapServiceProps = {
+  navigation: ZapScreenNavigationProp;
 };
 
-const ServicesScreen = ({ navigation }: ServicesScreenProps) => {
+type ServiceDetailRouteProp = RouteProp<RootStackParamList, 'ServicesZapScreen'>;
+
+const ServicesZapScreen = ({ navigation }: ZapServiceProps) => {
   const [filteredCards, setFilteredCards] = useState(cardsData);
   const [searchText, setSearchText] = useState('');
+  const route = useRoute<ServiceDetailRouteProp>();
+  const { isTrigger } = route.params;
 
   useEffect(() => {
     const filtered = cardsData.filter(card => card.title.toLowerCase().includes(searchText.toLowerCase()));
@@ -41,10 +42,10 @@ const ServicesScreen = ({ navigation }: ServicesScreenProps) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ServiceSearchBar onChangeText={setSearchText} value={searchText} />
+      <ZapSearchBar onChangeText={setSearchText} value={searchText} />
       <ScrollView contentContainerStyle={styles.cardsContainer} showsVerticalScrollIndicator={false}>
         {filteredCards.map((data, index) => (
-          <ServiceCard key={index} item={data} navigation={navigation} />
+          <ServiceZapCard key={index} item={data} navigation={navigation} isTrigger={isTrigger} />
         ))}
         <View style={{ height: 100, width: 1000 }} />
       </ScrollView>
@@ -68,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ServicesScreen;
+export default ServicesZapScreen;

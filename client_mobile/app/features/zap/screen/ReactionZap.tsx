@@ -1,12 +1,17 @@
 import { Button, ButtonText, VStack } from '@gluestack-ui/themed';
 import React from 'react';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { RootStackParamList } from '../../../App';
+import { ZapScreenNavigationProp } from '../screen/CreateZapScreen';
+import { useTranslation } from 'react-i18next';
 
-type ImageRequireType = ReturnType<typeof require>;
+type ZapReactionRouteProp = RouteProp<RootStackParamList, 'ZapReactionScreen'>;
 
-const ReactionButton = ({ message }: { message: string }) => {
+const ReactionButton = ({ message, navigation }: { message: string; navigation: ZapScreenNavigationProp }) => {
   const handleClickAction = () => {
     console.log('click on button with trigger or reaction : ' + message);
+    navigation.navigate('CreateZapScreen');
   };
 
   return (
@@ -23,7 +28,10 @@ const ReactionButton = ({ message }: { message: string }) => {
   );
 };
 
-const ReactionZap = ({ url }: { url: ImageRequireType }) => {
+const ReactionZap = ({ navigation }: { navigation: ZapScreenNavigationProp }) => {
+  const { t } = useTranslation();
+  const route = useRoute<ZapReactionRouteProp>();
+  const { logo } = route.params;
   return (
     <View style={{ display: 'flex', alignItems: 'center', gap: 32 }}>
       <View style={styles.card}>
@@ -34,10 +42,10 @@ const ReactionZap = ({ url }: { url: ImageRequireType }) => {
             color: 'black',
             fontWeight: 'bold',
           }}>
-          Choose a Reaction
+          {t('zap.reactionScreen.title')}
         </Text>
         <View style={{ width: 100, height: 90 }}>
-          <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={url} resizeMode="cover" />
+          <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={logo} resizeMode="cover" />
         </View>
         <Text style={{ textAlign: 'center', fontSize: 18, color: 'black' }}>
           A free email service developed by Google. Users can access Gmail on the web and using third-party programs
@@ -45,8 +53,8 @@ const ReactionZap = ({ url }: { url: ImageRequireType }) => {
         </Text>
       </View>
       <VStack space="lg" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
-        <ReactionButton message="Post a message to a channel" />
-        <ReactionButton message="Post a message to a channel" />
+        <ReactionButton message="Post a message to a channel" navigation={navigation} />
+        <ReactionButton message="Post a message to a channel" navigation={navigation} />
       </VStack>
     </View>
   );
