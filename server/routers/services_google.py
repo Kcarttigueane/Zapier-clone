@@ -46,7 +46,8 @@ user_repository = UserRepository()
     summary="Request autorizathion to google access data",
 )
 async def authorize_google_access(
-    service: str, token: str = Query(..., description="Authorization token"),
+    service: str,
+    token: str = Query(..., description="Authorization token"),
 ):
     current_user = await get_current_user(token)
     redirect_uri = google_redirect_uri + service
@@ -102,10 +103,8 @@ async def authorize_google_access_callback(service: str, request: Request):
     await user_repository.update_service_access_token(
         user.id, auth_token, f"google_{service}_token"
     )
-    
+
     access_token = user.access_token
 
-    frontend_redirect_url = (
-                f"http://localhost:8081/home?token={access_token}"
-            )
+    frontend_redirect_url = f"http://localhost:8081/home?token={access_token}"
     return RedirectResponse(url=frontend_redirect_url)

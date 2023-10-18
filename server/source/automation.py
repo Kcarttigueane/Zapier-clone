@@ -102,7 +102,7 @@ async def get_automations():
             user_changed = False
 
             for j, automation in enumerate(user_dict["automations"]):
-                if check_poll_time(automation) and automation['active']:
+                if check_poll_time(automation) and automation["active"]:
                     user_dict = await automate(user_dict, automation, j)
                     user_changed = True
 

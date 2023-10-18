@@ -37,7 +37,7 @@ const LoginForm: React.FC = () => {
 				content: 'Successfully registered',
 				duration: 1,
 			});
-			navigate('/dashboard');
+			navigate('/home');
 		} catch (error) {
 			if (error instanceof Error) {
 				messageApi.open({

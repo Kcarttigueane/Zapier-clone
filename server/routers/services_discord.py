@@ -20,7 +20,9 @@ user_repository = UserRepository()
     "/discord",
     summary="Request authorization to discord access data",
 )
-async def authorize_discord_access(token: str = Query(..., description="Authorization token")):
+async def authorize_discord_access(
+    token: str = Query(..., description="Authorization token")
+):
     current_user = await get_current_user(token)
     state = current_user.username
     scope = "identify"
@@ -77,7 +79,5 @@ async def authorize_discord_access_callback(request: Request):
         )
         access_token = user.access_token
 
-        frontend_redirect_url = (
-                    f"http://localhost:8081/home?token={access_token}"
-                )
+        frontend_redirect_url = f"http://localhost:8081/home?token={access_token}"
         return RedirectResponse(url=frontend_redirect_url)
