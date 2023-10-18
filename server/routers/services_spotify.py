@@ -27,7 +27,9 @@ user_repository = UserRepository()
     "/spotify",
     summary="Request authorization to spotify access data",
 )
-async def authorize_spotify_access(token: str = Query(..., description="Authorization token")):
+async def authorize_spotify_access(
+    token: str = Query(..., description="Authorization token")
+):
     current_user = await get_current_user(token)
     state = current_user.username
     scope = "user-read-private user-read-email playlist-read-private playlist-modify-private user-library-modify"
@@ -87,10 +89,8 @@ async def authorize_spotify_access_callback(request: Request):
         await user_repository.update_service_access_token(
             user.id, auth_token, "spotify_token"
         )
-        
+
         access_token = user.access_token
 
-        frontend_redirect_url = (
-                    f"http://localhost:8081/home?token={access_token}"
-                )
+        frontend_redirect_url = f"http://localhost:8081/home?token={access_token}"
         return RedirectResponse(url=frontend_redirect_url)

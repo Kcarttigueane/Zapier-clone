@@ -72,7 +72,7 @@ class UserRepository:
     async def get_by_google_id(self, id: str) -> User:
         user_data = await self.collection.find_one({"google_id": id})
         return None if user_data is None else User(**user_data)
-    
+
     async def update_access_token(self, user_id: PyObjectId, token: str):
         user = await self.collection.find_one({"_id": user_id})
         if user:

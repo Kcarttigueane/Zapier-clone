@@ -3,6 +3,7 @@ import { Avatar, Badge, Dropdown, Input, MenuProps, Space, Typography, message }
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
 
 const { Text } = Typography;
 
@@ -61,7 +62,22 @@ const items: MenuProps['items'] = [
 ];
 
 const CustomNavBar = () => {
+	const [, , removeCookie] = useCookies([
+		'first-selected-service',
+		'second-selected-service',
+		'selected-trigger',
+		'selected-reaction',
+	]);
 	const navigate = useNavigate();
+
+	const handleLogout = () => {
+		removeCookie('first-selected-service');
+		removeCookie('second-selected-service');
+		removeCookie('selected-trigger');
+		removeCookie('selected-reaction');
+
+		localStorage.clear();
+	};
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		switch (key) {
@@ -72,6 +88,7 @@ const CustomNavBar = () => {
 				navigate('/settings');
 				break;
 			case '3':
+				handleLogout();
 				navigate('/auth/login');
 				break;
 			default:
