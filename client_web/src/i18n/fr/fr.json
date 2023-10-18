@@ -151,7 +151,14 @@
         "question": "Poser une question",
         "other": "Autre",
         "textAreaPlaceholder": "Décrivez votre problème ici"
-      }
+      },
+      "languages": {
+        "title": "Langues",
+        "description": "Choisissez votre langue",
+        "english": "Anglais",
+        "french": "Français",
+        "spanish": "Espagnol"
+      }  
     }
   },
   "auth": {

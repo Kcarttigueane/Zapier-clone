@@ -133,7 +133,7 @@
         "title": "Configuración General",
         "pic": "Foto de perfil",
         "name": "Nombre",
-        "email": "Correo electrónico",
+        "email": "Correo",
         "phone": "Número de teléfono",
         "pushNotif": "Notificaciones Push",
         "emailNotif": "Notificaciones por correo electrónico",
@@ -152,6 +152,13 @@
         "question": "Hacer una pregunta",
         "other": "Otro",
         "textAreaPlaceholder": "Ingresa tu mensaje aquí..."
+      },
+      "languages": {
+        "title": "Idiomas",
+        "description": "Elija su idioma",
+        "english": "Inglés",
+        "french": "Francés",
+        "spanish": "Español"
       }
     }
   },

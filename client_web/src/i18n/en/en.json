@@ -152,6 +152,13 @@
         "question": "Ask a question",
         "other": "Other",
         "textAreaPlaceholder": "Enter your message here..."
+      },
+      "languages": {
+        "title": "Languages",
+        "description": "Choose your language",
+        "english": "English",
+        "french": "French",
+        "spanish": "Spanish"
       }
     }
   },
