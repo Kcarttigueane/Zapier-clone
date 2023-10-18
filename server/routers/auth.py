@@ -1,9 +1,14 @@
 import os
 
-from config.constants import (GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET,
-                              GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET,
-                              OAUTHLIB_INSECURE_TRANSPORT, SPOTIFY_CLIENT_ID,
-                              SPOTIFY_CLIENT_SECRET)
+from config.constants import (
+    GITHUB_CLIENT_ID,
+    GITHUB_CLIENT_SECRET,
+    GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET,
+    OAUTHLIB_INSECURE_TRANSPORT,
+    SPOTIFY_CLIENT_ID,
+    SPOTIFY_CLIENT_SECRET,
+)
 from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordRequestForm
@@ -102,6 +107,7 @@ async def auth_callback(request: Request):
             frontend_redirect_url = (
                 f"http://localhost:8081/home?token={access_token}"
             )
+            frontend_redirect_url = f"http://localhost:8081/home?token={access_token}"
             return RedirectResponse(url=frontend_redirect_url)
 
         new_user = await repository.create(user_create)
@@ -143,6 +149,7 @@ async def github_auth_callback(request: Request):
             frontend_redirect_url = (
                 f"http://localhost:8081/home?token={access_token}"
             )
+            frontend_redirect_url = f"http://localhost:8081/home?token={access_token}"
             return RedirectResponse(url=frontend_redirect_url)
 
         new_user = await repository.create(user_create)
@@ -177,6 +184,7 @@ async def spotify_auth_callback(request: Request):
             frontend_redirect_url = (
                 f"http://localhost:8081/home?token={access_token}"
             )
+            frontend_redirect_url = f"http://localhost:8081/home?token={access_token}"
             return RedirectResponse(url=frontend_redirect_url)
 
         new_user = await repository.create(user_create)
