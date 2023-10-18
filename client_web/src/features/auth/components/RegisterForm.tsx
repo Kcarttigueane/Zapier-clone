@@ -46,7 +46,7 @@ const RegisterForm: React.FC = () => {
 			if (error instanceof Error) {
 				messageApi.open({
 					type: 'error',
-					content: error.message || 'Something went wrong',
+					content: error.message || t('error'),
 				});
 			}
 		}
