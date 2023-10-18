@@ -6,14 +6,6 @@ from app.repository.triggers_repository import TriggerRepository
 from app.schemas.py_object_id import PyObjectId
 from app.schemas.triggers_dto import TriggerInDTO, TriggerOutDTO
 
-# Methods Test
-# 1. Create Service : ✅
-# 2. Get Service : ✅
-# 3. Get All Services : ✅
-# 4. Update Service : ✅
-# 5. Delete Service : ✅
-# 6. Get Triggers by Service : ✅
-
 
 class TriggersService:
     def __init__(self):

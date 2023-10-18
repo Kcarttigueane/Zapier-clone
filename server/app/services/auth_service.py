@@ -1,4 +1,3 @@
-import json
 from datetime import datetime
 from typing import Any, Dict, Tuple
 
@@ -101,6 +100,7 @@ class AuthServices:
         provider: str,
         response: dict,
         user_id: str | None = None,
+        service_name: str | None = None,
     ) -> UserOutDTO:
         key_map = PROVIDER_KEY_MAP.get(provider)
         email, provider_user_id, access_token = await validate_user_info(
@@ -127,7 +127,7 @@ class AuthServices:
             provider_user_id=provider_user_id,
             access_token=access_token,
             refresh_token=response.get("refresh_token"),
-            auth_data=json.dumps(user_info),
+            service_name=service_name or None,
         )
 
         if user is None:
@@ -145,11 +145,15 @@ class AuthServices:
             return await self.repository.create(user_data)
         else:
             if existing_oauth := next(
-                (o for o in user.oauth if o.provider == provider), None
+                (
+                    o
+                    for o in user.oauth
+                    if o.provider == provider and o.service_name == service_name
+                ),
+                None,
             ):
                 existing_oauth.access_token = oauth_data.access_token
                 existing_oauth.refresh_token = oauth_data.refresh_token
-                existing_oauth.auth_data = oauth_data.auth_data
                 user.updated_at = datetime.now()
             else:
                 user.oauth.append(oauth_data)
@@ -196,9 +200,12 @@ class AuthServices:
         user_info = await oauth2_scheme.get_user_info(response.get("access_token"))
 
         user = await self.update_or_create_user_by_provider(
-            user_info, provider, response, user_id=state
+            user_info, provider, response, user_id=state, service_name=service_name
         )
 
         jwt_token = create_access_token(data={"sub": user.email})
 
         return {"access_token": jwt_token, "token_type": "bearer"}
+
+
+# TODO : Tester pour voir si les nouveaux scopes ce sont bien ajoutés aux anciens

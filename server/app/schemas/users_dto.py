@@ -49,6 +49,11 @@ class UserOAuthDTO(BaseModel):
         title="Provider User ID",
         description="The user ID according to the OAuth provider.",
     )
+    service_name: str | None = Field(
+        ...,
+        title="Service Name",
+        description="The name of the service this OAuth data is associated with (e.g., youtube, calendar).",
+    )
     access_token: str = Field(
         ...,
         title="Access Token",
@@ -58,9 +63,6 @@ class UserOAuthDTO(BaseModel):
         None,
         title="Refresh Token",
         description="The refresh token obtained from the OAuth provider (if provided).",
-    )
-    auth_data: Optional[str] = Field(
-        None, title="Auth Data", description="Additional authentication data."
     )
     created_at: datetime = Field(
         default=datetime.now(),
@@ -78,7 +80,6 @@ class UserOAuthDTO(BaseModel):
             "example": {
                 "provider": "Google",
                 "provider_user_id": "provideruserid",
-                "auth_data": "authdata",
                 "created_at": "2023-09-25T18:44:52Z",
                 "updated_at": "2023-09-25T18:44:52Z",
             }
@@ -147,7 +148,6 @@ class UserInDTO(MongoModel):
                     {
                         "provider": "Google",
                         "provider_user_id": "provideruserid",
-                        "auth_data": "authdata",
                         "created_at": "2023-09-25T18:44:52Z",
                         "updated_at": "2023-09-25T18:44:52Z",
                     }

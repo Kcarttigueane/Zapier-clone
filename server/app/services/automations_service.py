@@ -6,14 +6,6 @@ from app.repository.automations_repository import AutomationRepository
 from app.schemas.automations_dto import AutomationInDTO, AutomationOutDTO
 from app.schemas.py_object_id import PyObjectId
 
-# Methods Test
-# 1. Create Automation : ✅
-# 2. Get Automation : ✅
-# 3. Get All Automation : ✅
-# 4. Update Automation : ✅
-# 5. Delete Automation : ✅
-# 6. Get Actions by Automation : ✅
-
 
 class AutomationsService:
     def __init__(self):

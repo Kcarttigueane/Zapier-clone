@@ -11,14 +11,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-# Methods Test
-# 1. Create Service : ✅
-# 2. Get Service : ✅
-# 3. Get All Services : ✅
-# 4. Update Service : ✅
-# 5. Delete Service : ✅
-
-
 class ServiceService:
     def __init__(self):
         self.repository = ServiceRepository()

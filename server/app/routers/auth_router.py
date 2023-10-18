@@ -10,14 +10,6 @@ auth_router = APIRouter(prefix="/auth", tags=["Auth"])
 
 AuthService = AuthServices()
 
-# Methods:
-# Login with OAuth2 provider (GET) - /api/v2/auth/login/{provider} ✅
-# Login with OAuth2 provider callback (GET) - /api/v2/auth/login/{provider}/callback ✅
-# Register a new user (POST) email password - /api/v2/auth/register ✅
-# Login a user (POST) email password - /api/v2/auth/token ✅
-# Authorize access (GET) - /api/v2/auth/authorize/{provider}/{service_name} ✅
-# Authorize access (GET) - /api/v2/auth/authorize/{provider}/{service_name} ✅
-
 
 @auth_router.get("/login/{provider}", description="Login with OAuth2 provider")
 async def authenticate_with_provider(provider: str):

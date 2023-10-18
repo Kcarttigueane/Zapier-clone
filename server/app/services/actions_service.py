@@ -10,14 +10,6 @@ from app.schemas.py_object_id import PyObjectId
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Methods Test
-# 1. Create Service : ✅
-# 2. Get Service : ✅
-# 3. Get All Services : ✅
-# 4. Update Service : ✅
-# 5. Delete Service : ✅
-# 6. Get Actions by Service : ✅
-
 
 class ActionsService:
     def __init__(self):
