@@ -5,6 +5,7 @@ from fastapi import HTTPException, Request, status
 from fastapi.responses import RedirectResponse
 
 from app.core.oauth2 import PROVIDER_KEY_MAP, SERVICE_SCOPES, oauth2_providers
+from app.main import WEB_CLIENT_URL
 from app.repository.users_repository import UserRepository
 from app.schemas.users_dto import UserInDTO, UserOAuthDTO, UserOutDTO, UserProfileDTO
 from app.utils.auth_utils import (
@@ -55,7 +56,9 @@ class AuthServices:
         )
 
         jwt_token = create_access_token(data={"sub": user.email})
-        return {"access_token": jwt_token, "token_type": "bearer"}
+
+        frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
+        return RedirectResponse(frontend_url)
 
     async def register_user_email_password(self, user_data: UserInDTO) -> UserOutDTO:
         existing_user = await self.repository.get_by_email(user_data.email)
@@ -205,7 +208,5 @@ class AuthServices:
 
         jwt_token = create_access_token(data={"sub": user.email})
 
-        return {"access_token": jwt_token, "token_type": "bearer"}
-
-
-# TODO : Tester pour voir si les nouveaux scopes ce sont bien ajoutés aux anciens
+        frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
+        return RedirectResponse(frontend_url)
