@@ -2,6 +2,7 @@ import { BellOutlined, LogoutOutlined, SettingOutlined, UnorderedListOutlined } 
 import { Avatar, Badge, Dropdown, Input, MenuProps, Space, Typography, message } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 const { Text } = Typography;
@@ -30,38 +31,9 @@ const rightHeaderStyle: React.CSSProperties = {
 	padding: '8px 8px 8px 16px',
 };
 
-const items: MenuProps['items'] = [
-	{
-		key: '1',
-		label: (
-			<Space size="small">
-				<UnorderedListOutlined />
-				<Text>Dashboard</Text>
-			</Space>
-		),
-	},
-	{
-		key: '2',
-		label: (
-			<Space size="small">
-				<SettingOutlined />
-				<Text>Settings</Text>
-			</Space>
-		),
-	},
-	{
-		key: '3',
-		label: (
-			<Space size="small">
-				<LogoutOutlined />
-				<Text>Logout</Text>
-			</Space>
-		),
-	},
-];
-
 const CustomNavBar = () => {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		switch (key) {
@@ -78,6 +50,36 @@ const CustomNavBar = () => {
 				message.info(`Click on item ${key}`);
 		}
 	};
+
+	const items: MenuProps['items'] = [
+		{
+			key: '1',
+			label: (
+				<Space size="small">
+					<UnorderedListOutlined />
+					<Text>{t('navigation.dashboard')}</Text>
+				</Space>
+			),
+		},
+		{
+			key: '2',
+			label: (
+				<Space size="small">
+					<SettingOutlined />
+					<Text>{t('navigation.settings')}</Text>
+				</Space>
+			),
+		},
+		{
+			key: '3',
+			label: (
+				<Space size="small">
+					<LogoutOutlined />
+					<Text>{t('navigation.logout')}</Text>
+				</Space>
+			),
+		},
+	];
 
 	return (
 		<Header style={headerStyle}>

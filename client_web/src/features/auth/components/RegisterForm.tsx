@@ -41,12 +41,12 @@ const RegisterForm: React.FC = () => {
 				content: 'Successfully registered',
 				duration: 1,
 			});
-			navigate('/dashboard');
+			navigate('/home');
 		} catch (error) {
 			if (error instanceof Error) {
 				messageApi.open({
 					type: 'error',
-					content: error.message || 'Something went wrong',
+					content: error.message || t('error'),
 				});
 			}
 		}
