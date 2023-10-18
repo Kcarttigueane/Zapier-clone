@@ -15,8 +15,6 @@ import useUserStore from '../../../core/store/useUserStore';
 import { transformAutomationsToDataTable } from '../utils/dashboardUtils';
 import { useTranslation } from 'react-i18next';
 
-
-
 interface DataType {
 	key: React.Key;
 	service: string;

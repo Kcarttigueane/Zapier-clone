@@ -1,26 +1,26 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { Button, Select, Typography, message } from 'antd';
-import { useState, useEffect } from 'react';
+import { TFunction } from 'i18next';
+import { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
 import Flex from '../../../core/components/Flex';
+import { useAuthStore } from '../../../core/store/useAuthStore';
 import { useAutomationStore } from '../../../core/store/useAutomationStore';
 import useUserStore from '../../../core/store/useUserStore';
-import { useAuthStore } from '../../../core/store/useAuthStore';
-import { useTranslation } from 'react-i18next';
 import ConnectServiceButton from './AutomationConnectServiceButton';
-import { TFunction } from 'i18next';
-import { useCookies } from 'react-cookie';
 
-import TwitterIcon from '../../../core/assets/logo-svg-2D/Twitter.svg';
-import GoogleDriveIcon from '../../../core/assets/logo-svg-2D/Google-drive.svg';
-import GoogleCalandarIcon from '../../../core/assets/logo-svg-2D/Google-calendar.svg';
-import GmailIcon from '../../../core/assets/logo-svg-2D/Gmail.svg';
-import WeatherIcon from '../../../core/assets/logo-svg-2D/Weather.svg';
-import YoutubeIcon from '../../../core/assets/logo-svg-2D/Youtube.svg';
-import SpotifyIcon from '../../../core/assets/logo-svg-2D/Spotify.svg';
-import NotificationIcon from '../../../core/assets/logo-svg-2D/Notification.svg';
-import WhatsappIcon from '../../../core/assets/logo-svg-2D/Whatsapp.svg';
-import SignalIcon from '../../../core/assets/logo-svg-2D/Signal.svg';
 import DiscordIcon from '../../../core/assets/logo-svg-2D/Discord.svg';
+import GmailIcon from '../../../core/assets/logo-svg-2D/Gmail.svg';
+import GoogleCalendarIcon from '../../../core/assets/logo-svg-2D/Google-calendar.svg';
+import GoogleDriveIcon from '../../../core/assets/logo-svg-2D/Google-drive.svg';
+import NotificationIcon from '../../../core/assets/logo-svg-2D/Notification.svg';
+import SignalIcon from '../../../core/assets/logo-svg-2D/Signal.svg';
+import SpotifyIcon from '../../../core/assets/logo-svg-2D/Spotify.svg';
+import TwitterIcon from '../../../core/assets/logo-svg-2D/Twitter.svg';
+import WeatherIcon from '../../../core/assets/logo-svg-2D/Weather.svg';
+import WhatsappIcon from '../../../core/assets/logo-svg-2D/Whatsapp.svg';
+import YoutubeIcon from '../../../core/assets/logo-svg-2D/Youtube.svg';
 
 const { Text } = Typography;
 
@@ -40,7 +40,6 @@ const InputStyle: React.CSSProperties = {
 	width: '286px',
 	height: '48px',
 };
-
 
 const serviceOptions1 = [
 	{
@@ -65,8 +64,8 @@ const serviceOptions1 = [
 		value: 'google calendar',
 		label: (
 			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={GoogleCalandarIcon} alt="Twitter" style={{ width: '25px', marginRight: '8px' }} />
-				Google Calandar
+				<img src={GoogleCalendarIcon} alt="Twitter" style={{ width: '25px', marginRight: '8px' }} />
+				Google Calendar
 			</div>
 		),
 	},
@@ -167,7 +166,7 @@ const serviceOptions2 = [
 ] as any;
 
 const transformTriggerOptions = (t: TFunction) => {
-	const triggerOptions = [
+	return [
 		{
 			value: 'receive like',
 			label: t('home.trigger.like'),
@@ -205,12 +204,10 @@ const transformTriggerOptions = (t: TFunction) => {
 			label: t('home.trigger.attachment'),
 		},
 	];
-
-	return triggerOptions;
 };
 
 const transformReactionOptions = (t: TFunction) => {
-	const reactionOptions = [
+	return [
 		{
 			value: 'app notification',
 			label: t('home.reaction.notification'),
@@ -228,25 +225,23 @@ const transformReactionOptions = (t: TFunction) => {
 			label: t('home.reaction.file'),
 		},
 	];
-	return reactionOptions;
 };
 
 const serviceToTokenDict: Record<string, string> = {
-	'discord': 'discord_token',
+	discord: 'discord_token',
 	'google calendar': 'google_calendar_token',
 	'google drive': 'google_drive_token',
-	'gmail': 'google_gmail_token',
-	'youtube': 'google_youtube_token',
-	'spotify': 'spotify_token',
+	gmail: 'google_gmail_token',
+	youtube: 'google_youtube_token',
+	spotify: 'spotify_token',
 };
 
 const serviceToRoute: Record<string, string> = {
 	'google calendar': 'calendar',
 	'google drive': 'drive',
-	'gmail': 'gmail',
-	'youtube': 'youtube',
+	gmail: 'gmail',
+	youtube: 'youtube',
 };
-
 
 const AutomationCreation = () => {
 	const [selectedService1, setSelectedService1] = useState<string | null>(null);
@@ -261,7 +256,12 @@ const AutomationCreation = () => {
 	const [userLoaded, setUserLoaded] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
 	const { t } = useTranslation();
-	const [cookies, setCookie, removeCookie] = useCookies(['first-selected-service', 'second-selected-service', 'selected-trigger', 'selected-reaction']);
+	const [cookies, setCookie] = useCookies([
+		'first-selected-service',
+		'second-selected-service',
+		'selected-trigger',
+		'selected-reaction',
+	]);
 
 	useEffect(() => {
 		const fetchUser = async (accessToken: string) => {
@@ -288,9 +288,17 @@ const AutomationCreation = () => {
 		}
 	}, []);
 
+	const checkServiceConnection = (value: string) => {
+		const serviceTokenName = serviceToTokenDict[value];
+		const tokenManager = user.token_manager;
+		const serviceObj = tokenManager[serviceTokenName];
+		return serviceObj != null;
+	};
+
 	useEffect(() => {
 		const checkCookies = () => {
-			if (userLoaded) { // Check if user data has been loaded
+			if (userLoaded) {
+				// Check if user data has been loaded
 				if (cookies['first-selected-service']) {
 					setSelectedService1(cookies['first-selected-service']);
 					setServiceConnected1(checkServiceConnection(cookies['first-selected-service']));
@@ -310,42 +318,33 @@ const AutomationCreation = () => {
 		checkCookies();
 	}, [userLoaded]);
 
-	const { createAutomation } = useAutomationStore(state => state);
-
-	function checkServiceConnection(value: string) {
-		const serviceTokenName = serviceToTokenDict[value];
-		const tokenManager = user['token_manager'];
-		const serviceObj = tokenManager[serviceTokenName];
-		const isConnected = serviceObj != null;
-		return isConnected;
-	}
+	const { createAutomation } = useAutomationStore((state) => state);
 
 	const onServiceChange1 = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedService1(value);
 		setServiceConnected1(checkServiceConnection(value));
-		setCookie('first-selected-service', value = value);
+		setCookie('first-selected-service', (value = value));
 	};
 
 	const onServiceChange2 = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedService2(value);
 		setServiceConnected2(checkServiceConnection(value));
-		setCookie('second-selected-service', value = value);
+		setCookie('second-selected-service', (value = value));
 	};
 
 	const onTriggerChange = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedTrigger(value);
-		setCookie('selected-trigger', value = value);
+		setCookie('selected-trigger', (value = value));
 	};
 
 	const onReactionChange = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedReaction(value);
-		setCookie('selected-reaction', value = value);
+		setCookie('selected-reaction', (value = value));
 	};
-
 
 	const onSearch = (value: string) => {
 		console.log('search:', value);
@@ -355,13 +354,13 @@ const AutomationCreation = () => {
 		(option?.value ?? '').toLowerCase().includes(input.toLowerCase());
 
 	const handleConnectService = (service: string) => {
-		const googleServices = ["google calendar", "gmail", "google drive", "youtube"];
+		const googleServices = ['google calendar', 'gmail', 'google drive', 'youtube'];
 		if (googleServices.includes(service)) {
 			authorizeGoogleService(serviceToRoute[service]);
-		} else if (service == "spotify") {
-			authorizeSpotifyService()
-		} else if (service == "discord") {
-			authorizeDiscordService()
+		} else if (service == 'spotify') {
+			authorizeSpotifyService();
+		} else if (service == 'discord') {
+			authorizeDiscordService();
 		}
 	};
 
@@ -378,7 +377,6 @@ const AutomationCreation = () => {
 			<Text style={TitleStyle}>{t('home.create.title')}</Text>
 			<Flex align="center" justify="center">
 				<Flex direction="column" align="center" justify="center" gap="6px">
-
 					<Text
 						style={{
 							fontSize: '14px',
@@ -473,18 +471,33 @@ const AutomationCreation = () => {
 					</Flex>
 				</Flex>
 			) : null}
-			{selectedTrigger && selectedReaction && selectedService1 && selectedService2 && user && (!serviceConnected1 || !serviceConnected2) ? (
+			{selectedTrigger &&
+			selectedReaction &&
+			selectedService1 &&
+			selectedService2 &&
+			user &&
+			(!serviceConnected1 || !serviceConnected2) ? (
 				<Flex justify-content="space-between" style={{ width: '40%' }}>
-					<ConnectServiceButton service={selectedService1} connected={serviceConnected1} onClick={handleConnectService} style={{
-						fontSize: '14px',
-						fontWeight: 'bold',
-						marginRight: 'auto',
-					}} />
-					<ConnectServiceButton service={selectedService2} connected={serviceConnected2} onClick={handleConnectService} style={{
-						fontSize: '14px',
-						fontWeight: 'bold',
-						marginLeft: 'auto',
-					}} />
+					<ConnectServiceButton
+						service={selectedService1}
+						connected={serviceConnected1}
+						onClick={handleConnectService}
+						style={{
+							fontSize: '14px',
+							fontWeight: 'bold',
+							marginRight: 'auto',
+						}}
+					/>
+					<ConnectServiceButton
+						service={selectedService2}
+						connected={serviceConnected2}
+						onClick={handleConnectService}
+						style={{
+							fontSize: '14px',
+							fontWeight: 'bold',
+							marginLeft: 'auto',
+						}}
+					/>
 				</Flex>
 			) : null}
 			{selectedTrigger && selectedReaction ? (

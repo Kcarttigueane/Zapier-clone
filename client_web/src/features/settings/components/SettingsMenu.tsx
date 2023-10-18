@@ -10,7 +10,7 @@ interface SettingsMenuProps {
 	onSelect: (key: string) => void;
 }
 
-function getItem(
+const getItem = function (
 	label: React.ReactNode,
 	key?: React.Key | null,
 	icon?: React.ReactNode,
@@ -22,12 +22,10 @@ function getItem(
 		children,
 		label,
 	} as MenuItem;
-}
-
-
+};
 
 const SettingsMenu: React.FC<SettingsMenuProps> = ({ onSelect }) => {
-	const [theme, setTheme] = useState<MenuTheme>('light');
+	const [theme] = useState<MenuTheme>('light');
 
 	const { t } = useTranslation();
 
@@ -36,10 +34,6 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({ onSelect }) => {
 		getItem(t('settings.settingScreen.connectedServices.title'), '2', <AppstoreFilled />),
 		getItem(t('settings.settingScreen.help.title'), '3', <QuestionCircleFilled />),
 	];
-
-	const changeTheme = (value: boolean) => {
-		setTheme(value ? 'dark' : 'light');
-	};
 
 	return (
 		<Menu

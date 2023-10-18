@@ -24,7 +24,11 @@ const ConnectedServiceItem: React.FC<ConnectedServiceItemProps> = ({ imageUrl, s
 		<Space style={cardStyle}>
 			<Image width={32} src={imageUrl} />
 			<p style={{ margin: '0 0 0 16px' }}>{serviceName}</p>
-			<Switch checkedChildren={t('settings.enabled')} unCheckedChildren={t('settings.disabled')} defaultChecked={defaultChecked} />
+			<Switch
+				checkedChildren={t('settings.enabled')}
+				unCheckedChildren={t('settings.disabled')}
+				defaultChecked={defaultChecked}
+			/>
 		</Space>
 	);
 };
