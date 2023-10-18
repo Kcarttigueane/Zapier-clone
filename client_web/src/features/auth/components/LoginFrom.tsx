@@ -93,13 +93,14 @@ const LoginForm: React.FC = () => {
 								onBlur={handleBlur}
 							/>
 						</Form.Item>
-						<Form.Item style={{ marginTop: 24 }}>
+						<Form.Item style={{ marginTop: 48 }}>
 							<Button
 								type="primary"
 								shape="round"
 								size="large"
 								htmlType="submit"
 								block
+								disabled={Object.keys(errors).length > 0}
 								onClick={() => onLoginSubmit(values)}
 							>
 								{t('basic.fields.submit')}

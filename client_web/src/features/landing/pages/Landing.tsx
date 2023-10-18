@@ -1,6 +1,6 @@
 import { Avatar, Button, Card, Image, Layout, Space, Typography } from 'antd';
 import { Content, Header } from 'antd/es/layout/layout';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Meta from 'antd/es/card/Meta';
@@ -82,12 +82,6 @@ const guideStyle: React.CSSProperties = {
 const Landing: React.FC = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
-
-	const [selectedMenu, setSelectedMenu] = useState<string>('1');
-
-	useEffect(() => {
-		console.log(selectedMenu);
-	}, [selectedMenu]);
 
 	return (
 		<>

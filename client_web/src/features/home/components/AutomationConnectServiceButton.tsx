@@ -21,17 +21,17 @@ type ConnectServiceButtonProps = {
 };
 
 const serviceToImageSrc: Record<string, string> = {
-	'discord': Discord,
+	discord: Discord,
 	'google calendar': GoogleCalendar,
 	'google drive': GoogleDrive,
-	'gmail': Gmail,
-	'youtube': Youtube,
-	'spotify': Spotify,
-	'notification': Notification,
-	'whatsapp': Whatsapp,
-	'signal': Signal,
-	'twitter': Twitter,
-	'weather': OpenMeteo
+	gmail: Gmail,
+	youtube: Youtube,
+	spotify: Spotify,
+	notification: Notification,
+	whatsapp: Whatsapp,
+	signal: Signal,
+	twitter: Twitter,
+	weather: OpenMeteo,
 };
 
 const defaultStyles: CSSProperties = {
@@ -42,9 +42,8 @@ const defaultStyles: CSSProperties = {
 	fontSize: '20px',
 	fontWeight: 'bold',
 	display: 'flex',
-	justifyContent: 'center'
+	justifyContent: 'center',
 };
-
 
 const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connected, onClick, style }) => {
 	const { t } = useTranslation();
@@ -57,21 +56,19 @@ const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connecte
 		...style,
 	};
 
-	return (
-		connected ? (
-			<Button style={buttonStyle} disabled={true}>
-				{t('home.create.connected')}
-			</Button>
-		) : (
-			<Button style={buttonStyle} onClick={handleClick}>
-				<Image
-					src={serviceToImageSrc[service.toLowerCase()]}
-					alt={service}
-					style={{ width: '30px', height: '30px',  verticalAlign: 'middle', marginRight: 15}}
-				/>
-				{t('home.create.authorize')}
-			</Button>
-		)
+	return connected ? (
+		<Button style={buttonStyle} disabled={true}>
+			{t('home.create.connected')}
+		</Button>
+	) : (
+		<Button style={buttonStyle} onClick={handleClick}>
+			<Image
+				src={serviceToImageSrc[service.toLowerCase()]}
+				alt={service}
+				style={{ width: '30px', height: '30px', verticalAlign: 'middle', marginRight: 15 }}
+			/>
+			{t('home.create.authorize')}
+		</Button>
 	);
 };
 

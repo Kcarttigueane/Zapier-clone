@@ -37,19 +37,18 @@ const footerStyle: React.CSSProperties = {
 	background: '#fff',
 };
 
-
 const Dashboard = () => {
-    return (
-        <Layout style={layoutStyle}>
-            <CustomNavBar />
-            <Content style={contentStyle}>
+	return (
+		<Layout style={layoutStyle}>
+			<CustomNavBar />
+			<Content style={contentStyle}>
 				<Layout style={MainZapStyle}>
-                    <AutomationTable/>
+					<AutomationTable />
 				</Layout>
 			</Content>
-            <Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
-        </Layout>
-    )
-}
+			<Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
+		</Layout>
+	);
+};
 
 export default Dashboard;

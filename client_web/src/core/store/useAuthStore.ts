@@ -16,8 +16,8 @@ type AuthActions = {
 	loginWithGoogle: () => void;
 	loginWithSpotify: () => void;
 	loginWithGitHub: () => void;
-	authorizeGoogleService: (service: string) => void; 
-	authorizeSpotifyService: () => void; 
+	authorizeGoogleService: (service: string) => void;
+	authorizeSpotifyService: () => void;
 	authorizeDiscordService: () => void;
 };
 
@@ -26,7 +26,7 @@ const initialState: AuthState = {
 	error: undefined,
 };
 
-export const useAuthStore = create<AuthState & AuthActions>()((set) => {
+export const useAuthStore = create<AuthState & AuthActions>()(() => {
 	return {
 		...initialState,
 		loginFn: async (email, password) => {
@@ -81,15 +81,15 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 		},
 		authorizeGoogleService: (service: string) => {
 			const userToken = localStorage.getItem('access_token');
-			window.location.href = `${BASE_URL}/services/google/${service}?token=${userToken}`
+			window.location.href = `${BASE_URL}/services/google/${service}?token=${userToken}`;
 		},
 		authorizeSpotifyService: () => {
 			const userToken = localStorage.getItem('access_token');
-			window.location.href = `${BASE_URL}/services/spotify?token=${userToken}`
+			window.location.href = `${BASE_URL}/services/spotify?token=${userToken}`;
 		},
 		authorizeDiscordService: () => {
 			const userToken = localStorage.getItem('access_token');
-			window.location.href = `${BASE_URL}/services/discord?token=${userToken}`
+			window.location.href = `${BASE_URL}/services/discord?token=${userToken}`;
 		},
 	};
 });
