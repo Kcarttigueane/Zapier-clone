@@ -1,0 +1,13 @@
+black
+ruff
+mypy
+
+types-passlib
+types-python-jose
+
+# For testing:
+
+httpx
+pytest
+mongomock
+
