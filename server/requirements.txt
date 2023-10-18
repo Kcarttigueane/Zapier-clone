@@ -4,6 +4,7 @@ motor
 pydantic===1.10.13
 pydantic[email]===1.10.13
 python-dotenv
+httpx
 
 # Auth
 
