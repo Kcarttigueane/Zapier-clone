@@ -205,6 +205,9 @@
       "message": "Enviar Mensaje",
       "playlist": "Agregar a la Lista de Reproducción",
       "file": "Subir Archivo"
+    },
+    "recommendedSection": {
+      "serviceTitle": "Servicios Recomendados"
     }
   },
   "dashboard": {

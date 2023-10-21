@@ -204,6 +204,9 @@
       "message": "Envoyer un Message",
       "playlist": "Ajouter à la Playlist",
       "file": "Téléverser un Fichier"
+    },
+    "recommendedSection": {
+      "serviceTitle": "Nos services"
     }
   },
   "dashboard": {

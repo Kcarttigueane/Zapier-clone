@@ -205,6 +205,9 @@
       "message": "Send Message",
       "playlist": "Add to Playlist",
       "file": "Upload File"
+    },
+    "recommendedSection": {
+      "serviceTitle": "Our available services"
     }
   },
   "dashboard": {
