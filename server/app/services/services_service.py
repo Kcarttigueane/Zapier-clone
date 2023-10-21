@@ -6,6 +6,7 @@ from fastapi import HTTPException, status
 from app.repository.service_repository import ServiceRepository
 from app.schemas.py_object_id import PyObjectId
 from app.schemas.services_dto import ServiceInDTO, ServiceOutDTO
+from app.services.compatibility_service import CompatibilityService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -87,3 +88,37 @@ class ServiceService:
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 detail="An error occurred while deleting the service.",
             ) from e
+
+    async def get_services_compatible_with_service(
+        self, service_id: PyObjectId
+    ) -> List[ServiceOutDTO]:
+        service_compatibilities = (
+            await CompatibilityService().find_service_compatibilities_by_service_id(
+                service_id
+            )
+        )
+
+        if len(service_compatibilities) == 0:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="No services found"
+            )
+
+        compatible_services = []
+        added_service_ids = set()
+
+        for compatibility in service_compatibilities:
+            other_service_id = (
+                compatibility.service_id_1
+                if str(compatibility.service_id_1) != str(service_id)
+                else compatibility.service_id_2
+            )
+
+            if str(other_service_id) in added_service_ids:
+                continue
+
+            service_doc = await self.repository.get(other_service_id)
+            if service_doc:
+                compatible_services.append(service_doc)
+                added_service_ids.add(str(other_service_id))
+
+        return compatible_services

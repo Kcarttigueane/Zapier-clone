@@ -104,3 +104,11 @@ class CompatibilityRepository:
             length=1000
         )  # Adjust the length as necessary
         return [TriggerActionCompatibilityOutDTO.from_mongo(item) for item in result]
+
+    async def find_services_compatibilities_by_service_id(
+        self, service_id: PyObjectId
+    ) -> List[ServiceCompatibilityOutDTO]:
+        result = await self.service_compatibility_collection.find(
+            {"$or": [{"service_id_1": service_id}, {"service_id_2": service_id}]}
+        ).to_list(length=1000)
+        return [ServiceCompatibilityOutDTO.from_mongo(item) for item in result]

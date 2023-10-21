@@ -130,3 +130,10 @@ class CompatibilityService:
                 detail="Trigger action compatibility not found",
             )
         return compatibility
+
+    async def find_service_compatibilities_by_service_id(
+        self, service_id: PyObjectId
+    ) -> List[ServiceCompatibilityOutDTO]:
+        return await self.repository.find_services_compatibilities_by_service_id(
+            service_id
+        )
