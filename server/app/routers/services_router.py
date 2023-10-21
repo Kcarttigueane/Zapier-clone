@@ -7,7 +7,7 @@ from app.schemas.services_dto import ServiceInDTO, ServiceOutDTO
 from app.services.services_service import ServiceService
 from app.utils.auth_utils import check_admin_access_token
 
-services_router = APIRouter(
+services_router: APIRouter = APIRouter(
     prefix="/services",
     tags=["Services"],
     dependencies=[Depends(check_admin_access_token)],

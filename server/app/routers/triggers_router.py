@@ -87,6 +87,6 @@ async def read_triggers_by_service(service_id: PyObjectId):
     status_code=status.HTTP_200_OK,
     description="Retrieve all actions associated with a trigger",
 )
-async def read_actions_by_trigger(trigger_id: PyObjectId):
+async def read_actions_by_trigger(trigger_id: PyObjectId, service_id: str):
     """Retrieve all actions associated with a trigger by trigger ID."""
-    return await TriggerServices.get_triggers_by_action(trigger_id)
+    return await TriggerServices.get_triggers_by_action(trigger_id, service_id)

@@ -169,7 +169,7 @@ class ActionsService:
             ) from e
 
     async def get_actions_by_trigger(
-        self, trigger_id: PyObjectId, service_id: PyObjectId
+        self, trigger_id: PyObjectId, service_id: str
     ) -> List[ActionOutDTO]:
         trigger_action_compatibilities = await self.repository.find_by_trigger_id(
             trigger_id
@@ -177,6 +177,6 @@ class ActionsService:
         actions = []
         for compatibility in trigger_action_compatibilities:
             action = await ActionRepository().get(compatibility.action_id)
-            if action and str(action.service_id) == str(service_id):
+            if action and str(action.service_id) == service_id:
                 actions.append(action)
         return actions

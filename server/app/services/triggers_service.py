@@ -84,7 +84,7 @@ class TriggersService:
             ) from e
 
     async def get_triggers_by_action(
-        self, action_id: PyObjectId, service_id: PyObjectId
+        self, action_id: PyObjectId, service_id: str
     ) -> List[TriggerOutDTO]:
         trigger_action_compatibilities = await self.repository.find_by_action_id(
             action_id
@@ -93,6 +93,6 @@ class TriggersService:
         triggers = []
         for compatibility in trigger_action_compatibilities:
             trigger = await TriggerRepository().get(compatibility.trigger_id)
-            if trigger and str(trigger.service_id) == str(service_id):
+            if trigger and str(trigger.service_id) == service_id:
                 triggers.append(trigger)
         return triggers
