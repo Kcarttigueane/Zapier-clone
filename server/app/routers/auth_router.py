@@ -1,11 +1,13 @@
+from typing import Dict
+
 from fastapi import APIRouter, Depends, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 
-from app.schemas.users_dto import UserInDTO, UserOutDTO
+from app.schemas.users_dto import UserInDTO
 from app.services.auth_service import AuthServices
 from app.utils.auth_utils import Token, get_current_user
 
-auth_router = APIRouter(prefix="/auth", tags=["Auth"])
+auth_router: APIRouter = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 AuthService = AuthServices()
@@ -40,7 +42,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 
 @auth_router.post(
     "/register",
-    response_model=UserOutDTO,
+    response_model=Dict[str, str],
     status_code=status.HTTP_201_CREATED,
     description="Create new user",
 )

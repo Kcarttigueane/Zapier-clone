@@ -7,7 +7,7 @@ from app.schemas.triggers_dto import TriggerInDTO, TriggerOutDTO
 from app.services.triggers_service import TriggersService
 from app.utils.auth_utils import check_admin_access_token
 
-triggers_router = APIRouter(
+triggers_router: APIRouter = APIRouter(
     prefix="/triggers",
     tags=["Triggers"],
     dependencies=[Depends(check_admin_access_token)],

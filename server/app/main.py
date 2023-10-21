@@ -6,6 +6,7 @@ from app.core.database import close_mongo_connection, connect_to_mongo
 from app.routers.actions_router import actions_router
 from app.routers.auth_router import auth_router
 from app.routers.automations_router import automations_router
+from app.routers.compatibility_router import compatibility_router
 from app.routers.services_router import services_router
 from app.routers.triggers_router import triggers_router
 from app.routers.user_router import user_router
@@ -19,7 +20,7 @@ app = FastAPI(
 )
 
 
-origins = [WEB_CLIENT_URL]
+origins = WEB_CLIENT_URL
 
 app.add_middleware(
     CORSMiddleware,
@@ -46,6 +47,7 @@ app.include_router(services_router, prefix="/api/v2")
 app.include_router(actions_router, prefix="/api/v2")
 app.include_router(triggers_router, prefix="/api/v2")
 app.include_router(user_router, prefix="/api/v2")
+app.include_router(compatibility_router, prefix="/api/v2")
 
 
 @app.get("/")
