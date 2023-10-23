@@ -1,18 +1,22 @@
 import json
 
-from fastapi import APIRouter, Response, Request
+from fastapi import APIRouter, HTTPException, Request, Response, status
 
-from app.repository.about_repository import AboutRepository
+from app.services.about_service import AboutService
 
 about_router = APIRouter(tags=["About"])
 
 
 @about_router.get("/about.json", description="Retrieve about.json")
-async def get_about_json(response: Response, resquest: Request):
-    about = AboutRepository()
-    ip = resquest.client.host
+async def get_about_json(response: Response, request: Request):
+    about = AboutService()
+
+    if request.client is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Client not found"
+        )
+
+    ip = request.client.host
     about.create_json(ip)
-    response.headers["Content-Type"] = "application/json"
-    with open("app/about.json", "r") as outfile:
-        data = json.load(outfile)
-        return data
+    with open("about.json", "r") as outfile:
+        return json.load(outfile)
