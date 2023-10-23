@@ -8,6 +8,7 @@ interface ServiceImages extends Record<string, ImageRequireType> {}
 
 const serviceImages: ServiceImages = {
   Gmail: require('../../../core/assets/gmail.png'),
+  Google: require('../../../core/assets/google.png'),
   Tinder: require('../../../core/assets/tinder.png'),
   Facebook: require('../../../core/assets/facebook.png'),
   Spotify: require('../../../core/assets/spotify.png'),

@@ -7,7 +7,7 @@ from app.schemas.triggers_dto import TriggerInDTO, TriggerOutDTO
 from app.services.triggers_service import TriggersService
 from app.utils.auth_utils import check_admin_access_token
 
-triggers_router = APIRouter(
+triggers_router: APIRouter = APIRouter(
     prefix="/triggers",
     tags=["Triggers"],
     dependencies=[Depends(check_admin_access_token)],
@@ -79,3 +79,14 @@ async def read_triggers():
 async def read_triggers_by_service(service_id: PyObjectId):
     """Retrieve all triggers associated with a service by service ID."""
     return await TriggerServices.get_triggers_by_service(service_id)
+
+
+@triggers_router.get(
+    "/{trigger_id}/actions",
+    response_model=List[TriggerOutDTO],
+    status_code=status.HTTP_200_OK,
+    description="Retrieve all actions associated with a trigger",
+)
+async def read_actions_by_trigger(trigger_id: PyObjectId, service_id: str):
+    """Retrieve all actions associated with a trigger by trigger ID."""
+    return await TriggerServices.get_triggers_by_action(trigger_id, service_id)

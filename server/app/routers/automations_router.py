@@ -7,7 +7,7 @@ from app.schemas.py_object_id import PyObjectId
 from app.services.automations_service import AutomationsService
 from app.utils.auth_utils import check_access_token
 
-automations_router = APIRouter(
+automations_router: APIRouter = APIRouter(
     prefix="/automations",
     tags=["Automations"],
     dependencies=[Depends(check_access_token)],

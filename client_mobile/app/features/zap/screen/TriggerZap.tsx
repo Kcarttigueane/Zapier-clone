@@ -1,10 +1,17 @@
 import { Button, ButtonText, VStack } from '@gluestack-ui/themed';
 import React from 'react';
+import { RouteProp, useRoute } from '@react-navigation/native';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { RootStackParamList } from '../../../App';
+import { ZapScreenNavigationProp } from '../screen/CreateZapScreen';
+import { useTranslation } from 'react-i18next';
 
-const TriggerButton = ({ message }: { message: string }) => {
+type ZapReactionRouteProp = RouteProp<RootStackParamList, 'ZapReactionScreen'>;
+
+const TriggerButton = ({ message, navigation }: { message: string; navigation: ZapScreenNavigationProp }) => {
   const handleClickAction = () => {
     console.log('click on button with trigger or reaction : ' + message);
+    navigation.navigate('CreateZapScreen');
   };
 
   return (
@@ -21,7 +28,10 @@ const TriggerButton = ({ message }: { message: string }) => {
   );
 };
 
-const TriggerZap = ({ url }: { url: any }) => {
+const TriggerZap = ({ navigation }: { navigation: ZapScreenNavigationProp }) => {
+  const route = useRoute<ZapReactionRouteProp>();
+  const { logo } = route.params;
+  const { t } = useTranslation();
   return (
     <View style={{ alignItems: 'center' }}>
       <View style={styles.card}>
@@ -32,10 +42,10 @@ const TriggerZap = ({ url }: { url: any }) => {
             color: 'black',
             fontWeight: 'bold',
           }}>
-          Choose a Trigger
+          {t('zap.triggerScreen.title')}
         </Text>
         <View style={{ width: 100, height: 90 }}>
-          <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={url} resizeMode="cover" />
+          <Image style={{ width: '100%', height: '100%', marginBottom: 30 }} source={logo} resizeMode="cover" />
         </View>
         <Text style={{ textAlign: 'center', fontFamily: 'Inter', fontSize: 18, color: 'black' }}>
           neque egestas congue quisque egestas diam in arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc
@@ -43,8 +53,8 @@ const TriggerZap = ({ url }: { url: any }) => {
         </Text>
       </View>
       <VStack space="lg" alignItems="center" justifyContent="center" style={{ width: '100%' }}>
-        <TriggerButton message="New comment on tweet" />
-        <TriggerButton message="New like on tweet" />
+        <TriggerButton message="New comment on tweet" navigation={navigation} />
+        <TriggerButton message="New like on tweet" navigation={navigation} />
       </VStack>
     </View>
   );

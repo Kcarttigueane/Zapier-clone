@@ -4,6 +4,7 @@ import React from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
 import AutomationCreation from '../components/AutomationCreation';
 import RecommendSection from '../components/RecommendSection';
+import RecommendServices from '../components/RecommendServices';
 
 const layoutStyle: React.CSSProperties = {
 	minHeight: '100vh',
@@ -15,7 +16,7 @@ const contentStyle: React.CSSProperties = {
 	color: '#000',
 	display: 'flex',
 	flexDirection: 'column',
-	gap: '50px',
+	gap: '32px',
 	alignItems: 'center',
 };
 
@@ -46,6 +47,7 @@ const Home = () => {
 				<Layout style={MainZapStyle}>
 					<AutomationCreation />
 				</Layout>
+				<RecommendServices />
 				<RecommendSection />
 			</Content>
 			<Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>

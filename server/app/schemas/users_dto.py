@@ -163,3 +163,7 @@ class UserOutDTO(UserInDTO):
     id: PyObjectId = Field(
         ..., title="User ID", description="The unique identifier of the user."
     )
+
+
+class UserOutDTOWithoutOAuth(UserOutDTO):
+    oauth: List[UserOAuthDTO] = []

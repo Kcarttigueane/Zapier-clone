@@ -1,4 +1,4 @@
-import { AppstoreFilled, QuestionCircleFilled, SettingFilled } from '@ant-design/icons';
+import { AppstoreFilled, QuestionCircleFilled, SettingFilled, ReadFilled } from '@ant-design/icons';
 import { Menu } from 'antd';
 import type { MenuProps, MenuTheme } from 'antd/es/menu';
 import React, { useState } from 'react';
@@ -32,7 +32,8 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({ onSelect }) => {
 	const items: MenuItem[] = [
 		getItem(t('settings.settingScreen.profile.title'), '1', <SettingFilled />),
 		getItem(t('settings.settingScreen.connectedServices.title'), '2', <AppstoreFilled />),
-		getItem(t('settings.settingScreen.help.title'), '3', <QuestionCircleFilled />),
+		getItem(t('settings.settingScreen.languages.title'), '3', <ReadFilled />),
+		getItem(t('settings.settingScreen.help.title'), '4', <QuestionCircleFilled />),
 	];
 
 	return (
