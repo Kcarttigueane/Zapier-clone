@@ -31,9 +31,8 @@ check-server:
   image: python:3.12
   before_script:
     - cd server
-    - pip3 install black
-    - pip3 install ruff
-    - pip3 install mypy
+    - pip3 install -r requirements.txt
+    - pip3 install -r requirements-dev.txt
   script:
     - black . --check --diff
     - ruff check . --diff
