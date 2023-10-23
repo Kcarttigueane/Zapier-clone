@@ -161,7 +161,7 @@ class AuthServices:
             else:
                 user.oauth.append(oauth_data)
 
-            return await self.repository.update(user_id=user.id, user=user)
+            return await self.repository.update(user_id=str(user.id), user=user)
 
     def authorize_additional_access(
         self, provider: str, service_name: str, current_user: UserOutDTO

@@ -1,8 +1,9 @@
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from app.source.helpers import get_google_credentials, get_service_auth
-from app.schemas.users_dto import UserOutDTO
+
 from app.schemas.triggers_dto import TriggerAnswer
+from app.schemas.users_dto import UserOutDTO
+from app.source.helpers import get_google_credentials, get_service_auth
 
 
 def check_youtube_like(user: UserOutDTO) -> TriggerAnswer | None:
@@ -18,10 +19,9 @@ def check_youtube_like(user: UserOutDTO) -> TriggerAnswer | None:
         request = service.videos().list(part="snippet", myRating="like", maxResults=10)
         response = request.execute()
 
-        objs = []
-        for video in response.get("items", []):
-            objs.append(video["snippet"]["title"])
+        objs = [video["snippet"]["title"] for video in response.get("items", [])]
         return TriggerAnswer(objs=objs)
 
     except HttpError as error:
         print(f"An error occurred: {error}")
+        return None

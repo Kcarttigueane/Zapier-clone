@@ -5,7 +5,7 @@ from app.schemas.users_dto import UserInDTO, UserOutDTO
 from app.services.auth_service import AuthServices
 from app.utils.auth_utils import Token, get_current_user
 
-auth_router = APIRouter(prefix="/auth", tags=["Auth"])
+auth_router: APIRouter = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 AuthService = AuthServices()

@@ -1,8 +1,9 @@
-import requests
 import json
+
 import requests
-from app.schemas.users_dto import UserOutDTO
+
 from app.schemas.triggers_dto import TriggerAnswer
+from app.schemas.users_dto import UserOutDTO
 from app.source.helpers import get_service_auth
 
 
@@ -61,16 +62,13 @@ def get_tracks_playlist(playlist_id, access_token):
     response = requests.get(playlist_url, headers=headers)
     if response.status_code == 200:
         playlist_data = response.json()
-        playlist_track_uris = [
-            track["track"]["uri"] for track in playlist_data["items"]
-        ]
-        return playlist_track_uris
+        return [track["track"]["uri"] for track in playlist_data["items"]]
     else:
         print("Failed to retrieve the playlist's tracks.")
 
 
 def get_track_uri(song_name, access_token):
-    url = f"https://api.spotify.com/v1/search"
+    url = "https://api.spotify.com/v1/search"
     headers = {"Authorization": f"Bearer {access_token}"}
     params = {"q": song_name, "type": "track", "limit": 1}
     response = requests.get(url, headers=headers, params=params)
@@ -102,7 +100,7 @@ def add_songs_to_playlist(user: UserOutDTO, trigger_answer: TriggerAnswer):
         track_uri = get_track_uri(song_name, token)
         if track_uri and track_uri not in playlist_track_uris:
             track_uris.append(track_uri)
-    
+
     if track_uris != []:
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
         headers = {

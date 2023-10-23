@@ -6,7 +6,7 @@ from app.schemas.actions_dto import ActionInDTO, ActionOutDTO
 from app.schemas.py_object_id import PyObjectId
 from app.services.actions_service import ActionsService
 
-actions_router = APIRouter(prefix="/actions", tags=["Actions"])
+actions_router: APIRouter = APIRouter(prefix="/actions", tags=["Actions"])
 
 ActionsServices = ActionsService()
 

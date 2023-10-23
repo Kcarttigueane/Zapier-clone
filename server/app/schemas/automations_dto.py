@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List, Literal
 
 from pydantic import BaseModel, Field
@@ -46,10 +46,14 @@ class AutomationInDTO(MongoModel):
         ..., title="Status", description="The status of the automation."
     )
     first_poll: bool = Field(
-        True, title="First Poll", description="Checks if it's the automations first poll."
+        True,
+        title="First Poll",
+        description="Checks if it's the automations first poll.",
     )
     last_polled: datetime = Field(
-        datetime.utcnow(), title="Last Polled", description="The last time automation has been polled"
+        datetime.now(timezone.utc),
+        title="Last Polled",
+        description="The last time automation has been polled",
     )
     logs: List[AutomationLogInDTO] = Field(
         [], title="Logs", description="Automation logs"
@@ -65,7 +69,7 @@ class AutomationInDTO(MongoModel):
                 "status": "enabled",
                 "first_poll": False,
                 "last_polled": "2023-09-25T18:44:52Z",
-                "logs": []
+                "logs": [],
             }
         }
 

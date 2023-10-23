@@ -1,24 +1,26 @@
-from app.schemas.users_dto import UserOutDTO, UserOAuthDTO, UserInDTO
-from app.schemas.automations_dto import AutomationOutDTO
-from app.repository.users_repository import UserRepository
-from app.core.config import POLLING
 import base64
-import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import List
+
+import requests
 from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI, client
+
 from app.core.config import (
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
+    POLLING,
     SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET,
 )
+from app.repository.users_repository import UserRepository
+from app.schemas.automations_dto import AutomationOutDTO
+from app.schemas.users_dto import UserInDTO, UserOAuthDTO, UserOutDTO
 
 user_repository = UserRepository()
 
 
 def get_google_credentials(token: str):
-    credentials = client.OAuth2Credentials(
+    return client.OAuth2Credentials(
         access_token=token,
         refresh_token=None,
         client_id=GOOGLE_CLIENT_ID,
@@ -28,8 +30,6 @@ def get_google_credentials(token: str):
         user_agent=None,
         revoke_uri=GOOGLE_REVOKE_URI,
     )
-
-    return credentials
 
 
 def get_service_auth(user: UserOutDTO, service_name: str) -> UserOAuthDTO | None:
@@ -49,10 +49,12 @@ async def handle_spotify_refresh_token(user: UserOutDTO):
         return user
 
     headers = {
-        "Authorization": "Basic "
-        + base64.b64encode(
-            (SPOTIFY_CLIENT_ID + ":" + SPOTIFY_CLIENT_SECRET).encode()
-        ).decode()
+        "Authorization": (
+            "Basic "
+            + base64.b64encode(
+                f"{SPOTIFY_CLIENT_ID}:{SPOTIFY_CLIENT_SECRET}".encode()
+            ).decode()
+        )
     }
 
     data = {"grant_type": "refresh_token", "refresh_token": auth.refresh_token}
@@ -84,8 +86,8 @@ async def handle_refresh_token(user: UserOutDTO, service_name: str) -> UserOutDT
 
 
 def automation_poll_status(automation: AutomationOutDTO):
-    if automation.status == 'disabled':
+    if automation.status == "disabled":
         return False
-    if (datetime.utcnow() - automation.last_polled).total_seconds() / 60 < POLLING:
-        return False
-    return True
+    return (
+        datetime.now(timezone.utc) - automation.last_polled
+    ).total_seconds() / 60 >= POLLING

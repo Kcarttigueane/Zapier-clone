@@ -4,6 +4,8 @@ mypy
 
 types-passlib
 types-python-jose
+types-requests
+google-api-python-client-stubs
 
 # For testing:
 
