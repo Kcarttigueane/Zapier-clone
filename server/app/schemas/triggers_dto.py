@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import List, Literal
 
 from pydantic import Field
 
@@ -39,3 +39,8 @@ class TriggerOutDTO(TriggerInDTO):
     """
 
     id: PyObjectId
+
+
+class TriggerAnswer():
+    def __init__(self, objs: List = [], header: str = None, body: str = None):
+        self.objs = objs

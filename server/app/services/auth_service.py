@@ -190,6 +190,8 @@ class AuthServices:
     ):
         oauth2_scheme = oauth2_providers.get(provider)
 
+        state = state.strip("',")
+
         if not oauth2_scheme:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,

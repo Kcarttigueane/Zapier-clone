@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Literal
+from typing import List, Literal
 
 from pydantic import BaseModel, Field
 
@@ -8,7 +8,6 @@ from app.schemas.py_object_id import PyObjectId
 
 
 class AutomationLogInDTO(BaseModel):
-    automation_id: PyObjectId
     triggered_at: datetime
     details: str
 
@@ -16,7 +15,6 @@ class AutomationLogInDTO(BaseModel):
         json_schema_extra = {
             "example": {
                 "id": 1,
-                "automation_id": 1,
                 "triggered_at": "2023-01-01T00:00:00",
                 "details": "Triggered automation with ID 1",
             }
@@ -47,6 +45,15 @@ class AutomationInDTO(MongoModel):
     status: Literal["enabled", "disabled"] = Field(
         ..., title="Status", description="The status of the automation."
     )
+    first_poll: bool = Field(
+        True, title="First Poll", description="Checks if it's the automations first poll."
+    )
+    last_polled: datetime = Field(
+        datetime.utcnow(), title="Last Polled", description="The last time automation has been polled"
+    )
+    logs: List[AutomationLogInDTO] = Field(
+        [], title="Logs", description="Automation logs"
+    )
 
     class Config:
         json_schema_extra = {
@@ -56,6 +63,9 @@ class AutomationInDTO(MongoModel):
                 "trigger_id": 2,
                 "action_id": 3,
                 "status": "enabled",
+                "first_poll": False,
+                "last_polled": "2023-09-25T18:44:52Z",
+                "logs": []
             }
         }
 
