@@ -9,6 +9,7 @@ from app.routers.automations_router import automations_router
 from app.routers.services_router import services_router
 from app.routers.triggers_router import triggers_router
 from app.routers.user_router import user_router
+from app.routers.about_router import about_router
 
 app = FastAPI(
     title="AREA - API - V2",
@@ -46,6 +47,7 @@ app.include_router(services_router, prefix="/api/v2")
 app.include_router(actions_router, prefix="/api/v2")
 app.include_router(triggers_router, prefix="/api/v2")
 app.include_router(user_router, prefix="/api/v2")
+app.include_router(about_router, prefix="/api/v2")
 
 
 @app.get("/")

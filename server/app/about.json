@@ -1,0 +1,28 @@
+{
+    "client": {
+        "host": "172.19.0.1"
+    },
+    "server": {
+        "current_time": 1698067071,
+        "services": [
+            {
+                "name": "Spotify",
+                "reactions": [
+                    {
+                        "name": "Add to playlist",
+                        "description": "Add a song to specified playlist called AREA"
+                    }
+                ]
+            },
+            {
+                "name": "Youtube",
+                "actions": [
+                    {
+                        "name": "Like a Youtube video",
+                        "description": "New like on a Youtube video"
+                    }
+                ]
+            }
+        ]
+    }
+}
