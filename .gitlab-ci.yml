@@ -36,7 +36,7 @@ check-server:
   script:
     - black ./server --check --diff
     - ruff check ./server --diff
-    - mypy ./server --explicit-package-bases
+    - mypy ./server
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
