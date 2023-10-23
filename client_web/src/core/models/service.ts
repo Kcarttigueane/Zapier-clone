@@ -1,4 +1,4 @@
-export interface ServiceModel {
+export interface ServiceModelDTO {
 	id: number;
 	name: string;
 	description: string;

@@ -1,7 +1,5 @@
-import { Col, Image, Skeleton, Space, Typography } from 'antd';
+import { Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { ServiceModelDTO } from '../../../core/models/service';
-import { useServices } from '../../../core/react-query/service_queries';
 
 const { Title } = Typography;
 
@@ -14,13 +12,10 @@ const imageStyle: React.CSSProperties = {
 
 const RecommendServices = () => {
 	const { t } = useTranslation();
-	const { data: services, isLoading, isError } = useServices();
-
-	if (isError) return <div>Error</div>;
 
 	return (
 		<>
-			<Title level={4}>{t('home.recommendedSection.serviceTitle')}</Title>
+			{/* <Title level={4}>{t('home.recommendedSection.serviceTitle')}</Title>
 			<Col
 				style={{
 					display: 'flex',
@@ -44,7 +39,7 @@ const RecommendServices = () => {
 								</Space>
 							);
 					  })}
-			</Col>
+			</Col> */}
 		</>
 	);
 };
