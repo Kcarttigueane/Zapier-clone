@@ -54,7 +54,10 @@ const CustomBottomTabBar: React.FC<BottomTabBarProps> = ({ state, descriptors, n
 
         const onPress = () => {
           if (!isFocused) {
-            navigation.navigate(route.name);
+            navigation.reset({
+              index: 0,
+              routes: [{ name: route.name }],
+            });
           }
         };
 
