@@ -39,3 +39,6 @@ class ActionRepository:
     async def get_by_service_id(self, service_id: PyObjectId) -> List[ActionOutDTO]:
         triggers = await self.collection.find({"service_id": service_id}).to_list(1000)
         return [ActionOutDTO.from_mongo(trigger) for trigger in triggers]
+
+    async def find_by_trigger_id(self, trigger_id: PyObjectId):
+        return await self.collection.find({"trigger_id": trigger_id}).to_list(1000)

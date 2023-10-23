@@ -13,15 +13,15 @@ const GeneralSettings = () => {
 	const { t } = useTranslation();
 
 	return (
-		<Space direction="vertical" size={32} style={containerStyle}>
+		<Space direction="vertical" size={32} style={containerStyle} align="center">
 			<SettingItem label={t('settings.settingScreen.profile.pic')}>
 				<UploadNewImage />
 			</SettingItem>
 			<SettingItem label={t('settings.settingScreen.profile.name')}>
-				<Input placeholder="John Doe" size="large" />
+				<Input placeholder="John Doe" size="large" style={{ width: '337px' }} />
 			</SettingItem>
 			<SettingItem label={t('settings.settingScreen.profile.email')}>
-				<Input placeholder="johndoe@gmail.com" size="large" />
+				<Input placeholder="johndoe@gmail.com" size="large" style={{ width: '337px' }} />
 			</SettingItem>
 			<SettingItem label={t('settings.settingScreen.profile.pushNotif')} switchable defaultChecked />
 			<SettingItem label={t('settings.settingScreen.profile.emailNotif')} switchable defaultChecked />

@@ -122,3 +122,22 @@ async def read_triggers_by_service(service_id: PyObjectId):
     - The retrieved actions.
     """
     return await ActionsServices.get_actions_by_service(service_id)
+
+
+@actions_router.get(
+    "/{action_id}/triggers",
+    response_model=List[ActionOutDTO],
+    status_code=status.HTTP_200_OK,
+    description="Retrieve all triggers associated with an action",
+)
+async def read_triggers_by_action(action_id: PyObjectId, service_id: str):
+    """
+    Endpoint to retrieve all existing triggers associated with an action by action ID.
+
+    Parameters:
+    - action_id: The ID of the action to retrieve triggers for.
+
+    Returns:
+    - The retrieved triggers.
+    """
+    return await ActionsServices.get_actions_by_trigger(action_id, service_id)

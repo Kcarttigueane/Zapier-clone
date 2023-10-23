@@ -7,7 +7,7 @@ from app.schemas.services_dto import ServiceInDTO, ServiceOutDTO
 from app.services.services_service import ServiceService
 from app.utils.auth_utils import check_admin_access_token
 
-services_router = APIRouter(
+services_router: APIRouter = APIRouter(
     prefix="/services",
     tags=["Services"],
     dependencies=[Depends(check_admin_access_token)],
@@ -127,3 +127,23 @@ async def read_services():
     - HTTPException: An error occurred retrieving the services.
     """
     return await ServiceServices.get_all_services()
+
+
+@services_router.get(
+    "/{service_id}/compatibilities",
+    response_model=List[ServiceOutDTO],
+    status_code=status.HTTP_200_OK,
+    description="Retrieve all services compatible with another service",
+)
+async def get_services_compatible_with_service(service_id: PyObjectId):
+    """
+    Retrieve all the services that are compatible with the service
+    with the specified ID by looking at the service compatibility table.
+
+    Returns:
+    - List[ServiceOutDTO]: A list of all existing services.
+
+    Raises:
+    - HTTPException: An error occurred retrieving the services.
+    """
+    return await ServiceServices.get_services_compatible_with_service(service_id)

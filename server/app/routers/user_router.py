@@ -2,11 +2,11 @@ from typing import Annotated, List
 
 from fastapi import APIRouter, Depends, Response, status
 
-from app.schemas.users_dto import UserInDTO, UserOutDTO
+from app.schemas.users_dto import UserInDTO, UserOutDTO, UserOutDTOWithoutOAuth
 from app.services.users_services import UserService
 from app.utils.auth_utils import get_current_user
 
-user_router = APIRouter(prefix="/users", tags=["User"])
+user_router: APIRouter = APIRouter(prefix="/users", tags=["User"])
 
 UserServices = UserService()
 
@@ -34,11 +34,13 @@ async def get_users():
 
 @user_router.get(
     "/me",
-    response_model=UserOutDTO,
+    response_model=UserOutDTOWithoutOAuth,
     description="Retrieve current user",
     status_code=status.HTTP_200_OK,
 )
 async def read_users_me(current_user: Annotated[UserOutDTO, Depends(get_current_user)]):
+    """Retrieve the current user."""
+    current_user.oauth = []
     return current_user
 
 

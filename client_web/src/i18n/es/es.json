@@ -97,6 +97,12 @@
       "december": "Diciembre"
     }
   },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Tablero",
+    "settings": "Configuraciones",
+    "logout": "Cerrar sesión"
+  },
   "demo_guides": {
     "automation": {
       "title": "La automatización es clave",
@@ -133,7 +139,7 @@
         "title": "Configuración General",
         "pic": "Foto de perfil",
         "name": "Nombre",
-        "email": "Correo electrónico",
+        "email": "Correo",
         "phone": "Número de teléfono",
         "pushNotif": "Notificaciones Push",
         "emailNotif": "Notificaciones por correo electrónico",
@@ -152,6 +158,13 @@
         "question": "Hacer una pregunta",
         "other": "Otro",
         "textAreaPlaceholder": "Ingresa tu mensaje aquí..."
+      },
+      "languages": {
+        "title": "Idiomas",
+        "description": "Elija su idioma",
+        "english": "Inglés",
+        "french": "Francés",
+        "spanish": "Español"
       }
     }
   },
@@ -205,6 +218,9 @@
       "message": "Enviar Mensaje",
       "playlist": "Agregar a la Lista de Reproducción",
       "file": "Subir Archivo"
+    },
+    "recommendedSection": {
+      "serviceTitle": "Servicios Recomendados"
     }
   },
   "dashboard": {
