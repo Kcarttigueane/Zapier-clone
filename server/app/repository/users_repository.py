@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import HTTPException
+from fastapi import HTTPException, status
 
 from app.core.database import get_database
 from app.schemas.py_object_id import PyObjectId
@@ -73,12 +73,10 @@ class UserRepository:
         return await self.get(user_id)
 
     async def forgot_password(self, email: str):
-        print(email)
         user = await self.get_by_email(email)
-        print(user)
         if not user:
             raise HTTPException(
-                status_code=400,
+                status_code=status.HTTP_400_BAD_REQUEST,
                 detail="The user with this email does not exist in the system.",
             )
         code = create_code_password_recovery()
@@ -90,12 +88,12 @@ class UserRepository:
         user = await self.get_by_email(email)
         if not user:
             raise HTTPException(
-                status_code=400,
+                status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Email not found",
             )
         if user.recovery_code != code:
             raise HTTPException(
-                status_code=400,
+                status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Code not valid",
             )
         await self.update_user_password(str(user.id), new_password)
