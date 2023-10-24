@@ -9,6 +9,7 @@ from app.source.helpers import get_google_credentials, get_service_auth
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def check_youtube_like(user: UserOutDTO) -> TriggerAnswer | None:
     service_auth = get_service_auth(user, "youtube")
 

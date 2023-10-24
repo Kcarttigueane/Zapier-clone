@@ -40,11 +40,7 @@ def get_service_auth(user: UserOutDTO, service_name: str) -> UserOAuthDTO | None
     authentications: List[UserOAuthDTO] = user.oauth
 
     return next(
-        (
-            auth
-            for auth in authentications
-            if auth.service_name == service_name
-        ),
+        (auth for auth in authentications if auth.service_name == service_name),
         None,
     )
 
@@ -96,7 +92,5 @@ def automation_poll_status(automation: AutomationOutDTO):
     if automation.status == "disabled":
         return False
     utc_now = datetime.utcnow()
-    automation_last_polled = automation.last_polled.replace(tzinfo=None) 
-    return (
-        utc_now - automation_last_polled
-    ).total_seconds() / 60 >= POLLING
+    automation_last_polled = automation.last_polled.replace(tzinfo=None)
+    return (utc_now - automation_last_polled).total_seconds() / 60 >= POLLING
