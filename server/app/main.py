@@ -10,6 +10,8 @@ from app.routers.compatibility_router import compatibility_router
 from app.routers.services_router import services_router
 from app.routers.triggers_router import triggers_router
 from app.routers.user_router import user_router
+from app.source.automation import run_automations
+import asyncio
 from app.routers.about_router import about_router
 
 app = FastAPI(
@@ -35,6 +37,7 @@ app.add_middleware(
 @app.on_event("startup")
 async def startup_event():
     await connect_to_mongo()
+    asyncio.create_task(run_automations())
 
 
 @app.on_event("shutdown")

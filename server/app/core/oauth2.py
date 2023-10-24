@@ -80,7 +80,7 @@ OAUTH2_PROVIDERS = {
         "authorization_url": "https://accounts.spotify.com/authorize",
         "token_url": "https://accounts.spotify.com/api/token",
         "user_info_url": "https://api.spotify.com/v1/me",
-        "scope": "user-read-email",
+        "scope": "user-read-email playlist-modify-public playlist-modify-private",
     },
     "github": {
         "client_id": GITHUB_CLIENT_ID,
