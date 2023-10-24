@@ -52,7 +52,8 @@ class UserOAuthDTO(BaseModel):
     service_name: str | None = Field(
         None,
         title="Service Name",
-        description="The name of the service this OAuth data is associated with (e.g., youtube, calendar).",
+        description="The name of the service this OAuth data is associated \
+        with (e.g., youtube, calendar).",
     )
     access_token: str = Field(
         ...,
