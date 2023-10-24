@@ -5,7 +5,10 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+<<<<<<< Updated upstream
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
+=======
+>>>>>>> Stashed changes
 
 const initialValues = {
 	firstName: 'Oliver',
