@@ -161,5 +161,19 @@
     "noAccount": "Pas encore de compte ?",
     "haveAccount": "Déjà un compte ?",
     "terms": "Acceptez nos conditions d'utilisation."
+  },
+  "zap": {
+    "createZapScreen": {
+      "title": "Créer un Zap",
+      "button1": "Action",
+      "button2": "Reaction",
+      "submit": "Continuer"
+    },
+    "reactionScreen": {
+      "title": "Choisis une Reaction"
+    },
+    "triggerScreen": {
+      "title": "Choisis une Action"
+    }
   }
 }

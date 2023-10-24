@@ -18,7 +18,7 @@ const cardsData = [
   { title: 'Calendar', logo: require('../../../core/assets/google_calendar.png') },
   { title: 'Google', logo: require('../../../core/assets/google.png') },
   { title: 'Signal', logo: require('../../../core/assets/signal.png') },
-  { title: 'Weather', logo: require('../../../core/assets/weater.png') },
+  { title: 'Weater', logo: require('../../../core/assets/weater.png') },
   { title: 'WhatsApp', logo: require('../../../core/assets/whatApps.png') },
   { title: 'Youtube', logo: require('../../../core/assets/ytb.png') },
 ];

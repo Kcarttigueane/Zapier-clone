@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import RightArea from '../components/RightArea';
 
 import { Button, Divider, Select, Space, Typography } from 'antd';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import Flex from '../../../core/components/Flex';
-import LoginForm from '../components/LoginFrom';
-import Services from '../components/Services';
+import LoginForm from '../components/LoginForm';
+import ProviderAuth from '../components/ProviderAuth';
+import RightArea from '../components/RightArea';
 
 const mainContainerStyle: React.CSSProperties = {
 	display: 'flex',
@@ -19,7 +18,7 @@ const mainContainerStyle: React.CSSProperties = {
 const mainBoxStyle: React.CSSProperties = {
 	display: 'grid',
 	gridTemplateColumns: '1fr 1fr',
-	width: '80%',
+	width: '85%',
 	height: '90vh',
 	borderRadius: '50px',
 	border: '1px solid black',
@@ -45,7 +44,7 @@ const greetingStyle: React.CSSProperties = {
 };
 
 const Login = () => {
-	const navigate = useNavigate();
+	const navigate = useNavugate();
 	const { t } = useTranslation();
 
 	const [selectedLanguage, setSelectedLanguage] = useState(
@@ -61,7 +60,7 @@ const Login = () => {
 		<div style={mainContainerStyle}>
 			<div style={mainBoxStyle}>
 				<Flex direction="column" style={{ height: '100%', lineHeight: '0%', padding: '64px' }} align="center">
-					<Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 16 }}>
+					<Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 24 }}>
 						<h2 style={{ color: '#000', fontSize: 32 }}>Area.</h2>
 						<Select
 							defaultValue={selectedLanguage}
@@ -76,16 +75,16 @@ const Login = () => {
 					</Space>
 					<Text style={titleStyle}>{t('auth.login.title')}</Text>
 					<Text style={greetingStyle}>{t('auth.login.welcome')}</Text>
-					<Services />
+					<ProviderAuth />
 					<Space style={{ width: '60%' }} direction="vertical">
 						<Divider plain>{t('basic.actions.or')}</Divider>
 						<LoginForm />
-						<Space style={{ alignSelf: 'center' }}>
-							<Text>{t('auth.noAccount')}</Text>
-							<Button type="link" onClick={() => navigate('/auth/register')}>
-								{t('auth.register.title')}
-							</Button>
-						</Space>
+					</Space>
+					<Space>
+						<Text>{t('auth.noAccount')}</Text>
+						<Button type="link" onClick={() => navigate('/auth/register')}>
+							{t('auth.register.title')}
+						</Button>
 					</Space>
 				</Flex>
 				<RightArea />

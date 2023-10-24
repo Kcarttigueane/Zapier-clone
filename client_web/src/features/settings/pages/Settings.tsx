@@ -6,6 +6,7 @@ import ConnectedServices from '../components/ConnectedServices';
 import GeneralSettings from '../components/GeneralSettings';
 import HelpAndSupport from '../components/HelpAndSupport';
 import SettingsMenu from '../components/SettingsMenu';
+import Language from '../components/Language';
 
 const layoutStyle: React.CSSProperties = {
 	minHeight: '100vh',
@@ -51,6 +52,8 @@ const Settings = () => {
 			case '2':
 				return <ConnectedServices />;
 			case '3':
+				return <Language />;
+			case '4':
 				return <HelpAndSupport />;
 			default:
 				return null;

@@ -97,6 +97,12 @@
       "december": "Décembre"
     }
   },
+  "navigation": {
+    "home": "Accueil",
+    "dashboard": "Tableau de bord",
+    "settings": "Paramètres",
+    "logout": "Déconnexion"
+  },
   "demo_guides": {
     "automation": {
       "title": "L'automatisation est la clé",
@@ -151,6 +157,13 @@
         "question": "Poser une question",
         "other": "Autre",
         "textAreaPlaceholder": "Décrivez votre problème ici"
+      },
+      "languages": {
+        "title": "Langues",
+        "description": "Choisissez votre langue",
+        "english": "Anglais",
+        "french": "Français",
+        "spanish": "Espagnol"
       }
     }
   },
@@ -186,7 +199,7 @@
       "connected": "Déjà Connecté",
       "disabled": "Autoriser les Services",
       "enabled": "Essayer!",
-      "service": "Sélectionner un service"
+      "service": "🔎 Sélectionner un service"
     },
     "trigger": {
       "like": "Recevoir un J'aime",
@@ -204,6 +217,9 @@
       "message": "Envoyer un Message",
       "playlist": "Ajouter à la Playlist",
       "file": "Téléverser un Fichier"
+    },
+    "recommendedSection": {
+      "serviceTitle": "Nos services"
     }
   },
   "dashboard": {

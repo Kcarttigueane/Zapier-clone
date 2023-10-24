@@ -97,6 +97,12 @@
       "december": "December"
     }
   },
+  "navigation": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "logout": "Logout"
+  },
   "demo_guides": {
     "automation": {
       "title": "Automation is key",
@@ -152,6 +158,13 @@
         "question": "Ask a question",
         "other": "Other",
         "textAreaPlaceholder": "Enter your message here..."
+      },
+      "languages": {
+        "title": "Languages",
+        "description": "Choose your language",
+        "english": "English",
+        "french": "French",
+        "spanish": "Spanish"
       }
     }
   },
@@ -187,7 +200,7 @@
       "connected": "Already Connected",
       "disabled": "Authorize Services",
       "enabled": "Try It!",
-      "service": "Select a Service"
+      "service": "🔎 Select a Service"
     },
     "trigger": {
       "like": "Recieve Like",
@@ -205,6 +218,9 @@
       "message": "Send Message",
       "playlist": "Add to Playlist",
       "file": "Upload File"
+    },
+    "recommendedSection": {
+      "serviceTitle": "Our available services"
     }
   },
   "dashboard": {

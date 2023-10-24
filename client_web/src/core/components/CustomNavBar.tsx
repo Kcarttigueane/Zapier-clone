@@ -1,7 +1,9 @@
 import { BellOutlined, LogoutOutlined, SettingOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Dropdown, Input, MenuProps, Space, Typography, message } from 'antd';
+import { Avatar, Badge, Dropdown, MenuProps, Space, Typography, message } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
+import { useCookies } from 'react-cookie';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 const { Text } = Typography;
@@ -30,38 +32,24 @@ const rightHeaderStyle: React.CSSProperties = {
 	padding: '8px 8px 8px 16px',
 };
 
-const items: MenuProps['items'] = [
-	{
-		key: '1',
-		label: (
-			<Space size="small">
-				<UnorderedListOutlined />
-				<Text>Dashboard</Text>
-			</Space>
-		),
-	},
-	{
-		key: '2',
-		label: (
-			<Space size="small">
-				<SettingOutlined />
-				<Text>Settings</Text>
-			</Space>
-		),
-	},
-	{
-		key: '3',
-		label: (
-			<Space size="small">
-				<LogoutOutlined />
-				<Text>Logout</Text>
-			</Space>
-		),
-	},
-];
-
 const CustomNavBar = () => {
+	const [, , removeCookie] = useCookies([
+		'first-selected-service',
+		'second-selected-service',
+		'selected-trigger',
+		'selected-reaction',
+	]);
 	const navigate = useNavigate();
+	const { t } = useTranslation();
+
+	const handleLogout = () => {
+		removeCookie('first-selected-service');
+		removeCookie('second-selected-service');
+		removeCookie('selected-trigger');
+		removeCookie('selected-reaction');
+
+		localStorage.clear();
+	};
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		switch (key) {
@@ -72,6 +60,7 @@ const CustomNavBar = () => {
 				navigate('/settings');
 				break;
 			case '3':
+				handleLogout();
 				navigate('/auth/login');
 				break;
 			default:
@@ -79,13 +68,42 @@ const CustomNavBar = () => {
 		}
 	};
 
+	const items: MenuProps['items'] = [
+		{
+			key: '1',
+			label: (
+				<Space size="small">
+					<UnorderedListOutlined />
+					<Text>{t('navigation.dashboard')}</Text>
+				</Space>
+			),
+		},
+		{
+			key: '2',
+			label: (
+				<Space size="small">
+					<SettingOutlined />
+					<Text>{t('navigation.settings')}</Text>
+				</Space>
+			),
+		},
+		{
+			key: '3',
+			label: (
+				<Space size="small">
+					<LogoutOutlined />
+					<Text>{t('navigation.logout')}</Text>
+				</Space>
+			),
+		},
+	];
+
 	return (
 		<Header style={headerStyle}>
 			<Space>
 				<Avatar size={60} src={<img src={'/logo.jpg'} alt="Logo" />} onClick={() => navigate('/home')} />
 				<p style={{ margin: '0 0 0 16px' }}>Area.</p>
 			</Space>
-			<Input.Search placeholder="input search text" size="large" allowClear bordered style={searchBarStyle} />
 			<Space style={rightHeaderStyle} size="large">
 				<Badge count={5} size="small">
 					<BellOutlined style={{ fontSize: '20px' }} />
