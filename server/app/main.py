@@ -10,12 +10,9 @@ from app.routers.compatibility_router import compatibility_router
 from app.routers.services_router import services_router
 from app.routers.triggers_router import triggers_router
 from app.routers.user_router import user_router
-<<<<<<< HEAD
 from app.source.automation import run_automations
 import asyncio
-=======
 from app.routers.about_router import about_router
->>>>>>> feat/server/implement-api-v2
 
 app = FastAPI(
     title="AREA - API - V2",

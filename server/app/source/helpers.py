@@ -89,5 +89,5 @@ def automation_poll_status(automation: AutomationOutDTO):
     if automation.status == "disabled":
         return False
     return (
-        datetime.now(timezone.utc) - automation.last_polled
+        datetime.utcnow() - automation.last_polled
     ).total_seconds() / 60 >= POLLING

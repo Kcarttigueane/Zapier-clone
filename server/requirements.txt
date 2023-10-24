@@ -12,10 +12,7 @@ passlib[bcrypt]
 python-jose[cryptography]
 Authlib
 pyjwt
-<<<<<<< HEAD
 python-multipart
 google-api-python-client
 oauth2client
-=======
 python-multipart
->>>>>>> feat/server/implement-api-v2
