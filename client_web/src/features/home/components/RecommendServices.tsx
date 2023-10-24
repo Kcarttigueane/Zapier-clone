@@ -1,21 +1,7 @@
-import { Col, Typography } from 'antd';
-import { useTranslation } from 'react-i18next';
-
-const { Title } = Typography;
-
-const imageStyle: React.CSSProperties = {
-	borderRadius: '12px',
-	border: '1px solid #d9d9d9',
-	padding: '24px',
-	boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
-};
-
 const RecommendServices = () => {
-	const { t } = useTranslation();
-
 	return (
 		<>
-			<Title level={4}>{t('home.recommendedSection.serviceTitle')}</Title>
+			{/* <Title level={4}>{t('home.recommendedSection.serviceTitle')}</Title>
 			<Col
 				style={{
 					display: 'flex',
@@ -39,7 +25,7 @@ const RecommendServices = () => {
 								</Space>
 							);
 					  })} */}
-			</Col>
+			{/* </Col> */}
 		</>
 	);
 };
