@@ -16,9 +16,11 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "antd": "^5.10.2",
+    "axios": "^1.5.1",
     "date-fns": "^2.30.0",
     "formik": "^2.4.5",
     "i18next": "^23.6.0",
+    "jotai": "^2.4.3",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.1",
     "react": "^18.2.0",

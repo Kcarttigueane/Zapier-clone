@@ -200,7 +200,7 @@
       "connected": "Already Connected",
       "disabled": "Authorize Services",
       "enabled": "Try It!",
-      "service": "Select a Service"
+      "service": "🔎 Select a Service"
     },
     "trigger": {
       "like": "Recieve Like",

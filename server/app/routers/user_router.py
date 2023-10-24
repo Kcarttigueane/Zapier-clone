@@ -41,6 +41,7 @@ async def get_users():
 async def read_users_me(current_user: Annotated[UserOutDTO, Depends(get_current_user)]):
     """Retrieve the current user."""
     current_user.oauth = []
+    current_user.password = None
     return current_user
 
 

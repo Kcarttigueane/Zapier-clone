@@ -1,10 +1,10 @@
 import { BellOutlined, LogoutOutlined, SettingOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Dropdown, Input, MenuProps, Space, Typography, message } from 'antd';
+import { Avatar, Badge, Dropdown, MenuProps, Space, Typography, message } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
+import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
 
 const { Text } = Typography;
 
@@ -104,7 +104,6 @@ const CustomNavBar = () => {
 				<Avatar size={60} src={<img src={'/logo.jpg'} alt="Logo" />} onClick={() => navigate('/home')} />
 				<p style={{ margin: '0 0 0 16px' }}>Area.</p>
 			</Space>
-			<Input.Search placeholder="input search text" size="large" allowClear bordered style={searchBarStyle} />
 			<Space style={rightHeaderStyle} size="large">
 				<Badge count={5} size="small">
 					<BellOutlined style={{ fontSize: '20px' }} />

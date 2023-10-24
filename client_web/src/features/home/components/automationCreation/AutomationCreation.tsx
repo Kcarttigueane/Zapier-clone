@@ -4,31 +4,12 @@ import { TFunction } from 'i18next';
 import { useEffect, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
-import Flex from '../../../core/components/Flex';
-import { useAuthStore } from '../../../core/store/useAuthStore';
-import { useAutomationStore } from '../../../core/store/useAutomationStore';
-import useUserStore from '../../../core/store/useUserStore';
-import ConnectServiceButton from './AutomationConnectServiceButton';
+import Flex from '../../../../core/components/Flex';
+import ConnectServiceButton from '../AutomationConnectServiceButton';
 
-import DiscordIcon from '../../../core/assets/logo-svg-2D/Discord.svg';
-import GmailIcon from '../../../core/assets/logo-svg-2D/Gmail.svg';
-import GoogleCalendarIcon from '../../../core/assets/logo-svg-2D/Google-calendar.svg';
-import GoogleDriveIcon from '../../../core/assets/logo-svg-2D/Google-drive.svg';
-import NotificationIcon from '../../../core/assets/logo-svg-2D/Notification.svg';
-import SignalIcon from '../../../core/assets/logo-svg-2D/Signal.svg';
-import SpotifyIcon from '../../../core/assets/logo-svg-2D/Spotify.svg';
-import TwitterIcon from '../../../core/assets/logo-svg-2D/Twitter.svg';
-import WeatherIcon from '../../../core/assets/logo-svg-2D/Weather.svg';
-import WhatsappIcon from '../../../core/assets/logo-svg-2D/Whatsapp.svg';
-import YoutubeIcon from '../../../core/assets/logo-svg-2D/Youtube.svg';
+import ServicesSelection from './ServicesSelection';
 
 const { Text } = Typography;
-
-const TitleStyle: React.CSSProperties = {
-	fontSize: 24,
-	fontWeight: 'bold',
-	alignSelf: 'center',
-};
 
 const DividerStyle: React.CSSProperties = {
 	width: '68px',
@@ -40,130 +21,6 @@ const InputStyle: React.CSSProperties = {
 	width: '286px',
 	height: '48px',
 };
-
-const serviceOptions1 = [
-	{
-		value: 'twitter',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={TwitterIcon} alt="Twitter icon" style={{ width: '25px', marginRight: '8px' }} />
-				Twitter
-			</div>
-		),
-	},
-	{
-		value: 'google drive',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={GoogleDriveIcon} alt="Google Drive icon" style={{ width: '25px', marginRight: '8px' }} />
-				Google Drive
-			</div>
-		),
-	},
-	{
-		value: 'google calendar',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={GoogleCalendarIcon} alt="Twitter" style={{ width: '25px', marginRight: '8px' }} />
-				Google Calendar
-			</div>
-		),
-	},
-	{
-		value: 'gmail',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={GmailIcon} alt="Gmail icon" style={{ width: '25px', marginRight: '8px' }} />
-				Gmail
-			</div>
-		),
-	},
-	{
-		value: 'weather',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={WeatherIcon} alt="Meteo icon" style={{ width: '25px', marginRight: '8px' }} />
-				Weather
-			</div>
-		),
-	},
-	{
-		value: 'youtube',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={YoutubeIcon} alt="Youtube icon" style={{ width: '25px', marginRight: '8px' }} />
-				Youtube
-			</div>
-		),
-	},
-] as any;
-
-const serviceOptions2 = [
-	{
-		value: 'notification',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={NotificationIcon} alt="Notification icon" style={{ width: '25px', marginRight: '8px' }} />
-				Notification
-			</div>
-		),
-	},
-	{
-		value: 'whatsapp',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={WhatsappIcon} alt="Whatsapp icon" style={{ width: '25px', marginRight: '8px' }} />
-				Whatsapp
-			</div>
-		),
-	},
-	{
-		value: 'signal',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={SignalIcon} alt="Signal icon" style={{ width: '25px', marginRight: '8px' }} />
-				Signal
-			</div>
-		),
-	},
-	{
-		value: 'discord',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={DiscordIcon} alt="Discord icon" style={{ width: '25px', marginRight: '8px' }} />
-				Discord
-			</div>
-		),
-	},
-
-	{
-		value: 'gmail',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={GmailIcon} alt="Gmail icon" style={{ width: '25px', marginRight: '8px' }} />
-				Gmail
-			</div>
-		),
-	},
-	{
-		value: 'spotify',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={SpotifyIcon} alt="Spotify icon" style={{ width: '25px', marginRight: '8px' }} />
-				Spotify
-			</div>
-		),
-	},
-	{
-		value: 'google drive',
-		label: (
-			<div style={{ display: 'flex', alignItems: 'center' }}>
-				<img src={GoogleDriveIcon} alt="Google Drive icon" style={{ width: '25px', marginRight: '8px' }} />
-				Google Drive
-			</div>
-		),
-	},
-] as any;
 
 const transformTriggerOptions = (t: TFunction) => {
 	return [
@@ -250,8 +107,6 @@ const AutomationCreation = () => {
 	const [serviceConnected2, setServiceConnected2] = useState<boolean>(false);
 	const [selectedTrigger, setSelectedTrigger] = useState<string | null>(null);
 	const [selectedReaction, setSelectedReaction] = useState<string | null>(null);
-	const { fetchCurrentUser } = useUserStore((state) => state);
-	const { authorizeGoogleService, authorizeSpotifyService, authorizeDiscordService } = useAuthStore();
 	const [user, setUser] = useState<any | null>(null);
 	const [userLoaded, setUserLoaded] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
@@ -266,7 +121,7 @@ const AutomationCreation = () => {
 	useEffect(() => {
 		const fetchUser = async (accessToken: string) => {
 			try {
-				const userModel = await fetchCurrentUser(accessToken);
+				const userModel = null; /* await fetchCurrentUser(accessToken); */
 				if (userModel) {
 					setUser(userModel);
 					setUserLoaded(true);
@@ -288,12 +143,12 @@ const AutomationCreation = () => {
 		}
 	}, []);
 
-	const checkServiceConnection = (value: string) => {
-		const serviceTokenName = serviceToTokenDict[value];
-		const tokenManager = user.token_manager;
-		const serviceObj = tokenManager[serviceTokenName];
-		return serviceObj != null;
-	};
+	// const checkServiceConnection = (value: string) => {
+	// 	const serviceTokenName = serviceToTokenDict[value];
+	// 	const tokenManager = user.token_manager;
+	// 	const serviceObj = tokenManager[serviceTokenName];
+	// 	return serviceObj != null;
+	// };
 
 	useEffect(() => {
 		const checkCookies = () => {
@@ -301,11 +156,9 @@ const AutomationCreation = () => {
 				// Check if user data has been loaded
 				if (cookies['first-selected-service']) {
 					setSelectedService1(cookies['first-selected-service']);
-					setServiceConnected1(checkServiceConnection(cookies['first-selected-service']));
 				}
 				if (cookies['second-selected-service']) {
 					setSelectedService2(cookies['second-selected-service']);
-					setServiceConnected2(checkServiceConnection(cookies['second-selected-service']));
 				}
 				if (cookies['selected-trigger']) {
 					setSelectedTrigger(cookies['selected-trigger']);
@@ -318,19 +171,17 @@ const AutomationCreation = () => {
 		checkCookies();
 	}, [userLoaded]);
 
-	const { createAutomation } = useAutomationStore((state) => state);
+	// const { createAutomation } = useAutomationStore((state) => state);
 
 	const onServiceChange1 = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedService1(value);
-		setServiceConnected1(checkServiceConnection(value));
 		setCookie('first-selected-service', (value = value));
 	};
 
 	const onServiceChange2 = (value: string) => {
 		console.log(`selected ${value}`);
 		setSelectedService2(value);
-		setServiceConnected2(checkServiceConnection(value));
 		setCookie('second-selected-service', (value = value));
 	};
 
@@ -356,11 +207,11 @@ const AutomationCreation = () => {
 	const handleConnectService = (service: string) => {
 		const googleServices = ['google calendar', 'gmail', 'google drive', 'youtube'];
 		if (googleServices.includes(service)) {
-			authorizeGoogleService(serviceToRoute[service]);
+			// authorizeGoogleService(serviceToRoute[service]);
 		} else if (service == 'spotify') {
-			authorizeSpotifyService();
+			// authorizeSpotifyService();
 		} else if (service == 'discord') {
-			authorizeDiscordService();
+			// authorizeDiscordService();
 		}
 	};
 
@@ -374,54 +225,12 @@ const AutomationCreation = () => {
         	`}
 			</style>
 			{contextHolder}
-			<Text style={TitleStyle}>{t('home.create.title')}</Text>
-			<Flex align="center" justify="center">
-				<Flex direction="column" align="center" justify="center" gap="6px">
-					<Text
-						style={{
-							fontSize: '14px',
-							fontWeight: 'bold',
-						}}
-					>
-						{t('home.create.action1')}
-					</Text>
-					<Select
-						showSearch
-						value={selectedService1}
-						placeholder={t('home.create.service')}
-						optionFilterProp="children"
-						onChange={onServiceChange1}
-						onSearch={onSearch}
-						filterOption={filterOption}
-						style={InputStyle}
-						options={serviceOptions1}
-					/>
-				</Flex>
-				<span style={DividerStyle} />
-				<PlusCircleOutlined style={{ fontSize: '32px', color: '#757575', padding: '0 5px', marginTop: '24px' }} />
-				<span style={DividerStyle} />
-				<Flex direction="column" align="center" justify="center" gap="6px">
-					<Text
-						style={{
-							fontSize: '14px',
-							fontWeight: 'bold',
-						}}
-					>
-						{t('home.create.reaction1')}
-					</Text>
-					<Select
-						showSearch
-						value={selectedService2}
-						placeholder={t('home.create.service')}
-						optionFilterProp="children"
-						onChange={onServiceChange2}
-						onSearch={onSearch}
-						filterOption={filterOption}
-						style={InputStyle}
-						options={serviceOptions2}
-					/>
-				</Flex>
-			</Flex>
+			<ServicesSelection
+				selectedService1={selectedService1}
+				setSelectedService1={onServiceChange1}
+				selectedService2={selectedService2}
+				setSelectedService2={onServiceChange2}
+			/>
 			{selectedService1 && selectedService2 ? (
 				<Flex align="center" justify="center">
 					<Flex direction="column" align="center" justify="center" gap="6px">
@@ -453,6 +262,7 @@ const AutomationCreation = () => {
 							style={{
 								fontSize: '14px',
 								fontWeight: 'bold',
+								color: '#000',
 							}}
 						>
 							{t('home.create.reaction2')}
@@ -510,7 +320,7 @@ const AutomationCreation = () => {
 						fontSize: serviceConnected1 && serviceConnected2 ? '20px' : '14px',
 						fontWeight: 'bold',
 					}}
-					onClick={createAutomation}
+					// onClick={createAutomation}
 					disabled={!serviceConnected1 || !serviceConnected2}
 				>
 					{serviceConnected1 && serviceConnected2 ? t('home.create.enabled') : t('home.create.disabled')}
