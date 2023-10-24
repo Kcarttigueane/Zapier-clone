@@ -5,6 +5,7 @@ pydantic===1.10.13
 pydantic[email]===1.10.13
 python-dotenv
 httpx
+requests
 
 # Auth
 
@@ -14,3 +15,6 @@ Authlib
 pyjwt
 python-multipart
 mailjet_rest
+google-api-python-client
+oauth2client
+python-multipart

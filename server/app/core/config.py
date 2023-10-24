@@ -25,5 +25,9 @@ ACCESS_TOKEN_EXPIRE_MINUTES = os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES")
 
 WEB_CLIENT_URL = os.getenv("WEB_CLIENT_URL")
 
+<<<<<<< HEAD
 MAILJET_API_KEY = os.getenv("MAILJET_API_KEY")
 MAILJET_SECRET_KEY = os.getenv("MAILJET_SECRET_KEY")
+=======
+POLLING = 0.1
+>>>>>>> feat/server/implement-api-v2

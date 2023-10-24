@@ -1,4 +1,4 @@
-from typing import Literal
+from typing import List, Literal
 
 from pydantic import Field
 
@@ -13,11 +13,11 @@ class TriggerInDTO(MongoModel):
         description="The ID of the service associated with the trigger.",
     )
     name: Literal[
-        "NewFile",  # ❌ Gmail, DropBox, One Drive
-        "LikeSong",  # ✅ Spotify, Youtube
-        "NewEvent",  # ✅ Google Calendar
-        "BirthdayEvent",  # ✅ Google Calendar
-        "NewAttachment",  # ✅ Gmail
+        "NewFile",
+        "LikeSong",
+        "NewEvent",
+        "BirthdayEvent",
+        "NewAttachment",
     ] = Field(..., title="Trigger Name", description="The name of the trigger.")
     description: str = Field(
         ..., title="Description", description="A brief description of the trigger."
@@ -39,3 +39,15 @@ class TriggerOutDTO(TriggerInDTO):
     """
 
     id: PyObjectId
+
+
+class TriggerAnswer:
+    def __init__(
+        self,
+        objs: List | None = None,
+        header: str | None = None,
+        body: str | None = None,
+    ):
+        if objs is None:
+            objs = []
+        self.objs = objs
