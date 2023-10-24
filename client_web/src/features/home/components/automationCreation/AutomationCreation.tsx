@@ -1,12 +1,10 @@
-import { PlusCircleOutlined } from '@ant-design/icons';
-import { Button, Select, Typography, message } from 'antd';
+import { Typography, message } from 'antd';
 import { TFunction } from 'i18next';
 import { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+// import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
-import Flex from '../../../../core/components/Flex';
-import ConnectServiceButton from '../AutomationConnectServiceButton';
 
+import { ServiceModelDTO } from '../../../../core/models/service';
 import ServicesSelection from './ServicesSelection';
 
 const { Text } = Typography;
@@ -84,6 +82,21 @@ const transformReactionOptions = (t: TFunction) => {
 	];
 };
 
+const steps = [
+	{
+		title: 'First',
+		content: 'First-content',
+	},
+	{
+		title: 'Second',
+		content: 'Second-content',
+	},
+	{
+		title: 'Last',
+		content: 'Last-content',
+	},
+];
+
 const serviceToTokenDict: Record<string, string> = {
 	discord: 'discord_token',
 	'google calendar': 'google_calendar_token',
@@ -101,8 +114,8 @@ const serviceToRoute: Record<string, string> = {
 };
 
 const AutomationCreation = () => {
-	const [selectedService1, setSelectedService1] = useState<string | null>(null);
-	const [selectedService2, setSelectedService2] = useState<string | null>(null);
+	const [selectedService1, setSelectedService1] = useState<ServiceModelDTO['id'] | null>(null);
+	const [selectedService2, setSelectedService2] = useState<ServiceModelDTO['id'] | null>(null);
 	const [serviceConnected1, setServiceConnected1] = useState<boolean>(false);
 	const [serviceConnected2, setServiceConnected2] = useState<boolean>(false);
 	const [selectedTrigger, setSelectedTrigger] = useState<string | null>(null);
@@ -111,12 +124,12 @@ const AutomationCreation = () => {
 	const [userLoaded, setUserLoaded] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
 	const { t } = useTranslation();
-	const [cookies, setCookie] = useCookies([
-		'first-selected-service',
-		'second-selected-service',
-		'selected-trigger',
-		'selected-reaction',
-	]);
+	// const [cookies, setCookie] = useCookies([
+	// 	'first-selected-service',
+	// 	'second-selected-service',
+	// 	'selected-trigger',
+	// 	'selected-reaction',
+	// ]);
 
 	useEffect(() => {
 		const fetchUser = async (accessToken: string) => {
@@ -150,70 +163,70 @@ const AutomationCreation = () => {
 	// 	return serviceObj != null;
 	// };
 
-	useEffect(() => {
-		const checkCookies = () => {
-			if (userLoaded) {
-				// Check if user data has been loaded
-				if (cookies['first-selected-service']) {
-					setSelectedService1(cookies['first-selected-service']);
-				}
-				if (cookies['second-selected-service']) {
-					setSelectedService2(cookies['second-selected-service']);
-				}
-				if (cookies['selected-trigger']) {
-					setSelectedTrigger(cookies['selected-trigger']);
-				}
-				if (cookies['selected-reaction']) {
-					setSelectedReaction(cookies['selected-reaction']);
-				}
-			}
-		};
-		checkCookies();
-	}, [userLoaded]);
+	// useEffect(() => {
+	// 	const checkCookies = () => {
+	// 		if (userLoaded) {
+	// 			// Check if user data has been loaded
+	// 			if (cookies['first-selected-service']) {
+	// 				setSelectedService1(cookies['first-selected-service']);
+	// 			}
+	// 			if (cookies['second-selected-service']) {
+	// 				setSelectedService2(cookies['second-selected-service']);
+	// 			}
+	// 			if (cookies['selected-trigger']) {
+	// 				setSelectedTrigger(cookies['selected-trigger']);
+	// 			}
+	// 			if (cookies['selected-reaction']) {
+	// 				setSelectedReaction(cookies['selected-reaction']);
+	// 			}
+	// 		}
+	// 	};
+	// 	checkCookies();
+	// }, [userLoaded]);
 
 	// const { createAutomation } = useAutomationStore((state) => state);
 
-	const onServiceChange1 = (value: string) => {
-		console.log(`selected ${value}`);
-		setSelectedService1(value);
-		setCookie('first-selected-service', (value = value));
-	};
+	// const onServiceChange1 = (value: string) => {
+	// 	console.log(`selected ${value}`);
+	// 	setSelectedService1(value);
+	// 	setCookie('first-selected-service', (value = value));
+	// };
 
-	const onServiceChange2 = (value: string) => {
-		console.log(`selected ${value}`);
-		setSelectedService2(value);
-		setCookie('second-selected-service', (value = value));
-	};
+	// const onServiceChange2 = (value: string) => {
+	// 	console.log(`selected ${value}`);
+	// 	setSelectedService2(value);
+	// 	setCookie('second-selected-service', (value = value));
+	// };
 
-	const onTriggerChange = (value: string) => {
-		console.log(`selected ${value}`);
-		setSelectedTrigger(value);
-		setCookie('selected-trigger', (value = value));
-	};
+	// const onTriggerChange = (value: string) => {
+	// 	console.log(`selected ${value}`);
+	// 	setSelectedTrigger(value);
+	// 	setCookie('selected-trigger', (value = value));
+	// };
 
-	const onReactionChange = (value: string) => {
-		console.log(`selected ${value}`);
-		setSelectedReaction(value);
-		setCookie('selected-reaction', (value = value));
-	};
+	// const onReactionChange = (value: string) => {
+	// 	console.log(`selected ${value}`);
+	// 	setSelectedReaction(value);
+	// 	setCookie('selected-reaction', (value = value));
+	// };
 
-	const onSearch = (value: string) => {
-		console.log('search:', value);
-	};
+	// const onSearch = (value: string) => {
+	// 	console.log('search:', value);
+	// };
 
-	const filterOption = (input: string, option?: { label: string; value: string }) =>
-		(option?.value ?? '').toLowerCase().includes(input.toLowerCase());
+	// const filterOption = (input: string, option?: { label: string; value: string }) =>
+	// 	(option?.value ?? '').toLowerCase().includes(input.toLowerCase());
 
-	const handleConnectService = (service: string) => {
-		const googleServices = ['google calendar', 'gmail', 'google drive', 'youtube'];
-		if (googleServices.includes(service)) {
-			// authorizeGoogleService(serviceToRoute[service]);
-		} else if (service == 'spotify') {
-			// authorizeSpotifyService();
-		} else if (service == 'discord') {
-			// authorizeDiscordService();
-		}
-	};
+	// const handleConnectService = (service: string) => {
+	// 	const googleServices = ['google calendar', 'gmail', 'google drive', 'youtube'];
+	// 	if (googleServices.includes(service)) {
+	// 		// authorizeGoogleService(serviceToRoute[service]);
+	// 	} else if (service == 'spotify') {
+	// 		// authorizeSpotifyService();
+	// 	} else if (service == 'discord') {
+	// 		// authorizeDiscordService();
+	// 	}
+	// };
 
 	return (
 		<>
@@ -227,11 +240,11 @@ const AutomationCreation = () => {
 			{contextHolder}
 			<ServicesSelection
 				selectedService1={selectedService1}
-				setSelectedService1={onServiceChange1}
+				setSelectedService1={setSelectedService1}
 				selectedService2={selectedService2}
-				setSelectedService2={onServiceChange2}
+				setSelectedService2={setSelectedService2}
 			/>
-			{selectedService1 && selectedService2 ? (
+			{/* {selectedService1 && selectedService2 ? (
 				<Flex align="center" justify="center">
 					<Flex direction="column" align="center" justify="center" gap="6px">
 						<Text
@@ -280,8 +293,8 @@ const AutomationCreation = () => {
 						/>
 					</Flex>
 				</Flex>
-			) : null}
-			{selectedTrigger &&
+			) : null} */}
+			{/* {selectedTrigger &&
 			selectedReaction &&
 			selectedService1 &&
 			selectedService2 &&
@@ -325,7 +338,7 @@ const AutomationCreation = () => {
 				>
 					{serviceConnected1 && serviceConnected2 ? t('home.create.enabled') : t('home.create.disabled')}
 				</Button>
-			) : null}
+			) : null} */}
 		</>
 	);
 };

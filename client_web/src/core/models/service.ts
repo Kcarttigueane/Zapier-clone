@@ -1,5 +1,5 @@
 export interface ServiceModelDTO {
-	id: number;
+	id: string;
 	name: string;
 	description: string;
 	icon_svg_base64: string;

@@ -1,0 +1,61 @@
+import { HttpStatusCode } from 'axios';
+import { create } from 'zustand';
+import { apiV2 } from '../api';
+import { ServiceModelDTO } from '../models/service';
+
+type ServicesState = {
+	services: ServiceModelDTO[];
+	compatibleServices: ServiceModelDTO[];
+	isLoading: boolean;
+};
+
+type ServiceActions = {
+	clearServices: () => void;
+	fetchServices: () => Promise<void>;
+	fetchCompatibleServices: (serviceId: ServiceModelDTO['id']) => Promise<void>;
+};
+
+const initialState: ServicesState = {
+	services: [],
+	compatibleServices: [],
+	isLoading: false,
+};
+
+const useServicesStore = create<ServicesState & ServiceActions>()((set) => ({
+	...initialState,
+	fetchServices: async () => {
+		set({ isLoading: true });
+		try {
+			const response = await apiV2.get('/services');
+
+			if (response.status === HttpStatusCode.Ok && response.data) {
+				console.log(response.data);
+				set({ services: response.data, isLoading: false });
+			}
+		} catch (error: any) {
+			console.error('Error fetching current services:', error);
+			throw error;
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+	fetchCompatibleServices: async (serviceId: ServiceModelDTO['id']) => {
+		set({ isLoading: true });
+		try {
+			const response = await apiV2.get(`/services/${serviceId}/compatibilities`);
+
+			if (response.status === HttpStatusCode.Ok && response.data) {
+				console.log(response.data);
+				set({ compatibleServices: response.data, isLoading: false });
+			}
+		} catch (error: any) {
+			console.error('Error fetching current services:', error);
+			throw error;
+		} finally {
+			set({ isLoading: false });
+		}
+	},
+	clearServices: () => set(() => ({ services: [] })),
+}));
+
+export default useServicesStore;

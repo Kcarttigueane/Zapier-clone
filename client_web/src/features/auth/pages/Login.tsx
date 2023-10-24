@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Button, Divider, Select, Space, Typography } from 'antd';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import Flex from '../../../core/components/Flex';
 import LoginForm from '../components/LoginForm';
 import ProviderAuth from '../components/ProviderAuth';
@@ -44,7 +45,7 @@ const greetingStyle: React.CSSProperties = {
 };
 
 const Login = () => {
-	const navigate = useNavugate();
+	const navigate = useNavigate();
 	const { t } = useTranslation();
 
 	const [selectedLanguage, setSelectedLanguage] = useState(

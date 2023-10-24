@@ -1,10 +1,11 @@
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { Image, Select, Typography } from 'antd';
+import { Image, Select, Spin, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import Flex from '../../../../core/components/Flex';
 
-import { FC, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { ServiceModelDTO } from '../../../../core/models/service';
+import useServicesStore from '../../../../core/zustand/useServiceStore';
 
 const { Text } = Typography;
 
@@ -27,7 +28,7 @@ const InputStyle: React.CSSProperties = {
 
 const servicesOptions = (services: ServiceModelDTO[]) => {
 	return services.map((service) => ({
-		value: service.name,
+		value: JSON.stringify({ id: service.id, name: service.name }),
 		label: (
 			<div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
 				<Image
@@ -55,14 +56,23 @@ const ServicesSelection: FC<ServicesSelectionProps> = ({
 	selectedService2,
 	setSelectedService2,
 }) => {
-	const [compatibleServices, setCompatibleServices] = useState<ServiceModelDTO[]>([]);
-
-	// const serviceOptions1: any = servicesOptions(services ?? []);
-	// const serviceOptions2: any = servicesOptions(compatibleServices ?? []);
 	const { t } = useTranslation();
+	const { services, fetchCompatibleServices, isLoading } = useServicesStore((state) => state);
 
-	const filterOption = (input: string, option?: { label: string; value: string }) =>
-		(option?.value ?? '').toLowerCase().includes(input.toLowerCase());
+	const serviceOptions1: any = servicesOptions(services ?? []);
+	// const serviceOptions2: any = servicesOptions(compatibleServices ?? []);
+
+	const filterOption = (input: string, option?: { label: string; value: string }) => {
+		const parsedValue = JSON.parse(option?.value || '{}');
+		return (parsedValue.name ?? '').toLowerCase().includes(input.toLowerCase());
+	};
+
+	useEffect(() => {
+		if (selectedService1) {
+			console.log('selectedService1', selectedService1);
+			fetchCompatibleServices(selectedService1);
+		}
+	}, [selectedService1]);
 
 	return (
 		<>
@@ -75,12 +85,17 @@ const ServicesSelection: FC<ServicesSelectionProps> = ({
 						value={selectedService1}
 						placeholder={t('home.create.service')}
 						optionFilterProp="children"
-						onChange={setSelectedService1}
+						onChange={(option) => {
+							const parsedValue = JSON.parse(option.value); // TODO: check the error but working
+							const serviceId = parsedValue.id;
+							console.log('serviceId', serviceId);
+							setSelectedService1(serviceId);
+						}}
 						labelInValue
 						// onSearch={onSearch}
 						filterOption={filterOption}
 						style={InputStyle}
-						// options={serviceOptions1}
+						options={serviceOptions1}
 						notFoundContent="No service found"
 					/>
 				</Flex>
@@ -96,17 +111,21 @@ const ServicesSelection: FC<ServicesSelectionProps> = ({
 					>
 						{t('home.create.reaction1')}
 					</Text>
-					<Select
-						showSearch
-						value={selectedService2}
-						placeholder={t('home.create.service')}
-						optionFilterProp="children"
-						onChange={setSelectedService2}
-						// onSearch={onSearch}
-						filterOption={filterOption}
-						style={InputStyle}
-						// options={serviceOptions1}
-					/>
+					{isLoading ? (
+						<Spin />
+					) : (
+						<Select
+							showSearch
+							value={selectedService2}
+							placeholder={t('home.create.service')}
+							optionFilterProp="children"
+							onChange={(value) => console.log('value', value)}
+							// onSearch={onSearch}
+							filterOption={filterOption}
+							style={InputStyle}
+							// options={serviceOptions1}
+						/>
+					)}
 				</Flex>
 			</Flex>
 		</>

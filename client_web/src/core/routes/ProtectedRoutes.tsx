@@ -25,11 +25,8 @@ const ProtectedRoute: FC<Props> = ({ children }) => {
 			} catch (error) {
 				console.error('Error fetching current user:', error);
 			}
-		} else {
-			console.error('No token received');
-			if (!accessToken) {
-				navigate('/auth/login');
-			}
+		} else if (!accessToken) {
+			navigate('/auth/login');
 		}
 
 		setIsTokenChecked(true);

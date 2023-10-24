@@ -1,7 +1,8 @@
 import { Layout } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
+import useServicesStore from '../../../core/zustand/useServiceStore';
 import RecommendSection from '../components/RecommendSection';
 import RecommendServices from '../components/RecommendServices';
 import AutomationCreation from '../components/automationCreation/AutomationCreation';
@@ -13,10 +14,9 @@ const layoutStyle: React.CSSProperties = {
 
 const contentStyle: React.CSSProperties = {
 	padding: '48px 24px',
-	color: '#000',
 	display: 'flex',
 	flexDirection: 'column',
-	gap: '32px',
+	gap: '24px',
 	alignItems: 'center',
 };
 
@@ -40,6 +40,12 @@ const footerStyle: React.CSSProperties = {
 };
 
 const Home = () => {
+	const { fetchServices } = useServicesStore((state) => state);
+
+	useEffect(() => {
+		fetchServices();
+	}, []);
+
 	return (
 		<Layout style={layoutStyle}>
 			<CustomNavBar />
