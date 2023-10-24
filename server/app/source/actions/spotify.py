@@ -1,10 +1,15 @@
 import json
+import logging
 
 import requests
+from fastapi import status
 
 from app.schemas.triggers_dto import TriggerAnswer
 from app.schemas.users_dto import UserOutDTO
 from app.source.helpers import get_service_auth
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def get_user_id(access_token):
@@ -12,11 +17,11 @@ def get_user_id(access_token):
     headers = {"Authorization": f"Bearer {access_token}"}
     response = requests.get(url, headers=headers)
 
-    if response.status_code == 200:
+    if response.status_code == status.HTTP_200_OK:
         user_data = response.json()
         return user_data["id"]
     else:
-        print(f"Failed to get user data: {response.text}")
+        logger.info(f"Failed to get user data: {response.text}")
         return None
 
 
@@ -31,11 +36,11 @@ def create_playlist(user_id, playlist_name, access_token):
         data = {"name": playlist_name, "public": False}
         response = requests.post(url, headers=headers, data=json.dumps(data))
 
-        if response.status_code == 201:
+        if response.status_code == status.HTTP_201_CREATED:
             playlist_id = response.json()["id"]
-            print(f"Playlist '{playlist_name}' created with ID: {playlist_id}")
+            logger.info(f"Playlist '{playlist_name}' created with ID: {playlist_id}")
         else:
-            print(f"Failed to create playlist: {response.text}")
+            logger.info(f"Failed to create playlist: {response.text}")
     return playlist_id
 
 
@@ -44,7 +49,7 @@ def get_existing_playlist_id(user_id, playlist_name, access_token):
     headers = {"Authorization": f"Bearer {access_token}"}
     response = requests.get(url, headers=headers)
 
-    if response.status_code == 200:
+    if response.status_code == status.HTTP_200_OK:
         playlists = response.json()["items"]
         for playlist in playlists:
             if playlist["name"] == playlist_name:
@@ -60,11 +65,11 @@ def get_tracks_playlist(playlist_id, access_token):
     }
 
     response = requests.get(playlist_url, headers=headers)
-    if response.status_code == 200:
+    if response.status_code == status.HTTP_200_OK:
         playlist_data = response.json()
         return [track["track"]["uri"] for track in playlist_data["items"]]
     else:
-        print("Failed to retrieve the playlist's tracks.")
+        logger.info("Failed to retrieve the playlist's tracks.")
 
 
 def get_track_uri(song_name, access_token):
@@ -73,12 +78,12 @@ def get_track_uri(song_name, access_token):
     params = {"q": song_name, "type": "track", "limit": 1}
     response = requests.get(url, headers=headers, params=params)
 
-    if response.status_code == 200:
+    if response.status_code == status.HTTP_200_OK:
         data = response.json()
         if data["tracks"]["items"]:
             return data["tracks"]["items"][0]["uri"]
     else:
-        print(f"Failed to get track URI for '{song_name}': {response.text}")
+        logger.info(f"Failed to get track URI for '{song_name}': {response.text}")
     return None
 
 

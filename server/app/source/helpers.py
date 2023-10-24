@@ -1,5 +1,6 @@
+import logging
 import base64
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import List
 
 import requests
@@ -15,6 +16,9 @@ from app.core.config import (
 from app.repository.users_repository import UserRepository
 from app.schemas.automations_dto import AutomationOutDTO
 from app.schemas.users_dto import UserInDTO, UserOAuthDTO, UserOutDTO
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 user_repository = UserRepository()
 
@@ -74,8 +78,8 @@ async def handle_spotify_refresh_token(user: UserOutDTO):
         await user_repository.update(str(user.id), user_in)
         return user
     else:
-        print("Error refreshing token:", response.status_code)
-        print(response.text)
+        logger.info("Error refreshing token:", response.status_code)
+        logger.info(response.text)
     return user
 
 
@@ -88,6 +92,8 @@ async def handle_refresh_token(user: UserOutDTO, service_name: str) -> UserOutDT
 def automation_poll_status(automation: AutomationOutDTO):
     if automation.status == "disabled":
         return False
+    utc_now = datetime.utcnow()
+    automation_last_polled = automation.last_polled.replace(tzinfo=None) 
     return (
-        datetime.utcnow() - automation.last_polled
+        utc_now - automation_last_polled
     ).total_seconds() / 60 >= POLLING

@@ -1,3 +1,4 @@
+import logging
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
@@ -5,6 +6,8 @@ from app.schemas.triggers_dto import TriggerAnswer
 from app.schemas.users_dto import UserOutDTO
 from app.source.helpers import get_google_credentials, get_service_auth
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def check_youtube_like(user: UserOutDTO) -> TriggerAnswer | None:
     service_auth = get_service_auth(user, "youtube")
@@ -23,5 +26,5 @@ def check_youtube_like(user: UserOutDTO) -> TriggerAnswer | None:
         return TriggerAnswer(objs=objs)
 
     except HttpError as error:
-        print(f"An error occurred: {error}")
+        logger.info(f"An error occurred: {error}")
         return None
