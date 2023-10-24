@@ -2,7 +2,7 @@ import logging
 import base64
 from datetime import datetime
 from typing import List
-
+from fastapi import status
 import requests
 from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI, client
 
@@ -37,13 +37,16 @@ def get_google_credentials(token: str):
 
 
 def get_service_auth(user: UserOutDTO, service_name: str) -> UserOAuthDTO | None:
-    authentifications: List[UserOAuthDTO] = user.oauth
+    authentications: List[UserOAuthDTO] = user.oauth
 
-    for auth in authentifications:
-        if auth.service_name == service_name:
-            return auth
-
-    return None
+    return next(
+        (
+            auth
+            for auth in authentications
+            if auth.service_name == service_name
+        ),
+        None,
+    )
 
 
 async def handle_spotify_refresh_token(user: UserOutDTO):
@@ -67,7 +70,7 @@ async def handle_spotify_refresh_token(user: UserOutDTO):
         "https://accounts.spotify.com/api/token", headers=headers, data=data
     )
 
-    if response.status_code == 200:
+    if response.status_code == status.HTTP_200_OK:
         response_json = response.json()
         auth.access_token = response_json["access_token"]
         for i, user_auth in enumerate(user.oauth):
