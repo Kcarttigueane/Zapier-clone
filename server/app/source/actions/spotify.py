@@ -88,13 +88,12 @@ def get_track_uri(song_name, access_token):
 
 
 def add_songs_to_playlist(user: UserOutDTO, trigger_answer: TriggerAnswer):
+    if service_auth := get_service_auth(user, "spotify"):
+        token = service_auth.access_token
+    else:
+        return None
+
     objs = trigger_answer.objs
-    auth = get_service_auth(user, "spotify")
-
-    if not auth:
-        return
-
-    token = auth.access_token
 
     spotify_id = get_user_id(token)
     playlist_id = create_playlist(spotify_id, "Area", token)
