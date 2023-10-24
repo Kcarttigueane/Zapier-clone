@@ -1,9 +1,22 @@
-export interface UserModel {
-	id: number;
+interface UserProfileDTO {
+	first_name?: string;
+	last_name?: string;
+	language: string;
+	theme: 'dark' | 'light' | 'system';
+}
+
+enum UserRole {
+	USER = 'USER',
+	ADMIN = 'ADMIN',
+}
+
+export interface UserModelDTO {
+	id: string;
 	email: string;
-	passwordHash: string;
 	status: 'active' | 'inactive' | 'suspended';
-	emailVerified: boolean;
-	createdAt: Date;
-	updatedAt: Date;
+	role: UserRole;
+	email_verified: boolean;
+	profile: UserProfileDTO;
+	created_at: Date;
+	updated_at: Date;
 }

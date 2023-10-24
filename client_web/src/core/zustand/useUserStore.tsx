@@ -1,76 +1,89 @@
+import { HttpStatusCode } from 'axios';
 import { create } from 'zustand';
-import { UserModel } from '../models/user';
-
-const BASE_URL = 'http://127.0.0.1:8080/api';
+import { apiV2, getApiHeaders } from '../api';
+import { UserModelDTO } from '../models/user';
+import { useAuthStore } from './useAuthStore';
 
 type UserState = {
-	user: UserModel | null;
+	user: UserModelDTO | null;
+	isLoading: boolean;
+	error?: string;
 };
 
 type UserActions = {
-	setUser: (user: UserModel) => void;
+	setUser: (user: UserModelDTO) => void;
 	clearUser: () => void;
 	fetchCurrentUser: (accessToken: string) => Promise<any | undefined>;
-	updateUser: (userId: number, user: Partial<UserModel>) => Promise<void>;
-	deleteUser: (userId: number) => Promise<void>;
+	updateUser: (user: Partial<UserModelDTO>) => Promise<void>;
+	deleteUser: () => Promise<void>;
 };
 
 const useUserStore = create<UserState & UserActions>()((set) => ({
 	user: null,
+	isLoading: false,
+	error: undefined,
 	setUser: (user) => set(() => ({ user })),
 	clearUser: () => set(() => ({ user: null })),
 	fetchCurrentUser: async (accessToken: string) => {
+		set({ isLoading: true, error: undefined });
 		try {
-			const response = await fetch(`${BASE_URL}/users/me`, {
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json',
-					Authorization: `Bearer ${accessToken}`,
-				},
-			}).then((res) => res.json());
+			const response = await apiV2.get('/users/me', { headers: getApiHeaders(accessToken) });
 
-			const user: UserModel = response;
-
-			set({ user });
-			return user;
-		} catch (error) {
+			if (response.status === HttpStatusCode.Ok && response.data) {
+				console.log(response.data);
+				set({ user: response.data, isLoading: false });
+			}
+		} catch (error: any) {
 			console.error('Error fetching current user:', error);
+			set({ error: error.message });
+		} finally {
+			set({ isLoading: false });
 		}
 	},
 	updateUser: async (user) => {
+		set({ isLoading: true, error: undefined });
+
 		try {
-			const userId = useUserStore.getState().user?.id;
-
-			const response = await fetch(`/users/${userId}`, {
-				method: 'PUT',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify(user),
-			});
-
-			if (!response.ok) {
-				throw new Error('Failed to update user');
+			const { accessToken } = useAuthStore.getState();
+			if (!accessToken) {
+				throw new Error('No access token found');
 			}
 
-			const updatedUser: UserModel = await response.json();
-			set({ user: updatedUser });
-		} catch (error) {
+			const userId = useUserStore.getState().user?.id;
+
+			const response = await apiV2.patch(`/users/${userId}`, user, {
+				headers: getApiHeaders(accessToken),
+			});
+
+			set({ user: response.data });
+		} catch (error: any) {
 			console.error('Error updating user:', error);
+			set({ error: error.message });
+		} finally {
+			set({ isLoading: false });
 		}
 	},
 	deleteUser: async () => {
-		try {
-			const userId = useUserStore.getState().user?.id;
-			const response = await fetch(`/users/${userId}`, { method: 'DELETE' });
+		set({ isLoading: true, error: undefined });
 
-			if (!response.ok) {
-				throw new Error('Failed to delete user');
+		try {
+			const { accessToken } = useAuthStore.getState();
+			if (!accessToken) {
+				throw new Error('No access token found');
 			}
 
-			set({ user: null });
-		} catch (error) {
+			const userId = useUserStore.getState().user?.id;
+			const response = await apiV2.delete(`/users/${userId}`, {
+				headers: getApiHeaders(accessToken),
+			});
+			if (response.status === HttpStatusCode.Ok && response.data) {
+				set({ user: null });
+			}
+		} catch (error: any) {
 			console.error('Error deleting user:', error);
+			set({ error: error.message });
+		} finally {
+			set({ isLoading: false });
 		}
 	},
 }));

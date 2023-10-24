@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import RightArea from '../components/RightArea';
 
 import { Button, Divider, Select, Space, Typography } from 'antd';
 import i18next from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Flex from '../../../core/components/Flex';
+import ProviderAuth from '../components/ProviderAuth';
 import RegisterForm from '../components/RegisterForm';
-import Services from '../components/Services';
+import RightArea from '../components/RightArea';
 
 const mainContainerStyle: React.CSSProperties = {
 	display: 'flex',
@@ -19,7 +19,7 @@ const mainContainerStyle: React.CSSProperties = {
 const mainBoxStyle: React.CSSProperties = {
 	display: 'grid',
 	gridTemplateColumns: '1fr 1fr',
-	width: '80%',
+	width: '85%',
 	height: '90vh',
 	borderRadius: '50px',
 	border: '1px solid black',
@@ -60,7 +60,7 @@ const Register = () => {
 	return (
 		<div style={mainContainerStyle}>
 			<div style={mainBoxStyle}>
-				<Flex direction="column" style={{ height: '100%', lineHeight: '0%', padding: '64px' }} align="center">
+				<Flex direction="column" style={{ height: '100%', lineHeight: '0%', padding: '48px' }} align="center">
 					<Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 16 }}>
 						<h2 style={{ color: '#000', fontSize: 32 }}>Area.</h2>
 						<Select
@@ -76,16 +76,23 @@ const Register = () => {
 					</Space>
 					<Text style={titleStyle}>{t('auth.register.title')}</Text>
 					<Text style={greetingStyle}>{t('auth.register.welcome')}</Text>
-					<Services />
+					<ProviderAuth />
 					<Space style={{ width: '60%' }} direction="vertical">
-						<Divider plain>{t('basic.actions.or')}</Divider>
+						<Divider
+							plain
+							style={{
+								height: 12,
+							}}
+						>
+							{t('basic.actions.or')}
+						</Divider>
 						<RegisterForm />
-						<Space style={{ alignSelf: 'center' }}>
-							<Text>{t('auth.haveAccount')}</Text>
-							<Button type="link" onClick={() => navigate('/auth/login')}>
-								{t('auth.login.title')}
-							</Button>
-						</Space>
+					</Space>
+					<Space>
+						<Text>{t('auth.haveAccount')}</Text>
+						<Button type="link" onClick={() => navigate('/auth/login')} style={{ padding: 0 }}>
+							{t('auth.login.title')}
+						</Button>
 					</Space>
 				</Flex>
 				<RightArea />

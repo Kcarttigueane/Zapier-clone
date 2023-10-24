@@ -1,18 +1,23 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Login from '../../features/auth/pages/Login';
 import Register from '../../features/auth/pages/Register';
-import Home from '../../features/home/pages/Home';
 import Dashboard from '../../features/dashboard/pages/Dashboard';
+import Home from '../../features/home/pages/Home';
 import Landing from '../../features/landing/pages/Landing';
 import Settings from '../../features/settings/pages/Settings';
 import Error404 from '../pages/Error404';
 import LoadingPage from '../pages/LoadingPage';
+import GuestRoute from './GuestRoutes';
 import ProtectedRoute from './ProtectedRoutes';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Landing />,
+		element: (
+			<GuestRoute>
+				<Landing />
+			</GuestRoute>
+		),
 		errorElement: <Error404 />,
 		loader: LoadingPage,
 	},
@@ -48,13 +53,21 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/auth/login',
-		element: <Login />,
+		element: (
+			<GuestRoute>
+				<Login />
+			</GuestRoute>
+		),
 		errorElement: <Error404 />,
 		loader: LoadingPage,
 	},
 	{
 		path: '/auth/register',
-		element: <Register />,
+		element: (
+			<GuestRoute>
+				<Register />
+			</GuestRoute>
+		),
 		errorElement: <Error404 />,
 		loader: LoadingPage,
 	},

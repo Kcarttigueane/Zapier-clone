@@ -2,9 +2,9 @@ import { Layout } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 import React from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
-import AutomationCreation from '../components/AutomationCreation';
 import RecommendSection from '../components/RecommendSection';
 import RecommendServices from '../components/RecommendServices';
+import AutomationCreation from '../components/automationCreation/AutomationCreation';
 
 const layoutStyle: React.CSSProperties = {
 	minHeight: '100vh',

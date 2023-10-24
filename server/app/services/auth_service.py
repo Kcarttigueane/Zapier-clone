@@ -28,10 +28,11 @@ class AuthServices:
                 detail=f"Provider {provider} not found",
             )
 
-        redirect_uri = f"http://localhost:8000/api/v2/auth/login/{provider}/callback"
+        redirect_uri = f"http://localhost:8080/api/v2/auth/login/{provider}/callback"
 
-        uri = oauth2_scheme.create_authorization_url(redirect_uri)
+        uri, state = oauth2_scheme.create_authorization_url(redirect_uri)
         print("uri: ", uri)
+
         return RedirectResponse(uri)
 
     async def authenticate_with_provider_callback(
@@ -45,7 +46,7 @@ class AuthServices:
                 detail=f"Provider {provider} not found",
             )
 
-        redirect_uri = f"http://localhost:8000/api/v2/auth/login/{provider}/callback"
+        redirect_uri = f"http://localhost:8080/api/v2/auth/login/{provider}/callback"
 
         response = await oauth2_scheme.fetch_token(redirect_uri, code, str(request.url))
 
@@ -174,7 +175,7 @@ class AuthServices:
                 detail=f"Provider {self} not found",
             )
 
-        redirect_uri = f"http://localhost:8000/api/v2/auth/authorize/callback/{provider}/{service_name}"
+        redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/callback/{provider}/{service_name}"
 
         uri = oauth2_scheme.create_authorization_url(
             redirect_uri,
@@ -196,7 +197,7 @@ class AuthServices:
                 detail=f"Provider {provider} not found",
             )
 
-        redirect_uri = f"http://localhost:8000/api/v2/auth/authorize/callback/{provider}/{service_name}"
+        redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/callback/{provider}/{service_name}"
 
         response = await oauth2_scheme.fetch_token(redirect_uri, code, str(request.url))
 
