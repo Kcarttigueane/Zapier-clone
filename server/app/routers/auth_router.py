@@ -6,11 +6,13 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.schemas.users_dto import UserInDTO
 from app.services.auth_service import AuthServices
 from app.utils.auth_utils import Token, get_current_user
+from app.repository.users_repository import UserRepository
 
 auth_router: APIRouter = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 AuthService = AuthServices()
+userRepository = UserRepository()
 
 
 @auth_router.get("/login/{provider}", description="Login with OAuth2 provider")
@@ -71,3 +73,13 @@ async def authorize_additional_access_callback(
     return await AuthService.authorize_additional_access_callback(
         provider, service_name, request, code, state
     )
+
+
+@auth_router.post("/forgot-password", description="Forgot password")
+async def forgot_password(email: str):
+    return await userRepository.forgot_password(email)
+
+
+@auth_router.post("/reset-password", description="Reset password")
+async def reset_password(email: str, code: str, new_password: str):
+    return await userRepository.reset_password(email, code, new_password)
