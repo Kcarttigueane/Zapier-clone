@@ -37,7 +37,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
     jwt_token = await AuthService.authenticate_user_email(
         form_data.username, form_data.password
     )
-    return {"access_token": jwt_token, "token_type": "bearer"}
+    return {"accessToken": jwt_token, "tokenType": "bearer"}
 
 
 @auth_router.post(
@@ -48,7 +48,7 @@ async def login_for_access_token(form_data: OAuth2PasswordRequestForm = Depends(
 )
 async def register_user(user: UserInDTO):
     jwt = await AuthService.register_user_email_password(user)
-    return {"access_token": jwt, "token_type": "bearer"}
+    return {"accessToken": jwt, "tokenType": "bearer"}
 
 
 @auth_router.get(

@@ -1,16 +1,15 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, Response, status
 
 from app.schemas.py_object_id import PyObjectId
 from app.schemas.services_dto import ServiceInDTO, ServiceOutDTO
 from app.services.services_service import ServiceService
-from app.utils.auth_utils import check_admin_access_token
 
 services_router: APIRouter = APIRouter(
     prefix="/services",
     tags=["Services"],
-    dependencies=[Depends(check_admin_access_token)],
+    # dependencies=[Depends(check_admin_access_token)],
 )
 
 

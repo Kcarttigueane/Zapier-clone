@@ -5,7 +5,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useAuthStore } from '../../../core/store/useAuthStore';
+import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const initialValues = {
 	email: 'oliver.lewis@masurao.jp',
@@ -24,12 +24,13 @@ interface LoginDTO {
 const LoginForm: React.FC = () => {
 	const { t } = useTranslation();
 	const [form] = Form.useForm();
-	const { loginFn } = useAuthStore((state) => state);
+	const { loginFn, isLoading } = useAuthStore((state) => state);
 	const navigate = useNavigate();
 	const [messageApi, contextHolder] = message.useMessage();
 
 	const onLoginSubmit = async (values: LoginDTO) => {
 		const { email, password } = values;
+
 		try {
 			await loginFn(email, password);
 			await messageApi.open({
@@ -38,13 +39,11 @@ const LoginForm: React.FC = () => {
 				duration: 1,
 			});
 			navigate('/home');
-		} catch (error) {
-			if (error instanceof Error) {
-				messageApi.open({
-					type: 'error',
-					content: error.message || 'Something went wrong',
-				});
-			}
+		} catch (error: any) {
+			messageApi.open({
+				type: 'error',
+				content: error.response.data.detail || 'Something went wrong',
+			});
 		}
 	};
 
@@ -100,6 +99,7 @@ const LoginForm: React.FC = () => {
 								size="large"
 								htmlType="submit"
 								block
+								loading={isLoading}
 								disabled={Object.keys(errors).length > 0}
 								onClick={() => onLoginSubmit(values)}
 							>

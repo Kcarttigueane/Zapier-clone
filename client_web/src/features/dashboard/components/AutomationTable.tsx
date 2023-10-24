@@ -3,6 +3,7 @@ import { Image, Popconfirm, Space, Switch, Table, message } from 'antd';
 import Search from 'antd/es/input/Search';
 import type { ColumnsType } from 'antd/es/table';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Discord from '../../../core/assets/logo2D/Discord.png';
 import Gmail from '../../../core/assets/logo2D/Gmail.png';
 import GoogleCalendar from '../../../core/assets/logo2D/GoogleCalandar.png';
@@ -10,10 +11,7 @@ import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
 import Spotify from '../../../core/assets/logo2D/Spotify.png';
 import Tinder from '../../../core/assets/logo2D/Tinder.png';
 import Youtube from '../../../core/assets/logo2D/Youtube.png';
-import { useAutomationStore } from '../../../core/store/useAutomationStore';
-import useUserStore from '../../../core/store/useUserStore';
 import { transformAutomationsToDataTable } from '../utils/dashboardUtils';
-import { useTranslation } from 'react-i18next';
 
 interface DataType {
 	key: React.Key;
@@ -33,22 +31,22 @@ const serviceToImageSrc: Record<string, string> = {
 };
 
 const AutomationTable = () => {
-	const { fetchCurrentUser } = useUserStore((state) => state);
+	// const { fetchCurrentUser } = useUserStore((state) => state);
 	const [inputString, setInputString] = useState<string>('');
 	const [messageApi, contextHolder] = message.useMessage();
 	const [automations, setAutomations] = useState<Array<any>>([]);
 	const [displayAutomations, setDisplayAutomations] = useState<Array<any>>([]);
-	const { updateAutomation, deleteAutomation } = useAutomationStore((state) => state);
+	// const { updateAutomation, deleteAutomation } = useAutomationStore((state) => state);
 	const { t } = useTranslation();
 
 	useEffect(() => {
 		const fetchUser = async (accessToken: string) => {
 			try {
-				const userModel = await fetchCurrentUser(accessToken);
+				const userModel = null; /* await fetchCurrentUser(accessToken); */
 				if (userModel) {
-					const userAutomations = userModel.automations;
-					setAutomations(userAutomations);
-					setDisplayAutomations(userAutomations);
+					// const userAutomations = userModel.automations;
+					// setAutomations(userAutomations);
+					// setDisplayAutomations(userAutomations);
 				}
 			} catch (error) {
 				console.error('Error fetching current user:', error);
@@ -69,7 +67,7 @@ const AutomationTable = () => {
 
 	const handleDelete = (key: React.Key) => {
 		const keyAsNumber = Number(key);
-		deleteAutomation(automations[keyAsNumber]);
+		// deleteAutomation(automations[keyAsNumber]);
 		const updatedAutomations = automations.filter((_, index) => index !== keyAsNumber);
 		setAutomations(updatedAutomations);
 		setDisplayAutomations(updatedAutomations);
@@ -81,7 +79,7 @@ const AutomationTable = () => {
 		updatedAutomations[keyAsNumber] = { ...updatedAutomations[keyAsNumber], active: newState };
 		setAutomations(updatedAutomations);
 		setDisplayAutomations(updatedAutomations);
-		updateAutomation(updatedAutomations[keyAsNumber]);
+		// updateAutomation(updatedAutomations[keyAsNumber]);
 	};
 
 	const columns: ColumnsType<DataType> = [
