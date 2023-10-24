@@ -28,6 +28,34 @@ def check_gmail_attachment(
         return None
 
 
+def download_attachment(service, message_id, attachment_id):
+    try:
+        attachment = (
+            service.users()
+            .messages()
+            .attachments()
+            .get(userId="me", messageId=message_id, id=attachment_id)
+            .execute()
+        )
+        return urlsafe_b64decode(attachment["data"].encode("UTF-8"))
+    except Exception as e:
+        print(f"An error occurred while downloading attachment: {e}")
+        return None
+
+
+def download_and_extract_attachments(service, message, msg_data):
+    if "parts" in msg_data["payload"]:
+        for part in msg_data["payload"]["parts"]:
+            if part.get("filename"):
+                attachment_id = part["body"]["attachmentId"]
+                if file_data := download_attachment(
+                    service, message["id"], attachment_id
+                ):
+                    return (part["filename"], file_data)
+                else:
+                    return None
+
+
 def extract_gmail_attachments(credentials, last_polled):
     service = build("gmail", "v1", credentials=credentials, cache_discovery=False)
     results = service.users().messages().list(userId="me", maxResults=10).execute()
@@ -37,24 +65,17 @@ def extract_gmail_attachments(credentials, last_polled):
 
     attachments = []
     for message in messages:
-        msg = service.users().messages().get(userId="me", id=message["id"]).execute()
-        timestamp = int(msg["internalDate"]) / 1000.0
-        received_time = datetime.utcfromtimestamp(timestamp)
+        msg_data = (
+            service.users().messages().get(userId="me", id=message["id"]).execute()
+        )
+        received_time = datetime.utcfromtimestamp(
+            int(msg_data["internalDate"]) / 1000.0
+        )
 
         if received_time <= last_polled.replace(tzinfo=None):
             continue
 
-        if "parts" in msg["payload"]:
-            for part in msg["payload"]["parts"]:
-                if part.get("filename"):
-                    attachment_id = part["body"]["attachmentId"]
-                    attachment = (
-                        service.users()
-                        .messages()
-                        .attachments()
-                        .get(userId="me", messageId=message["id"], id=attachment_id)
-                        .execute()
-                    )
-                    file_data = urlsafe_b64decode(attachment["data"].encode("UTF-8"))
-                    attachments.append((part["filename"], file_data))
+        if attachment := download_and_extract_attachments(service, message, msg_data):
+            attachments.append(attachment)
+
     return TriggerAnswer(objs=attachments)
