@@ -13,12 +13,11 @@ from app.repository.service_repository import ServiceRepository
 from app.repository.triggers_repository import TriggerRepository
 from app.repository.users_repository import UserOutDTO, UserRepository
 from app.schemas.triggers_dto import TriggerAnswer
-from app.source.helpers import automation_poll_status, handle_refresh_token
-from app.source.triggers.google_youtube import check_youtube_like
-from app.source.triggers.google_gmail import check_gmail_attachment
-from app.source.actions.spotify import add_songs_to_playlist
 from app.source.actions.google_drive import add_attachments_to_drive
-
+from app.source.actions.spotify import add_songs_to_playlist
+from app.source.helpers import automation_poll_status, handle_refresh_token
+from app.source.triggers.google_gmail import check_gmail_attachment
+from app.source.triggers.google_youtube import check_youtube_like
 
 user_repository = UserRepository()
 automation_repository = AutomationRepository()
@@ -31,7 +30,9 @@ trigger_dict = {
     "youtube": {
         "LikeSong": check_youtube_like,
     },
-    "gmail": {"NewAttachment": check_gmail_attachment},
+    "gmail": {
+        "NewAttachment": check_gmail_attachment,
+    },
 }
 
 action_dict = {
