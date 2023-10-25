@@ -1,6 +1,8 @@
 import random
-from passlib.context import CryptContext
+
 from mailjet_rest import Client
+from passlib.context import CryptContext
+
 from app.core.config import MAILJET_API_KEY, MAILJET_SECRET_KEY
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -15,8 +17,7 @@ def get_password_hash(password):
 
 
 def create_code_password_recovery():
-    code = "".join([str(random.randint(0, 9)) for _ in range(6)])
-    return code
+    return "".join([str(random.randint(0, 9)) for _ in range(6)])
 
 
 def send_mail_forgot_password(email, username, code):
@@ -32,4 +33,4 @@ def send_mail_forgot_password(email, username, code):
             }
         ]
     }
-    result = mailjet.send.create(data=data)
+    mailjet.send.create(data=data)

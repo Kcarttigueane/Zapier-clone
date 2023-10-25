@@ -1,8 +1,11 @@
+import asyncio
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import WEB_CLIENT_URL
 from app.core.database import close_mongo_connection, connect_to_mongo
+from app.routers.about_router import about_router
 from app.routers.actions_router import actions_router
 from app.routers.auth_router import auth_router
 from app.routers.automations_router import automations_router
@@ -11,8 +14,6 @@ from app.routers.services_router import services_router
 from app.routers.triggers_router import triggers_router
 from app.routers.user_router import user_router
 from app.source.automation import run_automations
-import asyncio
-from app.routers.about_router import about_router
 
 app = FastAPI(
     title="AREA - API - V2",
@@ -27,7 +28,7 @@ origins = WEB_CLIENT_URL
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
