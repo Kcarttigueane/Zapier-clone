@@ -25,15 +25,21 @@ class AuthServices:
     def __init__(self):
         self.repository = UserRepository()
 
-    def authenticate_with_provider(self, provider: str):
-        oauth2_scheme = oauth2_providers.get(provider)
+    def authenticate_with_provider(self, provider: str, isMobile: bool):
+        print(isMobile)
+        if isMobile:
+            oauth2_scheme = oauth2_providers.get(provider + "_mobile")
+        else:
+            oauth2_scheme = oauth2_providers.get(provider)
         if not oauth2_scheme:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Provider {provider} not found",
             )
-
-        redirect_uri = f"http://localhost:8080/api/v2/auth/login/{provider}/callback"
+        if isMobile:
+            redirect_uri = f"http://localhost:8080/api/v2/auth/login/mobile/{provider}/callback"
+        else:
+            redirect_uri = f"http://localhost:8080/api/v2/auth/login/{provider}/callback"
 
         uri, state = oauth2_scheme.create_authorization_url(redirect_uri)
         print("uri: ", uri)
@@ -41,17 +47,24 @@ class AuthServices:
         return RedirectResponse(uri)
 
     async def authenticate_with_provider_callback(
-        self, provider: str, request: Request, code: str
+        self, provider: str, request: Request, code: str, isMobile: bool
     ):
-        oauth2_scheme = oauth2_providers.get(provider)
-
+        print("CALLBACK with provider: ", provider)
+        if isMobile:
+            oauth2_scheme = oauth2_providers.get(provider + "_mobile")
+        else:
+            oauth2_scheme = oauth2_providers.get(provider)
+        print("oauth2_scheme: ", oauth2_scheme)
         if not oauth2_scheme:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail=f"Provider {provider} not found",
             )
 
-        redirect_uri = f"http://localhost:8080/api/v2/auth/login/{provider}/callback"
+        if isMobile:
+            redirect_uri = f"http://localhost:8080/api/v2/auth/login/mobile/{provider}/callback"
+        else:
+            redirect_uri = f"http://localhost:8080/api/v2/auth/login/{provider}/callback"
 
         response = await oauth2_scheme.fetch_token(redirect_uri, code, str(request.url))
 
@@ -62,8 +75,11 @@ class AuthServices:
         )
 
         jwt_token = create_access_token(data={"sub": user.email})
-
-        frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
+        if isMobile:
+            frontend_url = "myapp://oauthredirect"
+        else:
+            frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
+        print("redirect: ", frontend_url)
         return RedirectResponse(frontend_url)
 
     async def register_user_email_password(self, user_data: UserInDTO) -> UserOutDTO:

@@ -9,10 +9,16 @@ from app.core.config import (
     DISCORD_CLIENT_SECRET,
     GITHUB_CLIENT_ID,
     GITHUB_CLIENT_SECRET,
+    GITHUB_CLIENT_ID_MOBILE,
+    GITHUB_CLIENT_SECRET_MOBILE,
     GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET,
+    GOOGLE_CLIENT_ID_MOBILE,
+    GOOGLE_CLIENT_SECRET_MOBILE,
     SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET,
+    SPOTIFY_CLIENT_ID_MOBILE,
+    SPOTIFY_CLIENT_SECRET_MOBILE,
 )
 
 
@@ -86,6 +92,30 @@ OAUTH2_PROVIDERS = {
     "github": {
         "client_id": GITHUB_CLIENT_ID,
         "client_secret": GITHUB_CLIENT_SECRET,
+        "authorization_url": "https://github.com/login/oauth/authorize",
+        "token_url": "https://github.com/login/oauth/access_token",
+        "user_info_url": "https://api.github.com/user",
+        "scope": "user:email",
+    },
+    "google_mobile": {
+        "client_id": GOOGLE_CLIENT_ID_MOBILE,
+        "client_secret": GOOGLE_CLIENT_SECRET_MOBILE,
+        "authorization_url": "https://accounts.google.com/o/oauth2/auth",
+        "token_url": "https://oauth2.googleapis.com/token",
+        "user_info_url": "https://www.googleapis.com/oauth2/v3/userinfo",
+        "scope": "openid email profile",
+    },
+    "spotify_mobile": {
+        "client_id": SPOTIFY_CLIENT_ID_MOBILE,
+        "client_secret": SPOTIFY_CLIENT_SECRET_MOBILE,
+        "authorization_url": "https://accounts.spotify.com/authorize",
+        "token_url": "https://accounts.spotify.com/api/token",
+        "user_info_url": "https://api.spotify.com/v1/me",
+        "scope": "user-read-email playlist-modify-public playlist-modify-private",
+    },
+    "github_mobile": {
+        "client_id": GITHUB_CLIENT_ID_MOBILE,
+        "client_secret": GITHUB_CLIENT_SECRET_MOBILE,
         "authorization_url": "https://github.com/login/oauth/authorize",
         "token_url": "https://github.com/login/oauth/access_token",
         "user_info_url": "https://api.github.com/user",

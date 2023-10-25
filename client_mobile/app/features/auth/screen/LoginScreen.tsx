@@ -43,10 +43,11 @@ import { Formik } from 'formik';
 import i18next from 'i18next';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, SafeAreaView, StyleSheet } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Pressable } from 'react-native';
 import { RootStackParamList } from '../../../App';
 import { validationSchema } from '../utils/formValidation';
 import { languageSelectionValues } from '../utils/languageSelection';
+import { handleSpotifyOAuth, handleGitHubOAuth, handleGoogleOAuth } from '../../../App';
 
 const IMAGE_PATH = '../../../core/assets';
 
@@ -100,6 +101,16 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
     i18next.changeLanguage(value);
   };
 
+  const handleProviders = async (key: number) => {
+    if (key === 0) {
+      await handleSpotifyOAuth();
+    } else if (key === 1) {
+      await handleGoogleOAuth();
+    } else {
+      await handleGitHubOAuth();
+    }
+  };
+
   const selectedLanguageLabel = languageSelectionValues.find(lang => lang.value === languageSelected)?.label;
 
   return (
@@ -140,9 +151,11 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         <HStack justifyContent="center" alignItems="center" gap={48} mt="$3">
           {socialButtonLogo.map((item, index) => {
             return (
-              <Box key={index} bg={item.color} p="$4" borderRadius={12} height={60} width={60} elevation={4}>
-                <Image source={item.img} style={{ height: '100%', width: '100%' }} resizeMode="cover" />
-              </Box>
+              <Pressable key={index} onPress={() => handleProviders(index)}>
+                <Box key={index} bg={item.color} p="$4" borderRadius={12} height={60} width={60} elevation={4}>
+                  <Image source={item.img} style={{ height: '100%', width: '100%' }} resizeMode="cover" />
+                </Box>
+              </Pressable>
             );
           })}
         </HStack>

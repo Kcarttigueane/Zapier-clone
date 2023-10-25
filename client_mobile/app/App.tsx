@@ -1,7 +1,7 @@
 import { config, GluestackUIProvider } from '@gluestack-ui/themed';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomBottomTabBar from './core/components/CustomBottomNavBar';
 import './core/i18n/i18next';
 import ActivityStackRouting from './core/routes/ActivityStackRouting';
@@ -10,8 +10,7 @@ import HomeStackRouting from './core/routes/HomeStackRouting';
 import ServicesStackRouting from './core/routes/ServicesStackRouting';
 import SettingsStackRouting from './core/routes/SettingsStackRouting';
 import ZapStackRouting from './core/routes/ZapStackRouting';
-
-type ImageRequireType = ReturnType<typeof require>;
+import { Linking } from 'react-native';
 
 export type RootStackParamList = {
   // ! Demo
@@ -26,15 +25,6 @@ export type RootStackParamList = {
   ActivityScreen: undefined;
   // ! Zap:
   CreateZapScreen: undefined;
-  ServicesZapScreen: {
-    isTrigger: boolean;
-  };
-  ZapReactionScreen: {
-    logo: ImageRequireType;
-  };
-  ZapTriggerScreen: {
-    logo: ImageRequireType;
-  };
   // ! Services:
   ServicesScreen: undefined;
   ServiceDetailScreen: {
@@ -51,8 +41,41 @@ export type RootStackParamList = {
 
 const Tab = createBottomTabNavigator();
 
+export const handleGoogleOAuth = async () => {
+  Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/google');
+};
+
+export const handleSpotifyOAuth = async () => {
+  Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/spotify');
+};
+
+export const handleGitHubOAuth = async () => {
+  Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/github');
+};
+
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    // Gérer l'URL initiale lors du lancement de l'application
+
+    // Gérer les liens profonds lorsqu'ils sont détectés
+    const handleDeepLink = (event: { url: string | string[] }) => {
+      console.log('Deep link detected:', event.url);
+      if (event.url.includes('myapp://oauthredirect')) {
+        // Traitez l'authentification Google ici
+        console.log('Authentication with Provider');
+        setIsLoggedIn(true);
+      }
+    };
+
+    // Ajouter un gestionnaire pour les liens profonds
+    (Linking as any).addEventListener('url', handleDeepLink);
+
+    // Nettoyer les gestionnaires lors du démontage du composant
+    return () => {
+      (Linking as any).removeEventListener('url', handleDeepLink);
+    };
+  }, []);
 
   return (
     <GluestackUIProvider config={config.theme}>
