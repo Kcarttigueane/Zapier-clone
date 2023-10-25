@@ -53,7 +53,7 @@ async def register_user(user: UserInDTO):
 
 @auth_router.get(
     "/authorize/{provider}/{service_name}",
-    description="Login with OAuth2 provider",
+    description="Authorize with OAuth2 provider",
 )
 async def authorize_additional_access(
     provider: str, service_name: str, current_user=Depends(get_current_user)
@@ -63,7 +63,7 @@ async def authorize_additional_access(
 
 @auth_router.get(
     "/authorize/callback/{provider}/{service_name}",
-    description="Login with OAuth2 provider",
+    description="Authorize with OAuth2 provider",
 )
 async def authorize_additional_access_callback(
     provider: str, service_name: str, request: Request, code: str, state: str
