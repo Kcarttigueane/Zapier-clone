@@ -13,11 +13,17 @@ from app.repository.service_repository import ServiceRepository
 from app.repository.triggers_repository import TriggerRepository
 from app.repository.users_repository import UserOutDTO, UserRepository
 from app.schemas.triggers_dto import TriggerAnswer
+from app.source.helpers import automation_poll_status, handle_refresh_token
+
+from app.source.actions.google_gmail import send_myself_mail
 from app.source.actions.google_drive import add_attachments_to_drive
 from app.source.actions.spotify import add_songs_to_playlist
-from app.source.helpers import automation_poll_status, handle_refresh_token
+
 from app.source.triggers.google_gmail import check_gmail_attachment
 from app.source.triggers.google_youtube import check_youtube_like
+from app.source.triggers.google_drive import check_new_files
+from app.source.triggers.google_calendar import check_todays_event
+from app.source.triggers.open_meteo import check_todays_weather
 
 user_repository = UserRepository()
 automation_repository = AutomationRepository()
@@ -33,6 +39,15 @@ trigger_dict = {
     "gmail": {
         "NewAttachment": check_gmail_attachment,
     },
+    "google drive": {
+        "NewFile": check_new_files,
+    },
+    "google calendar": {
+        "TodayEvent": check_todays_event,
+    },
+    "open meteo": {
+        "TodayWeather": check_todays_weather,
+    },
 }
 
 action_dict = {
@@ -41,6 +56,9 @@ action_dict = {
     },
     "google drive": {
         "UploadToDrive": add_attachments_to_drive,
+    },
+    "gmail": {
+        "SendMail": send_myself_mail,
     },
 }
 

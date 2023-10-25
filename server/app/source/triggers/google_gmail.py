@@ -13,21 +13,6 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def check_gmail_attachment(
-    user: UserOutDTO, last_polled: datetime
-) -> TriggerAnswer | None:
-    if service_auth := get_service_auth(user, "gmail"):
-        credentials = get_google_credentials(service_auth.access_token)
-    else:
-        return None
-
-    try:
-        return extract_gmail_attachments(credentials, last_polled)
-    except Exception as e:
-        logger.info(f"An error occurred: {e}")
-        return None
-
-
 def download_attachment(service, message_id, attachment_id):
     try:
         attachment = (
@@ -79,3 +64,18 @@ def extract_gmail_attachments(credentials, last_polled):
             attachments.append(attachment)
 
     return TriggerAnswer(objs=attachments)
+
+
+def check_gmail_attachment(
+    user: UserOutDTO, last_polled: datetime
+) -> TriggerAnswer | None:
+    if service_auth := get_service_auth(user, "gmail"):
+        credentials = get_google_credentials(service_auth.access_token)
+    else:
+        return None
+
+    try:
+        return extract_gmail_attachments(credentials, last_polled)
+    except Exception as e:
+        logger.info(f"An error occurred: {e}")
+        return None

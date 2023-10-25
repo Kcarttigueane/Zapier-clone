@@ -18,6 +18,7 @@ class TriggerInDTO(MongoModel):
         "NewEvent",
         "BirthdayEvent",
         "NewAttachment",
+        "TodayEvent",
     ] = Field(..., title="Trigger Name", description="The name of the trigger.")
     description: str = Field(
         ..., title="Description", description="A brief description of the trigger."
@@ -45,9 +46,15 @@ class TriggerAnswer:
     def __init__(
         self,
         objs: List | None = None,
-        header: str | None = None,
-        body: str | None = None,
+        header: str = "",
+        body: str = "",
+        markdown_body: str = "",
+        markdown: bool = False,
     ):
         if objs is None:
             objs = []
         self.objs = objs
+        self.header = header
+        self.body = body
+        self.markdown_body = markdown_body
+        self.markdown = markdown
