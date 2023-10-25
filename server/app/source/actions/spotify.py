@@ -87,14 +87,29 @@ def get_track_uri(song_name, access_token):
     return None
 
 
+def get_spotify_auth_token(user: UserOutDTO) -> str | None:
+    """Retrieve the Spotify authentication token for a user."""
+    service_auth = get_service_auth(user, "spotify")
+    return service_auth.access_token if service_auth else None
+
+
+def add_tracks_to_playlist(playlist_id: str, track_uris: list[str], token: str) -> None:
+    """Add tracks to a Spotify playlist."""
+    url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json",
+    }
+    data = {"uris": track_uris}
+    requests.post(url, headers=headers, data=json.dumps(data))
+
+
 def add_songs_to_playlist(user: UserOutDTO, trigger_answer: TriggerAnswer):
+    token = get_spotify_auth_token(user)
+    if not token:
+        return None
+
     objs = trigger_answer.objs
-    auth = get_service_auth(user, "spotify")
-
-    if not auth:
-        return
-
-    token = auth.access_token
 
     spotify_id = get_user_id(token)
     playlist_id = create_playlist(spotify_id, "Area", token)
@@ -107,10 +122,4 @@ def add_songs_to_playlist(user: UserOutDTO, trigger_answer: TriggerAnswer):
             track_uris.append(track_uri)
 
     if track_uris != []:
-        url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
-        headers = {
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-        }
-        data = {"uris": track_uris}
-        requests.post(url, headers=headers, data=json.dumps(data))
+        add_tracks_to_playlist(playlist_id, track_uris, token)

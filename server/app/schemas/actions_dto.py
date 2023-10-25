@@ -17,6 +17,7 @@ class ActionInDTO(MongoModel):
         "AddToPlaylist",  # ✅ Spotify, Youtube
         "SendMessage",  # ✅ Discord, Whatsapp, Signal
         "UploadToDrive",  # ✅ Google Drive, One Drive, DropBox
+        "SendMail",
     ] = Field(..., title="Action Name", description="The name of the action.")
     description: str = Field(
         ..., title="Description", description="A brief description of the action."
