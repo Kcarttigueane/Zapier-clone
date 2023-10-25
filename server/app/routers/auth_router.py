@@ -12,7 +12,6 @@ auth_router: APIRouter = APIRouter(prefix="/auth", tags=["Auth"])
 
 
 AuthService = AuthServices()
-userRepository = UserRepository()
 
 
 @auth_router.get("/login/{provider}", description="Login with OAuth2 provider")
@@ -77,9 +76,9 @@ async def authorize_additional_access_callback(
 
 @auth_router.post("/forgot-password", description="Forgot password")
 async def forgot_password(email: str):
-    return await userRepository.forgot_password(email)
+    return await AuthService.forgot_password(email)
 
 
 @auth_router.post("/reset-password", description="Reset password")
 async def reset_password(email: str, code: str, new_password: str):
-    return await userRepository.reset_password(email, code, new_password)
+    return await AuthService.reset_password(email, code, new_password)

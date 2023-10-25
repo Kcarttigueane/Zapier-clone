@@ -71,30 +71,3 @@ class UserRepository:
             {"_id": PyObjectId(user_id)}, {"$set": {"password": password}}
         )
         return await self.get(user_id)
-
-    async def forgot_password(self, email: str):
-        user = await self.get_by_email(email)
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="The user with this email does not exist in the system.",
-            )
-        code = create_code_password_recovery()
-        await self.update_user_recovery_code(str(user.id), code)
-        send_mail_forgot_password(email, user.profile.first_name, code)
-        return {"message": "Email send"}
-
-    async def reset_password(self, email: str, code: str, new_password: str):
-        user = await self.get_by_email(email)
-        if not user:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Email not found",
-            )
-        if user.recovery_code != code:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="Code not valid",
-            )
-        await self.update_user_password(str(user.id), new_password)
-        return {"message": "Password updated"}
