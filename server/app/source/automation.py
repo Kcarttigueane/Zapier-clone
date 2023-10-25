@@ -47,7 +47,7 @@ trigger_dict = {
     },
     "open meteo": {
         "TodayWeather": check_todays_weather,
-    }
+    },
 }
 
 action_dict = {

@@ -33,10 +33,10 @@ def send_myself_mail(user: UserOutDTO, trigger_answer: TriggerAnswer):
     header = trigger_answer.header
     markdown = trigger_answer.markdown
     user_email = user.email
-    body = trigger_answer.markdown_body if markdown else trigger_answer.body 
+    body = trigger_answer.markdown_body if markdown else trigger_answer.body
     if body == "":
         return
-    
+
     try:
         handle_mail(credentials, user_email, header, body, markdown)
     except Exception as e:
