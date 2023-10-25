@@ -138,6 +138,7 @@ class AuthServices:
             user_data = UserInDTO(
                 email=email,
                 password=None,
+                recovery_code=None,
                 profile=UserProfileDTO(
                     first_name=first_name,
                     last_name=last_name,

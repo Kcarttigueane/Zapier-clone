@@ -96,6 +96,11 @@ class UserInDTO(MongoModel):
         title="Password",
         description="The password of the user. This field is write-only.",
     )
+    recovery_code: str | None = Field(
+        None,
+        title="Recovery Code",
+        description="The recovery code of the user. For reset password",
+    )
     status: str = Field(
         default="active",
         title="Status",
@@ -137,6 +142,8 @@ class UserInDTO(MongoModel):
             "example": {
                 "id": "507f1f77bcf86cd799439011",
                 "email": "john.doe@example.com",
+                "password": "password",
+                "recovery_code": "code",
                 "status": "active",
                 "email_verified": True,
                 "profile": {

@@ -50,7 +50,12 @@ build-web:
     - docker build -t $CI_REGISTRY_IMAGE/client_web ./client_web --platform=linux/amd64
     - docker push $CI_REGISTRY_IMAGE/client_web:latest
   rules:
+<<<<<<< HEAD
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+=======
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+>>>>>>> 089a83aa8270d98b32242b2d6a8429ac9f445817
 
 build-server:
   stage: build
