@@ -23,10 +23,10 @@ logger = logging.getLogger(__name__)
 user_repository = UserRepository()
 
 
-def get_google_credentials(token: str):
+def get_google_credentials(token: str, refresh_token: str):
     return client.OAuth2Credentials(
         access_token=token,
-        refresh_token=None,
+        refresh_token=refresh_token,
         client_id=GOOGLE_CLIENT_ID,
         client_secret=GOOGLE_CLIENT_SECRET,
         token_expiry=None,

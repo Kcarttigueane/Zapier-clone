@@ -52,13 +52,14 @@ class OAuth2Provider(OAuth2AuthorizationCodeBearer):
             return resp.json()
 
     def create_authorization_url(
-        self, redirect_uri, state=None, additional_scopes=None
+        self, redirect_uri, state=None, additional_scopes=None, access_type=None
     ):
         scopes = self.scope
         if additional_scopes:
             scopes = f"{scopes} {' '.join(additional_scopes)}"
         return self.client.create_authorization_url(
             self.authorization_url,
+            access_type=access_type,
             redirect_uri=redirect_uri,
             scope=scopes,
             state=str(state),
