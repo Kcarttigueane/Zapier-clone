@@ -52,7 +52,7 @@ export type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
     <GluestackUIProvider config={config.theme}>

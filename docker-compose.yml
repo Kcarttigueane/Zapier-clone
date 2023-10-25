@@ -5,7 +5,7 @@ services:
     image: $CI_REGISTRY_IMAGE/server:latest
     env_file: .env
     container_name: server
-    platform: linux/amd64
+    # platform: linux/amd64
     restart: on-failure
     ports:
       - "8080:8080"
@@ -14,7 +14,7 @@ services:
     image: $CI_REGISTRY_IMAGE/client_web:latest
     env_file: .env
     container_name: client_web
-    platform: linux/amd64
+    # platform: linux/amd64
     restart: on-failure
     ports:
-      - "8081:8081"
+      - "8082:8082"
