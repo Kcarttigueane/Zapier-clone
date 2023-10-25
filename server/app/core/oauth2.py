@@ -13,6 +13,9 @@ from app.core.config import (
     GOOGLE_CLIENT_SECRET,
     SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET,
+    AZURE_CLIENT_ID,
+    AZURE_CLIENT_SECRET,
+    AZURE_TENANT_ID,
 )
 
 
@@ -99,6 +102,14 @@ OAUTH2_PROVIDERS = {
         "user_info_url": "https://discord.com/api/users/@me",
         "scope": "identify email",
     },
+    "microsoft": {
+        "client_id": AZURE_CLIENT_ID,
+        "client_secret": AZURE_CLIENT_SECRET,
+        "authorization_url": f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/authorize",
+        "token_url": f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/token",
+        "user_info_url": "https://graph.microsoft.com/v1.0/me",
+        "scope": "offline_access User.Read Mail.Read",
+    },
 }
 
 oauth2_providers = {
@@ -127,7 +138,10 @@ SERVICE_SCOPES = {
         "https://www.googleapis.com/auth/youtube.force-ssl",
     ],
     "spotify": ["user-read-private", "user-read-email", "playlist-read-private"],
-    "discord": ["identify"],
+    "discord": [
+        "identify",
+    ],
+    "teams": None,
 }
 
 ProviderKeyMapType = Dict[str, Dict[str, Optional[str]]]
@@ -150,6 +164,12 @@ PROVIDER_KEY_MAP: ProviderKeyMapType = {
         "email": "email",
         "given_name": "username",
         "family_name": None,
+        "id": "id",
+    },
+    "microsoft": {
+        "email": "mail",
+        "given_name": "display_name",
+        "family_name": "surname",
         "id": "id",
     },
 }
