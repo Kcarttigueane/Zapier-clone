@@ -1,14 +1,9 @@
 from typing import List
 
-from fastapi import HTTPException, status
 
 from app.core.database import get_database
 from app.schemas.py_object_id import PyObjectId
 from app.schemas.users_dto import UserInDTO, UserOutDTO
-from app.utils.password_utils import (
-    create_code_password_recovery,
-    send_mail_forgot_password,
-)
 
 
 class UserRepository:

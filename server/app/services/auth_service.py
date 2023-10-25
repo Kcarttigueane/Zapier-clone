@@ -13,7 +13,12 @@ from app.utils.auth_utils import (
     create_jwt_user_token,
     validate_user_info,
 )
-from app.utils.password_utils import get_password_hash, verify_password, create_code_password_recovery, send_mail_forgot_password
+from app.utils.password_utils import (
+    get_password_hash,
+    verify_password,
+    create_code_password_recovery,
+    send_mail_forgot_password,
+)
 
 
 class AuthServices:
@@ -214,7 +219,7 @@ class AuthServices:
 
         frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
         return RedirectResponse(frontend_url)
-    
+
     async def forgot_password(self, email: str):
         user = await self.repository.get_by_email(email)
         if not user:

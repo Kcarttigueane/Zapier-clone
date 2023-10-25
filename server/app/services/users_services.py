@@ -4,7 +4,7 @@ from fastapi import HTTPException, status
 
 from app.repository.users_repository import UserRepository
 from app.schemas.users_dto import UserInDTO, UserOutDTO
-from app.utils.password_utils import get_password_hash, create_code_password_recovery, send_mail_forgot_password
+from app.utils.password_utils import get_password_hash
 
 
 class UserService:

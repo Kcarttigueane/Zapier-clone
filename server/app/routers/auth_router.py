@@ -6,7 +6,6 @@ from fastapi.security import OAuth2PasswordRequestForm
 from app.schemas.users_dto import UserInDTO
 from app.services.auth_service import AuthServices
 from app.utils.auth_utils import Token, get_current_user
-from app.repository.users_repository import UserRepository
 
 auth_router: APIRouter = APIRouter(prefix="/auth", tags=["Auth"])
 
