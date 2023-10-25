@@ -10,7 +10,7 @@ services:
       - "8080:8080"
     volumes:
       - ./server:/usr/app/server/
-  
+
   client_web:
     build: ./client_web
     container_name: client_web

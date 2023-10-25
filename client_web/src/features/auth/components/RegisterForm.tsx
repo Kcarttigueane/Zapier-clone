@@ -5,22 +5,25 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
-import { useAuthStore } from '../../../core/store/useAuthStore';
+import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const initialValues = {
-	username: 'oliver',
+	firstName: 'Oliver',
+	lastName: 'Lewis',
 	email: 'oliver.lewis@masurao.jp',
 	password: 'password',
 };
 
 const validationSchema = Yup.object({
-	username: Yup.string().required('Required'),
+	firstName: Yup.string().required('Required'),
+	lastName: Yup.string().required('Required'),
 	email: Yup.string().email('Invalid email format').required('Required'),
 	password: Yup.string().required('Required'),
 });
 
 interface RegisterDTO {
-	username: string;
+	firstName: string;
+	lastName: string;
 	email: string;
 	password: string;
 }
@@ -28,27 +31,25 @@ interface RegisterDTO {
 const RegisterForm: React.FC = () => {
 	const { t } = useTranslation();
 	const [form] = Form.useForm();
-	const { registerFn } = useAuthStore((state) => state);
 	const navigate = useNavigate();
 	const [messageApi, contextHolder] = message.useMessage();
+	const { registerFn, isLoading } = useAuthStore((state) => state);
 
 	const onRegisterSubmit = async (values: RegisterDTO) => {
-		const { username, email, password } = values;
+		const { firstName, lastName, email, password } = values;
 		try {
-			await registerFn(username, email, password);
+			await registerFn(firstName, lastName, email, password);
 			await messageApi.open({
 				type: 'success',
 				content: 'Successfully registered',
 				duration: 1,
 			});
 			navigate('/home');
-		} catch (error) {
-			if (error instanceof Error) {
-				messageApi.open({
-					type: 'error',
-					content: error.message || t('error'),
-				});
-			}
+		} catch (error: any) {
+			messageApi.open({
+				type: 'error',
+				content: error.response.data.detail || 'Something went wrong',
+			});
 		}
 	};
 
@@ -65,18 +66,35 @@ const RegisterForm: React.FC = () => {
 				{({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
 					<Form layout="vertical" onSubmitCapture={handleSubmit} form={form}>
 						<Form.Item
-							label="Username"
-							validateStatus={touched.username && errors.username ? 'error' : undefined}
-							help={touched.username && errors.username ? errors.username : undefined}
+							label="firstName"
+							validateStatus={touched.firstName && errors.firstName ? 'error' : undefined}
+							help={touched.firstName && errors.firstName ? errors.firstName : undefined}
 							hasFeedback
 						>
 							<Input
 								size="large"
-								placeholder="Username"
+								placeholder={t('basic.fields.firstName')}
 								prefix={<UserOutlined style={{ marginRight: 8 }} />}
-								id="username"
-								name="username"
-								value={values.username}
+								id="firstName"
+								name="firstName"
+								value={values.firstName}
+								onChange={handleChange}
+								onBlur={handleBlur}
+							/>
+						</Form.Item>
+						<Form.Item
+							label="LastName"
+							validateStatus={touched.lastName && errors.lastName ? 'error' : undefined}
+							help={touched.lastName && errors.lastName ? errors.lastName : undefined}
+							hasFeedback
+						>
+							<Input
+								size="large"
+								placeholder={t('basic.fields.lastName')}
+								prefix={<UserOutlined style={{ marginRight: 8 }} />}
+								id="lastName"
+								name="lastName"
+								value={values.lastName}
 								onChange={handleChange}
 								onBlur={handleBlur}
 							/>
@@ -114,13 +132,14 @@ const RegisterForm: React.FC = () => {
 								onBlur={handleBlur}
 							/>
 						</Form.Item>
-						<Form.Item style={{ marginTop: 24 }}>
+						<Form.Item style={{ marginTop: 32 }}>
 							<Button
 								type="primary"
 								shape="round"
 								size="large"
 								htmlType="submit"
 								block
+								loading={isLoading}
 								onClick={() => onRegisterSubmit(values)}
 								disabled={Object.keys(errors).length > 0}
 							>

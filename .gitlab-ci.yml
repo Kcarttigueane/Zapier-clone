@@ -30,13 +30,13 @@ check-server:
   stage: check
   image: python:3.12
   before_script:
-    - pip3 install black
-    - pip3 install ruff
-    - pip3 install mypy
+    - cd server
+    - pip3 install -r requirements.txt
+    - pip3 install -r requirements-dev.txt
   script:
-    - black ./server --check --diff
-    - ruff check ./server --diff
-    - mypy ./server
+    - black . --check --diff
+    - ruff check . --diff
+    - mypy .
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 

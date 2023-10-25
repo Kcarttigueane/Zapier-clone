@@ -1,4 +1,4 @@
-export interface TriggerModel {
+export interface TriggerModelDTO {
 	id: number;
 	serviceId: number;
 	name: string;
