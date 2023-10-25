@@ -52,6 +52,8 @@ build-web:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  when:
+    manual
 
 build-server:
   stage: build
@@ -68,6 +70,8 @@ build-server:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  when:
+    manual
 
 deploy:
   stage: deploy
@@ -95,3 +99,5 @@ deploy:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+  when:
+    manual
