@@ -67,7 +67,8 @@ def extract_new_files(credentials, last_polled):
     return TriggerAnswer(
         objs=objs,
         header="[Area] New File(s) Created in your Google Drive",
-        body=html_body,
+        body=body_str,
+        markdown_body=html_body,
         markdown=True,
     )
 

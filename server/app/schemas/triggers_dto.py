@@ -48,6 +48,7 @@ class TriggerAnswer:
         objs: List | None = None,
         header: str = "",
         body: str = "",
+        markdown_body: str = "",
         markdown: bool = False,
     ):
         if objs is None:
@@ -55,4 +56,5 @@ class TriggerAnswer:
         self.objs = objs
         self.header = header
         self.body = body
+        self.markdown_body = markdown_body
         self.markdown = markdown
