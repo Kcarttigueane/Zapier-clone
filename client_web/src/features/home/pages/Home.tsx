@@ -23,7 +23,7 @@ const contentStyle: React.CSSProperties = {
 const MainZapStyle: React.CSSProperties = {
 	display: 'flex',
 	alignItems: 'center',
-	padding: '30px 0 50px 0',
+	padding: '32px',
 	width: '90%',
 	borderRadius: '25px',
 	boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25), 0 -2px 4px rgba(0, 0, 0, 0.25)',

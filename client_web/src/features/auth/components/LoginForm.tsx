@@ -40,6 +40,7 @@ const LoginForm: React.FC = () => {
 			});
 			navigate('/home');
 		} catch (error: any) {
+			console.error('Error registering user:', error.response.data.detail);
 			messageApi.open({
 				type: 'error',
 				content: error.response.data.detail || 'Something went wrong',

@@ -21,9 +21,7 @@ const RecommendServices = () => {
 	const [selectedService, setSelectedService] = useState<ServiceModelDTO | null>(null);
 	const [modal2Open, setModal2Open] = useState(false);
 
-	const capitalizeFirstLetter = (name: string) => {
-		return name.charAt(0).toUpperCase() + name.slice(1);
-	};
+	const capitalizeFirstLetter = (name: string) => name.charAt(0).toUpperCase() + name.slice(1);
 
 	return (
 		<>

@@ -57,10 +57,9 @@ const ServicesSelection: FC<ServicesSelectionProps> = ({
 	setSelectedService2,
 }) => {
 	const { t } = useTranslation();
-	const { services, fetchCompatibleServices, isLoading } = useServicesStore((state) => state);
+	const { services, fetchCompatibleServices, isLoading, compatibleServices } = useServicesStore((state) => state);
 
 	const serviceOptions1: any = servicesOptions(services ?? []);
-	// const serviceOptions2: any = servicesOptions(compatibleServices ?? []);
 
 	const filterOption = (input: string, option?: { label: string; value: string }) => {
 		const parsedValue = JSON.parse(option?.value || '{}');
@@ -123,7 +122,7 @@ const ServicesSelection: FC<ServicesSelectionProps> = ({
 							// onSearch={onSearch}
 							filterOption={filterOption}
 							style={InputStyle}
-							// options={serviceOptions1}
+							options={servicesOptions(compatibleServices) as any}
 						/>
 					)}
 				</Flex>

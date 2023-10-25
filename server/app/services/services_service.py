@@ -37,7 +37,10 @@ class ServiceService:
         try:
             service = await self.repository.get(service_id)
             if service is None:
-                raise HTTPException(status_code=404, detail="Service not found")
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Service not found",
+                )
 
             return service
         except HTTPException as he:
@@ -64,7 +67,9 @@ class ServiceService:
     ) -> ServiceOutDTO:
         existing_service = await self.repository.get(service_id)
         if existing_service is None:
-            raise HTTPException(status_code=404, detail="Service not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Service not found"
+            )
 
         try:
             return await self.repository.update(service_id, service)
@@ -100,7 +105,8 @@ class ServiceService:
 
         if len(service_compatibilities) == 0:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="No services found"
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No services found associated with this service.",
             )
 
         compatible_services = []

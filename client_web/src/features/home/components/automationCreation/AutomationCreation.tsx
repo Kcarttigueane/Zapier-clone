@@ -1,24 +1,15 @@
-import { Typography, message } from 'antd';
+import { Button, Spin, Steps, Typography, message, theme } from 'antd';
 import { TFunction } from 'i18next';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 // import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 
 import { ServiceModelDTO } from '../../../../core/models/service';
-import ServicesSelection from './ServicesSelection';
+import useServicesStore from '../../../../core/zustand/useServiceStore';
+import useTriggerStore from '../../../../core/zustand/useTriggerStore';
+import ChooseService from './ChooseService';
 
 const { Text } = Typography;
-
-const DividerStyle: React.CSSProperties = {
-	width: '68px',
-	border: '0.5px solid #757575',
-	marginTop: '24px',
-};
-
-const InputStyle: React.CSSProperties = {
-	width: '286px',
-	height: '48px',
-};
 
 const transformTriggerOptions = (t: TFunction) => {
 	return [
@@ -61,172 +52,131 @@ const transformTriggerOptions = (t: TFunction) => {
 	];
 };
 
-const transformReactionOptions = (t: TFunction) => {
-	return [
-		{
-			value: 'app notification',
-			label: t('home.reaction.notification'),
-		},
-		{
-			value: 'send message',
-			label: t('home.reaction.message'),
-		},
-		{
-			value: 'add to playlist',
-			label: t('home.reaction.playlist'),
-		},
-		{
-			value: 'upload file',
-			label: t('home.reaction.file'),
-		},
-	];
-};
-
-const steps = [
-	{
-		title: 'First',
-		content: 'First-content',
-	},
-	{
-		title: 'Second',
-		content: 'Second-content',
-	},
-	{
-		title: 'Last',
-		content: 'Last-content',
-	},
-];
-
-const serviceToTokenDict: Record<string, string> = {
-	discord: 'discord_token',
-	'google calendar': 'google_calendar_token',
-	'google drive': 'google_drive_token',
-	gmail: 'google_gmail_token',
-	youtube: 'google_youtube_token',
-	spotify: 'spotify_token',
-};
-
-const serviceToRoute: Record<string, string> = {
-	'google calendar': 'calendar',
-	'google drive': 'drive',
-	gmail: 'gmail',
-	youtube: 'youtube',
-};
-
 const AutomationCreation = () => {
+	const { t } = useTranslation();
 	const [selectedService1, setSelectedService1] = useState<ServiceModelDTO['id'] | null>(null);
 	const [selectedService2, setSelectedService2] = useState<ServiceModelDTO['id'] | null>(null);
-	const [serviceConnected1, setServiceConnected1] = useState<boolean>(false);
-	const [serviceConnected2, setServiceConnected2] = useState<boolean>(false);
+
 	const [selectedTrigger, setSelectedTrigger] = useState<string | null>(null);
 	const [selectedReaction, setSelectedReaction] = useState<string | null>(null);
-	const [user, setUser] = useState<any | null>(null);
-	const [userLoaded, setUserLoaded] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
-	const { t } = useTranslation();
-	// const [cookies, setCookie] = useCookies([
-	// 	'first-selected-service',
-	// 	'second-selected-service',
-	// 	'selected-trigger',
-	// 	'selected-reaction',
-	// ]);
+	const { services, isLoading, fetchCompatibleServices, compatibleServices } = useServicesStore((state) => state);
+	const { fetchTriggersByService } = useTriggerStore((state) => state);
 
-	useEffect(() => {
-		const fetchUser = async (accessToken: string) => {
-			try {
-				const userModel = null; /* await fetchCurrentUser(accessToken); */
-				if (userModel) {
-					setUser(userModel);
-					setUserLoaded(true);
+	const steps = [
+		{
+			title: t('home.create.action1'),
+			content: 'Choose your first service',
+		},
+		{
+			title: t('home.create.reaction1'),
+			content: 'Choose your second service',
+		},
+		{
+			title: t('home.create.action2'),
+			content: 'Choose your trigger',
+		},
+		{
+			title: t('home.create.reaction2'),
+			content: 'Choose your reaction',
+		},
+	];
+
+	const renderStepContent = (stepIndex: number) => {
+		switch (stepIndex) {
+			case 0:
+				return (
+					<ChooseService
+						title={steps[stepIndex].title}
+						services={services}
+						selectedServiceId={selectedService1}
+						setSelectedServiceId={setSelectedService1}
+					/>
+				);
+			case 1:
+				if (selectedService1) {
+					return (
+						<ChooseService
+							title={steps[stepIndex].title}
+							services={compatibleServices}
+							selectedServiceId={selectedService2}
+							setSelectedServiceId={setSelectedService2}
+						/>
+					);
 				}
-			} catch (error) {
-				console.error('Error fetching current user:', error);
-				if (error instanceof Error) {
-					messageApi.open({
-						type: 'error',
-						content: error.message || 'Something went wrong',
-						duration: 1,
-					});
-				}
-			}
-		};
-		const userToken = localStorage.getItem('access_token');
-		if (userToken) {
-			fetchUser(userToken);
+				throw new Error('You must select a service first');
+			case 2:
+				return <Spin />;
+			case 3:
+				return <Spin />;
+			default:
+				return null;
 		}
-	}, []);
+	};
 
-	// const checkServiceConnection = (value: string) => {
-	// 	const serviceTokenName = serviceToTokenDict[value];
-	// 	const tokenManager = user.token_manager;
-	// 	const serviceObj = tokenManager[serviceTokenName];
-	// 	return serviceObj != null;
-	// };
+	const { token } = theme.useToken();
+	const [current, setCurrent] = useState(0);
 
-	// useEffect(() => {
-	// 	const checkCookies = () => {
-	// 		if (userLoaded) {
-	// 			// Check if user data has been loaded
-	// 			if (cookies['first-selected-service']) {
-	// 				setSelectedService1(cookies['first-selected-service']);
-	// 			}
-	// 			if (cookies['second-selected-service']) {
-	// 				setSelectedService2(cookies['second-selected-service']);
-	// 			}
-	// 			if (cookies['selected-trigger']) {
-	// 				setSelectedTrigger(cookies['selected-trigger']);
-	// 			}
-	// 			if (cookies['selected-reaction']) {
-	// 				setSelectedReaction(cookies['selected-reaction']);
-	// 			}
-	// 		}
-	// 	};
-	// 	checkCookies();
-	// }, [userLoaded]);
+	const next = () => {
+		switch (current) {
+			case 0:
+				if (selectedService1) {
+					fetchCompatibleServices(selectedService1)
+						.then(() => setCurrent((prevCurrent) => prevCurrent + 1))
+						.catch((error) => {
+							console.error('Error fetching compatible services:', error);
+							messageApi.open({
+								type: 'error',
+								content: error.response.data.detail || 'Something went wrong',
+							});
+						});
+				}
+				break;
+			case 1:
+				if (selectedService2) {
+					fetchTriggersByService(selectedService2)
+						.then(() => setCurrent((prevCurrent) => prevCurrent + 1))
+						.catch((error: any) => {
+							console.error('Error fetching compatible services:', error);
+							messageApi.open({
+								type: 'error',
+								content: error.response.data.detail || 'Something went wrong',
+							});
+						});
+				}
+				break;
+			case 2:
+				if (selectedTrigger) {
+					setCurrent((prevCurrent) => prevCurrent + 1);
+					// TODO : ❌ fetch reaction compatible with selectedService1 and selectedService2
+				}
+				break;
+			case 3:
+				if (selectedReaction) {
+					setCurrent((prevCurrent) => prevCurrent + 1);
+				}
+				break;
+			default:
+				break;
+		}
+	};
+	const prev = () => setCurrent((prevCurrent) => prevCurrent - 1);
 
-	// const { createAutomation } = useAutomationStore((state) => state);
+	const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
-	// const onServiceChange1 = (value: string) => {
-	// 	console.log(`selected ${value}`);
-	// 	setSelectedService1(value);
-	// 	setCookie('first-selected-service', (value = value));
-	// };
-
-	// const onServiceChange2 = (value: string) => {
-	// 	console.log(`selected ${value}`);
-	// 	setSelectedService2(value);
-	// 	setCookie('second-selected-service', (value = value));
-	// };
-
-	// const onTriggerChange = (value: string) => {
-	// 	console.log(`selected ${value}`);
-	// 	setSelectedTrigger(value);
-	// 	setCookie('selected-trigger', (value = value));
-	// };
-
-	// const onReactionChange = (value: string) => {
-	// 	console.log(`selected ${value}`);
-	// 	setSelectedReaction(value);
-	// 	setCookie('selected-reaction', (value = value));
-	// };
-
-	// const onSearch = (value: string) => {
-	// 	console.log('search:', value);
-	// };
-
-	// const filterOption = (input: string, option?: { label: string; value: string }) =>
-	// 	(option?.value ?? '').toLowerCase().includes(input.toLowerCase());
-
-	// const handleConnectService = (service: string) => {
-	// 	const googleServices = ['google calendar', 'gmail', 'google drive', 'youtube'];
-	// 	if (googleServices.includes(service)) {
-	// 		// authorizeGoogleService(serviceToRoute[service]);
-	// 	} else if (service == 'spotify') {
-	// 		// authorizeSpotifyService();
-	// 	} else if (service == 'discord') {
-	// 		// authorizeDiscordService();
-	// 	}
-	// };
+	const contentStyle: React.CSSProperties = {
+		color: token.colorTextTertiary,
+		backgroundColor: token.colorFillAlter,
+		borderRadius: token.borderRadiusLG,
+		border: `1px dashed ${token.colorBorder}`,
+		width: '80%',
+		display: 'flex',
+		flexDirection: 'column',
+		gap: '24px',
+		alignItems: 'center',
+		justifyContent: 'center',
+		padding: '48px 24px',
+	};
 
 	return (
 		<>
@@ -238,12 +188,55 @@ const AutomationCreation = () => {
         	`}
 			</style>
 			{contextHolder}
-			<ServicesSelection
+			<>
+				<Steps
+					current={current}
+					items={items}
+					size="small"
+					style={{ width: '80%' }}
+					percent={current === 0 ? 25 : current === 1 ? 50 : current === 2 ? 75 : 100}
+				/>
+				<div style={contentStyle}>{renderStepContent(current)}</div>
+				<div style={{ marginTop: 24 }}>
+					{current > 0 && (
+						<Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+							Previous
+						</Button>
+					)}
+					{current === steps.length - 1 && (
+						<Button
+							type="primary"
+							onClick={() => {
+								message.success('Processing complete!');
+								// TODO : createAutomation(); ❌
+							}}
+						>
+							Done
+						</Button>
+					)}
+					{current < steps.length - 1 && (
+						<Button
+							type="primary"
+							onClick={() => next()}
+							disabled={
+								(current == 0 && !selectedService1) ||
+								(current == 1 && !selectedService2) ||
+								(current == 2 && !selectedTrigger) ||
+								(current == 3 && !selectedReaction)
+							}
+							loading={isLoading}
+						>
+							Next
+						</Button>
+					)}
+				</div>
+			</>
+			{/* <ServicesSelection
 				selectedService1={selectedService1}
 				setSelectedService1={setSelectedService1}
 				selectedService2={selectedService2}
 				setSelectedService2={setSelectedService2}
-			/>
+			/> */}
 			{/* {selectedService1 && selectedService2 ? (
 				<Flex align="center" justify="center">
 					<Flex direction="column" align="center" justify="center" gap="6px">
@@ -324,7 +317,8 @@ const AutomationCreation = () => {
 				</Flex>
 			) : null}
 			{selectedTrigger && selectedReaction ? (
-				<Button
+			) : null} */}
+			{/* <Button
 					style={{
 						alignItems: 'center',
 						width: '200px',
@@ -334,11 +328,16 @@ const AutomationCreation = () => {
 						fontWeight: 'bold',
 					}}
 					// onClick={createAutomation}
-					disabled={!serviceConnected1 || !serviceConnected2}
 				>
-					{serviceConnected1 && serviceConnected2 ? t('home.create.enabled') : t('home.create.disabled')}
-				</Button>
-			) : null} */}
+					{t('home.create.title')}
+				</Button> */}
+			{/* <FloatButton
+				onClick={() => console.log('click')}
+				style={{ width: 60, height: 60 }}
+				shape="circle"
+				type="primary"
+				icon={<PlusCircleOutlined />}
+			/> */}
 		</>
 	);
 };
