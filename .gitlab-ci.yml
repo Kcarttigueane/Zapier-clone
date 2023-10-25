@@ -50,8 +50,7 @@ build-web:
     - docker build -t $CI_REGISTRY_IMAGE/client_web ./client_web --platform=linux/amd64
     - docker push $CI_REGISTRY_IMAGE/client_web:latest
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
 
 build-server:
   stage: build
@@ -66,8 +65,7 @@ build-server:
     - docker build -t $CI_REGISTRY_IMAGE/server ./server --platform=linux/amd64
     - docker push $CI_REGISTRY_IMAGE/server:latest
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
 
 deploy:
   stage: deploy
@@ -93,5 +91,4 @@ deploy:
     - ssh $USER@$IP_PREPROD "docker-compose down"
     - ssh $USER@$IP_PREPROD "docker-compose up -d"
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
