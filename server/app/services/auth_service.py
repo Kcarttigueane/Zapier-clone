@@ -13,7 +13,12 @@ from app.utils.auth_utils import (
     create_jwt_user_token,
     validate_user_info,
 )
-from app.utils.password_utils import get_password_hash, verify_password
+from app.utils.password_utils import (
+    get_password_hash,
+    verify_password,
+    create_code_password_recovery,
+    send_mail_forgot_password,
+)
 
 
 class AuthServices:
@@ -138,6 +143,7 @@ class AuthServices:
             user_data = UserInDTO(
                 email=email,
                 password=None,
+                recovery_code=None,
                 profile=UserProfileDTO(
                     first_name=first_name,
                     last_name=last_name,
@@ -162,7 +168,7 @@ class AuthServices:
             else:
                 user.oauth.append(oauth_data)
 
-            return await self.repository.update(user_id=user.id, user=user)
+            return await self.repository.update(user_id=str(user.id), user=user)
 
     def authorize_additional_access(
         self, provider: str, service_name: str, current_user: UserOutDTO
@@ -191,6 +197,8 @@ class AuthServices:
     ):
         oauth2_scheme = oauth2_providers.get(provider)
 
+        state = state.strip("',")
+
         if not oauth2_scheme:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -211,3 +219,30 @@ class AuthServices:
 
         frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
         return RedirectResponse(frontend_url)
+
+    async def forgot_password(self, email: str):
+        user = await self.repository.get_by_email(email)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="The user with this email does not exist in the system.",
+            )
+        code = create_code_password_recovery()
+        await self.repository.update_user_recovery_code(str(user.id), code)
+        send_mail_forgot_password(email, user.profile.first_name, code)
+        return {"message": "Email send"}
+
+    async def reset_password(self, email: str, code: str, new_password: str):
+        user = await self.repository.get_by_email(email)
+        if not user:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Email not found",
+            )
+        if user.recovery_code != code:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Code not valid",
+            )
+        await self.repository.update_user_password(str(user.id), new_password)
+        return {"message": "Password updated"}

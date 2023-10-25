@@ -1,5 +1,6 @@
 from typing import List
 
+
 from app.core.database import get_database
 from app.schemas.py_object_id import PyObjectId
 from app.schemas.users_dto import UserInDTO, UserOutDTO
@@ -53,3 +54,15 @@ class UserRepository:
         }
         result = await self.collection.find_one(query)
         return UserOutDTO.from_mongo(result) if result else None
+
+    async def update_user_recovery_code(self, user_id: str, recovery_code: str):
+        await self.collection.update_one(
+            {"_id": PyObjectId(user_id)}, {"$set": {"recovery_code": recovery_code}}
+        )
+        return await self.get(user_id)
+
+    async def update_user_password(self, user_id: str, password: str):
+        await self.collection.update_one(
+            {"_id": PyObjectId(user_id)}, {"$set": {"password": password}}
+        )
+        return await self.get(user_id)

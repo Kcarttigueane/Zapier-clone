@@ -23,7 +23,7 @@ async def connect_to_mongo():
 
 async def close_mongo_connection():
     logger.info("Closing connection to database...")
-    db.client.close()
+    db.client.close()  # type: ignore
 
 
 def get_database():

@@ -71,3 +71,13 @@ async def authorize_additional_access_callback(
     return await AuthService.authorize_additional_access_callback(
         provider, service_name, request, code, state
     )
+
+
+@auth_router.post("/forgot-password", description="Forgot password")
+async def forgot_password(email: str):
+    return await AuthService.forgot_password(email)
+
+
+@auth_router.post("/reset-password", description="Reset password")
+async def reset_password(email: str, code: str, new_password: str):
+    return await AuthService.reset_password(email, code, new_password)
