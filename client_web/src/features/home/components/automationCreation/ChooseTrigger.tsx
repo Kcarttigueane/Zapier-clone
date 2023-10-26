@@ -33,7 +33,7 @@ interface ChooseTriggerProps {
 
 const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, setSelectedTriggerId }) => {
 	const [hovered, setHovered] = useState<string | null>(null);
-	const { isLoading } = useTriggerStore((state) => state);
+	const { isTriggersLoading } = useTriggerStore((state) => state);
 
 	return (
 		<>
@@ -47,7 +47,7 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 					alignItems: 'center',
 				}}
 			>
-				{isLoading
+				{isTriggersLoading
 					? Array.from({ length: 9 }).map((_, index) => (
 							<Space size={12} style={{ borderRadius: 16 }} key={index}>
 								<Skeleton.Image active={true} />

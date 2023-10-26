@@ -7,7 +7,7 @@ import { TriggerModelDTO } from '../models/trigger';
 type TriggerState = {
 	triggers: TriggerModelDTO[];
 	triggersAssociatedToService: TriggerModelDTO[];
-	isLoading: boolean;
+	isTriggersLoading: boolean;
 };
 
 type TriggerActions = {
@@ -19,13 +19,13 @@ type TriggerActions = {
 const initialState: TriggerState = {
 	triggers: [],
 	triggersAssociatedToService: [],
-	isLoading: false,
+	isTriggersLoading: false,
 };
 
 const useTriggerStore = create<TriggerState & TriggerActions>()((set) => ({
 	...initialState,
 	fetchTriggers: async () => {
-		set({ isLoading: true });
+		set({ isTriggersLoading: true });
 		const accessToken = localStorage.getItem('access_token');
 		if (!accessToken) {
 			throw new Error('No access token found');
@@ -35,20 +35,19 @@ const useTriggerStore = create<TriggerState & TriggerActions>()((set) => ({
 
 			if (response.status === HttpStatusCode.Ok && response.data) {
 				console.info(response.data);
-				set({ triggers: response.data, isLoading: false });
+				set({ triggers: response.data, isTriggersLoading: false });
 			}
 		} catch (error: any) {
 			console.error('Error fetching current trigger:', error);
 			throw error;
 		} finally {
-			set({ isLoading: false });
+			set({ isTriggersLoading: false });
 		}
 	},
 	fetchTriggersByService: async (serviceId: ServiceModelDTO['id']) => {
-		set({ isLoading: true });
+		set({ isTriggersLoading: true });
 		try {
 			const accessToken = localStorage.getItem('access_token');
-			console.log('accessToken', accessToken);
 			if (!accessToken) {
 				throw new Error('No access token found');
 			}
@@ -56,13 +55,13 @@ const useTriggerStore = create<TriggerState & TriggerActions>()((set) => ({
 
 			if (response.status === HttpStatusCode.Ok && response.data) {
 				console.info(response.data);
-				set({ triggersAssociatedToService: response.data, isLoading: false });
+				set({ triggersAssociatedToService: response.data, isTriggersLoading: false });
 			}
 		} catch (error: any) {
 			console.error('Error fetching current trigger:', error);
 			throw error;
 		} finally {
-			set({ isLoading: false });
+			set({ isTriggersLoading: false });
 		}
 	},
 	clearTriggers: () => set(() => ({ triggers: [], triggersAssociatedToService: [] })),

@@ -1,6 +1,6 @@
 export interface TriggerModelDTO {
 	id: string;
-	serviceId: string;
+	service_id: string;
 	name: string;
 	description: string;
 }

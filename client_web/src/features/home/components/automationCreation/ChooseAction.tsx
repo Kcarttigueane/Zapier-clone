@@ -33,7 +33,7 @@ interface ChooseActionProps {
 
 const ChooseAction: FC<ChooseActionProps> = ({ actions, selectedActionId, setSelectedActionId }) => {
 	const [hovered, setHovered] = useState<string | null>(null);
-	const { isLoading } = useActionStore((state) => state);
+	const { isActionsLoading } = useActionStore((state) => state);
 
 	return (
 		<>
@@ -47,7 +47,7 @@ const ChooseAction: FC<ChooseActionProps> = ({ actions, selectedActionId, setSel
 					alignItems: 'center',
 				}}
 			>
-				{isLoading
+				{isActionsLoading
 					? Array.from({ length: 9 }).map((_, index) => (
 							<Space size={12} style={{ borderRadius: 16 }} key={index}>
 								<Skeleton.Image active={true} />

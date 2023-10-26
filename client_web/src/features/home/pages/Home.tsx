@@ -3,7 +3,6 @@ import { Content, Footer } from 'antd/es/layout/layout';
 import React, { useEffect } from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
 import useServicesStore from '../../../core/zustand/useServiceStore';
-import RecommendSection from '../components/RecommendSection';
 import RecommendServices from '../components/RecommendServices';
 import AutomationCreation from '../components/automationCreation/AutomationCreation';
 
@@ -54,7 +53,6 @@ const Home = () => {
 					<AutomationCreation />
 				</Layout>
 				<RecommendServices />
-				<RecommendSection />
 			</Content>
 			<Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
 		</Layout>

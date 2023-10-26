@@ -1,6 +1,6 @@
 export interface ActionModelDTO {
 	id: string;
-	serviceId: string;
+	service_id: string;
 	name: string;
 	description: string;
 }
