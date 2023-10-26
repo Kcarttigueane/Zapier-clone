@@ -1,4 +1,4 @@
-import { Col, Image, Popover, Skeleton, Space, Typography } from 'antd';
+import { Col, Image, Popover, Space, Spin, Typography } from 'antd';
 import { FC, useState } from 'react';
 import { ServiceModelDTO } from '../../../../core/models/service';
 import { capitalizeFirstLetter } from '../../../../core/utils/capitalizeFirstLetter';
@@ -51,47 +51,45 @@ const ChooseService: FC<ChooseServiceProps> = ({ title, services, selectedServic
 					alignItems: 'center',
 				}}
 			>
-				{isLoading
-					? Array.from({ length: 9 }).map((_, index) => (
-							<Space size={12} style={{ borderRadius: 16 }} key={index}>
-								<Skeleton.Image active={true} />
-							</Space>
-					  ))
-					: services.map((service: ServiceModelDTO) => {
-							const isSelected = service.id === selectedServiceId;
-							return (
-								<Popover
-									title={capitalizeFirstLetter(service.name)}
+				{isLoading ? (
+					<Spin />
+				) : (
+					services.map((service: ServiceModelDTO) => {
+						const isSelected = service.id === selectedServiceId;
+						return (
+							<Popover
+								title={capitalizeFirstLetter(service.name)}
+								key={service.id}
+								placement="bottom"
+								style={{
+									textAlign: 'center',
+									flexDirection: 'column',
+									alignItems: 'center',
+									alignContent: 'center',
+								}}
+							>
+								<Space
 									key={service.id}
-									placement="bottom"
+									direction="vertical"
 									style={{
-										textAlign: 'center',
-										flexDirection: 'column',
-										alignItems: 'center',
-										alignContent: 'center',
+										...imageStyle,
+										...(hovered === service.id && hoverStyle),
+										borderColor: isSelected ? '#1890ff' : '#d9d9d9',
+										borderWidth: isSelected ? '2px' : '1px',
+									}}
+									onMouseEnter={() => setHovered(service.id)}
+									onMouseLeave={() => setHovered(null)}
+									onClick={() => {
+										setSelectedServiceId(service.id);
 									}}
 								>
-									<Space
-										key={service.id}
-										direction="vertical"
-										style={{
-											...imageStyle,
-											...(hovered === service.id && hoverStyle),
-											borderColor: isSelected ? '#1890ff' : '#d9d9d9',
-											borderWidth: isSelected ? '2px' : '1px',
-										}}
-										onMouseEnter={() => setHovered(service.id)}
-										onMouseLeave={() => setHovered(null)}
-										onClick={() => {
-											setSelectedServiceId(service.id);
-										}}
-									>
-										<Image width={48} src={`data:image/svg+xml;base64,${service.icon_svg_base64}`} preview={false} />
-										<Text>{capitalizeFirstLetter(service.name)}</Text>
-									</Space>
-								</Popover>
-							);
-					  })}
+									<Image width={48} src={`data:image/svg+xml;base64,${service.icon_svg_base64}`} preview={false} />
+									<Text>{capitalizeFirstLetter(service.name)}</Text>
+								</Space>
+							</Popover>
+						);
+					})
+				)}
 			</Col>
 		</>
 	);

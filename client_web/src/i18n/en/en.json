@@ -202,23 +202,6 @@
       "enabled": "Try It!",
       "service": "🔎 Select a Service"
     },
-    "trigger": {
-      "like": "Recieve Like",
-      "reply": "Recieve Reply",
-      "folder": "New Folder",
-      "file": "New File",
-      "event": "Event",
-      "birthday": "Birthday Event",
-      "forecast": "Hourly Forecast",
-      "video": "Liked Video",
-      "attachment": "New Attachment"
-    },
-    "reaction": {
-      "notification": "App Notification",
-      "message": "Send Message",
-      "playlist": "Add to Playlist",
-      "file": "Upload File"
-    },
     "recommendedSection": {
       "serviceTitle": "Our available services"
     }

@@ -202,23 +202,6 @@
       "enabled": "¡Pruébalo!",
       "service": "Seleccione un servicio"
     },
-    "trigger": {
-      "like": "Recibir Me Gusta",
-      "reply": "Recibir Respuesta",
-      "folder": "Nueva Carpeta",
-      "file": "Nuevo Archivo",
-      "event": "Evento",
-      "birthday": "Evento de Cumpleaños",
-      "forecast": "Pronóstico Horario",
-      "video": "Video Gustado",
-      "attachment": "Nuevo Adjunto"
-    },
-    "reaction": {
-      "notification": "Notificación de la Aplicación",
-      "message": "Enviar Mensaje",
-      "playlist": "Agregar a la Lista de Reproducción",
-      "file": "Subir Archivo"
-    },
     "recommendedSection": {
       "serviceTitle": "Servicios Recomendados"
     }

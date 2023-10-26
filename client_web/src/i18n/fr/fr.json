@@ -201,23 +201,6 @@
       "enabled": "Essayer!",
       "service": "🔎 Sélectionner un service"
     },
-    "trigger": {
-      "like": "Recevoir un J'aime",
-      "reply": "Recevoir une Réponse",
-      "folder": "Nouveau Dossier",
-      "file": "Nouveau Fichier",
-      "event": "Événement",
-      "birthday": "Événement d'Anniversaire",
-      "forecast": "Prévision Horaire",
-      "video": "Vidéo Aimée",
-      "attachment": "Nouvelle Pièce Jointe"
-    },
-    "reaction": {
-      "notification": "Notification de l'Application",
-      "message": "Envoyer un Message",
-      "playlist": "Ajouter à la Playlist",
-      "file": "Téléverser un Fichier"
-    },
     "recommendedSection": {
       "serviceTitle": "Nos services"
     }

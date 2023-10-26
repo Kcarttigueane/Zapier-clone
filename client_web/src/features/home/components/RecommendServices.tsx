@@ -53,7 +53,7 @@ const RecommendServices = () => {
 				}}
 			>
 				{isLoading
-					? Array.from({ length: 9 }).map((_, index) => (
+					? Array.from({ length: 4 }).map((_, index) => (
 							<Space size={12} style={{ borderRadius: 16 }} key={index}>
 								<Skeleton.Image active={true} />
 							</Space>

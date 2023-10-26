@@ -3,7 +3,6 @@ import { create } from 'zustand';
 import { apiV2, getApiHeaders } from '../api';
 import { ServiceModelDTO } from '../models/service';
 import { TriggerModelDTO } from '../models/trigger';
-import { useAuthStore } from './useAuthStore';
 
 type TriggerState = {
 	triggers: TriggerModelDTO[];
@@ -27,7 +26,7 @@ const useTriggerStore = create<TriggerState & TriggerActions>()((set) => ({
 	...initialState,
 	fetchTriggers: async () => {
 		set({ isLoading: true });
-		const { accessToken } = useAuthStore.getState();
+		const accessToken = localStorage.getItem('access_token');
 		if (!accessToken) {
 			throw new Error('No access token found');
 		}
@@ -48,7 +47,8 @@ const useTriggerStore = create<TriggerState & TriggerActions>()((set) => ({
 	fetchTriggersByService: async (serviceId: ServiceModelDTO['id']) => {
 		set({ isLoading: true });
 		try {
-			const { accessToken } = useAuthStore.getState();
+			const accessToken = localStorage.getItem('access_token');
+			console.log('accessToken', accessToken);
 			if (!accessToken) {
 				throw new Error('No access token found');
 			}

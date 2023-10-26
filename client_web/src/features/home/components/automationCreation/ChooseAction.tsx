@@ -1,8 +1,8 @@
 import { Col, Popover, Skeleton, Space, Typography } from 'antd';
 import { FC, useState } from 'react';
-import { TriggerModelDTO } from '../../../../core/models/trigger';
+import { ActionModelDTO } from '../../../../core/models/action';
 import { capitalizeFirstLetter } from '../../../../core/utils/capitalizeFirstLetter';
-import useTriggerStore from '../../../../core/zustand/useTriggerStore';
+import useActionStore from '../../../../core/zustand/useActionStore';
 
 const { Text } = Typography;
 
@@ -25,15 +25,15 @@ const hoverStyle: React.CSSProperties = {
 	transform: 'scale(1.05)',
 };
 
-interface ChooseTriggerProps {
-	triggers: TriggerModelDTO[];
-	selectedTriggerId: TriggerModelDTO['id'] | null;
-	setSelectedTriggerId: (id: TriggerModelDTO['id'] | null) => void;
+interface ChooseActionProps {
+	actions: ActionModelDTO[];
+	selectedActionId: ActionModelDTO['id'] | null;
+	setSelectedActionId: (id: ActionModelDTO['id'] | null) => void;
 }
 
-const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, setSelectedTriggerId }) => {
+const ChooseAction: FC<ChooseActionProps> = ({ actions, selectedActionId, setSelectedActionId }) => {
 	const [hovered, setHovered] = useState<string | null>(null);
-	const { isLoading } = useTriggerStore((state) => state);
+	const { isLoading } = useActionStore((state) => state);
 
 	return (
 		<>
@@ -53,12 +53,12 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 								<Skeleton.Image active={true} />
 							</Space>
 					  ))
-					: triggers.map((trigger: TriggerModelDTO) => {
-							const isSelected = trigger.id === selectedTriggerId;
+					: actions.map((action: ActionModelDTO) => {
+							const isSelected = action.id === selectedActionId;
 							return (
 								<Popover
-									title={capitalizeFirstLetter(trigger.description)}
-									key={trigger.id}
+									title={capitalizeFirstLetter(action.description)}
+									key={action.id}
 									placement="bottom"
 									style={{
 										textAlign: 'center',
@@ -68,21 +68,21 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 									}}
 								>
 									<Space
-										key={trigger.id}
+										key={action.id}
 										direction="vertical"
 										style={{
 											...imageStyle,
-											...(hovered === trigger.id && hoverStyle),
+											...(hovered === action.id && hoverStyle),
 											borderColor: isSelected ? '#1890ff' : '#d9d9d9',
 											borderWidth: isSelected ? '2px' : '1px',
 										}}
-										onMouseEnter={() => setHovered(trigger.id)}
+										onMouseEnter={() => setHovered(action.id)}
 										onMouseLeave={() => setHovered(null)}
 										onClick={() => {
-											setSelectedTriggerId(trigger.id);
+											setSelectedActionId(action.id);
 										}}
 									>
-										<Text>{capitalizeFirstLetter(trigger.name)}</Text>
+										<Text>{capitalizeFirstLetter(action.name)}</Text>
 									</Space>
 								</Popover>
 							);
@@ -92,4 +92,4 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 	);
 };
 
-export default ChooseTrigger;
+export default ChooseAction;
