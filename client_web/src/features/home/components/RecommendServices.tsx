@@ -85,6 +85,8 @@ const RecommendServices = () => {
 					  ))
 					: services.map((service: ServiceModelDTO) => {
 							const serviceTriggers = triggers.filter((trigger) => trigger.service_id === service.id);
+							const serviceActions = actions.filter((action) => action.service_id === service.id);
+
 							return (
 								<Collapse
 									defaultActiveKey={activeKey}
@@ -147,7 +149,11 @@ const RecommendServices = () => {
 																	items={serviceTriggers}
 																	borderLeftColor="#52c41a"
 																/>
-																<CustomServiceDetailList title="Actions" items={actions} borderLeftColor="#1890ff" />
+																<CustomServiceDetailList
+																	title="Actions"
+																	items={serviceActions}
+																	borderLeftColor="#1890ff"
+																/>
 															</Row>
 														</>
 													)}
