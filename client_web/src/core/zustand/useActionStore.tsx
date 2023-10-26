@@ -8,7 +8,7 @@ import { TriggerModelDTO } from '../models/trigger';
 type ActionState = {
 	actions: ActionModelDTO[];
 	actionsAssociatedToTrigger: ActionModelDTO[];
-	isLoading: boolean;
+	isActionsLoading: boolean;
 };
 
 type ActionActions = {
@@ -20,13 +20,13 @@ type ActionActions = {
 const initialState: ActionState = {
 	actions: [],
 	actionsAssociatedToTrigger: [],
-	isLoading: false,
+	isActionsLoading: false,
 };
 
 const useActionStore = create<ActionState & ActionActions>()((set) => ({
 	...initialState,
 	fetchActions: async () => {
-		set({ isLoading: true });
+		set({ isActionsLoading: true });
 		const accessToken = localStorage.getItem('access_token');
 		if (!accessToken) {
 			throw new Error('No access token found');
@@ -36,17 +36,17 @@ const useActionStore = create<ActionState & ActionActions>()((set) => ({
 
 			if (response.status === HttpStatusCode.Ok && response.data) {
 				console.info(response.data);
-				set({ actions: response.data, isLoading: false });
+				set({ actions: response.data, isActionsLoading: false });
 			}
 		} catch (error: any) {
 			console.error('Error fetching current action:', error);
 			throw error;
 		} finally {
-			set({ isLoading: false });
+			set({ isActionsLoading: false });
 		}
 	},
 	fetchActionsByTriggerId: async (serviceId: ServiceModelDTO['id'], triggerId: TriggerModelDTO['id']) => {
-		set({ isLoading: true });
+		set({ isActionsLoading: true });
 		try {
 			const accessToken = localStorage.getItem('access_token');
 			if (!accessToken) {
@@ -64,13 +64,13 @@ const useActionStore = create<ActionState & ActionActions>()((set) => ({
 
 			if (response.status === HttpStatusCode.Ok && response.data) {
 				console.info(response.data);
-				set({ actionsAssociatedToTrigger: response.data, isLoading: false });
+				set({ actionsAssociatedToTrigger: response.data, isActionsLoading: false });
 			}
 		} catch (error: any) {
 			console.error('Error fetching current action:', error);
 			throw error;
 		} finally {
-			set({ isLoading: false });
+			set({ isActionsLoading: false });
 		}
 	},
 	clearActions: () => set(() => ({ actions: [], actionsAssociatedToTrigger: [] })),

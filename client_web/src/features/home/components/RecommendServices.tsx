@@ -1,10 +1,11 @@
-import { Col, Collapse, Divider, Image, List, Row, Skeleton, Space, Typography, message } from 'antd';
+import { Col, Collapse, Divider, Image, Row, Skeleton, Space, Typography, message } from 'antd';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ServiceModelDTO } from '../../../core/models/service';
 import useActionStore from '../../../core/zustand/useActionStore';
 import useServicesStore from '../../../core/zustand/useServiceStore';
 import useTriggerStore from '../../../core/zustand/useTriggerStore';
+import CustomServiceDetailList from './CustomServiceDetailList';
 
 const { Title, Text } = Typography;
 
@@ -15,20 +16,6 @@ const imageStyle: React.CSSProperties = {
 	flexDirection: 'row',
 	justifyContent: 'center',
 	alignItems: 'center',
-};
-
-const triggersStyle: React.CSSProperties = {
-	marginTop: '16px',
-	borderRadius: '12px',
-	border: '1px solid #d9d9d9',
-	padding: '12px',
-	boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
-	transition: 'transform 0.2s ease-in-out',
-	backgroundColor: '#fff',
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'center',
-	justifyContent: 'center',
 };
 
 const RecommendServices = () => {
@@ -104,6 +91,8 @@ const RecommendServices = () => {
 									onChange={(key) => {
 										setActiveKey(key);
 									}}
+									key={service.id}
+									bordered
 									style={{
 										width: '100%',
 										display: 'flex',
@@ -153,63 +142,12 @@ const RecommendServices = () => {
 																	gap: '12px',
 																}}
 															>
-																<Col
-																	style={{
-																		width: '45%',
-																		display: 'flex',
-																		flexDirection: 'column',
-																		alignItems: 'center',
-																	}}
-																>
-																	<Text strong>Triggers</Text>
-																	<List
-																		style={{
-																			width: '100%',
-																		}}
-																		dataSource={serviceTriggers}
-																		renderItem={(trigger) => (
-																			<Space
-																				key={trigger.id}
-																				direction="vertical"
-																				style={{ ...triggersStyle, borderLeft: '6px solid #52c41a' }}
-																			>
-																				<Text strong>{capitalizeFirstLetter(trigger.name)}</Text>
-																				<Text>{trigger.description}</Text>
-																			</Space>
-																		)}
-																	/>
-																</Col>
-																<Col
-																	style={{
-																		width: '45%',
-																		display: 'flex',
-																		flexDirection: 'column',
-																		justifyContent: 'center',
-																		alignItems: 'center',
-																	}}
-																>
-																	<Text strong>Actions</Text>
-
-																	<List
-																		style={{
-																			width: '100%',
-																		}}
-																		dataSource={actions}
-																		renderItem={(action) => (
-																			<Space
-																				key={action.id}
-																				direction="vertical"
-																				style={{
-																					...triggersStyle,
-																					borderLeft: '6px solid #1890ff',
-																				}}
-																			>
-																				<Text strong>{capitalizeFirstLetter(action.name)}</Text>
-																				<Text>{action.description}</Text>
-																			</Space>
-																		)}
-																	/>
-																</Col>
+																<CustomServiceDetailList
+																	title="Triggers"
+																	items={serviceTriggers}
+																	borderLeftColor="#52c41a"
+																/>
+																<CustomServiceDetailList title="Actions" items={actions} borderLeftColor="#1890ff" />
 															</Row>
 														</>
 													)}
