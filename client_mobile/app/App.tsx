@@ -1,7 +1,7 @@
 import { config, GluestackUIProvider } from '@gluestack-ui/themed';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import CustomBottomTabBar from './core/components/CustomBottomNavBar';
 import './core/i18n/i18next';
 import ActivityStackRouting from './core/routes/ActivityStackRouting';
@@ -58,11 +58,6 @@ const App = () => {
 
     // Ajouter un gestionnaire pour les liens profonds
     (Linking as any).addEventListener('url', handleDeepLink);
-
-    // Nettoyer les gestionnaires lors du démontage du composant
-    return () => {
-      (Linking as any).removeEventListener('url', handleDeepLink);
-    };
   }, []);
 
   return (

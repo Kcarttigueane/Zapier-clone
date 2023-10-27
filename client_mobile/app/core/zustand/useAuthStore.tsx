@@ -6,6 +6,7 @@ import { Linking } from 'react-native';
 type AuthState = {
   accessToken?: string;
   isLoading: boolean;
+  error: null | string;
 };
 
 type AuthActions = {
@@ -20,19 +21,20 @@ type AuthActions = {
 const initialState: AuthState = {
   accessToken: undefined,
   isLoading: false,
+  error: null,
 };
 
 export const useAuthStore = create<AuthState & AuthActions>()(set => {
   return {
     ...initialState,
     loginFn: async (email, password) => {
-      set({ isLoading: true });
+      let response = null;
+      set({ isLoading: true, error: null });
       try {
         const formData = new FormData();
         formData.append('username', email);
         formData.append('password', password);
-
-        const response = await apiV2.post('/auth/token', formData, {
+        response = await apiV2.post('/auth/token', formData, {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
@@ -45,6 +47,9 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
       } catch (error: any) {
         throw error;
       } finally {
+        if (response === null) {
+          set({ error: 'Error logging in' });
+        }
         set({ isLoading: false });
       }
     },
@@ -59,23 +64,25 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
             last_name: lastName,
           },
         };
-
         const response = await apiV2.post('/auth/register', newUser);
-
-        if (response.status === HttpStatusCode.Ok && response.data) {
+        if (response.status === 201 && response.data) {
           const { accessToken } = response.data;
           set({ accessToken: accessToken });
+          console.log('User registered successfully');
+        } else {
+          set({ error: response.data?.message || 'Login failed', isLoading: false });
         }
       } catch (error: any) {
         console.error('Error registering user:', error);
-        set({ isLoading: false });
+        const errorMessage = error.response?.data?.message || 'An error occurred during login';
+        set({ error: errorMessage, isLoading: false });
         throw error;
       } finally {
         set({ isLoading: false });
       }
     },
     logoutFn: () => {
-      set({ accessToken: undefined, isLoading: false });
+      set({ accessToken: undefined, isLoading: false, error: null });
     },
     loginWithGoogle: async () => {
       Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/google');
