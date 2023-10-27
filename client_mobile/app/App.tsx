@@ -11,6 +11,7 @@ import ServicesStackRouting from './core/routes/ServicesStackRouting';
 import SettingsStackRouting from './core/routes/SettingsStackRouting';
 import ZapStackRouting from './core/routes/ZapStackRouting';
 import { Linking } from 'react-native';
+import { useAuthStore } from './core/zustand/useAuthStore';
 
 export type RootStackParamList = {
   // ! Demo
@@ -41,20 +42,8 @@ export type RootStackParamList = {
 
 const Tab = createBottomTabNavigator();
 
-export const handleGoogleOAuth = async () => {
-  Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/google');
-};
-
-export const handleSpotifyOAuth = async () => {
-  Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/spotify');
-};
-
-export const handleGitHubOAuth = async () => {
-  Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/github');
-};
-
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const Token = useAuthStore(state => state.accessToken);
   useEffect(() => {
     // Gérer l'URL initiale lors du lancement de l'application
 
@@ -64,7 +53,6 @@ const App = () => {
       if (event.url.includes('myapp://oauthredirect')) {
         // Traitez l'authentification Google ici
         console.log('Authentication with Provider');
-        setIsLoggedIn(true);
       }
     };
 
@@ -80,7 +68,7 @@ const App = () => {
   return (
     <GluestackUIProvider config={config.theme}>
       <NavigationContainer>
-        {isLoggedIn ? (
+        {Token ? (
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
             <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Activity" component={ActivityStackRouting} options={{ headerShown: false }} />

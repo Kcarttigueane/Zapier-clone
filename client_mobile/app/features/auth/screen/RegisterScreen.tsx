@@ -47,6 +47,7 @@ import { Image, SafeAreaView, StyleSheet } from 'react-native';
 import { RootStackParamList } from '../../../App';
 import { validationSchema } from '../utils/formValidation';
 import { languageSelectionValues } from '../utils/languageSelection';
+import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const IMAGE_PATH = '../../../core/assets';
 
@@ -66,6 +67,8 @@ const socialButtonLogo = [
 ];
 
 interface RegisterDTO {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
 }
@@ -78,6 +81,7 @@ type RegisterScreenProps = {
 };
 
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
+  const { registerFn } = useAuthStore(state => state);
   const { t } = useTranslation();
   const { language } = i18next;
   const [languageSelected, setLanguageSelected] = useState(
@@ -92,7 +96,12 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   };
 
   const onSubmit = async (values: RegisterDTO) => {
-    console.log(values);
+    const { firstName, lastName, email, password } = values;
+    try {
+      await registerFn(firstName, lastName, email, password);
+    } catch (error: any) {
+      console.error('Error registering user:', error.response.data.detail);
+    }
   };
 
   const handleLanguageChange = (value: string) => {
