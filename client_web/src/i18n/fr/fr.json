@@ -15,7 +15,11 @@
       "valid": "Valider",
       "yes": "Oui",
       "wait": "Veuillez patienter...",
-      "or": "ou"
+      "or": "ou",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "finish": "Terminer",
+      "reset": "Réinitialiser"
     },
     "date": {
       "display": "{{day}}/{{month}}",

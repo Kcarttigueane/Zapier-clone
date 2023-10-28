@@ -1,5 +1,12 @@
+import { ServiceModelDTO } from './service';
+
 export interface AutomationLogDTO {
 	triggered_at: Date;
+}
+
+export enum AutomationStatus {
+	ENABLED = 'enabled',
+	DISABLED = 'disabled',
 }
 
 export interface AutomationDTO {
@@ -8,10 +15,15 @@ export interface AutomationDTO {
 	name: string;
 	trigger_id: string;
 	action_id: string;
-	status: 'enabled' | 'disabled';
+	status: AutomationStatus;
 	first_poll: boolean;
 	last_polled: string;
 	logs: AutomationLogDTO[];
 }
 
 export type AutomationCreationDTO = Omit<AutomationDTO, 'id' | 'first_poll' | 'last_polled' | 'logs'>;
+
+export interface DetailedAutomationDTO extends AutomationDTO {
+	trigger_service: ServiceModelDTO;
+	action_service: ServiceModelDTO;
+}
