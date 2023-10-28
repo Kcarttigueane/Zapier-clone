@@ -51,7 +51,6 @@ const useAutomationCreationLogic = () => {
 				break;
 			case 1:
 				if (selectedTriggerService1) {
-					console.log('selectedTriggerService1', selectedTriggerService1);
 					fetchTriggersByService(selectedTriggerService1)
 						.then(() => setCurrent((prevCurrent) => prevCurrent + 1))
 						.catch((error) => {

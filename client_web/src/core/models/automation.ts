@@ -1,4 +1,4 @@
-import { ServiceModelDTO } from './service';
+import { ServiceModeWithAuthorizationDTO } from './service';
 
 export interface AutomationLogDTO {
 	triggered_at: Date;
@@ -18,12 +18,13 @@ export interface AutomationDTO {
 	status: AutomationStatus;
 	first_poll: boolean;
 	last_polled: string;
+	created_at?: string; // ! The ? should be removed when the API is fixed in the file automation_schema.py
 	logs: AutomationLogDTO[];
 }
 
 export type AutomationCreationDTO = Omit<AutomationDTO, 'id' | 'first_poll' | 'last_polled' | 'logs'>;
 
 export interface DetailedAutomationDTO extends AutomationDTO {
-	trigger_service: ServiceModelDTO;
-	action_service: ServiceModelDTO;
+	trigger_service: ServiceModeWithAuthorizationDTO;
+	action_service: ServiceModeWithAuthorizationDTO;
 }

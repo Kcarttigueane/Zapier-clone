@@ -29,7 +29,6 @@ const useServicesStore = create<ServicesState & ServiceActions>()((set) => ({
 			const response = await apiV2.get('/services');
 
 			if (response.status === HttpStatusCode.Ok && response.data) {
-				console.log(response.data);
 				set({ services: response.data, isLoading: false });
 			}
 		} catch (error: any) {
@@ -45,7 +44,6 @@ const useServicesStore = create<ServicesState & ServiceActions>()((set) => ({
 			const response = await apiV2.get(`/services/${serviceId}/compatibilities`);
 
 			if (response.status === HttpStatusCode.Ok && response.data) {
-				console.log(response.data);
 				set({ compatibleServices: response.data, isLoading: false });
 			}
 		} catch (error: any) {

@@ -68,7 +68,6 @@ const ServicesSelection: FC<ServicesSelectionProps> = ({
 
 	useEffect(() => {
 		if (selectedService1) {
-			console.log('selectedService1', selectedService1);
 			fetchCompatibleServices(selectedService1);
 		}
 	}, [selectedService1]);
@@ -87,7 +86,6 @@ const ServicesSelection: FC<ServicesSelectionProps> = ({
 						onChange={(option) => {
 							const parsedValue = JSON.parse(option.value); // TODO: check the error but working
 							const serviceId = parsedValue.id;
-							console.log('serviceId', serviceId);
 							setSelectedService1(serviceId);
 						}}
 						labelInValue
