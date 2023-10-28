@@ -200,7 +200,7 @@
       "reaction1": "...with this one.",
       "action2": "Choose a Trigger",
       "reaction2": "Choose a Reaction",
-      "authorize": "Authorize",
+      "authorize": "Connect",
       "connected": "Already Connected",
       "disabled": "Authorize Services",
       "enabled": "Try It!",

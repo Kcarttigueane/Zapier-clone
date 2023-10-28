@@ -1,17 +1,17 @@
-import { FC, CSSProperties } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, Image } from 'antd';
-import Spotify from '../../../core/assets/logo2D/Spotify.png';
-import Youtube from '../../../core/assets/logo2D/Youtube.png';
+import { CSSProperties, FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import Discord from '../../../core/assets/logo2D/Discord.png';
 import Gmail from '../../../core/assets/logo2D/Gmail.png';
-import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
 import GoogleCalendar from '../../../core/assets/logo2D/GoogleCalandar.png';
-import Twitter from '../../../core/assets/logo2D/Twitter.png';
-import OpenMeteo from '../../../core/assets/logo2D/OpenMeteo.png';
-import Whatsapp from '../../../core/assets/logo2D/Whatsapp.png';
-import Signal from '../../../core/assets/logo2D/Signal.png';
+import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
 import Notification from '../../../core/assets/logo2D/Notification.png';
+import OpenMeteo from '../../../core/assets/logo2D/OpenMeteo.png';
+import Signal from '../../../core/assets/logo2D/Signal.png';
+import Spotify from '../../../core/assets/logo2D/Spotify.png';
+import Twitter from '../../../core/assets/logo2D/Twitter.png';
+import Whatsapp from '../../../core/assets/logo2D/Whatsapp.png';
+import Youtube from '../../../core/assets/logo2D/Youtube.png';
 
 type ConnectServiceButtonProps = {
 	service: string;
@@ -35,14 +35,13 @@ const serviceToImageSrc: Record<string, string> = {
 };
 
 const defaultStyles: CSSProperties = {
-	alignItems: 'center',
-	width: '200px',
-	height: '50px',
-	borderRadius: '50px',
-	fontSize: '20px',
-	fontWeight: 'bold',
 	display: 'flex',
+	padding: '20px 16px',
 	justifyContent: 'center',
+	alignItems: 'center',
+	borderRadius: '50px',
+	fontWeight: 'bold',
+	gap: '10px',
 };
 
 const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connected, onClick, style }) => {
@@ -57,15 +56,17 @@ const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connecte
 	};
 
 	return connected ? (
-		<Button style={buttonStyle} disabled={true}>
+		<Button style={buttonStyle} disabled={true} size="small">
 			{t('home.create.connected')}
 		</Button>
 	) : (
-		<Button style={buttonStyle} onClick={handleClick}>
+		<Button style={buttonStyle} onClick={handleClick} size="small">
 			<Image
+				preview={false}
 				src={serviceToImageSrc[service.toLowerCase()]}
 				alt={service}
-				style={{ width: '30px', height: '30px', verticalAlign: 'middle', marginRight: 15 }}
+				style={{ verticalAlign: 'middle', marginRight: 15 }}
+				width={24}
 			/>
 			{t('home.create.authorize')}
 		</Button>

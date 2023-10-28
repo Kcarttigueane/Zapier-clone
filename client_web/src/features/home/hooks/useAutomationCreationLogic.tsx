@@ -103,15 +103,15 @@ const useAutomationCreationLogic = () => {
 			status: AutomationStatus.DISABLED,
 		};
 
-		try {
-			createAutomation(automationToCreate);
-		} catch (error: any) {
-			console.error('Error creating automation:', error);
-			message.open({
-				type: 'error',
-				content: error.response.data.detail || 'Something went wrong',
+		createAutomation(automationToCreate)
+			.then(() => message.success('Automation created successfully'))
+			.catch((error) => {
+				console.error('Error creating automation:', error);
+				message.open({
+					type: 'error',
+					content: error.response.data.detail || 'Something went wrong',
+				});
 			});
-		}
 	}, [selectedTriggerId, selectedActionId]);
 
 	return {

@@ -4,7 +4,6 @@ import { BASE_URL, apiV2 } from '../api';
 import useUserStore from './useUserStore';
 
 type AuthState = {
-	accessToken?: string;
 	isLoading: boolean;
 };
 
@@ -21,7 +20,6 @@ type AuthActions = {
 };
 
 const initialState: AuthState = {
-	accessToken: undefined,
 	isLoading: false,
 };
 
@@ -43,7 +41,6 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 
 				if (response.status === HttpStatusCode.Ok && response.data) {
 					const { accessToken } = response.data;
-					set({ accessToken: accessToken });
 					try {
 						set({ isLoading: true });
 						await useUserStore.getState().fetchCurrentUser(accessToken);
@@ -77,7 +74,6 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 
 				if (response.status === HttpStatusCode.Ok && response.data) {
 					const { accessToken } = response.data;
-					set({ accessToken: accessToken });
 
 					try {
 						set({ isLoading: true });
@@ -101,11 +97,10 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 		logoutFn: () => {
 			localStorage.removeItem('access_token');
 			useUserStore.getState().clearUser();
-			set({ accessToken: undefined, isLoading: false });
 		},
 		loginWithGoogle: async () => {
 			try {
-				window.location.href = 'http://0.0.0.0:8080/api/v2/auth/login/google';
+				window.location.href = `${BASE_URL}/auth/login/google`;
 			} catch (error) {
 				console.error('Login with Google failed:', error);
 			}
