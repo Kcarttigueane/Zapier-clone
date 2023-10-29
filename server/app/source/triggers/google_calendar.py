@@ -42,8 +42,12 @@ def extract_todays_event(credentials):
 
 
 def check_todays_event(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer | None:
-    if service_auth := get_service_auth(user, "calendar"):
-        credentials = get_google_credentials(service_auth.access_token)
+    if (
+        service_auth := get_service_auth(user, "calendar")
+    ) and service_auth.refresh_token:
+        credentials = get_google_credentials(
+            service_auth.access_token, service_auth.refresh_token
+        )
     else:
         return None
 

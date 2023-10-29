@@ -20,8 +20,12 @@ def extract_youtube_likes(credentials):
 
 
 def check_youtube_like(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer | None:
-    if service_auth := get_service_auth(user, "youtube"):
-        credentials = get_google_credentials(service_auth.access_token)
+    if (
+        service_auth := get_service_auth(user, "youtube")
+    ) and service_auth.refresh_token:
+        credentials = get_google_credentials(
+            service_auth.access_token, service_auth.refresh_token
+        )
     else:
         return None
 

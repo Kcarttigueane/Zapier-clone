@@ -26,8 +26,10 @@ def handle_mail(credentials, email, header, body, markdown):
 
 
 def send_myself_mail(user: UserOutDTO, trigger_answer: TriggerAnswer):
-    if service_auth := get_service_auth(user, "gmail"):
-        credentials = get_google_credentials(service_auth.access_token)
+    if (service_auth := get_service_auth(user, "gmail")) and service_auth.refresh_token:
+        credentials = get_google_credentials(
+            service_auth.access_token, service_auth.refresh_token
+        )
     else:
         return
 

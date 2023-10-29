@@ -189,6 +189,7 @@ class AuthServices:
             redirect_uri,
             additional_scopes=SERVICE_SCOPES[service_name],
             state=current_user.id,
+            access_type="offline",
         )
 
         print("uri: ", uri)

@@ -26,8 +26,10 @@ def create_new_files(credentials, objs):
 
 
 def add_attachments_to_drive(user: UserOutDTO, trigger_answer: TriggerAnswer):
-    if service_auth := get_service_auth(user, "drive"):
-        credentials = get_google_credentials(service_auth.access_token)
+    if (service_auth := get_service_auth(user, "drive")) and service_auth.refresh_token:
+        credentials = get_google_credentials(
+            service_auth.access_token, service_auth.refresh_token
+        )
     else:
         return
 
