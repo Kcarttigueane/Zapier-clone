@@ -1,6 +1,7 @@
+import base64
 import logging
 from email.mime.text import MIMEText
-import base64
+
 from googleapiclient.discovery import build
 
 from app.schemas.triggers_dto import TriggerAnswer
@@ -21,7 +22,7 @@ def handle_mail(credentials, email, header, body, markdown):
     encoded_message = base64.urlsafe_b64encode(message.as_bytes()).decode()
 
     create_message = {"raw": encoded_message}
-    service.users().messages().send(userId="me", body=create_message).execute()
+    service.users().messages().send(userId="me", body=create_message).execute()  # type: ignore
 
 
 def send_myself_mail(user: UserOutDTO, trigger_answer: TriggerAnswer):

@@ -7,6 +7,7 @@ from app.schemas.automations_dto import (
     EnrichedAutomationOutDTO,
 )
 from app.schemas.py_object_id import PyObjectId
+from app.schemas.services_dto import ServiceOutWithAuthorizationDTO
 from app.services.actions_service import ActionsService
 from app.services.services_service import ServiceService
 from app.services.triggers_service import TriggersService
@@ -121,14 +122,14 @@ class AutomationsService:
                 enriched_automations.append(
                     EnrichedAutomationOutDTO(
                         **automation.dict(),
-                        trigger_service={
+                        trigger_service=ServiceOutWithAuthorizationDTO(
                             **trigger_service.dict(),
-                            "is_authorized": is_trigger_service_authorized,
-                        },
-                        action_service={
+                            is_authorized=is_trigger_service_authorized,
+                        ),
+                        action_service=ServiceOutWithAuthorizationDTO(
                             **action_service.dict(),
-                            "is_authorized": is_action_service_authorized,
-                        },
+                            is_authorized=is_action_service_authorized,
+                        ),
                     )
                 )
             return enriched_automations

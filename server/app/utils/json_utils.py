@@ -1,7 +1,6 @@
 import json
 import os
 
-
 template = {
     "client": {
         "host": "REPLACE_HOST",
@@ -29,7 +28,7 @@ template = {
 
 
 def create_json(ip, date):
-    template["client"]["host"] = ip
+    template["client"]["host"] = ip  # type: ignore
     template["current_time"] = date
     with open(os.path.join(os.getcwd(), "app", "about.json"), "w") as outfile:
         json.dump(template, outfile, indent=4)

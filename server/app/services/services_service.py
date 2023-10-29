@@ -133,7 +133,9 @@ class ServiceService:
 
         return compatible_services
 
-    async def get_user_authorized_services(self) -> List[ServiceOutWithAuthorizationDTO]:
+    async def get_user_authorized_services(
+        self,
+    ) -> List[ServiceOutWithAuthorizationDTO]:
         try:
             return await self.repository.get_user_authorized_services()
         except Exception as e:

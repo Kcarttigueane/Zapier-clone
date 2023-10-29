@@ -81,7 +81,7 @@ class UserService:
             return False
         # TODO : Need to make a logic because the service name if google calendar but the service name if the oauth is calendar only,
         # TODO : potentially need to change how we store data but don't have the time for now
-        googleServices = ['calendar', 'drive', 'gmail', 'youtube']
+        googleServices = ["calendar", "drive", "gmail", "youtube"]
         googleServiceName = get_google_service_name(serviceName)
         if googleServiceName in googleServices:
             serviceName = googleServiceName

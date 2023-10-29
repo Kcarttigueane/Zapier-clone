@@ -14,7 +14,7 @@ class ServiceInDTO(MongoModel):
         "spotify",
         "youtube",
         "open meteo",
-        "teams"
+        "teams",
     ] = Field(..., title="Service Name", description="The name of the service.")
     description: Optional[str] = Field(
         None,

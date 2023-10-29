@@ -151,6 +151,7 @@ async def get_services_compatible_with_service(service_id: PyObjectId):
     """
     return await ServiceServices.get_services_compatible_with_service(service_id)
 
+
 @services_router.get(
     "/authorized",
     response_model=List[ServiceOutWithAuthorizationDTO],
