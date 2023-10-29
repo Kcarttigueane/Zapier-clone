@@ -1,13 +1,16 @@
 from typing import List
 
-from fastapi import APIRouter, Response, status
+from fastapi import APIRouter, Depends, Response, status
 
 from app.schemas.py_object_id import PyObjectId
 from app.schemas.services_dto import (
     ServiceInDTO,
     ServiceOutDTO,
+    ServiceOutWithAuthorizationDTO,
 )
+from app.schemas.users_dto import UserOutDTO
 from app.services.services_service import ServiceService
+from app.utils.auth_utils import get_current_user
 
 services_router: APIRouter = APIRouter(
     prefix="/services",
@@ -41,6 +44,29 @@ async def create_service(service_data: ServiceInDTO) -> ServiceOutDTO:
     """
     """Create a new service."""
     return await ServiceServices.create_service(service_data)
+
+
+@services_router.get(
+    "/authorized",
+    response_model=List[ServiceOutWithAuthorizationDTO],
+    status_code=status.HTTP_200_OK,
+    description="Retrieve all the services with authorization status by user ID",
+)
+async def get_all_services_with_authorization_status_by_user_id(
+    current_user: UserOutDTO = Depends(get_current_user),
+):
+    """
+    Retrieve all the services with authorization status by user ID.
+
+    Returns:
+    - List[ServiceOutWithAuthorizationDTO]: A list of all the services with authorization status.
+
+    Raises:
+    - HTTPException: An error occurred retrieving the services.
+    """
+    return await ServiceServices.get_all_services_with_authorization_status_by_user_id(
+        current_user
+    )
 
 
 @services_router.get(

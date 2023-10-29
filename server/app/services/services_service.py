@@ -8,8 +8,11 @@ from app.schemas.py_object_id import PyObjectId
 from app.schemas.services_dto import (
     ServiceInDTO,
     ServiceOutDTO,
+    ServiceOutWithAuthorizationDTO,
 )
+from app.schemas.users_dto import UserOutDTO
 from app.services.compatibility_service import CompatibilityService
+from app.services.users_services import UserService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -131,3 +134,21 @@ class ServiceService:
                 added_service_ids.add(str(other_service_id))
 
         return compatible_services
+
+    async def get_all_services_with_authorization_status_by_user_id(
+        self, user: UserOutDTO
+    ):
+        services = await self.get_all_services()
+        services_with_authorized_status = []
+
+        for service in services:
+            is_authorized = await UserService().has_user_authorized_service(
+                user.id, service.name
+            )
+            services_with_authorized_status.append(
+                ServiceOutWithAuthorizationDTO(
+                    **service.dict(),
+                    is_authorized=is_authorized,
+                )
+            )
+        return services_with_authorized_status

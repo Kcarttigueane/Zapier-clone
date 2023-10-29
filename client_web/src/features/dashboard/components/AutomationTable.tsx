@@ -237,8 +237,8 @@ const AutomationTable = () => {
 							`}
 						</style>
 						<Switch
-							checkedChildren="Enabled"
-							unCheckedChildren="Disabled"
+							checkedChildren={t('settings.enabled')}
+							unCheckedChildren={t('settings.disabled')}
 							checked={record.status === AutomationStatus.ENABLED}
 							style={{
 								fontSize: '20px',

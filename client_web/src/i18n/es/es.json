@@ -136,8 +136,8 @@
   "settings": {
     "headerTitle": "Configuraciones",
     "placeholder": "introducir texto de búsqueda",
-    "enabled": "activado",
-    "disabled": "desactivado",
+    "enabled": "Activado",
+    "disabled": "Desactivado",
     "settingScreen": {
       "profile": {
         "title": "Configuración General",

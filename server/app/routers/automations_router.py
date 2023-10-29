@@ -38,7 +38,6 @@ async def create_automation(automation_data: AutomationInDTO) -> AutomationOutDT
 )
 async def read_detailed_automations(user=Depends(get_current_user)):
     """Retrieve all existing automations with detailed service information."""
-    print("user -> ", user)
     return await AutomationService.get_all_detailed_automations(user.id)
 
 
