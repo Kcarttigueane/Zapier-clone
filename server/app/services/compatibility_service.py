@@ -30,7 +30,17 @@ class CompatibilityService:
                 detail="Compatibility already exists for these services.",
             )
 
-        return await self.repository.create_service_compatibility(compatibility)
+        new_compatibility = await self.repository.create_service_compatibility(
+            compatibility
+        )
+
+        if new_compatibility is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="An error occurred while creating the compatibility.",
+            )
+
+        return new_compatibility
 
     async def get_service_compatibility(
         self, compatibility_id: PyObjectId
@@ -53,9 +63,18 @@ class CompatibilityService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Service compatibility not found",
             )
-        return await self.repository.update_service_compatibility(
-            compatibility_id, compatibility
+        updatedServiceCompatibility = (
+            await self.repository.update_service_compatibility(
+                compatibility_id, compatibility
+            )
         )
+        if updatedServiceCompatibility is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="An error occurred while updating the compatibility.",
+            )
+
+        return updatedServiceCompatibility
 
     async def get_all_service_compatibilities(self) -> List[ServiceCompatibilityOutDTO]:
         return await self.repository.get_all_service_compatibilities()
@@ -82,7 +101,17 @@ class CompatibilityService:
                 detail="Compatibility already exists for these trigger and action.",
             )
 
-        return await self.repository.create_trigger_action_compatibility(compatibility)
+        new_compatibility = await self.repository.create_trigger_action_compatibility(
+            compatibility
+        )
+
+        if new_compatibility is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="An error occurred while creating the compatibility.",
+            )
+
+        return new_compatibility
 
     async def update_trigger_action_compatibility(
         self,
@@ -97,9 +126,17 @@ class CompatibilityService:
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Trigger action compatibility not found",
             )
-        return await self.repository.update_trigger_action_compatibility(
-            compatibility_id, compatibility
+        updatedTriggerActionCompatibility = (
+            await self.repository.update_trigger_action_compatibility(
+                compatibility_id, compatibility
+            )
         )
+        if updatedTriggerActionCompatibility is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="An error occurred while updating the compatibility.",
+            )
+        return updatedTriggerActionCompatibility
 
     async def delete_trigger_action_compatibility(self, compatibility_id: PyObjectId):
         if (

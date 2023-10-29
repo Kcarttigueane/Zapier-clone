@@ -5,10 +5,10 @@ from app.schemas.py_object_id import PyObjectId
 
 
 class ServiceCompatibilityInDTO(MongoModel):
-    service_id_1: PyObjectId | None = Field(
+    service_id_1: PyObjectId = Field(
         ..., title="Service ID 1", description="The ID of the first service."
     )
-    service_id_2: PyObjectId | None = Field(
+    service_id_2: PyObjectId = Field(
         ..., title="Service ID 2", description="The ID of the second service."
     )
 

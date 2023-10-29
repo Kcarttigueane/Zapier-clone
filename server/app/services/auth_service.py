@@ -1,9 +1,6 @@
 from datetime import datetime
 from typing import Any, Dict, Tuple
 
-from fastapi import HTTPException, Request, status
-from fastapi.responses import RedirectResponse
-
 from app.core.oauth2 import PROVIDER_KEY_MAP, SERVICE_SCOPES, oauth2_providers
 from app.main import WEB_CLIENT_URL
 from app.repository.users_repository import UserRepository
@@ -14,11 +11,13 @@ from app.utils.auth_utils import (
     validate_user_info,
 )
 from app.utils.password_utils import (
-    get_password_hash,
-    verify_password,
     create_code_password_recovery,
+    get_password_hash,
     send_mail_forgot_password,
+    verify_password,
 )
+from fastapi import HTTPException, Request, status
+from fastapi.responses import RedirectResponse
 
 
 class AuthServices:
@@ -58,7 +57,10 @@ class AuthServices:
         user_info = await oauth2_scheme.get_user_info(response.get("access_token"))
 
         user = await self.update_or_create_user_by_provider(
-            user_info, provider, response
+            user_info,
+            provider,
+            response,
+            service_name=provider,
         )
 
         jwt_token = create_access_token(data={"sub": user.email})
@@ -183,15 +185,16 @@ class AuthServices:
 
         redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/callback/{provider}/{service_name}"
 
-        uri = oauth2_scheme.create_authorization_url(
+        uri, state = oauth2_scheme.create_authorization_url(
             redirect_uri,
             additional_scopes=SERVICE_SCOPES[service_name],
             state=current_user.id,
             access_type="offline",
         )
+
         print("uri: ", uri)
 
-        return RedirectResponse(uri)
+        return uri
 
     async def authorize_additional_access_callback(
         self, provider: str, service_name: str, request: Request, code: str, state: str
@@ -218,7 +221,7 @@ class AuthServices:
 
         jwt_token = create_access_token(data={"sub": user.email})
 
-        frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
+        frontend_url = f"{WEB_CLIENT_URL}/dashboard?token={jwt_token}"
         return RedirectResponse(frontend_url)
 
     async def forgot_password(self, email: str):

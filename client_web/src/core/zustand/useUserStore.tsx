@@ -2,7 +2,6 @@ import { HttpStatusCode } from 'axios';
 import { create } from 'zustand';
 import { apiV2, getApiHeaders } from '../api';
 import { UserModelDTO } from '../models/user';
-import { useAuthStore } from './useAuthStore';
 
 type UserState = {
 	user: UserModelDTO | null;
@@ -30,7 +29,6 @@ const useUserStore = create<UserState & UserActions>()((set) => ({
 			const response = await apiV2.get('/users/me', { headers: getApiHeaders(accessToken) });
 
 			if (response.status === HttpStatusCode.Ok && response.data) {
-				console.log(response.data);
 				set({ user: response.data, isLoading: false });
 			}
 		} catch (error: any) {
@@ -44,7 +42,7 @@ const useUserStore = create<UserState & UserActions>()((set) => ({
 		set({ isLoading: true, error: undefined });
 
 		try {
-			const { accessToken } = useAuthStore.getState();
+			const accessToken = localStorage.getItem('access_token');
 			if (!accessToken) {
 				throw new Error('No access token found');
 			}
@@ -67,7 +65,7 @@ const useUserStore = create<UserState & UserActions>()((set) => ({
 		set({ isLoading: true, error: undefined });
 
 		try {
-			const { accessToken } = useAuthStore.getState();
+			const accessToken = localStorage.getItem('access_token');
 			if (!accessToken) {
 				throw new Error('No access token found');
 			}

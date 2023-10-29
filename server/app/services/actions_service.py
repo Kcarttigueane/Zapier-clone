@@ -4,6 +4,7 @@ from typing import List
 from fastapi import HTTPException, status
 
 from app.repository.actions_repository import ActionRepository
+from app.repository.compatibility_repository import CompatibilityRepository
 from app.schemas.actions_dto import ActionInDTO, ActionOutDTO
 from app.schemas.py_object_id import PyObjectId
 
@@ -171,12 +172,20 @@ class ActionsService:
     async def get_actions_by_trigger(
         self, trigger_id: PyObjectId, service_id: str
     ) -> List[ActionOutDTO]:
-        trigger_action_compatibilities = await self.repository.find_by_trigger_id(
+        trigger_action_compatibilities = await CompatibilityRepository().get_triggerAction_compatibility_by_trigger_id(
             trigger_id
         )
+
         actions = []
         for compatibility in trigger_action_compatibilities:
             action = await ActionRepository().get(compatibility.action_id)
             if action and str(action.service_id) == service_id:
                 actions.append(action)
+
         return actions
+
+    async def get_service_by_action_id(
+        self, action_id: PyObjectId
+    ) -> PyObjectId | None:
+        action = await self.repository.get(action_id)
+        return action.service_id if action else None

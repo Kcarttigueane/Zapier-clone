@@ -15,7 +15,11 @@
       "valid": "Valid",
       "yes": "Yes",
       "wait": "Please wait...",
-      "or": "or"
+      "or": "or",
+      "next": "Next",
+      "previous": "Previous",
+      "finish": "Finish",
+      "reset": "Reset"
     },
     "date": {
       "display": "{{month}}/{{day}}",
@@ -132,8 +136,8 @@
   "settings": {
     "headerTitle": "Settings",
     "placeholder": "input search texte",
-    "enabled": "enabled",
-    "disabled": "disabled",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
     "settingScreen": {
       "profile": {
         "title": "General Settings",
@@ -196,28 +200,11 @@
       "reaction1": "...with this one.",
       "action2": "Choose a Trigger",
       "reaction2": "Choose a Reaction",
-      "authorize": "Authorize",
+      "authorize": "Connect",
       "connected": "Already Connected",
       "disabled": "Authorize Services",
       "enabled": "Try It!",
       "service": "🔎 Select a Service"
-    },
-    "trigger": {
-      "like": "Recieve Like",
-      "reply": "Recieve Reply",
-      "folder": "New Folder",
-      "file": "New File",
-      "event": "Event",
-      "birthday": "Birthday Event",
-      "forecast": "Hourly Forecast",
-      "video": "Liked Video",
-      "attachment": "New Attachment"
-    },
-    "reaction": {
-      "notification": "App Notification",
-      "message": "Send Message",
-      "playlist": "Add to Playlist",
-      "file": "Upload File"
     },
     "recommendedSection": {
       "serviceTitle": "Our available services"

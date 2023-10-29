@@ -23,7 +23,7 @@ RUFF_STATUS=$?
 color_print $RUFF_STATUS "Ruff linting check"
 
 # Run mypy for type checking
-mypy .
+mypy --check-untyped-defs .
 MYPY_STATUS=$?
 color_print $MYPY_STATUS "Mypy type checking"
 

@@ -20,6 +20,7 @@ class TriggerInDTO(MongoModel):
         "NewAttachment",
         "TodayEvent",
         "TodayWeather",
+        "UpcomingEvents",
     ] = Field(..., title="Trigger Name", description="The name of the trigger.")
     description: str = Field(
         ..., title="Description", description="A brief description of the trigger."

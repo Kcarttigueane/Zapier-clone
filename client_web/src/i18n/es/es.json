@@ -15,7 +15,11 @@
       "valid": "Válido",
       "yes": "Sí",
       "wait": "Por favor espera...",
-      "or": "o"
+      "or": "o",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "finish":  "Terminar",
+      "reset": "Reiniciar"
     },
     "date": {
       "display": "{{month}}/{{day}}",
@@ -132,8 +136,8 @@
   "settings": {
     "headerTitle": "Configuraciones",
     "placeholder": "introducir texto de búsqueda",
-    "enabled": "activado",
-    "disabled": "desactivado",
+    "enabled": "Activado",
+    "disabled": "Desactivado",
     "settingScreen": {
       "profile": {
         "title": "Configuración General",
@@ -196,28 +200,11 @@
       "reaction1": "...con este otro.",
       "action2": "Elegir un Desencadenante",
       "reaction2": "Elegir una Reacción",
-      "authorize": "Autorizar",
+      "authorize": "Conectar",
       "connected": "Ya Conectado",
       "disabled": "Autorizar Servicios",
       "enabled": "¡Pruébalo!",
       "service": "Seleccione un servicio"
-    },
-    "trigger": {
-      "like": "Recibir Me Gusta",
-      "reply": "Recibir Respuesta",
-      "folder": "Nueva Carpeta",
-      "file": "Nuevo Archivo",
-      "event": "Evento",
-      "birthday": "Evento de Cumpleaños",
-      "forecast": "Pronóstico Horario",
-      "video": "Video Gustado",
-      "attachment": "Nuevo Adjunto"
-    },
-    "reaction": {
-      "notification": "Notificación de la Aplicación",
-      "message": "Enviar Mensaje",
-      "playlist": "Agregar a la Lista de Reproducción",
-      "file": "Subir Archivo"
     },
     "recommendedSection": {
       "serviceTitle": "Servicios Recomendados"

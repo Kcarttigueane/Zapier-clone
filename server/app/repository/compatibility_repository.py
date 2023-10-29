@@ -112,3 +112,11 @@ class CompatibilityRepository:
             {"$or": [{"service_id_1": service_id}, {"service_id_2": service_id}]}
         ).to_list(length=1000)
         return [ServiceCompatibilityOutDTO.from_mongo(item) for item in result]
+
+    async def get_triggerAction_compatibility_by_trigger_id(
+        self, trigger_id: PyObjectId
+    ) -> List[TriggerActionCompatibilityOutDTO]:
+        result = await self.trigger_action_compatibility_collection.find(
+            {"trigger_id": trigger_id}
+        ).to_list(length=1000)
+        return [TriggerActionCompatibilityOutDTO.from_mongo(item) for item in result]
