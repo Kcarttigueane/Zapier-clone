@@ -4,4 +4,5 @@ def get_google_service_name(service):
         return service.split(" ")[1]
     return service_lower
 
+
 # TODO : Do the same with microsoft services like teams, outlook, etc.

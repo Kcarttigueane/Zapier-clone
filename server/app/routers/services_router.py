@@ -6,7 +6,6 @@ from app.schemas.py_object_id import PyObjectId
 from app.schemas.services_dto import (
     ServiceInDTO,
     ServiceOutDTO,
-    ServiceOutWithAuthorizationDTO,
 )
 from app.services.services_service import ServiceService
 
@@ -150,13 +149,3 @@ async def get_services_compatible_with_service(service_id: PyObjectId):
     - HTTPException: An error occurred retrieving the services.
     """
     return await ServiceServices.get_services_compatible_with_service(service_id)
-
-
-@services_router.get(
-    "/authorized",
-    response_model=List[ServiceOutWithAuthorizationDTO],
-    status_code=status.HTTP_200_OK,
-    description="Retrieve all services with authorization of the user",
-)
-async def get_user_authorized_services():
-    return await ServiceServices.get_user_authorized_services()
