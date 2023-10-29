@@ -2,7 +2,6 @@ import { BellOutlined, LogoutOutlined, SettingOutlined, UnorderedListOutlined } 
 import { Avatar, Badge, Dropdown, MenuProps, Space, Typography, message } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
-import { useCookies } from 'react-cookie';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -18,10 +17,6 @@ const headerStyle: React.CSSProperties = {
 	backgroundColor: '#fff',
 };
 
-const searchBarStyle: React.CSSProperties = {
-	width: '300px',
-};
-
 const rightHeaderStyle: React.CSSProperties = {
 	display: 'flex',
 	alignItems: 'center',
@@ -33,23 +28,10 @@ const rightHeaderStyle: React.CSSProperties = {
 };
 
 const CustomNavBar = () => {
-	const [, , removeCookie] = useCookies([
-		'first-selected-service',
-		'second-selected-service',
-		'selected-trigger',
-		'selected-reaction',
-	]);
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
-	const handleLogout = () => {
-		removeCookie('first-selected-service');
-		removeCookie('second-selected-service');
-		removeCookie('selected-trigger');
-		removeCookie('selected-reaction');
-
-		localStorage.clear();
-	};
+	const handleLogout = () => localStorage.clear();
 
 	const onClick: MenuProps['onClick'] = ({ key }) => {
 		switch (key) {

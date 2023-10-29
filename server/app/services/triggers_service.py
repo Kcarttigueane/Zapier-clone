@@ -92,7 +92,13 @@ class TriggersService:
 
         triggers = []
         for compatibility in trigger_action_compatibilities:
-            trigger = await TriggerRepository().get(compatibility.trigger_id)
+            trigger = await self.repository.get(compatibility.trigger_id)
             if trigger and str(trigger.service_id) == service_id:
                 triggers.append(trigger)
         return triggers
+
+    async def get_service_by_trigger_id(
+        self, trigger_id: PyObjectId
+    ) -> PyObjectId | None:
+        trigger = await self.repository.get(trigger_id)
+        return trigger.service_id if trigger else None

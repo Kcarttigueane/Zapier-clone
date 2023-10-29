@@ -4,6 +4,7 @@ from fastapi import HTTPException, status
 
 from app.repository.users_repository import UserRepository
 from app.schemas.users_dto import UserInDTO, UserOutDTO
+from app.utils.get_google_service_name import get_google_service_name
 from app.utils.password_utils import get_password_hash
 
 
@@ -73,3 +74,15 @@ class UserService:
         user = await self.get_user(user_id)
         user.password = get_password_hash(new_password)
         await self.update_user(user_id, user)
+
+    async def has_user_authorized_service(self, user_id, serviceName: str) -> bool:
+        user = await self.get_user(user_id)
+        if not user:
+            return False
+        # TODO : Need to make a logic because the service name if google calendar but the service name if the oauth is calendar only,
+        # TODO : potentially need to change how we store data but don't have the time for now
+        googleServices = ['calendar', 'drive', 'gmail', 'youtube']
+        googleServiceName = get_google_service_name(serviceName)
+        if googleServiceName in googleServices:
+            serviceName = googleServiceName
+        return any(oauth_data.service_name == serviceName for oauth_data in user.oauth)

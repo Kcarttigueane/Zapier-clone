@@ -53,8 +53,6 @@ const useActionStore = create<ActionState & ActionActions>()((set) => ({
 				throw new Error('No access token found');
 			}
 
-			console.log('serviceId', serviceId);
-			console.log('triggerId', triggerId);
 			const response = await apiV2.get(`/actions/${triggerId}/triggers`, {
 				params: {
 					service_id: serviceId,

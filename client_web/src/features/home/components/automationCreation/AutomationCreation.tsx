@@ -147,7 +147,10 @@ const AutomationCreation = () => {
 					id="AutomationName"
 					name="AutomationName"
 					value={automationName}
-					onChange={(e) => setAutomationName(e.target.value)}
+					onChange={(e) => {
+						setAutomationName(e.target.value); // ! Need to check because potential bug when creating two automations in a row
+						console.log('automationName', automationName);
+					}}
 				/>
 				<div style={contentStyle}>{renderStepContent(current)}</div>
 

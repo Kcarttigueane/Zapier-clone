@@ -11,12 +11,10 @@ class ServiceInDTO(MongoModel):
         "google drive",
         "google calendar",
         "gmail",
-        "discord",
         "spotify",
         "youtube",
-        "twitter",
-        "push notification",
-        "whatsApp",
+        "open meteo",
+        "teams"
     ] = Field(..., title="Service Name", description="The name of the service.")
     description: Optional[str] = Field(
         None,
@@ -47,3 +45,9 @@ class ServiceInDTO(MongoModel):
 
 class ServiceOutDTO(ServiceInDTO):
     id: PyObjectId
+
+
+class ServiceOutWithAuthorizationDTO(ServiceOutDTO):
+    is_authorized: bool = Field(
+        ..., title="Is Authorized", description="Checks if the service is authorized."
+    )

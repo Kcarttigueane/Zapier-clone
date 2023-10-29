@@ -1,10 +1,17 @@
 from typing import List
 
-from fastapi import HTTPException, status
-
 from app.repository.automations_repository import AutomationRepository
-from app.schemas.automations_dto import AutomationInDTO, AutomationOutDTO
+from app.schemas.automations_dto import (
+    AutomationInDTO,
+    AutomationOutDTO,
+    EnrichedAutomationOutDTO,
+)
 from app.schemas.py_object_id import PyObjectId
+from app.services.actions_service import ActionsService
+from app.services.services_service import ServiceService
+from app.services.triggers_service import TriggersService
+from app.services.users_services import UserService
+from fastapi import HTTPException, status
 
 
 class AutomationsService:
@@ -68,6 +75,63 @@ class AutomationsService:
     async def get_all_automations(self) -> List[AutomationOutDTO]:
         try:
             return await self.repository.get_all()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            ) from e
+
+    async def get_all_user_automations(
+        self, user_id: PyObjectId
+    ) -> List[AutomationOutDTO]:
+        try:
+            return await self.repository.get_all_user_automations(user_id)
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)
+            ) from e
+
+    async def get_all_detailed_automations(
+        self, user_id: PyObjectId
+    ) -> List[EnrichedAutomationOutDTO]:
+        try:
+            automations = await self.repository.get_all_user_automations(user_id)
+            enriched_automations = []
+
+            for automation in automations:
+                trigger_service_id = await TriggersService().get_service_by_trigger_id(
+                    automation.trigger_id
+                )
+                action_service_id = await ActionsService().get_service_by_action_id(
+                    automation.action_id
+                )
+                if not trigger_service_id or not action_service_id:
+                    continue
+                trigger_service = await ServiceService().get_service(trigger_service_id)
+                action_service = await ServiceService().get_service(action_service_id)
+                is_trigger_service_authorized = (
+                    await UserService().has_user_authorized_service(
+                        user_id, trigger_service.name
+                    )
+                )
+                is_action_service_authorized = (
+                    await UserService().has_user_authorized_service(
+                        user_id, action_service.name
+                    )
+                )
+                enriched_automations.append(
+                    EnrichedAutomationOutDTO(
+                        **automation.dict(),
+                        trigger_service={
+                            **trigger_service.dict(),
+                            "is_authorized": is_trigger_service_authorized,
+                        },
+                        action_service={
+                            **action_service.dict(),
+                            "is_authorized": is_action_service_authorized,
+                        },
+                    )
+                )
+            return enriched_automations
         except Exception as e:
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e)

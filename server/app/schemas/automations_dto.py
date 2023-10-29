@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field
 
 from app.schemas.mongoModel import MongoModel
 from app.schemas.py_object_id import PyObjectId
+from app.schemas.services_dto import ServiceOutWithAuthorizationDTO
 
 
 class AutomationLogInDTO(BaseModel):
@@ -58,11 +59,16 @@ class AutomationInDTO(MongoModel):
     logs: List[AutomationLogInDTO] = Field(
         [], title="Logs", description="Automation logs"
     )
+    created_at: datetime | None = Field(  # ! TODO: Remove None because it should be mandatory but the db contain models without this field
+        default=datetime.now(),
+        title="Creation Date",
+        description="The date the automation was created.",
+    )
 
     class Config:
         json_schema_extra = {
             "example": {
-                "user_id": 1,
+                "user_id": "507f1f77bcf86cd799439011",
                 "name": "Automation 1",
                 "trigger_id": 2,
                 "action_id": 3,
@@ -76,3 +82,37 @@ class AutomationInDTO(MongoModel):
 
 class AutomationOutDTO(AutomationInDTO):
     id: PyObjectId
+
+
+class EnrichedAutomationOutDTO(AutomationOutDTO):
+    trigger_service: ServiceOutWithAuthorizationDTO
+    action_service: ServiceOutWithAuthorizationDTO
+
+    class Config:
+        json_schema_extra = {
+            "example": {
+                "id": "507f1f77bcf86cd799439011",
+                "user_id": "507f1f77bcf86cd799439011",
+                "name": "Like youtube song then add to spotify playlist",
+                "trigger_id": "507f1f77bcf86cd799439011",
+                "action_id": "507f1f77bcf86cd799439011",
+                "status": "enabled",
+                "first_poll": False,
+                "last_polled": "2023-09-25T18:44:52Z",
+                "logs": [],
+                "trigger_service": {
+                    "id": "507f1f77bcf86cd799439011",
+                    "service_id": "507f1f77bcf86cd799439011",
+                    "name": "Youtube",
+                    "description": "Youtube service",
+                    "is_authorized": True,
+                },
+                "action_service": {
+                    "id": "507f1f77bcf86cd799439011",
+                    "service_id": "507f1f77bcf86cd799439011",
+                    "name": "Spotify",
+                    "description": "Spotify service",
+                    "is_authorized": False,
+                },
+            }
+        }

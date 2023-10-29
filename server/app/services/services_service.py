@@ -5,7 +5,11 @@ from fastapi import HTTPException, status
 
 from app.repository.service_repository import ServiceRepository
 from app.schemas.py_object_id import PyObjectId
-from app.schemas.services_dto import ServiceInDTO, ServiceOutDTO
+from app.schemas.services_dto import (
+    ServiceInDTO,
+    ServiceOutDTO,
+    ServiceOutWithAuthorizationDTO,
+)
 from app.services.compatibility_service import CompatibilityService
 
 logging.basicConfig(level=logging.INFO)
@@ -128,3 +132,12 @@ class ServiceService:
                 added_service_ids.add(str(other_service_id))
 
         return compatible_services
+
+    async def get_user_authorized_services(self) -> List[ServiceOutWithAuthorizationDTO]:
+        try:
+            return await self.repository.get_user_authorized_services()
+        except Exception as e:
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="An error occurred while fetching services.",
+            ) from e

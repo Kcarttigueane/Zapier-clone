@@ -25,7 +25,6 @@ const ProtectedRoute: FC<Props> = ({ children }) => {
 					await fetchCurrentUser(token);
 					if (tokenFromURL) {
 						localStorage.setItem('access_token', token);
-						navigate('/home');
 					}
 				} catch (error) {
 					console.error('Error fetching current user:', error);

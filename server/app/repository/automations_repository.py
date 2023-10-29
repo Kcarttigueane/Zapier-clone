@@ -34,3 +34,9 @@ class AutomationRepository:
     async def get_automation_by_name(self, name: str) -> AutomationOutDTO | None:
         result = await self.collection.find_one({"name": name})
         return AutomationOutDTO.from_mongo(result) if result else None
+
+    async def get_all_user_automations(
+        self, user_id: PyObjectId
+    ) -> List[AutomationOutDTO]:
+        automations = await self.collection.find({"user_id": user_id}).to_list(1000)
+        return [AutomationOutDTO.from_mongo(automation) for automation in automations]

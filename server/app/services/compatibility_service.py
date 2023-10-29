@@ -30,7 +30,17 @@ class CompatibilityService:
                 detail="Compatibility already exists for these services.",
             )
 
-        return await self.repository.create_service_compatibility(compatibility)
+        new_compatibility = await self.repository.create_service_compatibility(
+            compatibility
+        )
+
+        if new_compatibility is None:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="An error occurred while creating the compatibility.",
+            )
+
+        return new_compatibility
 
     async def get_service_compatibility(
         self, compatibility_id: PyObjectId
