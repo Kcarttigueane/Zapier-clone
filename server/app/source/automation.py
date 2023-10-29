@@ -18,6 +18,7 @@ from app.source.helpers import automation_poll_status, handle_refresh_token
 from app.source.actions.google_gmail import send_myself_mail
 from app.source.actions.google_drive import add_attachments_to_drive
 from app.source.actions.spotify import add_songs_to_playlist
+from app.source.actions.teams import send_message
 
 from app.source.triggers.google_gmail import check_gmail_attachment
 from app.source.triggers.google_youtube import check_youtube_like
@@ -59,6 +60,9 @@ action_dict = {
     },
     "gmail": {
         "SendMail": send_myself_mail,
+    },
+    "teams": {
+        "sendMessage": send_message,
     },
 }
 
