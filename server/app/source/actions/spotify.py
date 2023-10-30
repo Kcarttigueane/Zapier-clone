@@ -119,7 +119,7 @@ def handle_add_songs_to_playlist(token, objs):
         add_tracks_to_playlist(playlist_id, track_uris, token)
 
 
-def add_songs_to_playlist(user: UserOutDTO, trigger_answer: TriggerAnswer):
+def add_songs_to_playlist_spotify(user: UserOutDTO, trigger_answer: TriggerAnswer):
     token = get_spotify_auth_token(user)
     if not token:
         return None
