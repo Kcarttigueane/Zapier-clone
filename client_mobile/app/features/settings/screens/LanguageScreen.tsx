@@ -29,7 +29,7 @@ const LanguageScreen = () => {
 
   return (
     <FlatList
-      getItemLayout={(data, index) => ({
+      getItemLayout={index => ({
         length: 100,
         offset: 100 * index,
         index,

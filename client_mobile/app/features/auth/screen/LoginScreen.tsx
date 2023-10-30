@@ -43,7 +43,7 @@ import { Formik } from 'formik';
 import i18next from 'i18next';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, SafeAreaView, StyleSheet, Pressable, ScrollView, View } from 'react-native';
+import { Image, SafeAreaView, StyleSheet, Pressable, View } from 'react-native';
 import { RootStackParamList } from '../../../App';
 import { loginValidationSchema } from '../utils/formValidation';
 import { languageSelectionValues } from '../utils/languageSelection';

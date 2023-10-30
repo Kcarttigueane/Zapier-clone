@@ -53,6 +53,7 @@ const SettingsStackRouting = () => {
         component={SettingsScreen}
         options={{
           headerTitle: generateHeaderTitle(t('settings.headerTitle')),
+          // eslint-disable-next-line react/no-unstable-nested-components
           headerRight: () => logoutButton,
         }}
       />

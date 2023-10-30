@@ -108,6 +108,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
         bounces={false}
         onEndReachedThreshold={0.5}
         contentContainerStyle={{ paddingBottom: 120 }}
+        // eslint-disable-next-line react/no-unstable-nested-components
         SectionSeparatorComponent={() => <View style={{ height: 10 }} />}
         keyExtractor={(item, index) => item.title + index}
         renderItem={({ item }) => TabItem({ item, handlePress })}

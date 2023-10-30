@@ -15,7 +15,7 @@ const appearanceData = [
 ];
 
 const AppearanceScreen = () => {
-  const [checked, setChecked] = useState('colorScheme');
+  const [setChecked] = useState('colorScheme');
 
   const handleCheckboxPress = (newTheme: string) => {
     setChecked(newTheme);

@@ -64,6 +64,7 @@ const App = () => {
     <GluestackUIProvider config={config.theme}>
       <NavigationContainer>
         {Token ? (
+          // eslint-disable-next-line react/no-unstable-nested-components
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
             <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />
             <Tab.Screen name="Activity" component={ActivityStackRouting} options={{ headerShown: false }} />
