@@ -18,9 +18,10 @@ from app.source.helpers import automation_poll_status, handle_refresh_token
 
 from app.source.actions.google_gmail import send_myself_mail
 from app.source.actions.google_drive import add_attachments_to_drive
-from app.source.actions.spotify import add_songs_to_playlist
+from app.source.actions.spotify import add_songs_to_playlist_spotify
 from app.source.actions.teams import send_message, add_events_team
 from app.source.actions.google_calendar import add_events_google_calendar
+from app.source.actions.google_youtube import add_songs_to_playlist_youtube
 
 from app.source.triggers.google_gmail import check_gmail_attachment
 from app.source.triggers.google_youtube import check_youtube_like
@@ -31,6 +32,7 @@ from app.source.triggers.google_calendar import (
 )
 from app.source.triggers.open_meteo import check_todays_weather
 from app.source.triggers.teams import check_upcoming_events_team
+from app.source.triggers.spotify import check_spotify_like
 
 user_repository = UserRepository()
 automation_repository = AutomationRepository()
@@ -59,11 +61,14 @@ trigger_dict = {
     "teams": {
         "UpcomingEvents": check_upcoming_events_team,
     },
+    "spotify": {
+        "LikeSong": check_spotify_like,
+    },
 }
 
 action_dict = {
     "spotify": {
-        "AddToPlaylist": add_songs_to_playlist,
+        "AddToPlaylist": add_songs_to_playlist_spotify,
     },
     "google drive": {
         "UploadToDrive": add_attachments_to_drive,
@@ -77,6 +82,9 @@ action_dict = {
     "teams": {
         "sendMessage": send_message,
         "AddEvents": add_events_team,
+    },
+    "youtube": {
+        "AddToPlaylist": add_songs_to_playlist_youtube,
     },
 }
 
