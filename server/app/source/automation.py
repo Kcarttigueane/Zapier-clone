@@ -19,12 +19,14 @@ from app.source.actions.google_gmail import send_myself_mail
 from app.source.actions.google_drive import add_attachments_to_drive
 from app.source.actions.spotify import add_songs_to_playlist
 from app.source.actions.teams import send_message
+from app.source.actions.google_calendar import add_events
 
 from app.source.triggers.google_gmail import check_gmail_attachment
 from app.source.triggers.google_youtube import check_youtube_like
 from app.source.triggers.google_drive import check_new_files
 from app.source.triggers.google_calendar import check_todays_event
 from app.source.triggers.open_meteo import check_todays_weather
+from app.source.triggers.teams import check_upcoming_events
 
 user_repository = UserRepository()
 automation_repository = AutomationRepository()
@@ -49,6 +51,9 @@ trigger_dict = {
     "open meteo": {
         "TodayWeather": check_todays_weather,
     },
+    "teams": {
+        "UpcomingEvents": check_upcoming_events,
+    },
 }
 
 action_dict = {
@@ -60,6 +65,9 @@ action_dict = {
     },
     "gmail": {
         "SendMail": send_myself_mail,
+    },
+    "google calendar": {
+        "AddEvents": add_events,
     },
     "teams": {
         "sendMessage": send_message,
