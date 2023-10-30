@@ -10,6 +10,6 @@ RUN pnpm install
 
 COPY . .
 
-EXPOSE 8082
+EXPOSE 8081
 
-CMD ["pnpm", "run", "dev", "--host", "0.0.0.0", "--port", "8082"]
+CMD ["pnpm", "run", "dev", "--host", "0.0.0.0", "--port", "8081"]
