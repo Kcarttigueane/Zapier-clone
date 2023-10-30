@@ -1,21 +1,27 @@
 import React, { FC } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { SvgXml } from 'react-native-svg';
+import { ServiceModelDTO } from '../../../core/models/service';
+import { capitalizeFirstLetter } from '../../../core/utils/capitalizeFirstLetter';
 import { ServicesScreenNavigationProp } from '../screen/ServicesScreen';
 
-type ImageRequireType = ReturnType<typeof require>;
-
 type ServiceCardProps = {
-  item: { title: string; logo: ImageRequireType };
+  service: ServiceModelDTO;
   navigation: ServicesScreenNavigationProp;
 };
 
-const ServiceCard: FC<ServiceCardProps> = ({ item: { title, logo }, navigation }) => {
-  const handleDetails = () => navigation.navigate('ServiceDetailScreen', { title });
+global.Buffer = global.Buffer || require('buffer').Buffer;
+
+const ServiceCard: FC<ServiceCardProps> = ({ service, navigation }) => {
+  const handleDetails = () => navigation.navigate('ServiceDetailScreen', { service: service });
+  const decodeSvgService = Buffer.from(service.icon_svg_base64, 'base64').toString('utf-8');
 
   return (
     <TouchableOpacity onPress={handleDetails} style={styles.cards}>
-      <Image style={{ width: '60%', height: '50%' }} source={logo} alt={title} />
-      <Text style={{ fontSize: 16, color: 'black', fontWeight: '800', marginTop: 20 }}>{title}</Text>
+      <SvgXml xml={decodeSvgService} width={64} height={64} />
+      <Text style={{ fontSize: 16, color: 'black', fontWeight: '700', marginTop: 20 }}>
+        {capitalizeFirstLetter(service.name)}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -27,9 +33,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: '45%',
     height: 150,
-    elevation: 5,
+    elevation: 4,
     backgroundColor: '#FFF',
     borderRadius: 20,
+    marginTop: 10,
   },
 });
 
