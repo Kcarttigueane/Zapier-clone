@@ -43,7 +43,7 @@ def handle_events_creation(objs, credentials):
             service.events().insert(calendarId=calendar_id, body=event).execute()
 
 
-def add_events(user: UserOutDTO, trigger_answer: TriggerAnswer):
+def add_events_google_calendar(user: UserOutDTO, trigger_answer: TriggerAnswer):
     if (
         service_auth := get_service_auth(user, "calendar")
     ) and service_auth.refresh_token:
@@ -56,4 +56,7 @@ def add_events(user: UserOutDTO, trigger_answer: TriggerAnswer):
     if trigger_answer.objs == []:
         return
 
-    handle_events_creation(trigger_answer.objs, credentials)
+    try:
+        handle_events_creation(trigger_answer.objs, credentials)
+    except Exception as e:
+        logger.info(f"An error occurred: {e}")

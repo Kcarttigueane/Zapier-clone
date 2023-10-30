@@ -48,10 +48,15 @@ def check_todays_weather(
         "forecast_days": 1,
     }
 
-    response = requests.get(url, params=params)  # type: ignore
+    try:
+        response = requests.get(url, params=params)  # type: ignore
 
-    if response.status_code != status.HTTP_200_OK:
+        if response.status_code != status.HTTP_200_OK:
+            return None
+
+        data = response.json()
+
+        return extract_todays_weather(user, data)
+    except Exception as e:
+        logger.info(f"An error occurred: {e}")
         return None
-
-    data = response.json()
-    return extract_todays_weather(user, data)
