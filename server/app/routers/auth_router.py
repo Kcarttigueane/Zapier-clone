@@ -17,21 +17,30 @@ AuthService = AuthServices()
 async def authenticate_with_provider(provider: str):
     return AuthService.authenticate_with_provider(provider, False)
 
-@auth_router.get("/login/mobile/{provider}", description="Login with OAuth2 provider for mobile")
-async def authenticate_with_provider(provider: str):
+
+@auth_router.get(
+    "/login/mobile/{provider}", description="Login with OAuth2 provider for mobile"
+)
+async def authenticate_with_provider_mobile(provider: str):
     return AuthService.authenticate_with_provider(provider, True)
 
 
 @auth_router.get("/login/{provider}/callback", description="Login with OAuth2 provider")
 async def authenticate_with_provider_callback(
-    provider: str, request: Request, code: str):
+    provider: str, request: Request, code: str
+):
     return await AuthService.authenticate_with_provider_callback(
         provider, request, code, False
     )
 
-@auth_router.get("/login/mobile/{provider}/callback", description="Login with OAuth2 provider for mobile")
-async def authenticate_with_provider_callback(
-    provider: str, request: Request, code: str):
+
+@auth_router.get(
+    "/login/mobile/{provider}/callback",
+    description="Login with OAuth2 provider for mobile",
+)
+async def authenticate_with_provider_callback_mobile(
+    provider: str, request: Request, code: str
+):
     return await AuthService.authenticate_with_provider_callback(
         provider, request, code, True
     )
