@@ -1,63 +1,70 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Form, Input, message } from 'antd';
+import { Button, Form, Input } from 'antd';
 import { Formik } from 'formik';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
+import { apiV2 } from '../../../core/api';
+import { HttpStatusCode } from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const initialValues = {
 	email: 'oliver.lewis@masurao.jp',
+	code: '000000',
 	password: 'password',
 };
 
 const validationSchema = Yup.object({
 	email: Yup.string().email('Invalid email format').required('Required'),
 	password: Yup.string().required('Required'),
+	code: Yup.string().required('Required'),
 });
 
-interface LoginDTO {
+interface ResetDTO {
 	email: string;
+	code: string;
 	password: string;
 }
-const LoginForm: React.FC = () => {
+const ResetForm: React.FC = () => {
 	const { t } = useTranslation();
 	const [form] = Form.useForm();
-	const { loginFn, isLoading } = useAuthStore((state) => state);
+	const { isLoading } = useAuthStore((state) => state);
 	const navigate = useNavigate();
-	const [messageApi, contextHolder] = message.useMessage();
+	const [apiResponse, setApiResponse] = useState<string | null>(null);
 
-	const handleForgot = () => {
-		navigate('/auth/login/forgot-password');
-	};
-
-	const onLoginSubmit = async (values: LoginDTO) => {
-		const { email, password } = values;
-
+	const onLoginSubmit = async (values: ResetDTO) => {
+		const { email } = values;
+		const { code } = values;
+		const { password } = values;
+		console.log('email: ', email);
+		console.log('code: ', code);
+		console.log('password: ', password);
 		try {
-			await loginFn(email, password);
-			await messageApi.open({
-				type: 'success',
-				content: 'Successfully registered',
-				duration: 1,
+			const response = await apiV2.post('/auth/reset-password', null, {
+				params: {
+					email: email,
+					code: code,
+					new_password: password,
+				},
 			});
-			navigate('/home');
+			if (response.status === HttpStatusCode.Ok && response.data) {
+				setApiResponse('Password changed');
+				setTimeout(() => {
+					navigate('/auth/login/');
+				}, 3000);
+			}
 		} catch (error: any) {
-			console.error('Error registering user:', error.response.data.detail);
-			messageApi.open({
-				type: 'error',
-				content: error.response.data.detail || 'Something went wrong',
-			});
+			setApiResponse('Erreur :' + error.response.data.detail || 'Something went wrong');
+			throw error;
 		}
 	};
 
 	return (
 		<>
-			{contextHolder}
 			<Formik
 				initialValues={initialValues}
-				onSubmit={(values: LoginDTO) => {
+				onSubmit={(values: ResetDTO) => {
 					console.log(values);
 				}}
 				validationSchema={validationSchema}
@@ -82,6 +89,22 @@ const LoginForm: React.FC = () => {
 							/>
 						</Form.Item>
 						<Form.Item
+							label="Code"
+							validateStatus={touched.code && errors.code ? 'error' : undefined}
+							help={touched.code && errors.code ? errors.code : undefined}
+						>
+							<Input
+								prefix={<LockOutlined style={{ marginRight: 8 }} />}
+								size="large"
+								placeholder="000000"
+								id="code"
+								name="code"
+								value={values.code}
+								onChange={handleChange}
+								onBlur={handleBlur}
+							/>
+						</Form.Item>
+						<Form.Item
 							label={t('basic.fields.password')}
 							validateStatus={touched.password && errors.password ? 'error' : undefined}
 							help={touched.password && errors.password ? errors.password : undefined}
@@ -97,12 +120,10 @@ const LoginForm: React.FC = () => {
 								onBlur={handleBlur}
 							/>
 						</Form.Item>
-						<Form.Item>
-							<a onClick={handleForgot} style={{ float: 'right' }}>
-								{t('auth.forgotPassword.title')}
-							</a>
-						</Form.Item>
 						<Form.Item style={{ marginTop: 48 }}>
+							{apiResponse && (
+								<div style={{ color: apiResponse.includes('Erreur') ? 'red' : 'green' }}>{apiResponse}</div>
+							)}
 							<Button
 								type="primary"
 								shape="round"
@@ -123,4 +144,4 @@ const LoginForm: React.FC = () => {
 	);
 };
 
-export default LoginForm;
+export default ResetForm;

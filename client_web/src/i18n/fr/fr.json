@@ -184,6 +184,10 @@
       "title": "Mot de passe oublié",
       "welcome": "Entrez votre adresse mail pour réinitialiser votre mot de passe."
     },
+    "resetPassword": {
+      "title": "Réinitialiser le mot de passe",
+      "welcome": "Entrez votre nouveau mot de passe."
+    },
     "rightArea": {
       "text": "Reliez vos applications préférées et simplifiez-vous la vie en utilisant la puissance de l'automatisation."
     },
