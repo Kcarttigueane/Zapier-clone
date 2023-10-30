@@ -24,7 +24,7 @@ def download_attachment(service, message_id, attachment_id):
         )
         return urlsafe_b64decode(attachment["data"].encode("UTF-8"))
     except Exception as e:
-        print(f"An error occurred while downloading attachment: {e}")
+        logger.info(f"An error occurred while downloading attachment: {e}")
         return None
 
 

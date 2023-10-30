@@ -9,6 +9,7 @@ from app.repository.automations_repository import (
     AutomationOutDTO,
     AutomationRepository,
 )
+from app.schemas.automations_dto import AutomationLogInDTO
 from app.repository.service_repository import ServiceRepository
 from app.repository.triggers_repository import TriggerRepository
 from app.repository.users_repository import UserOutDTO, UserRepository
@@ -146,9 +147,14 @@ async def handle_automation(automation: AutomationOutDTO) -> AutomationOutDTO:
     trigger_answer = await handle_trigger(automation, user)
     if trigger_answer is not None:
         await handle_action(automation, user, trigger_answer)
+        automation.last_polled = datetime.now(timezone.utc)
+        automation.first_poll = False
+        new_log = AutomationLogInDTO(
+            triggered_at=automation.last_polled,
+            details=f"Triggered automation with ID {automation.id}",
+        )
+        automation.logs.append(new_log)
 
-    automation.last_polled = datetime.now(timezone.utc)
-    automation.first_poll = False
     return automation
 
 

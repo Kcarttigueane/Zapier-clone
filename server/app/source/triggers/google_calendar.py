@@ -86,7 +86,6 @@ def extract_upcoming_events(credentials, last_polled) -> TriggerAnswer | None:
         objs.append([event_summary, event_start, event_end])
         calendar_str += f"{event_summary} {event_start} {event_end}\n"
 
-    print(calendar_str)
     return (
         TriggerAnswer(
             objs=objs, header="[Area] Google Calendar Events", body=calendar_str

@@ -79,7 +79,6 @@ def handle_events_creation(objs, token):
 
     for obj in objs:
         event = create_event(obj)
-        print(event)
         if not check_event_exists(token, event):
             requests.post(url, headers=headers, json=event)
 
