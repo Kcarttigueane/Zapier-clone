@@ -26,7 +26,7 @@ def extract_upcoming_events(token, last_polled: datetime):
     response = requests.get(events_url, headers=headers)
 
     if response.status_code != status.HTTP_200_OK:
-        logger.info(f"Failed to retrive calendar events: {response.text}")
+        logger.info(f"Failed to retrieve calendar events: {response.text}")
         return None
 
     events_data = response.json()
