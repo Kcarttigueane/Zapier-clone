@@ -1,6 +1,6 @@
 FROM reactnativecommunity/react-native-android
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -20,3 +20,7 @@ RUN rm -rf android/app/src/main/res/raw && rm -rf android/app/src/main/res/mipma
 COPY android/app/src/main/res/ android/app/src/main/res/
 
 RUN cd android && ./gradlew assembleRelease
+
+RUN mkdir -p /build
+
+CMD ["cp", "android/app/build/outputs/apk/release/app-release.apk", "/build/app-release.apk"]
