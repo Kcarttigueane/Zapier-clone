@@ -1,8 +1,8 @@
 import { Layout } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
-import React from 'react';
+import React, { useEffect } from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
-import RecommendSection from '../components/RecommendSection';
+import useServicesStore from '../../../core/zustand/useServiceStore';
 import RecommendServices from '../components/RecommendServices';
 import AutomationCreation from '../components/automationCreation/AutomationCreation';
 
@@ -13,17 +13,16 @@ const layoutStyle: React.CSSProperties = {
 
 const contentStyle: React.CSSProperties = {
 	padding: '48px 24px',
-	color: '#000',
 	display: 'flex',
 	flexDirection: 'column',
-	gap: '32px',
+	gap: '24px',
 	alignItems: 'center',
 };
 
 const MainZapStyle: React.CSSProperties = {
 	display: 'flex',
 	alignItems: 'center',
-	padding: '30px 0 50px 0',
+	padding: '32px',
 	width: '90%',
 	borderRadius: '25px',
 	boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25), 0 -2px 4px rgba(0, 0, 0, 0.25)',
@@ -40,6 +39,12 @@ const footerStyle: React.CSSProperties = {
 };
 
 const Home = () => {
+	const { fetchServices } = useServicesStore((state) => state);
+
+	useEffect(() => {
+		fetchServices();
+	}, []);
+
 	return (
 		<Layout style={layoutStyle}>
 			<CustomNavBar />
@@ -48,7 +53,6 @@ const Home = () => {
 					<AutomationCreation />
 				</Layout>
 				<RecommendServices />
-				<RecommendSection />
 			</Content>
 			<Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
 		</Layout>

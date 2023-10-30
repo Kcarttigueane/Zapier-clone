@@ -2,10 +2,14 @@ from typing import List
 
 from fastapi import APIRouter, Depends, Response, status
 
-from app.schemas.automations_dto import AutomationInDTO, AutomationOutDTO
+from app.schemas.automations_dto import (
+    AutomationInDTO,
+    AutomationOutDTO,
+    EnrichedAutomationOutDTO,
+)
 from app.schemas.py_object_id import PyObjectId
 from app.services.automations_service import AutomationsService
-from app.utils.auth_utils import check_access_token
+from app.utils.auth_utils import check_access_token, get_current_user
 
 automations_router: APIRouter = APIRouter(
     prefix="/automations",
@@ -25,6 +29,16 @@ AutomationService = AutomationsService()
 async def create_automation(automation_data: AutomationInDTO) -> AutomationOutDTO:
     """Create a new automation."""
     return await AutomationService.create_automation(automation_data)
+
+
+@automations_router.get(
+    "/detailed",
+    response_model=List[EnrichedAutomationOutDTO],
+    description="Retrieve all automations with detailed service information",
+)
+async def read_detailed_automations(user=Depends(get_current_user)):
+    """Retrieve all existing automations with detailed service information."""
+    return await AutomationService.get_all_detailed_automations(user.id)
 
 
 @automations_router.get(

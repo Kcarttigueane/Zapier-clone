@@ -5,8 +5,14 @@ from fastapi import HTTPException, status
 
 from app.repository.service_repository import ServiceRepository
 from app.schemas.py_object_id import PyObjectId
-from app.schemas.services_dto import ServiceInDTO, ServiceOutDTO
+from app.schemas.services_dto import (
+    ServiceInDTO,
+    ServiceOutDTO,
+    ServiceOutWithAuthorizationDTO,
+)
+from app.schemas.users_dto import UserOutDTO
 from app.services.compatibility_service import CompatibilityService
+from app.services.users_services import UserService
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -37,7 +43,10 @@ class ServiceService:
         try:
             service = await self.repository.get(service_id)
             if service is None:
-                raise HTTPException(status_code=404, detail="Service not found")
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Service not found",
+                )
 
             return service
         except HTTPException as he:
@@ -64,7 +73,9 @@ class ServiceService:
     ) -> ServiceOutDTO:
         existing_service = await self.repository.get(service_id)
         if existing_service is None:
-            raise HTTPException(status_code=404, detail="Service not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Service not found"
+            )
 
         try:
             return await self.repository.update(service_id, service)
@@ -100,7 +111,8 @@ class ServiceService:
 
         if len(service_compatibilities) == 0:
             raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND, detail="No services found"
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No services found associated with this service.",
             )
 
         compatible_services = []
@@ -122,3 +134,21 @@ class ServiceService:
                 added_service_ids.add(str(other_service_id))
 
         return compatible_services
+
+    async def get_all_services_with_authorization_status_by_user_id(
+        self, user: UserOutDTO
+    ):
+        services = await self.get_all_services()
+        services_with_authorized_status = []
+
+        for service in services:
+            is_authorized = await UserService().has_user_authorized_service(
+                user.id, service.name
+            )
+            services_with_authorized_status.append(
+                ServiceOutWithAuthorizationDTO(
+                    **service.dict(),
+                    is_authorized=is_authorized,
+                )
+            )
+        return services_with_authorized_status

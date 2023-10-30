@@ -15,7 +15,11 @@
       "valid": "Valider",
       "yes": "Oui",
       "wait": "Veuillez patienter...",
-      "or": "ou"
+      "or": "ou",
+      "next": "Suivant",
+      "previous": "Précédent",
+      "finish": "Terminer",
+      "reset": "Réinitialiser"
     },
     "date": {
       "display": "{{day}}/{{month}}",
@@ -132,8 +136,8 @@
   "settings": {
     "headerTitle": "Paramètres",
     "placeholder": "saisir le texte de recherche",
-    "enabled": "activé",
-    "disabled": "désactivé",
+    "enabled": "Activé",
+    "disabled": "Désactivé",
     "settingScreen": {
       "profile": {
         "title": "Paramètres général",
@@ -195,28 +199,11 @@
       "reaction1": "...avec celui-ci.",
       "action2": "Choisir un Déclencheur",
       "reaction2": "Choisir une Réaction",
-      "authorize": "Autoriser",
+      "authorize": "Connecter",
       "connected": "Déjà Connecté",
       "disabled": "Autoriser les Services",
       "enabled": "Essayer!",
       "service": "🔎 Sélectionner un service"
-    },
-    "trigger": {
-      "like": "Recevoir un J'aime",
-      "reply": "Recevoir une Réponse",
-      "folder": "Nouveau Dossier",
-      "file": "Nouveau Fichier",
-      "event": "Événement",
-      "birthday": "Événement d'Anniversaire",
-      "forecast": "Prévision Horaire",
-      "video": "Vidéo Aimée",
-      "attachment": "Nouvelle Pièce Jointe"
-    },
-    "reaction": {
-      "notification": "Notification de l'Application",
-      "message": "Envoyer un Message",
-      "playlist": "Ajouter à la Playlist",
-      "file": "Téléverser un Fichier"
     },
     "recommendedSection": {
       "serviceTitle": "Nos services"

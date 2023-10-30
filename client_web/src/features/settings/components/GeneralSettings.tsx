@@ -1,5 +1,6 @@
 import { Input, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
+import useUserStore from '../../../core/zustand/useUserStore';
 import SettingItem from './SettingItem';
 import UploadNewImage from './UploadNewImage';
 
@@ -11,17 +12,18 @@ const containerStyle: React.CSSProperties = {
 
 const GeneralSettings = () => {
 	const { t } = useTranslation();
+	const { user } = useUserStore((state) => state);
 
 	return (
-		<Space direction="vertical" size={32} style={containerStyle} align="center">
+		<Space direction="vertical" size={32} style={containerStyle} align="start">
 			<SettingItem label={t('settings.settingScreen.profile.pic')}>
 				<UploadNewImage />
 			</SettingItem>
 			<SettingItem label={t('settings.settingScreen.profile.name')}>
-				<Input placeholder="John Doe" size="large" style={{ width: '337px' }} />
+				<Input placeholder={user?.profile.first_name} size="large" style={{ width: '337px' }} disabled />
 			</SettingItem>
 			<SettingItem label={t('settings.settingScreen.profile.email')}>
-				<Input placeholder="johndoe@gmail.com" size="large" style={{ width: '337px' }} />
+				<Input placeholder={user?.profile.last_name} size="large" style={{ width: '337px' }} disabled />
 			</SettingItem>
 			<SettingItem label={t('settings.settingScreen.profile.pushNotif')} switchable defaultChecked />
 			<SettingItem label={t('settings.settingScreen.profile.emailNotif')} switchable defaultChecked />

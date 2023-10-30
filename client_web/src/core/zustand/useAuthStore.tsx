@@ -1,10 +1,9 @@
 import { HttpStatusCode } from 'axios';
 import { create } from 'zustand';
-import { BASE_URL, apiV2 } from '../api';
+import { BASE_URL, apiV2, getApiHeaders } from '../api';
 import useUserStore from './useUserStore';
 
 type AuthState = {
-	accessToken?: string;
 	isLoading: boolean;
 };
 
@@ -15,13 +14,10 @@ type AuthActions = {
 	loginWithGoogle: () => void;
 	loginWithSpotify: () => void;
 	loginWithGitHub: () => void;
-	authorizeGoogleService: (service: string) => void;
-	authorizeSpotifyService: () => void;
-	authorizeDiscordService: () => void;
+	authorizeService: (provider: string, service: string) => Promise<void>;
 };
 
 const initialState: AuthState = {
-	accessToken: undefined,
 	isLoading: false,
 };
 
@@ -43,7 +39,6 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 
 				if (response.status === HttpStatusCode.Ok && response.data) {
 					const { accessToken } = response.data;
-					set({ accessToken: accessToken });
 					try {
 						set({ isLoading: true });
 						await useUserStore.getState().fetchCurrentUser(accessToken);
@@ -77,7 +72,6 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 
 				if (response.status === HttpStatusCode.Ok && response.data) {
 					const { accessToken } = response.data;
-					set({ accessToken: accessToken });
 
 					try {
 						set({ isLoading: true });
@@ -101,11 +95,10 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 		logoutFn: () => {
 			localStorage.removeItem('access_token');
 			useUserStore.getState().clearUser();
-			set({ accessToken: undefined, isLoading: false });
 		},
 		loginWithGoogle: async () => {
 			try {
-				window.location.href = 'http://0.0.0.0:8080/api/v2/auth/login/google';
+				window.location.href = `${BASE_URL}/auth/login/google`;
 			} catch (error) {
 				console.error('Login with Google failed:', error);
 			}
@@ -116,17 +109,22 @@ export const useAuthStore = create<AuthState & AuthActions>()((set) => {
 		loginWithGitHub: () => {
 			window.location.href = `${BASE_URL}/auth/login/github`;
 		},
-		authorizeGoogleService: (service: string) => {
-			const userToken = localStorage.getItem('access_token');
-			window.location.href = `${BASE_URL}/services/google/${service}?token=${userToken}`;
-		},
-		authorizeSpotifyService: () => {
-			const userToken = localStorage.getItem('access_token');
-			window.location.href = `${BASE_URL}/services/spotify?token=${userToken}`;
-		},
-		authorizeDiscordService: () => {
-			const userToken = localStorage.getItem('access_token');
-			window.location.href = `${BASE_URL}/services/discord?token=${userToken}`;
+		authorizeService: async (provider: string, service: string) => {
+			const accessToken = localStorage.getItem('access_token');
+			if (accessToken == null) {
+				throw new Error('User token is null');
+			}
+			try {
+				const response = await apiV2.get('/auth/authorize/' + provider + '/' + service, {
+					headers: getApiHeaders(accessToken),
+				});
+				if (response.status === HttpStatusCode.Ok && response.data) {
+					window.location.href = response.data;
+				}
+			} catch (error: any) {
+				console.error('Error authorizing service:', error);
+				throw error;
+			}
 		},
 	};
 });

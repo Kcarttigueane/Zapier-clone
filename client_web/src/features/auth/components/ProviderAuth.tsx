@@ -1,9 +1,9 @@
 import { Image, Space } from 'antd';
 import React, { useState } from 'react';
 
-import Github from '../../../core/assets/logo2D/github.png';
-import Google from '../../../core/assets/logo2D/Google.png';
-import Spotify from '../../../core/assets/logo2D/Spotify.png';
+import Google from '../../../core/assets/providerAuthLogo/Google.png';
+import Spotify from '../../../core/assets/providerAuthLogo/Spotify.png';
+import Github from '../../../core/assets/providerAuthLogo/github.png';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const imageStyle: React.CSSProperties = {

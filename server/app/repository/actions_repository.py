@@ -26,7 +26,7 @@ class ActionRepository:
         await self.collection.delete_one({"_id": action_id})
 
     async def get_all(self):
-        result = await self.collection.find()
+        result = await self.collection.find().to_list(1000)
         return [ActionOutDTO.from_mongo(action) for action in result]
 
     async def get_by_name_and_service_id(
@@ -39,6 +39,3 @@ class ActionRepository:
     async def get_by_service_id(self, service_id: PyObjectId) -> List[ActionOutDTO]:
         triggers = await self.collection.find({"service_id": service_id}).to_list(1000)
         return [ActionOutDTO.from_mongo(trigger) for trigger in triggers]
-
-    async def find_by_trigger_id(self, trigger_id: PyObjectId):
-        return await self.collection.find({"trigger_id": trigger_id}).to_list(1000)

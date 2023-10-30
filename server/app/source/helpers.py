@@ -12,6 +12,9 @@ from app.core.config import (
     POLLING,
     SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET,
+    AZURE_CLIENT_ID,
+    AZURE_CLIENT_SECRET,
+    AZURE_TENANT_ID,
 )
 from app.repository.users_repository import UserRepository
 from app.schemas.automations_dto import AutomationOutDTO
@@ -43,6 +46,43 @@ def get_service_auth(user: UserOutDTO, service_name: str) -> UserOAuthDTO | None
         (auth for auth in authentications if auth.service_name == service_name),
         None,
     )
+
+
+async def handle_microsoft_refresh_token(user: UserOutDTO):
+    auth = get_service_auth(user, "teams")
+
+    if not auth:
+        return user
+
+    headers = {"Content-Type": "application/x-www-form-urlencoded"}
+
+    data = {
+        "client_id": AZURE_CLIENT_ID,
+        "scope": "offline_access User.Read Mail.Read",
+        "refresh_token": auth.refresh_token,
+        "grant_type": "refresh_token",
+        "client_secret": AZURE_CLIENT_SECRET,
+    }
+
+    token_url = f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/token"
+
+    response = requests.post(token_url, headers=headers, data=data)
+
+    if response.status_code != status.HTTP_200_OK:
+        logger.info("Error refreshing token:", response.status_code)
+        logger.info(response.text)
+        return user
+
+    response_json = response.json()
+    auth.access_token = response_json["access_token"]
+    auth.refresh_token = response_json["refresh_token"]
+    for i, user_auth in enumerate(user.oauth):
+        if user_auth.service_name == "teams":
+            user.oauth[i] = auth
+
+    user_in = UserInDTO(**user.dict())
+    await user_repository.update(str(user.id), user_in)
+    return user
 
 
 async def handle_spotify_refresh_token(user: UserOutDTO):
@@ -85,6 +125,8 @@ async def handle_spotify_refresh_token(user: UserOutDTO):
 async def handle_refresh_token(user: UserOutDTO, service_name: str) -> UserOutDTO:
     if service_name == "spotify":
         user = await handle_spotify_refresh_token(user)
+    elif service_name == "teams":
+        user = await handle_microsoft_refresh_token(user)
     return user
 
 

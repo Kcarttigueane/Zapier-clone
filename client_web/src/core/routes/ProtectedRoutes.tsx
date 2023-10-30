@@ -8,37 +8,42 @@ type Props = {
 
 const ProtectedRoute: FC<Props> = ({ children }) => {
 	const [isTokenChecked, setIsTokenChecked] = useState(false);
-	const accessToken = localStorage.getItem('access_token');
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { fetchCurrentUser } = useUserStore((state) => state);
 
 	useEffect(() => {
-		const params = new URLSearchParams(location.search);
-		const token = params.get('token');
+		const fetchUser = async () => {
+			const params = new URLSearchParams(location.search);
+			const tokenFromURL = params.get('token');
+			const tokenFromLocalStorage = localStorage.getItem('access_token');
 
-		if (token) {
-			try {
-				fetchCurrentUser(token);
-				localStorage.setItem('access_token', token);
-				navigate('/home');
-			} catch (error) {
-				console.error('Error fetching current user:', error);
-			}
-		} else {
-			console.error('No token received');
-			if (!accessToken) {
+			const token = tokenFromURL || tokenFromLocalStorage;
+
+			if (token) {
+				try {
+					await fetchCurrentUser(token);
+					if (tokenFromURL) {
+						localStorage.setItem('access_token', token);
+					}
+				} catch (error) {
+					console.error('Error fetching current user:', error);
+				}
+			} else {
 				navigate('/auth/login');
 			}
-		}
 
-		setIsTokenChecked(true);
-	}, [location, accessToken]);
+			setIsTokenChecked(true);
+		};
+
+		fetchUser();
+	}, [location, navigate, fetchCurrentUser]);
 
 	if (!isTokenChecked) {
 		return null;
 	}
 
+	const accessToken = localStorage.getItem('access_token');
 	if (!accessToken) {
 		return <Navigate to="/auth/login" />;
 	}
