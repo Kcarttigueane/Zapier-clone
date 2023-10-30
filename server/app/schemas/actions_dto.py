@@ -18,7 +18,6 @@ class ActionInDTO(MongoModel):
         "SendMessage",  # ✅ Discord, Whatsapp, Signal
         "UploadToDrive",  # ✅ Google Drive, One Drive, DropBox
         "SendMail",
-        "SendMessage",
         "AddEvents",
     ] = Field(..., title="Action Name", description="The name of the action.")
     description: str = Field(
