@@ -51,7 +51,7 @@ def extract_upcoming_events(token, last_polled: datetime):
     )
 
 
-def check_upcoming_events(
+def check_upcoming_events_team(
     user: UserOutDTO, last_polled: datetime
 ) -> TriggerAnswer | None:
     if service_auth := get_service_auth(user, "teams"):
@@ -59,4 +59,8 @@ def check_upcoming_events(
     else:
         return None
 
-    return extract_upcoming_events(token, last_polled)
+    try:
+        return extract_upcoming_events(token, last_polled)
+    except Exception as e:
+        logger.info(f"An error occurred: {e}")
+        return None

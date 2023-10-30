@@ -38,4 +38,62 @@ def send_message(user: UserOutDTO, trigger_answer: TriggerAnswer):
     if trigger_answer.body == "":
         return
 
-    send_message_in_chat(token, trigger_answer.body)
+    try:
+        send_message_in_chat(token, trigger_answer.body)
+    except Exception as e:
+        logger.info(f"An error occurred: {e}")
+
+
+def create_event(obj):
+    return {
+        "subject": obj[0],
+        "start": {
+            "dateTime": obj[1],
+            "timeZone": "UTC",
+        },
+        "end": {
+            "dateTime": obj[2],
+            "timeZone": "UTC",
+        },
+    }
+
+
+def check_event_exists(token, new_event):
+    url = "https://graph.microsoft.com/v1.0/me/events"
+    headers = {
+        "Authorization": f"Bearer {token}",
+    }
+    response = requests.get(url, headers=headers)
+    if response.status_code != status.HTTP_200_OK:
+        return True
+
+    events = response.json()
+
+    return any(event["subject"] == new_event["subject"] for event in events["value"])
+
+
+def handle_events_creation(objs, token):
+    url = "https://graph.microsoft.com/v1.0/me/events"
+
+    headers = {"Authorization": f"Bearer {token}", "Content-Type": "application/json"}
+
+    for obj in objs:
+        event = create_event(obj)
+        print(event)
+        if not check_event_exists(token, event):
+            requests.post(url, headers=headers, json=event)
+
+
+def add_events_team(user: UserOutDTO, trigger_answer: TriggerAnswer):
+    if service_auth := get_service_auth(user, "teams"):
+        token = service_auth.access_token
+    else:
+        return
+
+    if trigger_answer.objs == []:
+        return
+
+    try:
+        handle_events_creation(trigger_answer.objs, token)
+    except Exception as e:
+        logger.info(f"An error occurred: {e}")
