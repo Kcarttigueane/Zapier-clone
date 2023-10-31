@@ -1,7 +1,7 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { Formik } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
@@ -31,15 +31,10 @@ const ResetForm: React.FC = () => {
 	const [form] = Form.useForm();
 	const { isLoading } = useAuthStore((state) => state);
 	const navigate = useNavigate();
-	const [apiResponse, setApiResponse] = useState<string | null>(null);
+	const [messageApi, contextHolder] = message.useMessage();
 
 	const onLoginSubmit = async (values: ResetDTO) => {
-		const { email } = values;
-		const { code } = values;
-		const { password } = values;
-		console.log('email: ', email);
-		console.log('code: ', code);
-		console.log('password: ', password);
+		const { email, code, password } = values;
 		try {
 			const response = await apiV2.post('/auth/reset-password', null, {
 				params: {
@@ -49,19 +44,25 @@ const ResetForm: React.FC = () => {
 				},
 			});
 			if (response.status === HttpStatusCode.Ok && response.data) {
-				setApiResponse('Password changed');
-				setTimeout(() => {
-					navigate('/auth/login/');
-				}, 3000);
+				await messageApi.open({
+					type: 'success',
+					content: 'Successfully changed password',
+					duration: 1,
+				});
+				navigate('/auth/login/');
 			}
 		} catch (error: any) {
-			setApiResponse('Erreur :' + error.response.data.detail || 'Something went wrong');
+			messageApi.open({
+				type: 'error',
+				content: error.response.data.detail || 'Something went wrong',
+			});
 			throw error;
 		}
 	};
 
 	return (
 		<>
+			{contextHolder}
 			<Formik
 				initialValues={initialValues}
 				onSubmit={(values: ResetDTO) => {
@@ -121,9 +122,6 @@ const ResetForm: React.FC = () => {
 							/>
 						</Form.Item>
 						<Form.Item style={{ marginTop: 48 }}>
-							{apiResponse && (
-								<div style={{ color: apiResponse.includes('Erreur') ? 'red' : 'green' }}>{apiResponse}</div>
-							)}
 							<Button
 								type="primary"
 								shape="round"

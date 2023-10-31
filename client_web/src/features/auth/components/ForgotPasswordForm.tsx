@@ -1,7 +1,7 @@
 import { MailOutlined } from '@ant-design/icons';
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import { Formik } from 'formik';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
@@ -25,11 +25,10 @@ const ForgotForm: React.FC = () => {
 	const [form] = Form.useForm();
 	const navigate = useNavigate();
 	const { isLoading } = useAuthStore((state) => state);
-	const [apiResponse, setApiResponse] = useState<string | null>(null);
+	const [messageApi, contextHolder] = message.useMessage();
 
 	const onLoginSubmit = async (values: ForgotDTO) => {
 		const { email } = values;
-		console.log('email: ', email);
 		try {
 			const response = await apiV2.post('/auth/forgot-password', null, {
 				params: {
@@ -37,19 +36,25 @@ const ForgotForm: React.FC = () => {
 				},
 			});
 			if (response.status === HttpStatusCode.Ok && response.data) {
-				setApiResponse('Redirection');
-				setTimeout(() => {
-					navigate('/auth/login/reset-password');
-				}, 3000);
+				await messageApi.open({
+					type: 'success',
+					content: 'Successfully send',
+					duration: 1,
+				});
+				navigate('/auth/login/reset-password');
 			}
 		} catch (error: any) {
-			setApiResponse("Erreur lors de l'envoi du courriel");
+			messageApi.open({
+				type: 'error',
+				content: error.response.data.detail || 'Something went wrong',
+			});
 			throw error;
 		}
 	};
 
 	return (
 		<>
+			{contextHolder}
 			<Formik
 				initialValues={initialValues}
 				onSubmit={(values: ForgotDTO) => {
@@ -77,9 +82,6 @@ const ForgotForm: React.FC = () => {
 							/>
 						</Form.Item>
 						<Form.Item style={{ marginTop: 48 }}>
-							{apiResponse && (
-								<div style={{ color: apiResponse.includes('Erreur') ? 'red' : 'green' }}>{apiResponse}</div>
-							)}
 							<Button
 								type="primary"
 								shape="round"
