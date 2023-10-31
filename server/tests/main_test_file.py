@@ -12,7 +12,10 @@ def run_fastapi():
 def test_endpoints():
     users_test = UsersTestCase()
     users_test.test_get_user()
+    users_test.test_create_user()
+
     users_test.print_results()
+
     if users_test.failure == 0:
         return 0
     return 84

@@ -24,11 +24,10 @@ class TestCase():
 class UsersTestCase(TestCase):
 
     def test_get_user(self):
-        print("----------------------------------------")
-
         user_id = "652fd057eb089f840ef53719"
         response = requests.get(f"{API_URL}/users/{user_id}")
-        self.test_assert(response.status_code, 200, "Get User Status Code")
+
+        self.test_assert(response.status_code, 200, "GET /users/{user_id}: Status Code for retrieving user")
 
         expected_data = {
             'email': 'john.doe@example.com',
@@ -49,5 +48,24 @@ class UsersTestCase(TestCase):
             'updated_at': '2023-10-18T14:28:30.358000',
             'id': '652fd057eb089f840ef53719'
         }
+        self.test_assert(response.json(), expected_data, "GET /users/{user_id}: JSON Response for retrieving user")
 
-        self.test_assert(response.json(), expected_data, "Get User Json Response")
+    def test_create_user(self):
+        payload = {
+            "email": "test@example.com",
+            "password": "password123",
+            "profile": {
+                "first_name": "test",
+                "last_name": "example"
+            }
+        }
+
+        response = requests.post(f"{API_URL}/auth/register", json=payload)
+        self.test_assert(response.status_code, 201, "POST /auth/register: Status Code for creating user")
+
+        response_data = response.json()
+        access_token_exists = isinstance(response_data.get('accessToken', None), str)
+        self.test_assert(access_token_exists, True, "POST /auth/register: Access Token exists and is a string")
+
+        token_type = response_data.get('tokenType', None)
+        self.test_assert(token_type, 'bearer', "POST /auth/register: Token Type is Bearer")
