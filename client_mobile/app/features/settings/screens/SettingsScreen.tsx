@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { SafeAreaView, SectionList, StyleSheet, View } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import { RootStackParamList } from '../../../App';
+import useUserStore from '../../../core/zustand/useUserStore';
 import TabItem from '../components/TabItem';
 
 type SettingsScreenRouteProp = RouteProp<RootStackParamList, 'SettingsScreen'>;
@@ -78,6 +79,7 @@ const settingsData = (t: TFunction): ISettingsData[] => [
 
 const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   const { t } = useTranslation();
+  const { user } = useUserStore(state => state);
   const data = settingsData(t);
 
   const handlePress = (item: DataItem) => {
@@ -97,8 +99,8 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           />
         </Avatar>
         <VStack justifyContent="center" alignItems="flex-start" space="md">
-          <Text style={styles.nameTitle}>John Doe</Text>
-          <Text style={styles.emailTitle}>johndow@gmail.com</Text>
+          <Text style={styles.nameTitle}>{user?.profile.first_name + ' ' + user?.profile.last_name}</Text>
+          <Text style={styles.emailTitle}>{user?.email}</Text>
         </VStack>
       </View>
       <SectionList

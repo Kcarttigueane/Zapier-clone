@@ -15,6 +15,7 @@ class TriggerInDTO(MongoModel):
     name: Literal[
         "NewFile",
         "LikeSong",
+        "NewVideo",
         "NewEvent",
         "BirthdayEvent",
         "NewAttachment",

@@ -1,29 +1,67 @@
-import { HStack, Switch } from '@gluestack-ui/themed';
-import React from 'react';
-import { Animated, FlatList, StyleSheet, Text } from 'react-native';
+import { Button, ButtonText, HStack, Spinner, Switch, Toast, ToastTitle, VStack, useToast } from '@gluestack-ui/themed';
+import React, { useEffect } from 'react';
+import { FlatList, StyleSheet, Text } from 'react-native';
+import Base64SvgDisplay from '../../../core/components/Base64SvgDisplay';
+import useServicesStore from '../../../core/zustand/useServiceStore';
 
 const ConnectedServices = () => {
-  const data = [
-    {
-      title: 'Gmail',
-      imageUrl: require('../../../core/assets/gmail.png'),
-    },
-    {
-      title: 'Google Calendar',
-      imageUrl: require('../../../core/assets/google_calendar.png'),
-    },
-  ];
+  const toast = useToast();
+  const { userAuthorizedServices, fetchUserAuthorizedServices, isLoading } = useServicesStore(state => state);
+
+  useEffect(() => {
+    if (userAuthorizedServices.length > 0) {
+      return;
+    }
+    try {
+      fetchUserAuthorizedServices();
+    } catch (error: any) {
+      console.error('Error fetching automations', error);
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => {
+          return (
+            <Toast nativeID={'toast-' + id} action="error" variant="accent">
+              <VStack space="sm">
+                <ToastTitle>{error.response.data.detail}</ToastTitle>
+              </VStack>
+            </Toast>
+          );
+        },
+      });
+    }
+  }, []);
+
+  if (isLoading) {
+    return (
+      <VStack justifyContent="center" alignItems="center" flex={1}>
+        <Spinner size="large" />
+      </VStack>
+    );
+  }
+
+  // TODO: To check
+  if (userAuthorizedServices.length === 0) {
+    return (
+      <VStack justifyContent="center" alignItems="center" flex={1}>
+        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>No connected services</Text>
+        <Text style={{ fontSize: 14, marginBottom: 16 }}>You can connect services to create automations</Text>
+        <Button
+          // onPress={() => navigation.navigate('Services')}
+          backgroundColor="#2E3A59"
+          borderRadius={12}
+          width={200}
+          height={40}>
+          <ButtonText>Connect services</ButtonText>
+        </Button>
+      </VStack>
+    );
+  }
 
   return (
     <FlatList
-      getItemLayout={index => ({
-        length: 100,
-        offset: 100 * index,
-        index,
-      })}
       style={{ margin: 12 }}
-      data={data}
-      keyExtractor={item => item.title}
+      data={userAuthorizedServices}
+      keyExtractor={item => item.name}
       renderItem={({ item }) => (
         <HStack
           justifyContent="space-between"
@@ -39,9 +77,9 @@ const ConnectedServices = () => {
           padding={16}
           marginHorizontal={12}>
           <HStack alignItems="center" justifyContent="flex-start" flexDirection="row">
-            <Animated.Image source={item.imageUrl} resizeMode="contain" style={{ height: 20, width: 30 }} />
+            <Base64SvgDisplay base64Svg={item.icon_svg_base64} width={30} height={30} />
 
-            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.title}>{item.name}</Text>
           </HStack>
           <Switch size="md" isDisabled={false} />
         </HStack>

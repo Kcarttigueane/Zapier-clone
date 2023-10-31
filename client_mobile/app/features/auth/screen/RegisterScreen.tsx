@@ -1,14 +1,13 @@
 import {
   AlertCircleIcon,
-  Box,
   Button,
+  ButtonSpinner,
   ButtonText,
   CheckIcon,
   Checkbox,
   CheckboxIcon,
   CheckboxIndicator,
   CheckboxLabel,
-  ChevronDownIcon,
   Divider,
   EyeIcon,
   EyeOffIcon,
@@ -17,54 +16,29 @@ import {
   FormControlErrorIcon,
   FormControlErrorText,
   HStack,
-  Icon,
   Input,
   InputField,
   InputIcon,
   InputSlot,
   Link,
   LinkText,
-  Select,
-  SelectBackdrop,
-  SelectContent,
-  SelectDragIndicator,
-  SelectDragIndicatorWrapper,
-  SelectIcon,
-  SelectInput,
-  SelectItem,
-  SelectPortal,
-  SelectTrigger,
   Text,
+  Toast,
+  ToastTitle,
   VStack,
+  useToast,
 } from '@gluestack-ui/themed';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { Formik } from 'formik';
-import i18next from 'i18next';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Image, SafeAreaView, StyleSheet, ScrollView, View } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet } from 'react-native';
 import { RootStackParamList } from '../../../App';
-import { registerValidationSchema } from '../utils/formValidation';
-import { languageSelectionValues } from '../utils/languageSelection';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
-
-const IMAGE_PATH = '../../../core/assets';
-
-const socialButtonLogo = [
-  {
-    img: require(`${IMAGE_PATH}/spotify.png`),
-    color: '#000000',
-  },
-  {
-    img: require(`${IMAGE_PATH}/google.png`),
-    color: '#FFFFFF',
-  },
-  {
-    img: require(`${IMAGE_PATH}/apple.png`),
-    color: '#000000',
-  },
-];
+import LanguageSelect from '../components/LanguageSelect';
+import ProviderAuth from '../components/ProviderAuth';
+import { registerValidationSchema } from '../utils/formValidation';
 
 interface RegisterDTO {
   firstName: string;
@@ -81,96 +55,47 @@ type RegisterScreenProps = {
 };
 
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
-  const { registerFn, isLoading, error } = useAuthStore(state => state);
+  const { registerFn, isLoading } = useAuthStore(state => state);
   const { t } = useTranslation();
-  const { language } = i18next;
-  const [languageSelected, setLanguageSelected] = useState(
-    language === languageSelectionValues[0].value ? languageSelectionValues[0].value : languageSelectionValues[1].value,
-  );
+
+  const toast = useToast();
 
   const [showPassword, setShowPassword] = useState(false);
-  const handleState = () => {
-    setShowPassword(showState => {
-      return !showState;
-    });
-  };
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  const handleState = () => setShowPassword(showState => !showState);
 
-  if (error) {
-    setTimeout(() => {
-      useAuthStore.setState({ error: null });
-    }, 5000);
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Error: {error} wait 5 seconds</Text>
-      </View>
-    );
-  }
-
-  const onSubmit = async (values: RegisterDTO) => {
+  const onRegisterSubmit = async (values: RegisterDTO) => {
     const { firstName, lastName, email, password } = values;
-    await registerFn(firstName, lastName, email, password);
+    try {
+      await registerFn(firstName, lastName, email, password);
+    } catch (error: any) {
+      console.error('Error registering user:', error.response.data.detail);
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => {
+          return (
+            <Toast nativeID={'toast-' + id} action="error" variant="accent">
+              <VStack space="sm">
+                <ToastTitle>{error.response.data.detail}</ToastTitle>
+              </VStack>
+            </Toast>
+          );
+        },
+      });
+    }
   };
-
-  const handleLanguageChange = (value: string) => {
-    setLanguageSelected(value);
-    i18next.changeLanguage(value);
-  };
-
-  const selectedLanguageLabel = languageSelectionValues.find(lang => lang.value === languageSelected)?.label;
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <HStack justifyContent="space-between" alignItems="center" width="100%">
           <Text style={styles.title}>Area.</Text>
-
-          <Select width={80} onValueChange={handleLanguageChange} defaultValue={selectedLanguageLabel}>
-            <SelectTrigger variant="rounded" size="md" width={80}>
-              <SelectInput mt="$1" />
-              <SelectIcon mr="$3">
-                <Icon as={ChevronDownIcon} />
-              </SelectIcon>
-            </SelectTrigger>
-            <SelectPortal>
-              <SelectBackdrop />
-              <SelectContent borderRadius={12} elevation={4} backgroundColor="$white" height="100%">
-                <SelectDragIndicatorWrapper>
-                  <SelectDragIndicator />
-                </SelectDragIndicatorWrapper>
-                {languageSelectionValues.map((lang, index) => (
-                  <SelectItem
-                    key={index}
-                    label={lang.label}
-                    value={lang.value}
-                    justifyContent="center"
-                    alignItems="center"
-                    height={60}
-                  />
-                ))}
-              </SelectContent>
-            </SelectPortal>
-          </Select>
+          <LanguageSelect />
         </HStack>
         <VStack justifyContent="center" space="sm" alignItems="center">
           <Text style={styles.title}>{t('auth.register.title')}</Text>
           <Text style={styles.subTitle}>{t('auth.register.welcome')}</Text>
-          <HStack justifyContent="center" alignItems="center" gap={48} mt="$3">
-            {socialButtonLogo.map((item, index) => {
-              return (
-                <Box key={index} bg={item.color} p="$4" borderRadius={12} height={60} width={60} elevation={4}>
-                  <Image source={item.img} style={{ height: '100%', width: '100%' }} resizeMode="cover" />
-                </Box>
-              );
-            })}
-          </HStack>
+          <ProviderAuth />
           <HStack space="sm" mt="$2" justifyContent="center" alignItems="center">
             <Divider orientation="horizontal" bg="$trueGray300" width="24%" />
             <Text size="md" marginHorizontal={8}>
@@ -185,7 +110,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
               email: 'oliver.lewis@masurao.jp',
               password: 'password',
             }}
-            onSubmit={values => onSubmit(values)}
+            onSubmit={values => onRegisterSubmit(values)}
             validationSchema={registerValidationSchema}>
             {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
               <FormControl
@@ -282,7 +207,13 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
                     </CheckboxIndicator>
                     <CheckboxLabel fontSize={14}>{t('auth.terms')}</CheckboxLabel>
                   </Checkbox>
-                  <Button height={48} borderRadius={25} backgroundColor="#2F4EFF" onPress={() => handleSubmit()}>
+                  <Button
+                    height={48}
+                    borderRadius={25}
+                    backgroundColor="#2F4EFF"
+                    onPress={() => handleSubmit()}
+                    isDisabled={isLoading}>
+                    {isLoading && <ButtonSpinner mr="$1" />}
                     <ButtonText color="$white">{t('auth.register.title')}</ButtonText>
                   </Button>
                 </VStack>

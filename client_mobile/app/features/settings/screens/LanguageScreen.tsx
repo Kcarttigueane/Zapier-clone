@@ -1,7 +1,7 @@
 import { HStack } from '@gluestack-ui/themed';
 import i18next from 'i18next';
 import React, { useState } from 'react';
-import { Animated, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const LanguageScreen = () => {
@@ -29,11 +29,6 @@ const LanguageScreen = () => {
 
   return (
     <FlatList
-      getItemLayout={index => ({
-        length: 100,
-        offset: 100 * index,
-        index,
-      })}
       style={{ margin: 12 }}
       data={data}
       keyExtractor={item => item.title}
@@ -53,7 +48,7 @@ const LanguageScreen = () => {
             padding={16}
             marginHorizontal={12}>
             <HStack alignItems="center" justifyContent="flex-start" flexDirection="row">
-              <Animated.Image source={item.imageUrl} resizeMode="contain" style={{ height: 20, width: 30 }} />
+              <Image source={item.imageUrl} resizeMode="contain" style={{ height: 20, width: 30 }} />
 
               <Text style={styles.title}>{item.title}</Text>
             </HStack>

@@ -1,6 +1,9 @@
 from datetime import datetime
 from typing import Any, Dict, Tuple
 
+from fastapi import HTTPException, Request, status
+from fastapi.responses import RedirectResponse
+
 from app.core.oauth2 import PROVIDER_KEY_MAP, SERVICE_SCOPES, oauth2_providers
 from app.main import WEB_CLIENT_URL
 from app.repository.users_repository import UserRepository
@@ -16,8 +19,6 @@ from app.utils.password_utils import (
     send_mail_forgot_password,
     verify_password,
 )
-from fastapi import HTTPException, Request, status
-from fastapi.responses import RedirectResponse
 
 
 class AuthServices:
@@ -26,9 +27,10 @@ class AuthServices:
 
     def authenticate_with_provider(self, provider: str, isMobile: bool):
         if isMobile:
-            oauth2_scheme = oauth2_providers.get(provider + "_mobile")
+            oauth2_scheme = oauth2_providers.get(f"{provider}_mobile")
         else:
             oauth2_scheme = oauth2_providers.get(provider)
+
         if not oauth2_scheme:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
@@ -52,7 +54,7 @@ class AuthServices:
         self, provider: str, request: Request, code: str, isMobile: bool
     ):
         if isMobile:
-            oauth2_scheme = oauth2_providers.get(provider + "_mobile")
+            oauth2_scheme = oauth2_providers.get(f"{provider}_mobile")
         else:
             oauth2_scheme = oauth2_providers.get(provider)
         if not oauth2_scheme:
@@ -80,10 +82,9 @@ class AuthServices:
             response,
             service_name=provider,
         )
-
         jwt_token = create_access_token(data={"sub": user.email})
         if isMobile:
-            frontend_url = "myapp://oauthredirect"
+            frontend_url = f"myapp://oauthredirect?token={jwt_token}"
         else:
             frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
         return RedirectResponse(frontend_url)
