@@ -223,7 +223,6 @@
     "confirm": "Sure to delete?",
     "cancel": "Cancel",
     "ok": "OK",
-    "time": "{{time}} ago",
     "makeSure": "To ensure the automation functions correctly, please make sure it's enabled and you are connected to the necessary services."
   },
   "actions" : {
@@ -253,5 +252,6 @@
     "open_meteo": "A free weather api.",
     "teams": "Microsoft Teams is a unified communication and collaboration tool."
   },
-  "error": "Something went wrong"
+  "error": "Something went wrong",
+  "code": "en"
 }

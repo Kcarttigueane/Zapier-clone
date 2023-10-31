@@ -222,7 +222,6 @@
     "confirm": "Êtes-vous sûr de vouloir supprimer ?",
     "cancel": "Annuler",
     "ok": "OK",
-    "time": "Il ya {{time}}",
     "makeSure": "Pour garantir le bon fonctionnement de l'automatisation, assurez-vous qu'elle est activée et que vous êtes connecté aux services nécessaires."
   },
   "actions": {
@@ -252,5 +251,6 @@
     "open_meteo": "Une API météo gratuite.",
     "teams": "Microsoft Teams est un outil de communication et de collaboration unifié."
   },
-  "error": "Quelque chose s'est mal passé"
+  "error": "Quelque chose s'est mal passé",
+  "code": "fr"
 }
