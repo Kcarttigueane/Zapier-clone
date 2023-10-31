@@ -279,7 +279,13 @@ const AutomationTable = () => {
 						<InfoCircleTwoTone />
 					</Col>
 					<Col>
-						<Text>{t('dashboard.makeSure')}</Text>
+						<Text>
+							{t('dashboard.makeSure.part1')}
+							<Text style={{ fontWeight: 'bold' }}>{t('dashboard.makeSure.bold1')}</Text>
+							{t('dashboard.makeSure.part2')}
+							<Text style={{ fontWeight: 'bold' }}>{t('dashboard.makeSure.bold2')}</Text>
+							{t('dashboard.makeSure.part3')}
+						</Text>
 					</Col>
 				</Row>
 			</div>

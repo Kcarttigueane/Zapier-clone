@@ -223,7 +223,13 @@
     "confirm": "¿Seguro que deseas eliminar?",
     "cancel": "Cancelar",
     "ok": "Aceptar",
-    "makeSure": "Para asegurarte de que la automatización funcione correctamente, asegúrate de que esté habilitada y de que estés conectado a los servicios necesarios."
+    "makeSure": {
+      "part1": "Para garantizar que la automatización funcione correctamente, asegúrese de que esté ",
+      "bold1": "activada",
+      "part2": " y que esté ",
+      "bold2": "conectado",
+      "part3": " a los servicios necesarios."
+    }
   },
   "actions": {
     "AddToPlaylist": "Añade automáticamente una canción a una lista de reproducción designada.",

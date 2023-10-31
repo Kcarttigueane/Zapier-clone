@@ -223,7 +223,13 @@
     "confirm": "Sure to delete?",
     "cancel": "Cancel",
     "ok": "OK",
-    "makeSure": "To ensure the automation functions correctly, please make sure it's enabled and you are connected to the necessary services."
+    "makeSure": {
+      "part1": "To ensure the automation works correctly, make sure it's ",
+      "bold1": "activated",
+      "part2": " and that you are ",
+      "bold2": "connected",
+      "part3": " to the necessary services."
+    }
   },
   "actions" : {
     "AddToPlaylist" : "Automatically adds a song to a designated playlist.",

@@ -214,7 +214,7 @@
     "filter": "Filtrer les automatisations",
     "service": "Service",
     "name": "Nom",
-    "authorized": "Services Authorisés",
+    "authorized": "Services Autorisés",
     "polled": "Dernière automation",
     "created": "Créé il y a",
     "delete": "Supprimer",
@@ -222,7 +222,13 @@
     "confirm": "Êtes-vous sûr de vouloir supprimer ?",
     "cancel": "Annuler",
     "ok": "OK",
-    "makeSure": "Pour garantir le bon fonctionnement de l'automatisation, assurez-vous qu'elle est activée et que vous êtes connecté aux services nécessaires."
+  "makeSure": {
+    "part1": "Pour garantir le bon fonctionnement de l'automatisation, assurez-vous qu'elle est ",
+    "bold1": "activée",
+    "part2": " et que vous êtes ",
+    "bold2": "connecté",
+    "part3": " aux services nécessaires."
+  }
   },
   "actions": {
     "AddToPlaylist": "Ajoute automatiquement une chanson à une playlist désignée.",
