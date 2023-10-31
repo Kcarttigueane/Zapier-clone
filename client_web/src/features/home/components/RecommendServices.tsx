@@ -130,7 +130,7 @@ const RecommendServices = () => {
 											),
 											children: (
 												<>
-													<Text>{service.description}</Text>
+													<Text>{t(service.description)}</Text>
 													{isTriggersLoading ? (
 														<Skeleton.Image active={true} />
 													) : (
