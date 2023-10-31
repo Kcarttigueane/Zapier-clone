@@ -26,8 +26,6 @@ const useAutomationCreationLogic = () => {
 
 	const [current, setCurrent] = useState(0);
 
-	console.log("Regenerated");
-
 	if (user == null) {
 		message.open({
 			type: 'error',
