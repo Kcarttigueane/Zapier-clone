@@ -1,12 +1,12 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HttpStatusCode } from 'axios';
-import { create } from 'zustand';
-import { apiV2 } from '../api';
 import { Linking } from 'react-native';
+import { create } from 'zustand';
+import { BASE_URL, apiV2, getAccessToken, getApiHeaders, setAccessToken } from '../api';
+import useUserStore from './useUserStore';
 
 type AuthState = {
-  accessToken?: string;
   isLoading: boolean;
-  error: null | string;
 };
 
 type AuthActions = {
@@ -16,44 +16,52 @@ type AuthActions = {
   loginWithGoogle: () => void;
   loginWithSpotify: () => void;
   loginWithGitHub: () => void;
+  authorizeService: (provider: string, service: string) => Promise<void>;
 };
 
 const initialState: AuthState = {
-  accessToken: undefined,
   isLoading: false,
-  error: null,
 };
 
 export const useAuthStore = create<AuthState & AuthActions>()(set => {
   return {
     ...initialState,
     loginFn: async (email, password) => {
-      let response = null;
-      set({ isLoading: true, error: null });
+      set({ isLoading: true });
       try {
         const formData = new FormData();
         formData.append('username', email);
         formData.append('password', password);
-        response = await apiV2.post('/auth/token', formData, {
+
+        const response = await apiV2.post('/auth/token', formData, {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
           },
         });
+
         if (response.status === HttpStatusCode.Ok && response.data) {
           const { accessToken } = response.data;
-          set({ accessToken: accessToken });
-          set({ isLoading: false });
+          console.log('Access token:', accessToken);
+          try {
+            set({ isLoading: true });
+            await useUserStore.getState().fetchCurrentUser(accessToken);
+            await setAccessToken(accessToken);
+            const tokenFromStorage = await getAccessToken();
+            console.log('Token from storage:', tokenFromStorage);
+          } catch (error: any) {
+            console.error('Error fetching current user:', error);
+            throw error;
+          } finally {
+            set({ isLoading: false });
+          }
         }
       } catch (error: any) {
         throw error;
       } finally {
-        if (response === null) {
-          set({ error: 'Error logging in' });
-        }
         set({ isLoading: false });
       }
     },
-    registerFn: async (firstName: any, lastName: any, email: any, password: any) => {
+    registerFn: async (firstName, lastName, email, password) => {
       set({ isLoading: true });
       try {
         const newUser = {
@@ -64,37 +72,88 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
             last_name: lastName,
           },
         };
+
         const response = await apiV2.post('/auth/register', newUser);
-        if (response.status === 201 && response.data) {
+
+        if (response.status === HttpStatusCode.Ok && response.data) {
           const { accessToken } = response.data;
-          set({ accessToken: accessToken });
-          console.log('User registered successfully');
-        } else {
-          set({ error: response.data?.message || 'Login failed', isLoading: false });
+
+          try {
+            set({ isLoading: true });
+            await useUserStore.getState().fetchCurrentUser(accessToken);
+            AsyncStorage.setItem('access_token', accessToken);
+          } catch (error: any) {
+            console.error('Error fetching current user:', error);
+            throw error;
+          } finally {
+            set({ isLoading: false });
+          }
         }
       } catch (error: any) {
         console.error('Error registering user:', error);
-        const errorMessage = error.response?.data?.message || 'An error occurred during login';
-        set({ error: errorMessage, isLoading: false });
+        set({ isLoading: false });
         throw error;
       } finally {
         set({ isLoading: false });
       }
     },
     logoutFn: () => {
-      set({ accessToken: undefined, isLoading: false, error: null });
+      console.log('Logging out');
+      AsyncStorage.removeItem('access_token');
+      useUserStore.getState().clearUser();
     },
     loginWithGoogle: async () => {
-      Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/google');
-      set({ accessToken: 'token' });
+      const url = `${BASE_URL}/auth/login/mobile/google`;
+      const supported = await Linking.canOpenURL(url);
+      Linking.openURL(url);
+
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.error('Cannot open URL:', url);
+      }
     },
-    loginWithSpotify: () => {
-      Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/spotify');
-      set({ accessToken: 'token' });
+    loginWithSpotify: async () => {
+      const url = `${BASE_URL}/auth/login/mobile/spotify`;
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.error('Cannot open URL:', url);
+      }
     },
-    loginWithGitHub: () => {
-      Linking.openURL('http://0.0.0.0:8080/api/v2/auth/login/mobile/github');
-      set({ accessToken: 'token' });
+    loginWithGitHub: async () => {
+      const url = `${BASE_URL}/auth/login/mobile/github`;
+      const supported = await Linking.canOpenURL(url);
+      if (supported) {
+        Linking.openURL(url);
+      } else {
+        console.error('Cannot open URL:', url);
+      }
+    },
+    authorizeService: async (provider: string, service: string) => {
+      const accessToken = await getAccessToken();
+      if (!accessToken) {
+        throw new Error('No access token found');
+      }
+
+      try {
+        const response = await apiV2.get('/auth/authorize/' + provider + '/' + service, {
+          headers: getApiHeaders(accessToken),
+        });
+        if (response.status === HttpStatusCode.Ok && response.data) {
+          const url = response.data;
+          const supported = await Linking.canOpenURL(url);
+          if (supported) {
+            Linking.openURL(url);
+          } else {
+            console.error('Cannot open URL:', url);
+          }
+        }
+      } catch (error: any) {
+        console.error('Error authorizing service:', error);
+        throw error;
+      }
     },
   };
 });
