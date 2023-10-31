@@ -3,7 +3,7 @@ import { Button, Col, Image, Popconfirm, Row, Space, Switch, Table, Typography, 
 import Search from 'antd/es/input/Search';
 import type { ColumnsType } from 'antd/es/table';
 import { formatDistanceToNow, parseISO } from 'date-fns';
-import { es, fr} from 'date-fns/locale';
+import { es, fr } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AutomationCreationDTO, AutomationStatus, DetailedAutomationDTO } from '../../../core/models/automation';
@@ -83,12 +83,12 @@ const AutomationTable = () => {
 
 	const calculateTimeAgo = (timestamp: string) => {
 		const parsedTimestamp = parseISO(timestamp);
-		const locale = t("code");
+		const locale = t('code');
 		const languageLocale = locale === 'fr' ? fr : es;
 
 		return locale === 'en'
-		? formatDistanceToNow(parsedTimestamp, { addSuffix: true })
-		: formatDistanceToNow(parsedTimestamp, { addSuffix: true, locale: languageLocale });
+			? formatDistanceToNow(parsedTimestamp, { addSuffix: true })
+			: formatDistanceToNow(parsedTimestamp, { addSuffix: true, locale: languageLocale });
 	};
 
 	const updateAutomationStatus = (record: DetailedAutomationDTO, checked: boolean): AutomationCreationDTO => {
