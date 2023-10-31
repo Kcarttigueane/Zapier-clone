@@ -28,9 +28,7 @@ const LoginForm: React.FC = () => {
 	const navigate = useNavigate();
 	const [messageApi, contextHolder] = message.useMessage();
 
-	const handleForgot = () => {
-		navigate('/auth/login/forgot-password');
-	};
+	const handleForgot = () => navigate('/auth/login/forgot-password');
 
 	const onLoginSubmit = async (values: LoginDTO) => {
 		const { email, password } = values;

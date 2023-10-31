@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Button, Divider, Select, Space, Typography } from 'antd';
-import i18next from 'i18next';
+import { Button, Divider, Space, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import Flex from '../../../core/components/Flex';
+import AuthLanguageSelect from '../components/AuthLanguageSelect';
 import ProviderAuth from '../components/ProviderAuth';
 import RegisterForm from '../components/RegisterForm';
 import RightArea from '../components/RightArea';
@@ -48,32 +48,11 @@ const Register = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
-	const [selectedLanguage, setSelectedLanguage] = useState(
-		i18next.language === 'fr' ? 'fr' : i18next.language === 'en' ? 'en' : 'es',
-	);
-
-	const changeLanguage = (language: string) => {
-		i18next.changeLanguage(language);
-		setSelectedLanguage(language);
-	};
-
 	return (
 		<div style={mainContainerStyle}>
 			<div style={mainBoxStyle}>
 				<Flex direction="column" style={{ height: '100%', lineHeight: '0%', padding: '48px' }} align="center">
-					<Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 16 }}>
-						<h2 style={{ color: '#000', fontSize: 32 }}>Area.</h2>
-						<Select
-							defaultValue={selectedLanguage}
-							style={{ width: 60 }}
-							onChange={changeLanguage}
-							options={[
-								{ value: 'fr', label: '🇫🇷' },
-								{ value: 'en', label: '🇬🇧' },
-								{ value: 'es', label: '🇪🇸' },
-							]}
-						/>
-					</Space>
+					<AuthLanguageSelect />
 					<Text style={titleStyle}>{t('auth.register.title')}</Text>
 					<Text style={greetingStyle}>{t('auth.register.welcome')}</Text>
 					<ProviderAuth />

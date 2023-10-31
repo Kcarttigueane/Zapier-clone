@@ -1,13 +1,13 @@
 import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
+import { HttpStatusCode } from 'axios';
 import { Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import { useAuthStore } from '../../../core/zustand/useAuthStore';
-import { apiV2 } from '../../../core/api';
-import { HttpStatusCode } from 'axios';
 import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
+import { apiV2 } from '../../../core/api';
+import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const initialValues = {
 	email: 'oliver.lewis@masurao.jp',
@@ -35,6 +35,7 @@ const ResetForm: React.FC = () => {
 
 	const onLoginSubmit = async (values: ResetDTO) => {
 		const { email, code, password } = values;
+
 		try {
 			const response = await apiV2.post('/auth/reset-password', null, {
 				params: {
@@ -65,9 +66,7 @@ const ResetForm: React.FC = () => {
 			{contextHolder}
 			<Formik
 				initialValues={initialValues}
-				onSubmit={(values: ResetDTO) => {
-					console.log(values);
-				}}
+				onSubmit={(values: ResetDTO) => console.log(values)}
 				validationSchema={validationSchema}
 			>
 				{({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (

@@ -1,13 +1,13 @@
 import { MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
+import { HttpStatusCode } from 'axios';
 import { Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import { useAuthStore } from '../../../core/zustand/useAuthStore';
 import { useNavigate } from 'react-router-dom';
+import * as Yup from 'yup';
 import { apiV2 } from '../../../core/api';
-import { HttpStatusCode } from 'axios';
+import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const initialValues = {
 	email: 'oliver.lewis@masurao.jp',
@@ -28,11 +28,10 @@ const ForgotForm: React.FC = () => {
 	const [messageApi, contextHolder] = message.useMessage();
 
 	const onLoginSubmit = async (values: ForgotDTO) => {
-		const { email } = values;
 		try {
 			const response = await apiV2.post('/auth/forgot-password', null, {
 				params: {
-					email: email,
+					email: values.email,
 				},
 			});
 			if (response.status === HttpStatusCode.Ok && response.data) {
