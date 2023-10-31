@@ -204,7 +204,8 @@
       "connected": "Ya Conectado",
       "disabled": "Autorizar Servicios",
       "enabled": "¡Pruébalo!",
-      "service": "Seleccione un servicio"
+      "service": "Seleccione un servicio",
+      "name": "Nombre de la automatización"
     },
     "recommendedSection": {
       "serviceTitle": "Servicios Recomendados"
@@ -214,12 +215,49 @@
     "filter": "Filtrar automatizaciones",
     "service": "Servicio",
     "name": "Nombre",
-    "polled": "Última consulta",
+    "authorized": "Servicios Autorizados",
+    "polled": "Última Automatización",
+    "created": "Creado hace",
+    "delete": "Eliminar",
     "running": "En ejecución",
     "confirm": "¿Seguro que deseas eliminar?",
     "cancel": "Cancelar",
     "ok": "Aceptar",
-    "time": "Hace {{time}}"
+    "makeSure": {
+      "part1": "Para garantizar que la automatización funcione correctamente, asegúrese de que esté ",
+      "bold1": "activada",
+      "part2": " y que esté ",
+      "bold2": "conectado",
+      "part3": " a los servicios necesarios."
+    }
   },
-  "error": "Algo salió mal"
+  "actions": {
+    "AddToPlaylist": "Añade automáticamente una canción a una lista de reproducción designada.",
+    "UploadToDrive": "Carga automáticamente archivos a Google Drive cuando se activa.",
+    "SendMail": "Envía un correo electrónico a ti mismo.",
+    "SendMessage": "Envía un mensaje a ti mismo.",
+    "AddEventsCalendar": "Añade eventos a Google Calendar.",
+    "AddEventsTeam": "Añade eventos a Teams."
+  },
+  "triggers": {
+    "LikeSong": "Se activa cuando te gusta una canción en plataformas como YouTube, Spotify.",
+    "NewAttachment": "Se activa al recibir nuevos archivos adjuntos en correos electrónicos.",
+    "NewFile": "Se activa cuando se añade un archivo nuevo a Drive.",
+    "TodayEvent": "Se activa cuando hay un evento en el calendario en el día actual.",
+    "TodayWeather": "Proporciona información meteorológica diaria.",
+    "UpcomingEventsTeams": "Se activa cuando hay eventos próximos en Teams.",
+    "UpcomingEventsCalendar": "Se activa cuando hay eventos próximos en Google Calendar.",
+    "NewVideo": "Se activa cuando un canal al que estás suscrito carga un nuevo vídeo."
+  },
+  "services": {
+    "google_drive": "Google Drive te permite almacenar y acceder a tus archivos en cualquier lugar: en la web, en tu disco duro o en movimiento.",
+    "google_calendar": "Un servicio de calendario para la gestión del tiempo y la programación.",
+    "gmail": "Un servicio de correo electrónico gratuito desarrollado por Google. Los usuarios pueden acceder a Gmail en la web y a través de programas de terceros que sincronizan el contenido de correo electrónico mediante los protocolos POP o IMAP.",
+    "spotify": "Un servicio de streaming de música digital que te brinda acceso a millones de canciones, podcasts y videos de artistas de todo el mundo.",
+    "youtube": "Una plataforma que permite a los usuarios cargar, ver, calificar, compartir y comentar videos.",
+    "open_meteo": "Una API gratuita de información meteorológica.",
+    "teams": "Microsoft Teams es una herramienta de comunicación y colaboración unificada."
+  },
+  "error": "Algo salió mal",
+  "code": "es"
 }

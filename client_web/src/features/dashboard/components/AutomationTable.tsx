@@ -3,6 +3,7 @@ import { Button, Col, Image, Popconfirm, Row, Space, Switch, Table, Typography, 
 import Search from 'antd/es/input/Search';
 import type { ColumnsType } from 'antd/es/table';
 import { formatDistanceToNow, parseISO } from 'date-fns';
+import { es, fr } from 'date-fns/locale';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AutomationCreationDTO, AutomationStatus, DetailedAutomationDTO } from '../../../core/models/automation';
@@ -82,7 +83,12 @@ const AutomationTable = () => {
 
 	const calculateTimeAgo = (timestamp: string) => {
 		const parsedTimestamp = parseISO(timestamp);
-		return formatDistanceToNow(parsedTimestamp, { addSuffix: true });
+		const locale = t('code');
+		const languageLocale = locale === 'fr' ? fr : es;
+
+		return locale === 'en'
+			? formatDistanceToNow(parsedTimestamp, { addSuffix: true })
+			: formatDistanceToNow(parsedTimestamp, { addSuffix: true, locale: languageLocale });
 	};
 
 	const updateAutomationStatus = (record: DetailedAutomationDTO, checked: boolean): AutomationCreationDTO => {
@@ -157,7 +163,7 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: 'Authorized Services',
+			title: t('dashboard.authorized'),
 			dataIndex: 'lastPolled',
 			key: 'lastPolled',
 			render: (_, record: DetailedAutomationDTO) => {
@@ -186,7 +192,7 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: 'Created At',
+			title: t('dashboard.created'),
 			dataIndex: 'created_at',
 			key: 'created_at',
 			render: (_, record: DetailedAutomationDTO) => {
@@ -194,7 +200,7 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: 'Delete',
+			title: t('dashboard.delete'),
 			key: 'operation',
 			dataIndex: 'operation',
 			width: 100,
@@ -274,8 +280,11 @@ const AutomationTable = () => {
 					</Col>
 					<Col>
 						<Text>
-							To ensure the automation functions correctly, please make sure it's <strong>enabled</strong> and you are{' '}
-							<strong>connected</strong> to the necessary services.
+							{t('dashboard.makeSure.part1')}
+							<Text style={{ fontWeight: 'bold' }}>{t('dashboard.makeSure.bold1')}</Text>
+							{t('dashboard.makeSure.part2')}
+							<Text style={{ fontWeight: 'bold' }}>{t('dashboard.makeSure.bold2')}</Text>
+							{t('dashboard.makeSure.part3')}
 						</Text>
 					</Col>
 				</Row>

@@ -2,6 +2,7 @@ import { Col, List, Space, Typography } from 'antd';
 import { FC } from 'react';
 import { ActionModelDTO } from '../../../core/models/action';
 import { TriggerModelDTO } from '../../../core/models/trigger';
+import { useTranslation } from 'react-i18next';
 
 const { Text } = Typography;
 
@@ -25,27 +26,34 @@ const itemsStyle: React.CSSProperties = {
 	justifyContent: 'center',
 };
 
-const CustomServiceDetailList: FC<CustomServiceDetailListProps> = ({ title, items, borderLeftColor }) => (
-	<Col
-		style={{
-			width: '45%',
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-		}}
-	>
-		<Text strong>{title}</Text>
-		<List
-			style={{ width: '100%' }}
-			dataSource={items}
-			renderItem={(item) => (
-				<Space key={item.id} direction="vertical" style={{ ...itemsStyle, borderLeft: `4px solid ${borderLeftColor}` }}>
-					<Text strong>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
-					<Text>{item.description}</Text>
-				</Space>
-			)}
-		/>
-	</Col>
-);
+const CustomServiceDetailList: FC<CustomServiceDetailListProps> = ({ title, items, borderLeftColor }) => {
+	const { t } = useTranslation();
+	return (
+		<Col
+			style={{
+				width: '45%',
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+			}}
+		>
+			<Text strong>{title}</Text>
+			<List
+				style={{ width: '100%' }}
+				dataSource={items}
+				renderItem={(item) => (
+					<Space
+						key={item.id}
+						direction="vertical"
+						style={{ ...itemsStyle, borderLeft: `4px solid ${borderLeftColor}` }}
+					>
+						<Text strong>{item.name.charAt(0).toUpperCase() + item.name.slice(1)}</Text>
+						<Text>{t(item.description)}</Text>
+					</Space>
+				)}
+			/>
+		</Col>
+	);
+};
 
 export default CustomServiceDetailList;

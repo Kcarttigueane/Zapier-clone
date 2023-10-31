@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 import { ActionModelDTO } from '../../../../core/models/action';
 import { capitalizeFirstLetter } from '../../../../core/utils/capitalizeFirstLetter';
 import useActionStore from '../../../../core/zustand/useActionStore';
+import { useTranslation } from 'react-i18next';
 
 const { Text } = Typography;
 
@@ -34,6 +35,7 @@ interface ChooseActionProps {
 const ChooseAction: FC<ChooseActionProps> = ({ actions, selectedActionId, setSelectedActionId }) => {
 	const [hovered, setHovered] = useState<string | null>(null);
 	const { isActionsLoading } = useActionStore((state) => state);
+	const { t } = useTranslation();
 
 	return (
 		<>
@@ -57,7 +59,7 @@ const ChooseAction: FC<ChooseActionProps> = ({ actions, selectedActionId, setSel
 							const isSelected = action.id === selectedActionId;
 							return (
 								<Popover
-									title={capitalizeFirstLetter(action.description)}
+									title={t(action.description)}
 									key={action.id}
 									placement="bottom"
 									style={{

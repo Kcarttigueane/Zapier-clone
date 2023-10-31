@@ -203,7 +203,8 @@
       "connected": "Déjà Connecté",
       "disabled": "Autoriser les Services",
       "enabled": "Essayer!",
-      "service": "🔎 Sélectionner un service"
+      "service": "🔎 Sélectionner un service",
+      "name": "Nom de l'automation"
     },
     "recommendedSection": {
       "serviceTitle": "Nos services"
@@ -213,12 +214,49 @@
     "filter": "Filtrer les automatisations",
     "service": "Service",
     "name": "Nom",
+    "authorized": "Services Autorisés",
     "polled": "Dernière automation",
+    "created": "Créé il y a",
+    "delete": "Supprimer",
     "running": "Active",
     "confirm": "Êtes-vous sûr de vouloir supprimer ?",
     "cancel": "Annuler",
     "ok": "OK",
-    "time": "Il ya {{time}}"
+  "makeSure": {
+    "part1": "Pour garantir le bon fonctionnement de l'automatisation, assurez-vous qu'elle est ",
+    "bold1": "activée",
+    "part2": " et que vous êtes ",
+    "bold2": "connecté",
+    "part3": " aux services nécessaires."
+  }
   },
-  "error": "Quelque chose s'est mal passé"
+  "actions": {
+    "AddToPlaylist": "Ajoute automatiquement une chanson à une playlist désignée.",
+    "UploadToDrive": "Télécharge automatiquement des fichiers sur Google Drive lorsqu'il est déclenché.",
+    "SendMail": "Envoyez un e-mail à vous-même.",
+    "SendMessage": "Envoyez un message à vous-même.",
+    "AddEventsCalendar": "Ajoute des événements à Google Calendar.",
+    "AddEventsTeam": "Ajoute des événements à Teams."
+  },
+  "triggers": {
+    "LikeSong": "Se déclenche lorsque vous aimez une chanson sur des plateformes comme YouTube, Spotify.",
+    "NewAttachment": "Se déclenche lors de la réception de nouvelles pièces jointes dans les e-mails.",
+    "NewFile": "Se déclenche lorsque de nouveaux fichiers sont ajoutés à Drive.",
+    "TodayEvent": "Se déclenche lorsque qu'un événement du calendrier a lieu le jour en cours.",
+    "TodayWeather": "Se déclenche pour fournir des informations météorologiques quotidiennes.",
+    "UpcomingEventsTeams": "Se déclenche lorsque des événements à venir surviennent dans Teams.",
+    "UpcomingEventsCalendar": "Se déclenche lorsque des événements à venir surviennent dans Google Calendar.",
+    "NewVideo": "Se déclenche lorsque la chaîne à laquelle l'utilisateur est abonné télécharge une nouvelle vidéo."
+  },
+  "services": {
+    "google_drive": "Google Drive vous permet de stocker et d'accéder à vos fichiers n'importe où, sur le web, sur votre disque dur ou en déplacement.",
+    "google_calendar": "Un service de calendrier pour la gestion du temps et la planification.",
+    "gmail": "Un service de messagerie gratuit développé par Google. Les utilisateurs peuvent accéder à Gmail sur le web et via des programmes tiers qui synchronisent le contenu des e-mails via les protocoles POP ou IMAP.",
+    "spotify": "Un service de streaming musical numérique qui vous donne accès à des millions de chansons, de podcasts et de vidéos d'artistes du monde entier.",
+    "youtube": "Une plateforme qui permet aux utilisateurs de télécharger, de regarder, de noter, de partager et de commenter des vidéos.",
+    "open_meteo": "Une API météo gratuite.",
+    "teams": "Microsoft Teams est un outil de communication et de collaboration unifié."
+  },
+  "error": "Quelque chose s'est mal passé",
+  "code": "fr"
 }

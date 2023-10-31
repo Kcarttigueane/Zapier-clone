@@ -142,7 +142,7 @@ const AutomationCreation = () => {
 				<Input
 					style={{ width: '80%' }}
 					size="large"
-					placeholder="Name of the automation"
+					placeholder={t('home.create.name')}
 					prefix={<GatewayOutlined style={{ marginRight: 8 }} />}
 					id="AutomationName"
 					name="AutomationName"
