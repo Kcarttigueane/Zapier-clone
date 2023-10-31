@@ -204,7 +204,8 @@
       "connected": "Already Connected",
       "disabled": "Authorize Services",
       "enabled": "Try It!",
-      "service": "🔎 Select a Service"
+      "service": "🔎 Select a Service",
+      "name": "Name of the automation"
     },
     "recommendedSection": {
       "serviceTitle": "Our available services"
@@ -214,12 +215,16 @@
     "filter": "Filter Automations",
     "service": "Service",
     "name": "Name",
-    "polled": "Last Polled",
+    "authorized": "Authorized Services",
+    "polled": "Last Automation",
+    "created": "Created",
+    "delete": "Delete",
     "running": "Running",
     "confirm": "Sure to delete?",
     "cancel": "Cancel",
     "ok": "OK",
-    "time": "{{time}} ago"
+    "time": "{{time}} ago",
+    "makeSure": "To ensure the automation functions correctly, please make sure it's enabled and you are connected to the necessary services."
   },
   "actions" : {
     "AddToPlaylist" : "Automatically adds a song to a designated playlist.",

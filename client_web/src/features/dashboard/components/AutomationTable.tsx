@@ -157,7 +157,7 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: 'Authorized Services',
+			title: t("dashboard.authorized"),
 			dataIndex: 'lastPolled',
 			key: 'lastPolled',
 			render: (_, record: DetailedAutomationDTO) => {
@@ -186,7 +186,7 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: 'Created At',
+			title: t('dashboard.created'),
 			dataIndex: 'created_at',
 			key: 'created_at',
 			render: (_, record: DetailedAutomationDTO) => {
@@ -194,7 +194,7 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: 'Delete',
+			title: t("dashboard.delete"),
 			key: 'operation',
 			dataIndex: 'operation',
 			width: 100,
@@ -274,8 +274,7 @@ const AutomationTable = () => {
 					</Col>
 					<Col>
 						<Text>
-							To ensure the automation functions correctly, please make sure it's <strong>enabled</strong> and you are{' '}
-							<strong>connected</strong> to the necessary services.
+							{t('dashboard.makeSure')}
 						</Text>
 					</Col>
 				</Row>

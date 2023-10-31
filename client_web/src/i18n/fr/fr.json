@@ -203,7 +203,8 @@
       "connected": "Déjà Connecté",
       "disabled": "Autoriser les Services",
       "enabled": "Essayer!",
-      "service": "🔎 Sélectionner un service"
+      "service": "🔎 Sélectionner un service",
+      "name": "Nom de l'automation"
     },
     "recommendedSection": {
       "serviceTitle": "Nos services"
@@ -213,12 +214,16 @@
     "filter": "Filtrer les automatisations",
     "service": "Service",
     "name": "Nom",
+    "authorized": "Services Authorisés",
     "polled": "Dernière automation",
+    "created": "Créé il y a",
+    "delete": "Supprimer",
     "running": "Active",
     "confirm": "Êtes-vous sûr de vouloir supprimer ?",
     "cancel": "Annuler",
     "ok": "OK",
-    "time": "Il ya {{time}}"
+    "time": "Il ya {{time}}",
+    "makeSure": "Pour garantir le bon fonctionnement de l'automatisation, assurez-vous qu'elle est activée et que vous êtes connecté aux services nécessaires."
   },
   "actions": {
     "AddToPlaylist": "Ajoute automatiquement une chanson à une playlist désignée.",

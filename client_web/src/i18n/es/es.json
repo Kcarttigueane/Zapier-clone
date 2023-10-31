@@ -204,7 +204,8 @@
       "connected": "Ya Conectado",
       "disabled": "Autorizar Servicios",
       "enabled": "¡Pruébalo!",
-      "service": "Seleccione un servicio"
+      "service": "Seleccione un servicio",
+      "name": "Nombre de la automatización"
     },
     "recommendedSection": {
       "serviceTitle": "Servicios Recomendados"
@@ -214,12 +215,16 @@
     "filter": "Filtrar automatizaciones",
     "service": "Servicio",
     "name": "Nombre",
-    "polled": "Última consulta",
+    "authorized": "Servicios Autorizados",
+    "polled": "Última Automatización",
+    "created": "Creado hace",
+    "delete": "Eliminar",
     "running": "En ejecución",
     "confirm": "¿Seguro que deseas eliminar?",
     "cancel": "Cancelar",
     "ok": "Aceptar",
-    "time": "Hace {{time}}"
+    "time": "Hace {{time}}",
+    "makeSure": "Para asegurarte de que la automatización funcione correctamente, asegúrate de que esté habilitada y de que estés conectado a los servicios necesarios."
   },
   "actions": {
     "AddToPlaylist": "Añade automáticamente una canción a una lista de reproducción designada.",
