@@ -69,3 +69,20 @@ class UsersTestCase(TestCase):
 
         token_type = response_data.get('tokenType', None)
         self.test_assert(token_type, 'bearer', "POST /auth/register: Token Type is Bearer")
+
+    def test_user_already_registered(self):
+        payload = {
+            "email": "test@example.com",
+            "password": "password123",
+            "profile": {
+                "first_name": "test",
+                "last_name": "example"
+            }
+        }
+
+        response = requests.post(f"{API_URL}/auth/register", json=payload)
+        self.test_assert(response.status_code, 400, "POST /auth/register: Registration Status Code for duplicate user")
+
+        response_data = response.json()
+        expected_error_message = "Email already registered"
+        self.test_assert(response_data.get('detail', ''), expected_error_message, "POST /auth/register: Error message for duplicate user")
