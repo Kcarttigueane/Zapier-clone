@@ -1,27 +1,28 @@
-import { HStack, Image, Text, VStack, View } from '@gluestack-ui/themed';
+import { HStack, Text, VStack, View } from '@gluestack-ui/themed';
 import React from 'react';
-import { StyleSheet, Pressable } from 'react-native';
-import { MockupAutomationData } from '../screen/HomeScreen';
+import { Pressable, StyleSheet } from 'react-native';
+import Base64SvgDisplay from '../../../core/components/Base64SvgDisplay';
+import { DetailedAutomationDTO } from '../../../core/models/automation';
 
 interface ArchivedCardProps {
-  item: MockupAutomationData;
+  item: DetailedAutomationDTO;
   key: number;
 }
 
 const ArchivedCard: React.FC<ArchivedCardProps> = ({ item }) => {
-  const handleCardClick = (selectedItem: MockupAutomationData) => {
-    console.log('click with message ' + selectedItem.title);
+  const handleCardClick = (selectedItem: DetailedAutomationDTO) => {
+    console.log('click with message ' + selectedItem.name);
   };
 
   return (
     <View style={styles.card}>
       <VStack gap={12}>
         <HStack alignItems="center" gap={12}>
-          <Image source={item.serviceLogo1} width={30} height={30} alt="service logo" />
-          <Image source={item.serviceLogo2} width={30} height={30} alt="service logo" />
+          <Base64SvgDisplay base64Svg={item.trigger_service.icon_svg_base64} width={32} height={32} />
+          <Base64SvgDisplay base64Svg={item.action_service.icon_svg_base64} width={32} height={32} />
         </HStack>
         <Text fontSize="$lg" fontWeight="bold" color="black">
-          {item.title}
+          {item.name}
         </Text>
       </VStack>
       <Pressable onPress={() => handleCardClick(item)} style={styles.button}>
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     width: 100,
     height: 40,
-    borderWidth: 4,
+    borderWidth: 3,
     borderColor: 'black',
     borderRadius: 30,
     paddingVertical: 5,

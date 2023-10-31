@@ -2,7 +2,7 @@ import { ScrollView, Spinner } from '@gluestack-ui/themed';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { RootStackParamList } from '../../../App';
 
 import useServicesStore from '../../../core/zustand/useServiceStore';
@@ -38,7 +38,6 @@ const ServicesScreen = ({ navigation }: ServicesScreenProps) => {
         {services.map((data, index) => (
           <ServiceCard key={index} service={data} navigation={navigation} />
         ))}
-        <View style={{ height: 100, width: 1000 }} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -55,6 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexWrap: 'wrap',
     gap: 20,
+    paddingBottom: 12,
   },
 });
 

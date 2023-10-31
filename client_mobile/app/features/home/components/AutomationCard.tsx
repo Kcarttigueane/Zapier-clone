@@ -1,16 +1,17 @@
-import { HStack, Image, Text, VStack, View } from '@gluestack-ui/themed';
+import { HStack, VStack, View } from '@gluestack-ui/themed';
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { MockupAutomationData } from '../screen/HomeScreen';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Base64SvgDisplay from '../../../core/components/Base64SvgDisplay';
+import { DetailedAutomationDTO } from '../../../core/models/automation';
 
 interface AutomationCardProps {
-  item: MockupAutomationData;
+  item: DetailedAutomationDTO;
   key: number;
 }
 
 const AutomationCard: React.FC<AutomationCardProps> = ({ item }) => {
-  const handleCardClick = (selectedItem: MockupAutomationData) => {
-    console.log('click with message ' + selectedItem.title);
+  const handleCardClick = (selectedItem: DetailedAutomationDTO) => {
+    console.log('click with message ' + selectedItem.name);
   };
 
   return (
@@ -18,12 +19,10 @@ const AutomationCard: React.FC<AutomationCardProps> = ({ item }) => {
       <View style={styles.card}>
         <VStack gap={12}>
           <HStack alignItems="center" gap={12}>
-            <Image source={item.serviceLogo1} width={30} height={30} alt="service logo" />
-            <Image source={item.serviceLogo2} width={30} height={30} alt="service logo" />
+            <Base64SvgDisplay base64Svg={item.trigger_service.icon_svg_base64} width={32} height={32} />
+            <Base64SvgDisplay base64Svg={item.action_service.icon_svg_base64} width={32} height={32} />
           </HStack>
-          <Text fontSize="$lg" fontWeight="bold" color="black">
-            {item.title}
-          </Text>
+          <Text>{item.name}</Text>
         </VStack>
       </View>
     </TouchableOpacity>
