@@ -24,7 +24,7 @@ from app.source.actions.google_calendar import add_events_google_calendar
 from app.source.actions.google_youtube import add_songs_to_playlist_youtube
 
 from app.source.triggers.google_gmail import check_gmail_attachment
-from app.source.triggers.google_youtube import check_youtube_like
+from app.source.triggers.google_youtube import check_youtube_like, check_new_videos
 from app.source.triggers.google_drive import check_new_files
 from app.source.triggers.google_calendar import (
     check_todays_event,
@@ -44,6 +44,7 @@ action_repository = ActionRepository()
 trigger_dict = {
     "youtube": {
         "LikeSong": check_youtube_like,
+        "NewVideo": check_new_videos,
     },
     "gmail": {
         "NewAttachment": check_gmail_attachment,
