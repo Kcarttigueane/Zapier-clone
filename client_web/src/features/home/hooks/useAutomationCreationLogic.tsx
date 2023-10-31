@@ -26,6 +26,8 @@ const useAutomationCreationLogic = () => {
 
 	const [current, setCurrent] = useState(0);
 
+	console.log("Regenerated");
+
 	if (user == null) {
 		message.open({
 			type: 'error',
@@ -111,7 +113,7 @@ const useAutomationCreationLogic = () => {
 					content: error.response.data.detail || 'Something went wrong',
 				});
 			});
-	}, [selectedTriggerId, selectedActionId]);
+	}, [selectedTriggerId, selectedActionId, automationName]);
 
 	return {
 		services,
