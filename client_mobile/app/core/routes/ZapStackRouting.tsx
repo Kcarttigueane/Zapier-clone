@@ -2,8 +2,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { RootStackParamList } from '../../App';
 import CreateZapScreen from '../../features/zap/screen/CreateZapScreen';
-import ServicesZapScreen from '../../features/zap/screen/ServicesZapScreen';
 import ReactionZap from '../../features/zap/screen/ReactionZap';
+import ServicesZapScreen from '../../features/zap/screen/ServicesZapScreen';
 import TriggerZap from '../../features/zap/screen/TriggerZap';
 
 const ZapScreensStack = createNativeStackNavigator<RootStackParamList>();
