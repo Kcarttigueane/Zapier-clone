@@ -100,15 +100,12 @@ def create_body_str(videos):
 def extract_new_videos(credentials, last_polled) -> TriggerAnswer | None:
     service = build("youtube", "v3", credentials=credentials, cache_discovery=False)
     channels = get_subscribed_channels(service, last_polled)
-    print(f"Channels: {channels}")
     if channels == []:
         return None
     videos = get_latest_videos(service, last_polled, channels)
-    print(f"Videos: {videos}")
     if videos == []:
         return None
     body = create_body_str(videos)
-    print(body)
     return TriggerAnswer(
         objs=videos,
         header="[Area] Your Subscribed Channels Have New Content",
