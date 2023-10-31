@@ -1,5 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Login from '../../features/auth/pages/Login';
+import ForgotPassword from '../../features/auth/pages/ForgotPassword';
+import ResetPassword from '../../features/auth/pages/ResetPassword';
 import Register from '../../features/auth/pages/Register';
 import Dashboard from '../../features/dashboard/pages/Dashboard';
 import Home from '../../features/home/pages/Home';
@@ -56,6 +58,26 @@ const router = createBrowserRouter([
 		element: (
 			<GuestRoute>
 				<Login />
+			</GuestRoute>
+		),
+		errorElement: <Error404 />,
+		loader: LoadingPage,
+	},
+	{
+		path: '/auth/login/forgot-password',
+		element: (
+			<GuestRoute>
+				<ForgotPassword />
+			</GuestRoute>
+		),
+		errorElement: <Error404 />,
+		loader: LoadingPage,
+	},
+	{
+		path: '/auth/login/reset-password',
+		element: (
+			<GuestRoute>
+				<ResetPassword />
 			</GuestRoute>
 		),
 		errorElement: <Error404 />,

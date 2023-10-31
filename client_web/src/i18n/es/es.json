@@ -185,6 +185,10 @@
       "title": "Olvidé mi contraseña",
       "welcome": "Ingresa tu dirección de correo electrónico para restablecer tu contraseña"
     },
+    "resetPassword": {
+      "title": "Restablecer la contraseña",
+      "welcome": "Introduzca su nueva contraseña."
+    },
     "rightArea": {
       "text": "Vincula tus aplicaciones favoritas y simplifica tu vida utilizando el poder de la automatización."
     },

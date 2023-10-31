@@ -185,6 +185,10 @@
       "title": "Forgot password",
       "welcome": "Enter your email address to reset your password"
     },
+    "resetPassword": {
+      "title": "Reset password",
+      "welcome": "Enter your new password."
+    },
     "rightArea": {
       "text": "Link your favorite apps and simplify your life by using the power of automation."
     },
