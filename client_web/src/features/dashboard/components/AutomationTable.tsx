@@ -157,7 +157,7 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: t("dashboard.authorized"),
+			title: t('dashboard.authorized'),
 			dataIndex: 'lastPolled',
 			key: 'lastPolled',
 			render: (_, record: DetailedAutomationDTO) => {
@@ -194,7 +194,7 @@ const AutomationTable = () => {
 			},
 		},
 		{
-			title: t("dashboard.delete"),
+			title: t('dashboard.delete'),
 			key: 'operation',
 			dataIndex: 'operation',
 			width: 100,
@@ -273,9 +273,7 @@ const AutomationTable = () => {
 						<InfoCircleTwoTone />
 					</Col>
 					<Col>
-						<Text>
-							{t('dashboard.makeSure')}
-						</Text>
+						<Text>{t('dashboard.makeSure')}</Text>
 					</Col>
 				</Row>
 			</div>
