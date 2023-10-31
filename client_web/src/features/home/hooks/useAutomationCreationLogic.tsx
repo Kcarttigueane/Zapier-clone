@@ -17,6 +17,9 @@ const useAutomationCreationLogic = () => {
 	const [selectedActionId, setSelectedActionId] = useState<ActionModelDTO['id'] | null>(null);
 
 	const [automationName, setAutomationName] = useState<string>('');
+	const [selectedTriggerName, setSelectedTriggerName] = useState<string>('');
+	const [selectedTriggerServiceName, setSelectedTriggerServiceName] = useState<string>('');
+	const [selectedActionServiceName, setSelectedActionServiceName] = useState<string>('');
 
 	const { services, isLoading, fetchCompatibleServices, compatibleServices } = useServicesStore((state) => state);
 	const { fetchTriggersByService, triggersAssociatedToService } = useTriggerStore((state) => state);
@@ -125,6 +128,12 @@ const useAutomationCreationLogic = () => {
 		setSelectedActionId,
 		automationName,
 		setAutomationName,
+		selectedTriggerServiceName,
+		setSelectedTriggerServiceName,
+		selectedActionServiceName,
+		setSelectedActionServiceName,
+		selectedTriggerName,
+		setSelectedTriggerName,
 		isLoading,
 		compatibleServices,
 		triggersAssociatedToService,

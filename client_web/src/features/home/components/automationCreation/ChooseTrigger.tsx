@@ -29,9 +29,15 @@ interface ChooseTriggerProps {
 	triggers: TriggerModelDTO[];
 	selectedTriggerId: TriggerModelDTO['id'] | null;
 	setSelectedTriggerId: (id: TriggerModelDTO['id'] | null) => void;
+	setSelectedTriggerName: (name: string) => void;
 }
 
-const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, setSelectedTriggerId }) => {
+const ChooseTrigger: FC<ChooseTriggerProps> = ({
+	triggers,
+	selectedTriggerId,
+	setSelectedTriggerId,
+	setSelectedTriggerName,
+}) => {
 	const [hovered, setHovered] = useState<string | null>(null);
 	const { isTriggersLoading } = useTriggerStore((state) => state);
 
@@ -80,6 +86,7 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 										onMouseLeave={() => setHovered(null)}
 										onClick={() => {
 											setSelectedTriggerId(trigger.id);
+											setSelectedTriggerName(trigger.name);
 										}}
 									>
 										<Text>{capitalizeFirstLetter(trigger.name)}</Text>

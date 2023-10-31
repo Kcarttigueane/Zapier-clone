@@ -1,6 +1,5 @@
 import { Button, Input, Steps, Typography, theme } from 'antd';
 import { useTranslation } from 'react-i18next';
-
 import { GatewayOutlined } from '@ant-design/icons';
 import useAutomationCreationLogic from '../../hooks/useAutomationCreationLogic';
 import ChooseAction from './ChooseAction';
@@ -23,6 +22,12 @@ const AutomationCreation = () => {
 		setSelectedActionId,
 		automationName,
 		setAutomationName,
+		selectedTriggerServiceName,
+		setSelectedTriggerServiceName,
+		selectedActionServiceName,
+		setSelectedActionServiceName,
+		selectedTriggerName,
+		setSelectedTriggerName,
 		isLoading,
 		compatibleServices,
 		triggersAssociatedToService,
@@ -64,6 +69,7 @@ const AutomationCreation = () => {
 						services={services}
 						selectedServiceId={selectedTriggerService1}
 						setSelectedServiceId={setSelectedTriggerService1}
+						setSelectedServiceName={setSelectedTriggerServiceName}
 					/>
 				);
 			case 1:
@@ -74,6 +80,7 @@ const AutomationCreation = () => {
 							services={compatibleServices}
 							selectedServiceId={selectedActionService2}
 							setSelectedServiceId={setSelectedService2}
+							setSelectedServiceName={setSelectedActionServiceName}
 						/>
 					);
 				}
@@ -85,6 +92,7 @@ const AutomationCreation = () => {
 							triggers={triggersAssociatedToService}
 							selectedTriggerId={selectedTriggerId}
 							setSelectedTriggerId={setSelectedTriggerId}
+							setSelectedTriggerName={setSelectedTriggerName}
 						/>
 					);
 				}
@@ -96,6 +104,11 @@ const AutomationCreation = () => {
 							actions={actionsAssociatedToTrigger}
 							selectedActionId={selectedActionId}
 							setSelectedActionId={setSelectedActionId}
+							selectedTriggerName={selectedTriggerName}
+							automationName={automationName}
+							setAutomationName={setAutomationName}
+							selectedTriggerServiceName={selectedTriggerServiceName}
+							selectedActionServiceName={selectedActionServiceName}
 						/>
 					);
 				}
@@ -151,6 +164,7 @@ const AutomationCreation = () => {
 						setAutomationName(e.target.value); // ! Need to check because potential bug when creating two automations in a row
 						console.log('automationName', automationName);
 					}}
+					status={automationName.trim() === '' ? (current === steps.length - 1 ? 'error' : 'warning') : ''}
 				/>
 				<div style={contentStyle}>{renderStepContent(current)}</div>
 
@@ -162,6 +176,7 @@ const AutomationCreation = () => {
 							onClick={() => {
 								setSelectedTriggerService1(null);
 								setCurrent(0);
+								setAutomationName('');
 							}}
 						>
 							{t('basic.actions.reset')}
@@ -173,7 +188,12 @@ const AutomationCreation = () => {
 						</Button>
 					)}
 					{current === steps.length - 1 && (
-						<Button type="primary" onClick={onCreateAutomationClick} loading={isAutomationsLoading}>
+						<Button
+							type="primary"
+							onClick={onCreateAutomationClick}
+							loading={isAutomationsLoading}
+							disabled={automationName == ''}
+						>
 							{t('basic.actions.finish')}
 						</Button>
 					)}
