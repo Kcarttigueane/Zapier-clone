@@ -39,7 +39,6 @@ const useActionStore = create<ActionState & ActionActions>()(set => ({
       const response = await apiV2.get('/actions/', { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.info(response.data);
         set({ actions: response.data, isActionsLoading: false });
       }
     } catch (error: any) {
@@ -65,7 +64,6 @@ const useActionStore = create<ActionState & ActionActions>()(set => ({
       });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.info(response.data);
         set({ actionsAssociatedToTrigger: response.data, isActionsLoading: false });
       }
     } catch (error: any) {
@@ -91,7 +89,6 @@ const useActionStore = create<ActionState & ActionActions>()(set => ({
       });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.info(response.data);
         set({ actionsAssociatedToService: response.data, isActionsLoading: false });
       }
     } catch (error: any) {

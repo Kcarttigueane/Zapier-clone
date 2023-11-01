@@ -1,14 +1,20 @@
-import React from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text } from 'react-native';
-import { Heading } from '@gluestack-ui/themed';
-import { PlusCircle } from 'lucide-react-native';
+import { FormControl, Heading, Toast, ToastTitle, VStack, useToast } from '@gluestack-ui/themed';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../../App';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { SafeAreaView, StyleSheet } from 'react-native';
+import { RootStackParamList } from '../../../App';
+import { ActionModelDTO } from '../../../core/models/action';
+import { ServiceModelDTO } from '../../../core/models/service';
+import { TriggerModelDTO } from '../../../core/models/trigger';
+import useActionStore from '../../../core/zustand/useActionStore';
+import useServicesStore from '../../../core/zustand/useServiceStore';
+import useTriggerStore from '../../../core/zustand/useTriggerStore';
+import CustomSelect from '../components/CustomSelect';
 
 type ZapScreenRouteProp = RouteProp<RootStackParamList, 'CreateZapScreen'>;
-export type ZapScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'CreateZapScreen'>;
+type ZapScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'CreateZapScreen'>;
 type ZapScreenProps = {
   route: ZapScreenRouteProp;
   navigation: ZapScreenNavigationProp;
@@ -16,42 +22,162 @@ type ZapScreenProps = {
 
 const CreateZapScreen = ({ navigation }: ZapScreenProps) => {
   const { t } = useTranslation();
+
+  const [selectedTriggerService1, setSelectedTriggerService1] = useState<ServiceModelDTO['id'] | null>(null);
+  const [selectedActionService2, setSelectedActionService2] = useState<ServiceModelDTO['id'] | null>(null);
+  const [selectedTriggerId, setSelectedTriggerId] = useState<TriggerModelDTO['id'] | null>(null);
+  const [selectedActionId, setSelectedActionId] = useState<ActionModelDTO['id'] | null>(null);
+
+  const { services, compatibleServices, fetchServices, fetchCompatibleServices } = useServicesStore(state => state);
+  const { actionsAssociatedToTrigger, fetchActionsByTriggerId, isActionsLoading } = useActionStore(state => state);
+  const { triggersAssociatedToService, fetchTriggersByService, isTriggersLoading } = useTriggerStore(state => state);
+
+  const toast = useToast();
+
+  useEffect(() => {
+    if (services.length !== 0) {
+      return;
+    }
+    try {
+      fetchServices();
+    } catch (error: any) {
+      console.log(error);
+      toast.show({
+        placement: 'top',
+        render: ({ id }) => {
+          return (
+            <Toast nativeID={'toast-' + id} action="error" variant="accent">
+              <VStack space="sm">
+                <ToastTitle>{error.response.data.detail}</ToastTitle>
+              </VStack>
+            </Toast>
+          );
+        },
+      });
+    }
+  }, []);
+
+  const onTriggerServiceSelect = (value: string) => {
+    fetchCompatibleServices(value)
+      .then(() => {
+        console.log('triggerService ->', value);
+        setSelectedTriggerService1(value);
+      })
+      .catch((error: any) => {
+        console.log(error);
+        toast.show({
+          placement: 'top',
+          render: ({ id }) => {
+            return (
+              <Toast nativeID={'toast-' + id} action="error" variant="accent">
+                <VStack space="sm">
+                  <ToastTitle>{error.response.data.detail}</ToastTitle>
+                </VStack>
+              </Toast>
+            );
+          },
+        });
+      });
+  };
+
+  const onActionServiceSelect = (value: string) => {
+    fetchTriggersByService(value)
+      .then(() => {
+        console.log('action Service ->', value);
+        setSelectedActionService2(value);
+      })
+      .catch((error: any) => {
+        console.log(error);
+        toast.show({
+          placement: 'top',
+          render: ({ id }) => {
+            return (
+              <Toast nativeID={'toast-' + id} action="error" variant="accent">
+                <VStack space="sm">
+                  <ToastTitle>{error.response.data.detail}</ToastTitle>
+                </VStack>
+              </Toast>
+            );
+          },
+        });
+      });
+  };
+
+  const onTriggerSelect = (value: string) => {
+    if (selectedActionService2) {
+      fetchActionsByTriggerId(selectedActionService2, value)
+        .then(() => {
+          console.log('selectedActionService2', selectedActionService2);
+          console.log('trigger id selected ->', value);
+          setSelectedTriggerId(value);
+        })
+        .catch((error: any) => {
+          console.log(error);
+          toast.show({
+            placement: 'top',
+            render: ({ id }) => {
+              return (
+                <Toast nativeID={'toast-' + id} action="error" variant="accent">
+                  <VStack space="sm">
+                    <ToastTitle>{error.response.data.detail}</ToastTitle>
+                  </VStack>
+                </Toast>
+              );
+            },
+          });
+        });
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <Heading style={styles.title}>{t('zap.createZapScreen.title')}</Heading>
-      <View
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          height: '83%',
-          width: '100%',
-          justifyContent: 'space-between',
-        }}>
-        <View style={{ display: 'flex', alignItems: 'center' }}>
-          <TouchableOpacity style={[styles.bigButton, styles.shadow]}>
-            <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>{t('zap.createZapScreen.button1')}</Text>
-            <TouchableOpacity
-              style={styles.smallButton}
-              onPress={() => navigation.navigate('ServicesZapScreen', { isTrigger: true })}>
-              <Text style={styles.smallButtonText}>{t('basic.actions.add')}</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-          <View style={styles.verticalLine} />
-          <PlusCircle size={40} style={{ borderWidth: 1, color: 'black' }} />
-          <View style={styles.verticalLine} />
-          <TouchableOpacity style={[styles.bigButton, styles.shadow]}>
-            <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>{t('zap.createZapScreen.button2')}</Text>
-            <TouchableOpacity
-              style={styles.smallButton}
-              onPress={() => navigation.navigate('ServicesZapScreen', { isTrigger: false })}>
-              <Text style={styles.smallButtonText}>{t('basic.actions.add')}</Text>
-            </TouchableOpacity>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.confirmButton}>
-          <Text style={{ color: 'white', fontSize: 32, fontWeight: 'bold' }}>{t('zap.createZapScreen.submit')}</Text>
-        </TouchableOpacity>
-      </View>
+      <FormControl
+        size="lg"
+        isDisabled={false}
+        isInvalid={false}
+        isReadOnly={false}
+        isRequired={false}
+        style={{ width: '100%' }}>
+        <CustomSelect
+          items={services}
+          onValueChange={value => {
+            console.log(value);
+            onTriggerServiceSelect(value);
+          }}
+          placeholder="Select option"
+        />
+        {compatibleServices.length !== 0 && (
+          <CustomSelect
+            items={compatibleServices}
+            onValueChange={value => {
+              console.log(value);
+              onActionServiceSelect(value);
+            }}
+            placeholder="Select option"
+          />
+        )}
+        {triggersAssociatedToService.length !== 0 && (
+          <CustomSelect
+            items={triggersAssociatedToService}
+            onValueChange={value => {
+              console.log(value);
+              onTriggerSelect(value);
+            }}
+            placeholder="Select option"
+          />
+        )}
+        {actionsAssociatedToTrigger.length !== 0 && (
+          <CustomSelect
+            items={triggersAssociatedToService}
+            onValueChange={value => {
+              console.log(value);
+              setSelectedActionId(value);
+            }}
+            placeholder="Select option"
+          />
+        )}
+      </FormControl>
     </SafeAreaView>
   );
 };
