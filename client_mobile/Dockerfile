@@ -21,6 +21,8 @@ RUN rm -rf android/app/src/main/res/raw && rm -rf android/app/src/main/res/mipma
 
 COPY android/app/src/main/res/ android/app/src/main/res/
 
+RUN echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
+
 RUN cd android && ./gradlew assembleRelease
 
 RUN mkdir -p /build
