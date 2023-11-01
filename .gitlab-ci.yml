@@ -49,9 +49,8 @@ build-web:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE/client_web ./client_web --platform=linux/amd64
     - docker push $CI_REGISTRY_IMAGE/client_web:latest
-  # rules:
-  #   - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
-  when: manual
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
 
 build-server:
   stage: build
@@ -65,9 +64,8 @@ build-server:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE/server ./server --platform=linux/amd64
     - docker push $CI_REGISTRY_IMAGE/server:latest
-  # rules:
-  #   - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
-  when: manual
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
 
 deploy:
   stage: deploy
@@ -93,6 +91,5 @@ deploy:
     - ssh $USER@$IP_PREPROD "docker pull $CI_REGISTRY_IMAGE/server:latest"
     - ssh $USER@$IP_PREPROD "docker-compose down"
     - ssh $USER@$IP_PREPROD "docker-compose up -d"
-  # rules:
-  #   - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
-  when: manual
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
