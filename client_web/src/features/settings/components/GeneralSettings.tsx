@@ -14,17 +14,13 @@ const containerStyle: React.CSSProperties = {
 const GeneralSettings = () => {
 	const { t } = useTranslation();
 	const { user, updateUser } = useUserStore((state) => state);
-	console.log("USER:", user);
 	const changeTheme = () => {
 		if (user === null) return;
 		const currentTheme = user?.profile.theme;
 		const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 		const updatedUser: Partial<UserModelDTO> = {
 				...user,
-				// user?.profile.theme: newTheme as 'dark' | 'light' | 'system',
-				// // user?.profile.langage: user?.profile.language || 'default',
 		};
-		console.log("UPADTAE USER:", updatedUser)
 		user.profile.theme = newTheme as 'dark' | 'light' | 'system';
 		user.profile.language = user.profile.language || 'default';
 		updateUser(updatedUser);
