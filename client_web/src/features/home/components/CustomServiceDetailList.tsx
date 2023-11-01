@@ -1,10 +1,8 @@
-import { Col, List, Space, Typography } from 'antd';
+import { Col, List, Space, Typography, theme } from 'antd';
 import { FC } from 'react';
 import { ActionModelDTO } from '../../../core/models/action';
 import { TriggerModelDTO } from '../../../core/models/trigger';
 import { useTranslation } from 'react-i18next';
-
-const { Text } = Typography;
 
 interface CustomServiceDetailListProps {
 	title: string;
@@ -12,22 +10,26 @@ interface CustomServiceDetailListProps {
 	borderLeftColor: string;
 }
 
-const itemsStyle: React.CSSProperties = {
-	marginTop: '16px',
-	borderRadius: '12px',
-	border: '1px solid #d9d9d9',
-	padding: '12px',
-	boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
-	transition: 'transform 0.2s ease-in-out',
-	backgroundColor: '#fff',
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'center',
-	justifyContent: 'center',
-};
+const { Text } = Typography;
 
 const CustomServiceDetailList: FC<CustomServiceDetailListProps> = ({ title, items, borderLeftColor }) => {
 	const { t } = useTranslation();
+	const { token } = theme.useToken();
+
+	const itemsStyle: React.CSSProperties = {
+		marginTop: '16px',
+		borderRadius: '12px',
+		border: '1px solid #d9d9d9',
+		padding: '12px',
+		boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
+		transition: 'transform 0.2s ease-in-out',
+		backgroundColor: token.colorBgElevated,
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+	};
+
 	return (
 		<Col
 			style={{

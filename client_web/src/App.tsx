@@ -6,7 +6,7 @@ import './i18n/i18next';
 const App = () => {
 	const { defaultAlgorithm, darkAlgorithm } = theme;
 	// const [isDarkMode, setIsDarkMode] = useState(false);
-	const isDarkMode = false;
+	const isDarkMode = true;
 
 	return (
 		<ConfigProvider
