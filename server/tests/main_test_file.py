@@ -6,7 +6,7 @@ import multiprocessing
 
 from auth.test_register import RegisterTestCase
 from actions.test_get_all_actions import GetAllActionsTestCase
-from actions.test_get_action import GetSingleActionTestCase
+from actions.test_get_action import GetActionTestCase
 
 def run_fastapi():
     uvicorn.run(app, host="0.0.0.0", port=8000)
@@ -15,7 +15,7 @@ def test_endpoints():
     test_cases = [
         RegisterTestCase(),
         GetAllActionsTestCase(),
-        GetSingleActionTestCase(),
+        GetActionTestCase(),
     ]
 
     all_passed = True

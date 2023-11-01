@@ -2,7 +2,7 @@ from tests.base import TestCase
 from app.core.config import API_URL
 import requests
 
-class GetSingleActionTestCase(TestCase):
+class GetActionTestCase(TestCase):
 
     def run_tests(self):
         self.test_get_single_action()
