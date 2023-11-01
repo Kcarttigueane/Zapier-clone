@@ -82,3 +82,20 @@ class UsersTestCase(TestCase):
 
         error_field = response_data.get("detail", [{}])[0].get("loc", [])[-1]
         self.test_assert(error_field, "email", "POST /auth/register: Field in error details for invalid email format")
+
+    def test_missing_password(self):
+        payload = {
+            "email": "tes@example.com",
+            "profile": {
+                "first_name": "test",
+                "last_name": "example"
+            }
+        }
+        response = requests.post(f"{API_URL}/auth/register", json=payload)
+        response_data = response.json()
+
+        self.test_assert(response.status_code, 400, "POST /auth/register: Status code for missing password")
+
+        error_msg = response_data.get("detail", "")
+        expected_msg = "Password is required"
+        self.test_assert(error_msg, expected_msg, "POST /auth/register: Error message for missing password")
