@@ -6,7 +6,6 @@ from app.main import WEB_CLIENT_URL
 from app.repository.users_repository import UserRepository
 from app.schemas.users_dto import UserInDTO, UserOAuthDTO, UserOutDTO, UserProfileDTO
 from app.utils.auth_utils import (
-    create_access_token,
     create_jwt_user_token,
     validate_user_info,
 )
@@ -63,7 +62,7 @@ class AuthServices:
             service_name=provider,
         )
 
-        jwt_token = create_access_token(data={"sub": user.email})
+        jwt_token = create_jwt_user_token(user)
 
         frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
         return RedirectResponse(frontend_url)
@@ -219,7 +218,7 @@ class AuthServices:
             user_info, provider, response, user_id=state, service_name=service_name
         )
 
-        jwt_token = create_access_token(data={"sub": user.email})
+        jwt_token = create_jwt_user_token(user)
 
         frontend_url = f"{WEB_CLIENT_URL}/dashboard?token={jwt_token}"
         return RedirectResponse(frontend_url)
