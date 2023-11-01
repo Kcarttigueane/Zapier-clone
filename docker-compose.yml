@@ -10,13 +10,6 @@ services:
     ports:
       - "8080:8080"
 
-  client_mobile:
-    image: $CI_REGISTRY_IMAGE/client_mobile:latest
-    container_name: client_mobile
-    platform: linux/amd64
-    volumes:
-     - apk:/build/:rw
-
   client_web:
     image: $CI_REGISTRY_IMAGE/client_web:latest
     env_file: .env
@@ -25,8 +18,3 @@ services:
     restart: on-failure
     ports:
       - "8081:8081"
-    volumes:
-      - apk:/build/:ro
-
-volumes:
-  apk:
