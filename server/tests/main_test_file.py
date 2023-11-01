@@ -13,6 +13,8 @@ def test_endpoints():
     users_test = UsersTestCase()
     users_test.test_create_user()
     users_test.test_missing_email()
+    users_test.test_invalid_email_format()
+
 
     users_test.print_results()
 
