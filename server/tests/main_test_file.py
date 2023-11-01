@@ -11,18 +11,21 @@ def run_fastapi():
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 def test_endpoints():
-    register_test = RegisterTestCase()
-    register_test.run_tests()
-    register_test.print_results()
+    test_cases = [
+        RegisterTestCase(),
+        GetAllActionsTestCase(),
+    ]
 
-    get_all_actions_test = GetAllActionsTestCase()
-    get_all_actions_test.run_tests()
-    get_all_actions_test.print_results()
+    all_passed = True
 
+    for test_case in test_cases:
+        test_case.run_tests()
+        test_case.print_results()
 
-    if register_test.failure == 0 and get_all_actions_test.failure == 0:
-        return 0
-    return 84
+        if test_case.failure != 0:
+            all_passed = False
+
+    return 0 if all_passed else 84
 
 if __name__ == "__main__":
     fastapi_process = multiprocessing.Process(target=run_fastapi)
