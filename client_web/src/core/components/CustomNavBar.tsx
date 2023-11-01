@@ -89,7 +89,7 @@ const CustomNavBar = () => {
 			</Space>
 			<Space style={rightHeaderStyle} size="large">
 				<Badge count={5} size="small">
-					<BellOutlined style={{ fontSize: '20px', color: token.colorPrimaryText }} />
+					<BellOutlined style={{ fontSize: '20px', color: token.colorText }} />
 				</Badge>
 				<Dropdown menu={{ items, onClick }} placement="bottom" trigger={['click']}>
 					<Avatar

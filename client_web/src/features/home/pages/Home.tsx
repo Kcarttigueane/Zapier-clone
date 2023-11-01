@@ -12,7 +12,7 @@ const Home = () => {
 
 	const layoutStyle: React.CSSProperties = {
 		minHeight: '100vh',
-		backgroundColor: token.colorPrimaryBg,
+		backgroundColor: token.colorBgBase,
 	};
 
 	const contentStyle: React.CSSProperties = {
@@ -30,7 +30,7 @@ const Home = () => {
 		width: '90%',
 		borderRadius: '25px',
 		boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25), 0 -2px 4px rgba(0, 0, 0, 0.25)',
-		backgroundColor: token.colorBgElevated,
+		backgroundColor: token.colorBgContainer,
 		gap: '36px',
 	};
 

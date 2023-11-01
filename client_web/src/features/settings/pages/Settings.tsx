@@ -8,40 +8,38 @@ import HelpAndSupport from '../components/HelpAndSupport';
 import SettingsMenu from '../components/SettingsMenu';
 import Language from '../components/Language';
 
-const layoutStyle: React.CSSProperties = {
-	minHeight: '100vh',
-	backgroundColor: '#fff',
-};
-
-const imageStyle: React.CSSProperties = {
-	borderRadius: '50%',
-	padding: '2px',
-	background: 'linear-gradient(#1BFFFF, #2E3192), linear-gradient(to left,  #1BFFFF, #2E3192)',
-	backgroundOrigin: 'border-box',
-	backgroundClip: 'content-box, border-box',
-};
-
-const contentStyle: React.CSSProperties = {
-	padding: '0 24px',
-	color: '#000',
-	display: 'flex',
-	alignItems: 'center',
-};
-
-const footerStyle: React.CSSProperties = {
-	display: 'flex',
-	justifyContent: 'space-between',
-	alignItems: 'center',
-	boxShadow: '0 -1px 4px rgba(0, 0, 0, 0.1)',
-	background: '#fff',
-};
-
 const { Content } = Layout;
 
 const Settings = () => {
-	const {
-		token: { colorBgContainer },
-	} = theme.useToken();
+	const { token} = theme.useToken();
+
+	const layoutStyle: React.CSSProperties = {
+		minHeight: '100vh',
+		backgroundColor: token.colorBgBase,
+	};
+	
+	const imageStyle: React.CSSProperties = {
+		borderRadius: '50%',
+		padding: '2px',
+		background: 'linear-gradient(#1BFFFF, #2E3192), linear-gradient(to left,  #1BFFFF, #2E3192)',
+		backgroundOrigin: 'border-box',
+		backgroundClip: 'content-box, border-box',
+	};
+	
+	const contentStyle: React.CSSProperties = {
+		padding: '0 24px',
+		color: '#000',
+		display: 'flex',
+		alignItems: 'center',
+	};
+	
+	const footerStyle: React.CSSProperties = {
+		display: 'flex',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		boxShadow: '0 -1px 4px rgba(0, 0, 0, 0.1)',
+		background: token.colorBgElevated,
+	};
 
 	const [selectedMenu, setSelectedMenu] = useState<string>('1');
 
@@ -67,7 +65,7 @@ const Settings = () => {
 				<Layout
 					style={{
 						padding: '24px 0',
-						background: colorBgContainer,
+						background: token.colorBgElevated,
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',

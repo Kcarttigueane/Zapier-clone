@@ -10,7 +10,7 @@ const Dashboard = () => {
 
 	const layoutStyle: React.CSSProperties = {
 		minHeight: '100vh',
-		backgroundColor: token.colorPrimaryBg,
+		backgroundColor: token.colorBgBase,
 	};
 
 	const contentStyle: React.CSSProperties = {
@@ -29,7 +29,7 @@ const Dashboard = () => {
 		width: '100%',
 		borderRadius: '25px',
 		boxShadow: '0 2px 4px rgba(0, 0, 0, 0.25), 0 -2px 4px rgba(0, 0, 0, 0.25)',
-		backgroundColor: token.colorBgElevated,
+		backgroundColor: token.colorBgContainer,
 		gap: '16px',
 	};
 
