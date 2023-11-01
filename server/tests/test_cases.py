@@ -41,3 +41,23 @@ class UsersTestCase(TestCase):
 
         token_type = response_data.get('tokenType', None)
         self.test_assert(token_type, 'bearer', "POST /auth/register: Token Type is Bearer")
+
+    def test_missing_email(self):
+        payload = {
+            "password": "password123",
+            "profile": {
+                "first_name": "test",
+                "last_name": "example"
+            }
+        }
+        response = requests.post(f"{API_URL}/auth/register", json=payload)
+        response_data = response.json()
+
+        self.test_assert(response.status_code, 422, "POST /auth/register: Status code for missing email")
+
+        error_msg = response_data.get("detail", [{}])[0].get("msg", "")
+        expected_msg = "field required"
+        self.test_assert(error_msg, expected_msg, "POST /auth/register: Error message for missing email")
+
+        missing_field = response_data.get("detail", [{}])[0].get("loc", [])[-1]
+        self.test_assert(missing_field, "email", "POST /auth/register: Missing field in error details")
