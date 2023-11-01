@@ -1,27 +1,16 @@
-import requests
+from tests.base import TestCase
 from app.core.config import API_URL
-
-class TestCase():
-    def __init__(self):
-        self.success = 0
-        self.failure = 0
-        self.total = 0
-
-    def test_assert(self, objectA, objectB, test_type):
-        if objectA == objectB:
-            self.success += 1
-            print(f"✔ {test_type}")
-        else:
-            self.failure += 1
-            print(f"✘ {test_type}")
-        self.total += 1
-
-    def print_results(self):
-        print("\n======= Test Results ========")
-        print(f"✔ Success: {self.success}/{self.total}")
-        print(f"✘ Failure: {self.failure}/{self.total}\n")
+import requests
 
 class UsersTestCase(TestCase):
+
+    def run_all_tests_for_register(self):
+        self.test_create_user()
+        self.test_missing_email()
+        self.test_invalid_email_format()
+        self.test_missing_password()
+        self.test_missing_profile()
+        self.test_user_already_registered()
 
     def test_create_user(self):
         payload = {

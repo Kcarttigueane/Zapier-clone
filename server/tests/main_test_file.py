@@ -4,19 +4,14 @@ import uvicorn
 import sys
 import multiprocessing
 
-from test_cases import UsersTestCase
+from auth.test_register import UsersTestCase
 
 def run_fastapi():
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
 def test_endpoints():
     users_test = UsersTestCase()
-    users_test.test_create_user()
-    users_test.test_missing_email()
-    users_test.test_invalid_email_format()
-    users_test.test_missing_password()
-    users_test.test_missing_profile()
-    users_test.test_user_already_registered()
+    users_test.run_all_tests_for_register()
 
     users_test.print_results()
 
