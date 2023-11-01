@@ -2,9 +2,9 @@ from tests.base import TestCase
 from app.core.config import API_URL
 import requests
 
-class UsersTestCase(TestCase):
+class RegisterTestCase(TestCase):
 
-    def run_all_tests_for_register(self):
+    def run_tests(self):
         self.test_create_user()
         self.test_missing_email()
         self.test_invalid_email_format()
