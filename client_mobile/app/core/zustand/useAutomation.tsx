@@ -37,7 +37,6 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
       const response = await apiV2.get('/automations', { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.info(response.data);
         set({ automations: response.data, isAutomationsLoading: false });
       }
     } catch (error: any) {
@@ -58,7 +57,6 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
       const response = await apiV2.get('/automations/detailed', { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.info(response.data);
         set({ automationWithDetails: response.data, isAutomationsLoading: false });
         return response.data;
       }
@@ -80,7 +78,6 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
       const response = await apiV2.post('/automations', automationData, { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.Created && response.data) {
-        console.info(response.data);
         set(state => ({ automations: [...state.automations, response.data], isAutomationsLoading: false }));
       }
     } catch (error: any) {
@@ -101,7 +98,6 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
       const response = await apiV2.delete(`/automations/${automationId}`, { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.NoContent) {
-        console.info(response.data);
         set(state => ({
           automations: state.automations.filter(automation => automation.id !== automationId),
           isAutomationsLoading: false,
@@ -128,7 +124,6 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
       });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.info(response.data);
         set(state => ({
           automations: state.automations.map(automation => {
             if (automation.id === automationId) {

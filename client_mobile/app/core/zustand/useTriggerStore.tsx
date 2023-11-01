@@ -35,7 +35,6 @@ const useTriggerStore = create<TriggerState & TriggerActions>()(set => ({
       const response = await apiV2.get('/triggers/', { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.info(response.data);
         set({ triggers: response.data, isTriggersLoading: false });
       }
     } catch (error: any) {
@@ -55,7 +54,6 @@ const useTriggerStore = create<TriggerState & TriggerActions>()(set => ({
       const response = await apiV2.get(`/triggers/service/${serviceId}`, { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.info(response.data);
         set({ triggersAssociatedToService: response.data, isTriggersLoading: false });
       }
     } catch (error: any) {

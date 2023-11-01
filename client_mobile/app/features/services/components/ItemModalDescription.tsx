@@ -15,16 +15,18 @@ import {
   Text,
 } from '@gluestack-ui/themed';
 import React, { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ActionModelDTO } from '../../../core/models/action';
 import { TriggerModelDTO } from '../../../core/models/trigger';
 
 interface ItemModalDescriptionProps {
-  item: TriggerModelDTO | ActionModelDTO | null;
+  item: TriggerModelDTO | ActionModelDTO;
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
 }
 
 const ItemModalDescription: FC<ItemModalDescriptionProps> = ({ item, showModal, setShowModal }) => {
+  const { t } = useTranslation();
   const ref = React.useRef(null);
 
   return (
@@ -44,7 +46,7 @@ const ItemModalDescription: FC<ItemModalDescriptionProps> = ({ item, showModal, 
             </ModalCloseButton>
           </ModalHeader>
           <ModalBody>
-            <Text>{item?.description}</Text>
+            <Text>{t(item.description)}</Text>
           </ModalBody>
           <ModalFooter>
             <Button

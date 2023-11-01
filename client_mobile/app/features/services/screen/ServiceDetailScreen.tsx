@@ -198,7 +198,7 @@ const ServiceDetailScreen = () => {
             </View>
           </View>
         )}
-        <ItemModalDescription item={selectedItem} showModal={showModal} setShowModal={setShowModal} />
+        {selectedItem && <ItemModalDescription item={selectedItem} showModal={showModal} setShowModal={setShowModal} />}
       </ScrollView>
     </SafeAreaView>
   );
