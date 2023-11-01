@@ -5,9 +5,9 @@ import requests
 class GetActionTestCase(TestCase):
 
     def run_tests(self):
-        self.test_get_single_action()
+        self.test_get_action()
 
-    def test_get_single_action(self):
+    def test_get_action(self):
         action_id = "652ad20b2af9c30350f8861b"
         response = requests.get(f"{API_URL}/actions/{action_id}")
 
