@@ -134,7 +134,7 @@ OAUTH2_PROVIDERS = {
         "authorization_url": f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/authorize",
         "token_url": f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/token",
         "user_info_url": "https://graph.microsoft.com/v1.0/me",
-        "scope": "offline_access User.Read Mail.Read",
+        "scope": "offline_access User.Read Mail.Read Chat.ReadWrite Chat.Read Chat.ReadBasic Calendars.Read Calendars.ReadWrite",
     },
 }
 
@@ -163,7 +163,12 @@ SERVICE_SCOPES = {
         "https://www.googleapis.com/auth/youtube",
         "https://www.googleapis.com/auth/youtube.force-ssl",
     ],
-    "spotify": ["user-read-private", "user-read-email", "playlist-read-private"],
+    "spotify": [
+        "user-read-private",
+        "user-read-email",
+        "playlist-read-private",
+        "user-library-read",
+    ],
     "discord": [
         "identify",
     ],

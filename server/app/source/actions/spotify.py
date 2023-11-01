@@ -104,13 +104,7 @@ def add_tracks_to_playlist(playlist_id: str, track_uris: list[str], token: str) 
     requests.post(url, headers=headers, data=json.dumps(data))
 
 
-def add_songs_to_playlist(user: UserOutDTO, trigger_answer: TriggerAnswer):
-    token = get_spotify_auth_token(user)
-    if not token:
-        return None
-
-    objs = trigger_answer.objs
-
+def handle_add_songs_to_playlist(token, objs):
     spotify_id = get_user_id(token)
     playlist_id = create_playlist(spotify_id, "Area", token)
     playlist_track_uris = get_tracks_playlist(playlist_id, token)
@@ -123,3 +117,16 @@ def add_songs_to_playlist(user: UserOutDTO, trigger_answer: TriggerAnswer):
 
     if track_uris != []:
         add_tracks_to_playlist(playlist_id, track_uris, token)
+
+
+def add_songs_to_playlist_spotify(user: UserOutDTO, trigger_answer: TriggerAnswer):
+    token = get_spotify_auth_token(user)
+    if not token:
+        return None
+
+    objs = trigger_answer.objs
+
+    try:
+        handle_add_songs_to_playlist(token, objs)
+    except Exception as e:
+        logger.info(f"An error occurred: {e}")

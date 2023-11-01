@@ -1,52 +1,53 @@
-import { LockOutlined, MailOutlined } from '@ant-design/icons';
+import { MailOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd';
+import { HttpStatusCode } from 'axios';
 import { Formik } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { apiV2 } from '../../../core/api';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const initialValues = {
 	email: 'oliver.lewis@masurao.jp',
-	password: 'password',
 };
 
 const validationSchema = Yup.object({
 	email: Yup.string().email('Invalid email format').required('Required'),
-	password: Yup.string().required('Required'),
 });
 
-interface LoginDTO {
+interface ForgotDTO {
 	email: string;
-	password: string;
 }
-const LoginForm: React.FC = () => {
+const ForgotForm: React.FC = () => {
 	const { t } = useTranslation();
 	const [form] = Form.useForm();
-	const { loginFn, isLoading } = useAuthStore((state) => state);
 	const navigate = useNavigate();
+	const { isLoading } = useAuthStore((state) => state);
 	const [messageApi, contextHolder] = message.useMessage();
 
-	const handleForgot = () => navigate('/auth/login/forgot-password');
-
-	const onLoginSubmit = async (values: LoginDTO) => {
-		const { email, password } = values;
-
+	const onLoginSubmit = async (values: ForgotDTO) => {
 		try {
-			await loginFn(email, password);
-			await messageApi.open({
-				type: 'success',
-				content: 'Successfully registered',
-				duration: 1,
+			const response = await apiV2.post('/auth/forgot-password', null, {
+				params: {
+					email: values.email,
+				},
 			});
-			navigate('/home');
+			if (response.status === HttpStatusCode.Ok && response.data) {
+				await messageApi.open({
+					type: 'success',
+					content: 'Successfully send',
+					duration: 1,
+				});
+				navigate('/auth/login/reset-password');
+			}
 		} catch (error: any) {
-			console.error('Error registering user:', error.response.data.detail);
 			messageApi.open({
 				type: 'error',
 				content: error.response.data.detail || 'Something went wrong',
 			});
+			throw error;
 		}
 	};
 
@@ -55,7 +56,7 @@ const LoginForm: React.FC = () => {
 			{contextHolder}
 			<Formik
 				initialValues={initialValues}
-				onSubmit={(values: LoginDTO) => {
+				onSubmit={(values: ForgotDTO) => {
 					console.log(values);
 				}}
 				validationSchema={validationSchema}
@@ -79,27 +80,6 @@ const LoginForm: React.FC = () => {
 								onBlur={handleBlur}
 							/>
 						</Form.Item>
-						<Form.Item
-							label={t('basic.fields.password')}
-							validateStatus={touched.password && errors.password ? 'error' : undefined}
-							help={touched.password && errors.password ? errors.password : undefined}
-						>
-							<Input.Password
-								prefix={<LockOutlined style={{ marginRight: 8 }} />}
-								size="large"
-								placeholder={t('basic.fields.password')}
-								id="password"
-								name="password"
-								value={values.password}
-								onChange={handleChange}
-								onBlur={handleBlur}
-							/>
-						</Form.Item>
-						<Form.Item>
-							<a onClick={handleForgot} style={{ float: 'right' }}>
-								{t('auth.forgotPassword.title')}
-							</a>
-						</Form.Item>
 						<Form.Item style={{ marginTop: 48 }}>
 							<Button
 								type="primary"
@@ -121,4 +101,4 @@ const LoginForm: React.FC = () => {
 	);
 };
 
-export default LoginForm;
+export default ForgotForm;

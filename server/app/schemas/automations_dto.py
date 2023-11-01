@@ -15,7 +15,6 @@ class AutomationLogInDTO(BaseModel):
     class Config:
         json_schema_extra = {
             "example": {
-                "id": 1,
                 "triggered_at": "2023-01-01T00:00:00",
                 "details": "Triggered automation with ID 1",
             }

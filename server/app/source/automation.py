@@ -9,6 +9,7 @@ from app.repository.automations_repository import (
     AutomationOutDTO,
     AutomationRepository,
 )
+from app.schemas.automations_dto import AutomationLogInDTO
 from app.repository.service_repository import ServiceRepository
 from app.repository.triggers_repository import TriggerRepository
 from app.repository.users_repository import UserOutDTO, UserRepository
@@ -17,13 +18,21 @@ from app.source.helpers import automation_poll_status, handle_refresh_token
 
 from app.source.actions.google_gmail import send_myself_mail
 from app.source.actions.google_drive import add_attachments_to_drive
-from app.source.actions.spotify import add_songs_to_playlist
+from app.source.actions.spotify import add_songs_to_playlist_spotify
+from app.source.actions.teams import send_message, add_events_team
+from app.source.actions.google_calendar import add_events_google_calendar
+from app.source.actions.google_youtube import add_songs_to_playlist_youtube
 
 from app.source.triggers.google_gmail import check_gmail_attachment
-from app.source.triggers.google_youtube import check_youtube_like
+from app.source.triggers.google_youtube import check_youtube_like, check_new_videos
 from app.source.triggers.google_drive import check_new_files
-from app.source.triggers.google_calendar import check_todays_event
+from app.source.triggers.google_calendar import (
+    check_todays_event,
+    check_upcoming_events_calendar,
+)
 from app.source.triggers.open_meteo import check_todays_weather
+from app.source.triggers.teams import check_upcoming_events_team
+from app.source.triggers.spotify import check_spotify_like
 
 user_repository = UserRepository()
 automation_repository = AutomationRepository()
@@ -35,6 +44,7 @@ action_repository = ActionRepository()
 trigger_dict = {
     "youtube": {
         "LikeSong": check_youtube_like,
+        "NewVideo": check_new_videos,
     },
     "gmail": {
         "NewAttachment": check_gmail_attachment,
@@ -44,21 +54,38 @@ trigger_dict = {
     },
     "google calendar": {
         "TodayEvent": check_todays_event,
+        "UpcomingEvents": check_upcoming_events_calendar,
     },
     "open meteo": {
         "TodayWeather": check_todays_weather,
+    },
+    "teams": {
+        "UpcomingEvents": check_upcoming_events_team,
+    },
+    "spotify": {
+        "LikeSong": check_spotify_like,
     },
 }
 
 action_dict = {
     "spotify": {
-        "AddToPlaylist": add_songs_to_playlist,
+        "AddToPlaylist": add_songs_to_playlist_spotify,
     },
     "google drive": {
         "UploadToDrive": add_attachments_to_drive,
     },
     "gmail": {
         "SendMail": send_myself_mail,
+    },
+    "google calendar": {
+        "AddEvents": add_events_google_calendar,
+    },
+    "teams": {
+        "sendMessage": send_message,
+        "AddEvents": add_events_team,
+    },
+    "youtube": {
+        "AddToPlaylist": add_songs_to_playlist_youtube,
     },
 }
 
@@ -129,9 +156,14 @@ async def handle_automation(automation: AutomationOutDTO) -> AutomationOutDTO:
     trigger_answer = await handle_trigger(automation, user)
     if trigger_answer is not None:
         await handle_action(automation, user, trigger_answer)
+        automation.last_polled = datetime.now(timezone.utc)
+        automation.first_poll = False
+        new_log = AutomationLogInDTO(
+            triggered_at=automation.last_polled,
+            details=f"Triggered automation with ID {automation.id}",
+        )
+        automation.logs.append(new_log)
 
-    automation.last_polled = datetime.now(timezone.utc)
-    automation.first_poll = False
     return automation
 
 

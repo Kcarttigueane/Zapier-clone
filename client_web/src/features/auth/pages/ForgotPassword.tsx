@@ -1,12 +1,10 @@
 import React from 'react';
 
-import { Button, Divider, Space, Typography } from 'antd';
+import { Space, Typography } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import Flex from '../../../core/components/Flex';
 import AuthLanguageSelect from '../components/AuthLanguageSelect';
-import ProviderAuth from '../components/ProviderAuth';
-import RegisterForm from '../components/RegisterForm';
+import ForgotForm from '../components/ForgotPasswordForm';
 import RightArea from '../components/RightArea';
 
 const mainContainerStyle: React.CSSProperties = {
@@ -44,35 +42,31 @@ const greetingStyle: React.CSSProperties = {
 	marginBottom: 16,
 };
 
-const Register = () => {
-	const navigate = useNavigate();
+const ForgotPassword = () => {
 	const { t } = useTranslation();
 
 	return (
 		<div style={mainContainerStyle}>
 			<div style={mainBoxStyle}>
-				<Flex direction="column" style={{ height: '100%', lineHeight: '0%', padding: '48px' }} align="center">
+				<Flex direction="column" style={{ height: '100%', lineHeight: '0%', padding: '64px' }} align="center">
 					<AuthLanguageSelect />
-					<Text style={titleStyle}>{t('auth.register.title')}</Text>
-					<Text style={greetingStyle}>{t('auth.register.welcome')}</Text>
-					<ProviderAuth />
-					<Space style={{ width: '60%' }} direction="vertical">
-						<Divider
-							plain
-							style={{
-								height: 12,
-							}}
-						>
-							{t('basic.actions.or')}
-						</Divider>
-						<RegisterForm />
-					</Space>
-					<Space>
-						<Text>{t('auth.haveAccount')}</Text>
-						<Button type="link" onClick={() => navigate('/auth/login')} style={{ padding: 0 }}>
-							{t('auth.login.title')}
-						</Button>
-					</Space>
+					<div
+						style={{
+							flex: 1,
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							width: '100%',
+							marginTop: 48,
+							gap: 24,
+						}}
+					>
+						<Text style={titleStyle}>{t('auth.forgotPassword.title')}</Text>
+						<Text style={greetingStyle}>{t('auth.forgotPassword.welcome')}</Text>
+						<Space style={{ width: '60%' }} direction="vertical">
+							<ForgotForm />
+						</Space>
+					</div>
 				</Flex>
 				<RightArea />
 			</div>
@@ -80,4 +74,4 @@ const Register = () => {
 	);
 };
 
-export default Register;
+export default ForgotPassword;

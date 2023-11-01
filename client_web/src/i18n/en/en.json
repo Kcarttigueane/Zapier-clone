@@ -185,6 +185,10 @@
       "title": "Forgot password",
       "welcome": "Enter your email address to reset your password"
     },
+    "resetPassword": {
+      "title": "Reset password",
+      "welcome": "Enter your new password."
+    },
     "rightArea": {
       "text": "Link your favorite apps and simplify your life by using the power of automation."
     },
@@ -204,7 +208,8 @@
       "connected": "Already Connected",
       "disabled": "Authorize Services",
       "enabled": "Try It!",
-      "service": "🔎 Select a Service"
+      "service": "🔎 Select a Service",
+      "name": "Name of the automation"
     },
     "recommendedSection": {
       "serviceTitle": "Our available services"
@@ -214,12 +219,49 @@
     "filter": "Filter Automations",
     "service": "Service",
     "name": "Name",
-    "polled": "Last Polled",
+    "authorized": "Authorized Services",
+    "polled": "Last Automation",
+    "created": "Created",
+    "delete": "Delete",
     "running": "Running",
     "confirm": "Sure to delete?",
     "cancel": "Cancel",
     "ok": "OK",
-    "time": "{{time}} ago"
+    "makeSure": {
+      "part1": "To ensure the automation works correctly, make sure it's ",
+      "bold1": "activated",
+      "part2": " and that you are ",
+      "bold2": "connected",
+      "part3": " to the necessary services."
+    }
   },
-  "error": "Something went wrong"
+  "actions" : {
+    "AddToPlaylist" : "Automatically adds a song to a designated playlist.",
+    "UploadToDrive" : "Auto-uploads files to Google Drive when triggered.",
+    "SendMail": "Send a mail to yourself",
+    "SendMessage": "Send a message to yourself.",
+    "AddEventsCalendar" : "Add events on Google Calendar",
+    "AddEventsTeam": "Add events on Teams"
+  },
+  "triggers" : {
+    "LikeSong": "Fires when a song is liked on platforms like YouTube, Spotify.",
+    "NewAttachment": "Triggers upon receiving new file attachments in emails.",
+    "NewFile": "Triggers when new file is added to Drive",
+    "TodayEvent": "Triggers when a calendar event is on the current day.",
+    "TodayWeather": "Triggers daily weather information",
+    "UpcomingEventsTeams": "Triggers when upcoming events on Teams",
+    "UpcomingEventsCalendar": "Triggers when upcoming events on Google Calendar",
+    "NewVideo": "Fires when a channel that the user has subscribed to uploads a new video."
+  },
+  "services" : {
+    "google_drive": "Google Drive lets you store and access your files anywhere — on the web, on your hard drive, or on the go",
+    "google_calendar": "A time-management and scheduling calendar service.",
+    "gmail": "A free email service developed by Google. Users can access Gmail on the web and using third-party programs that synchronize email content through POP or IMAP protocols.",
+    "spotify": "A digital music streaming service that gives you access to millions of songs, podcasts, and videos from artists all over the world.",
+    "youtube": "A platform that allows users to upload, view, rate, share, and comment on videos.",
+    "open_meteo": "A free weather api.",
+    "teams": "Microsoft Teams is a unified communication and collaboration tool."
+  },
+  "error": "Something went wrong",
+  "code": "en"
 }

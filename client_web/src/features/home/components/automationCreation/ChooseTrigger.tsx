@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 import { TriggerModelDTO } from '../../../../core/models/trigger';
 import { capitalizeFirstLetter } from '../../../../core/utils/capitalizeFirstLetter';
 import useTriggerStore from '../../../../core/zustand/useTriggerStore';
+import { useTranslation } from 'react-i18next';
 
 const { Text } = Typography;
 
@@ -34,6 +35,7 @@ interface ChooseTriggerProps {
 const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, setSelectedTriggerId }) => {
 	const [hovered, setHovered] = useState<string | null>(null);
 	const { isTriggersLoading } = useTriggerStore((state) => state);
+	const { t } = useTranslation();
 
 	return (
 		<>
@@ -57,7 +59,7 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 							const isSelected = trigger.id === selectedTriggerId;
 							return (
 								<Popover
-									title={capitalizeFirstLetter(trigger.description)}
+									title={t(trigger.description)}
 									key={trigger.id}
 									placement="bottom"
 									style={{
