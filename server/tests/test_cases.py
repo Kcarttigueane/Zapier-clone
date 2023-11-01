@@ -121,3 +121,20 @@ class UsersTestCase(TestCase):
         error_location = response_data.get("detail", [{}])[0].get("loc", [])
         expected_location = ['body', 'profile']
         self.test_assert(error_location, expected_location, "POST /auth/register: Error location for missing profile")
+
+    def test_user_already_registered(self):
+        payload = {
+            "email": "test@example.com",
+            "password": "password123",
+            "profile": {
+                "first_name": "test",
+                "last_name": "example"
+            }
+        }
+
+        response = requests.post(f"{API_URL}/auth/register", json=payload)
+        self.test_assert(response.status_code, 400, "POST /auth/register: Registration Status Code for duplicate user")
+
+        response_data = response.json()
+        expected_error_message = "Email already registered"
+        self.test_assert(response_data.get('detail', ''), expected_error_message, "POST /auth/register: Error message for duplicate user")
