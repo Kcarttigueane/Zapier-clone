@@ -20,7 +20,7 @@ const Language = () => {
 		padding: '60px 140px',
 		borderRadius: '12px',
 	};
-	
+
 	const labelStyle: React.CSSProperties = {
 		textAlign: 'center' as React.CSSProperties['textAlign'],
 		color: token.colorText,
@@ -29,7 +29,6 @@ const Language = () => {
 		wordWrap: 'break-word',
 		marginBottom: 24,
 	};
-	
 
 	const changeLanguage = (language: string) => {
 		i18next.changeLanguage(language);

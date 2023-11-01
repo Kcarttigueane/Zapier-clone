@@ -5,7 +5,6 @@ import CustomNavBar from '../../../core/components/CustomNavBar';
 import AutomationTable from '../components/AutomationTable';
 
 const Dashboard = () => {
-
 	const { token } = theme.useToken();
 
 	const layoutStyle: React.CSSProperties = {
@@ -40,7 +39,6 @@ const Dashboard = () => {
 		boxShadow: '0 -1px 4px rgba(0, 0, 0, 0.1)',
 		background: token.colorBgElevated,
 	};
-
 
 	return (
 		<Layout style={layoutStyle}>

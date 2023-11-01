@@ -7,7 +7,6 @@ import AuthLanguageSelect from '../components/AuthLanguageSelect';
 import ForgotForm from '../components/ForgotPasswordForm';
 import RightArea from '../components/RightArea';
 
-
 const ForgotPassword = () => {
 	const { t } = useTranslation();
 	const { token } = theme.useToken();
@@ -19,7 +18,7 @@ const ForgotPassword = () => {
 		height: '100vh',
 		backgroundColor: token.colorBgBase,
 	};
-	
+
 	const mainBoxStyle: React.CSSProperties = {
 		display: 'grid',
 		gridTemplateColumns: '1fr 1fr',
@@ -32,16 +31,16 @@ const ForgotPassword = () => {
 		backgroundColor: token.colorBgContainer,
 		color: token.colorText,
 	};
-	
+
 	const { Text } = Typography;
-	
+
 	const titleStyle: React.CSSProperties = {
 		fontSize: 36,
 		fontWeight: 'bold',
 		color: token.colorText,
 		alignSelf: 'center',
 	};
-	
+
 	const greetingStyle: React.CSSProperties = {
 		fontSize: 20,
 		fontWeight: 'bold',

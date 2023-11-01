@@ -4,7 +4,6 @@ import router from './core/routes/router';
 import './i18n/i18next';
 import useUserStore from './core/zustand/useUserStore';
 
-
 const App = () => {
 	const { defaultAlgorithm, darkAlgorithm } = theme;
 	const { user } = useUserStore((state) => state);
@@ -17,14 +16,14 @@ const App = () => {
 	console.log('isDarkMode', isDarkMode);
 
 	return (
-			<ConfigProvider
-				theme={{
-					algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
-				}}
-			>
-				<RouterProvider router={router} />
-      </ConfigProvider>
-  );
+		<ConfigProvider
+			theme={{
+				algorithm: isDarkMode ? darkAlgorithm : defaultAlgorithm,
+			}}
+		>
+			<RouterProvider router={router} />
+		</ConfigProvider>
+	);
 };
 
 export default App;

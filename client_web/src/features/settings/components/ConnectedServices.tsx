@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import useServicesStore from '../../../core/zustand/useServiceStore';
 import ConnectedServiceItem from './ConnectedServiceItem';
 
-
 const ConnectedServices = () => {
 	const { userAuthorizedServices, fetchUserAuthorizedServices, isLoading } = useServicesStore((state) => state);
 	const [messageApi, contextHolder] = message.useMessage();
@@ -13,7 +12,7 @@ const ConnectedServices = () => {
 		border: '1px solid #d9d9d9',
 		padding: '60px 140px',
 		borderRadius: '12px',
-		color: token.colorText
+		color: token.colorText,
 	};
 
 	useEffect(() => {

@@ -34,7 +34,7 @@ const ChooseService: FC<ChooseServiceProps> = ({ title, services, selectedServic
 		justifyContent: 'center',
 		gap: '16px',
 	};
-	
+
 	const hoverStyle: React.CSSProperties = {
 		transform: 'scale(1.05)',
 	};

@@ -19,7 +19,7 @@ const GeneralSettings = () => {
 		const currentTheme = user?.profile.theme;
 		const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 		const updatedUser: Partial<UserModelDTO> = {
-				...user,
+			...user,
 		};
 		user.profile.theme = newTheme as 'dark' | 'light' | 'system';
 		user.profile.language = user.profile.language || 'default';

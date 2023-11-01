@@ -9,7 +9,6 @@ interface LanguageItemProps {
 	checked: boolean;
 }
 
-
 const LanguageItem: React.FC<LanguageItemProps> = ({ imageUrl, language, onChange, checked }) => {
 	const { t } = useTranslation();
 	const { token } = theme.useToken();
@@ -27,7 +26,9 @@ const LanguageItem: React.FC<LanguageItemProps> = ({ imageUrl, language, onChang
 	return (
 		<Space style={cardStyle}>
 			<Image width={32} src={imageUrl} />
-			<p style={{ margin: '0 0 0 16px', color: token.colorText}}>{t(`settings.settingScreen.languages.${language}`)}</p>
+			<p style={{ margin: '0 0 0 16px', color: token.colorText }}>
+				{t(`settings.settingScreen.languages.${language}`)}
+			</p>
 			<Checkbox checked={checked} onChange={onChange} />
 		</Space>
 	);

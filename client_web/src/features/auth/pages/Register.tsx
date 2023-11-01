@@ -9,7 +9,6 @@ import ProviderAuth from '../components/ProviderAuth';
 import RegisterForm from '../components/RegisterForm';
 import RightArea from '../components/RightArea';
 
-
 const Register = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
@@ -22,7 +21,7 @@ const Register = () => {
 		height: '100vh',
 		backgroundColor: token.colorBgBase,
 	};
-	
+
 	const mainBoxStyle: React.CSSProperties = {
 		display: 'grid',
 		gridTemplateColumns: '1fr 1fr',
@@ -34,18 +33,17 @@ const Register = () => {
 		overflow: 'hidden',
 		backgroundColor: token.colorBgContainer,
 		color: token.colorText,
-		
 	};
-	
+
 	const { Text } = Typography;
-	
+
 	const titleStyle: React.CSSProperties = {
 		fontSize: 36,
 		fontWeight: 'bold',
 		color: token.colorText,
 		alignSelf: 'center',
 	};
-	
+
 	const greetingStyle: React.CSSProperties = {
 		fontSize: 20,
 		fontWeight: 'bold',

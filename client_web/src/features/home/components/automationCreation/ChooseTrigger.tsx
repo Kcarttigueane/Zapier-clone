@@ -20,23 +20,23 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 	const { token } = theme.useToken();
 
 	const imageStyle: React.CSSProperties = {
-	borderRadius: '12px',
-	border: '1px solid #d9d9d9',
-	padding: '12px',
-	boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
-	transition: 'transform 0.2s ease-in-out',
-	backgroundColor: token.colorBgElevated,
-	minWidth: '120px',
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'center',
-	justifyContent: 'center',
-	gap: '16px',
-};
+		borderRadius: '12px',
+		border: '1px solid #d9d9d9',
+		padding: '12px',
+		boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
+		transition: 'transform 0.2s ease-in-out',
+		backgroundColor: token.colorBgElevated,
+		minWidth: '120px',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: '16px',
+	};
 
-const hoverStyle: React.CSSProperties = {
-	transform: 'scale(1.05)',
-};
+	const hoverStyle: React.CSSProperties = {
+		transform: 'scale(1.05)',
+	};
 
 	return (
 		<>

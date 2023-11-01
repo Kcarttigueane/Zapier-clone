@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next';
 
 const { Text } = Typography;
 
-
 interface ChooseActionProps {
 	actions: ActionModelDTO[];
 	selectedActionId: ActionModelDTO['id'] | null;
@@ -34,7 +33,7 @@ const ChooseAction: FC<ChooseActionProps> = ({ actions, selectedActionId, setSel
 		justifyContent: 'center',
 		gap: '16px',
 	};
-	
+
 	const hoverStyle: React.CSSProperties = {
 		transform: 'scale(1.05)',
 	};

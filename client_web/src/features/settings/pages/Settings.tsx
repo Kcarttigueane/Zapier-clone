@@ -11,13 +11,13 @@ import Language from '../components/Language';
 const { Content } = Layout;
 
 const Settings = () => {
-	const { token} = theme.useToken();
+	const { token } = theme.useToken();
 
 	const layoutStyle: React.CSSProperties = {
 		minHeight: '100vh',
 		backgroundColor: token.colorBgBase,
 	};
-	
+
 	const imageStyle: React.CSSProperties = {
 		borderRadius: '50%',
 		padding: '2px',
@@ -25,14 +25,14 @@ const Settings = () => {
 		backgroundOrigin: 'border-box',
 		backgroundClip: 'content-box, border-box',
 	};
-	
+
 	const contentStyle: React.CSSProperties = {
 		padding: '0 24px',
 		color: '#000',
 		display: 'flex',
 		alignItems: 'center',
 	};
-	
+
 	const footerStyle: React.CSSProperties = {
 		display: 'flex',
 		justifyContent: 'space-between',
