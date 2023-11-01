@@ -40,6 +40,17 @@ check-server:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
+build-mobile:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/client_mobile ./client_mobile --platform=linux/amd64
+    - docker push $CI_REGISTRY_IMAGE/client_mobile:latest
+  when: manual
+
 build-web:
   stage: build
   image: docker
@@ -64,8 +75,9 @@ build-server:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE/server ./server --platform=linux/amd64
     - docker push $CI_REGISTRY_IMAGE/server:latest
-  rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+  # rules:
+  #   - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+  when: manual
 
 deploy:
   stage: deploy
@@ -88,7 +100,10 @@ deploy:
     - ssh $USER@$IP_PREPROD "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
     - ssh $USER@$IP_PREPROD "docker pull $CI_REGISTRY_IMAGE/client_web:latest"
     - ssh $USER@$IP_PREPROD "docker pull $CI_REGISTRY_IMAGE/server:latest"
+    - ssh $USER@$IP_PREPROD "docker pull $CI_REGISTRY_IMAGE/client_mobile:latest"
+    - ssh $USER@$IP_PREPROD "cp $$ENV_FILE ./server/.env"
     - ssh $USER@$IP_PREPROD "docker-compose down"
     - ssh $USER@$IP_PREPROD "docker-compose up -d"
-  rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+  # rules:
+  #   - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+  when: manual
