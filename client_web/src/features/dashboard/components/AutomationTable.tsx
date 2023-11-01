@@ -1,5 +1,5 @@
 import { DeleteTwoTone, ExclamationCircleTwoTone, InfoCircleTwoTone, ReloadOutlined } from '@ant-design/icons';
-import { Button, Col, Image, Popconfirm, Row, Space, Switch, Table, Typography, message } from 'antd';
+import { Button, Col, Image, Popconfirm, Row, Space, Switch, Table, Typography, message, theme } from 'antd';
 import Search from 'antd/es/input/Search';
 import type { ColumnsType } from 'antd/es/table';
 import { formatDistanceToNow, parseISO } from 'date-fns';
@@ -22,6 +22,7 @@ const imageStyle: React.CSSProperties = {
 
 const AutomationTable = () => {
 	const { t } = useTranslation();
+	const { token } = theme.useToken();
 	const [inputString, setInputString] = useState<string>('');
 	const [messageApi, contextHolder] = message.useMessage();
 	const { authorizeService } = useAuthStore((state) => state);
@@ -273,7 +274,7 @@ const AutomationTable = () => {
 	return (
 		<>
 			{contextHolder}
-			<div style={{ padding: '8px', backgroundColor: '#f5f5f5', borderRadius: '6px' }}>
+			<div style={{ padding: '8px', backgroundColor: token.colorBgBase, borderRadius: '6px' }}>
 				<Row align="middle">
 					<Col style={{ marginRight: '8px' }}>
 						<InfoCircleTwoTone />
