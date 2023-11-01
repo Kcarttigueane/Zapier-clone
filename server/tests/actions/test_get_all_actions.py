@@ -10,14 +10,14 @@ class GetAllActionsTestCase(TestCase):
     def test_get_all_actions(self):
         response = requests.get(f"{API_URL}/actions")
 
-        self.test_assert(response.status_code, 200, "GET /actions - GET ALL ACTIONS: Status Code for getting all actions")
+        self.test_assert(response.status_code, 200, "GET /actions: Status Code for getting all actions")
 
         data = response.json()
-        self.test_assert(isinstance(data, list), True, "GET /actions - GET ALL ACTIONS: Response data should be a list")
+        self.test_assert(isinstance(data, list), True, "GET /actions: Response data should be a list")
 
         if len(data) > 0:
             action = data[0]
-            self.test_assert("id" in action, True, "GET /actions - GET ALL ACTIONS: First action should have an 'id' field")
-            self.test_assert("service_id" in action, True, "GET /actions - GET ALL ACTIONS: First action should have a 'service_id' field")
-            self.test_assert("name" in action, True, "GET /actions - GET ALL ACTIONS: First action should have a 'name' field")
-            self.test_assert("description" in action, True, "GET /actions - GET ALL ACTIONS: First action should have a 'description' field")
+            self.test_assert("id" in action, True, "GET /actions: First action should have an 'id' field")
+            self.test_assert("service_id" in action, True, "GET /actions: First action should have a 'service_id' field")
+            self.test_assert("name" in action, True, "GET /actions: First action should have a 'name' field")
+            self.test_assert("description" in action, True, "GET /actions: First action should have a 'description' field")

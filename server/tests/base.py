@@ -16,4 +16,5 @@ class TestCase():
     def print_results(self):
         print("\n======= Test Results ========")
         print(f"✔ Success: {self.success}/{self.total}")
-        print(f"✘ Failure: {self.failure}/{self.total}\n")
+        print(f"✘ Failure: {self.failure}/{self.total}")
+        print("=============================\n\n")
