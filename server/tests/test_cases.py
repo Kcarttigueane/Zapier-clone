@@ -99,3 +99,25 @@ class UsersTestCase(TestCase):
         error_msg = response_data.get("detail", "")
         expected_msg = "Password is required"
         self.test_assert(error_msg, expected_msg, "POST /auth/register: Error message for missing password")
+
+    def test_missing_profile(self):
+        payload = {
+            "email": "tes@example.com",
+            "password": "password123",
+        }
+        response = requests.post(f"{API_URL}/auth/register", json=payload)
+        response_data = response.json()
+
+        self.test_assert(response.status_code, 422, "POST /auth/register: Status code for missing profile")
+
+        error_type = response_data.get("detail", [{}])[0].get("type", "")
+        expected_type = "value_error.missing"
+        self.test_assert(error_type, expected_type, "POST /auth/register: Error type for missing profile")
+
+        error_msg = response_data.get("detail", [{}])[0].get("msg", "")
+        expected_msg = "field required"
+        self.test_assert(error_msg, expected_msg, "POST /auth/register: Error message for missing profile")
+
+        error_location = response_data.get("detail", [{}])[0].get("loc", [])
+        expected_location = ['body', 'profile']
+        self.test_assert(error_location, expected_location, "POST /auth/register: Error location for missing profile")
