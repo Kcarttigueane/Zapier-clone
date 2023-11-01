@@ -31,9 +31,16 @@ interface ChooseServiceProps {
 	services: ServiceModelDTO[];
 	selectedServiceId: ServiceModelDTO['id'] | null;
 	setSelectedServiceId: (id: ServiceModelDTO['id']) => void;
+	setSelectedServiceName: (name: string) => void;
 }
 
-const ChooseService: FC<ChooseServiceProps> = ({ title, services, selectedServiceId, setSelectedServiceId }) => {
+const ChooseService: FC<ChooseServiceProps> = ({
+	title,
+	services,
+	selectedServiceId,
+	setSelectedServiceId,
+	setSelectedServiceName,
+}) => {
 	const [hovered, setHovered] = useState<string | null>(null);
 
 	const { isLoading } = useServicesStore((state) => state);
@@ -81,6 +88,7 @@ const ChooseService: FC<ChooseServiceProps> = ({ title, services, selectedServic
 									onMouseLeave={() => setHovered(null)}
 									onClick={() => {
 										setSelectedServiceId(service.id);
+										setSelectedServiceName(service.name);
 									}}
 								>
 									<Image width={48} src={`data:image/svg+xml;base64,${service.icon_svg_base64}`} preview={false} />
