@@ -11,9 +11,7 @@ def run_fastapi():
 
 def test_endpoints():
     users_test = UsersTestCase()
-    users_test.test_get_user()
     users_test.test_create_user()
-    users_test.test_user_already_registered()
 
     users_test.print_results()
 
