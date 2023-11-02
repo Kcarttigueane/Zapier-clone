@@ -9,7 +9,7 @@ services:
     restart: on-failure
     ports:
       - "8080:8080"
-  
+
   client_web:
     image: $CI_REGISTRY_IMAGE/client_web:latest
     env_file: .env
