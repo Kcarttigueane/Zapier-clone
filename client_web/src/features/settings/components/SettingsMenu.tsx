@@ -1,4 +1,4 @@
-import { AppstoreFilled, QuestionCircleFilled, SettingFilled, ReadFilled } from '@ant-design/icons';
+import { AppstoreFilled, QuestionCircleFilled, ReadFilled, SettingFilled } from '@ant-design/icons';
 import { Menu } from 'antd';
 import type { MenuProps, MenuTheme } from 'antd/es/menu';
 import React, { useState } from 'react';
@@ -38,7 +38,7 @@ const SettingsMenu: React.FC<SettingsMenuProps> = ({ onSelect }) => {
 
 	return (
 		<Menu
-			style={{ width: 256, fontWeight: 600 }}
+			style={{ width: 256, fontWeight: 600, borderRadius: 10 }}
 			defaultSelectedKeys={['1']}
 			defaultOpenKeys={['sub1']}
 			theme={theme}

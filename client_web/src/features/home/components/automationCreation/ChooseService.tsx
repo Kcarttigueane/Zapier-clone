@@ -1,4 +1,4 @@
-import { Col, Image, Popover, Space, Spin, Typography } from 'antd';
+import { Col, Image, Popover, Space, Spin, Typography, theme } from 'antd';
 import { FC, useState } from 'react';
 import { ServiceModelDTO } from '../../../../core/models/service';
 import { capitalizeFirstLetter } from '../../../../core/utils/capitalizeFirstLetter';
@@ -6,26 +6,9 @@ import useServicesStore from '../../../../core/zustand/useServiceStore';
 
 const { Text } = Typography;
 
-const imageStyle: React.CSSProperties = {
-	borderRadius: '12px',
-	border: '1px solid #d9d9d9',
-	padding: '20px',
-	boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
-	transition: 'transform 0.2s ease-in-out',
-	backgroundColor: '#fff',
-	height: '120px',
-	minWidth: '120px',
-	display: 'flex',
-	flexDirection: 'column',
-	alignItems: 'center',
-	justifyContent: 'center',
-	gap: '16px',
-};
-
 const hoverStyle: React.CSSProperties = {
 	transform: 'scale(1.05)',
 };
-
 interface ChooseServiceProps {
 	title: string;
 	services: ServiceModelDTO[];
@@ -42,8 +25,25 @@ const ChooseService: FC<ChooseServiceProps> = ({
 	setSelectedServiceName,
 }) => {
 	const [hovered, setHovered] = useState<string | null>(null);
+	const { token } = theme.useToken();
 
 	const { isLoading } = useServicesStore((state) => state);
+
+	const imageStyle: React.CSSProperties = {
+		borderRadius: '12px',
+		border: '1px solid #d9d9d9',
+		padding: '20px',
+		boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
+		transition: 'transform 0.2s ease-in-out',
+		backgroundColor: token.colorBgElevated,
+		height: '120px',
+		minWidth: '120px',
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
+		justifyContent: 'center',
+		gap: '16px',
+	};
 
 	return (
 		<>

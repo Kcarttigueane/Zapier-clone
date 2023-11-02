@@ -1,4 +1,4 @@
-import { Col, Collapse, Divider, Image, Row, Skeleton, Space, Typography, message } from 'antd';
+import { Col, Collapse, Divider, Image, Row, Skeleton, Space, Typography, message, theme } from 'antd';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ServiceModelDTO } from '../../../core/models/service';
@@ -20,6 +20,7 @@ const imageStyle: React.CSSProperties = {
 
 const RecommendServices = () => {
 	const { t } = useTranslation();
+	const { token } = theme.useToken();
 	const [activeKey, setActiveKey] = useState<string | string[]>([]);
 	const { services, isLoading } = useServicesStore((state) => state);
 	const { triggers, isTriggersLoading, fetchTriggers } = useTriggerStore((state) => state);
@@ -108,6 +109,7 @@ const RecommendServices = () => {
 												display: 'flex',
 												flexDirection: 'column',
 												justifyContent: 'center',
+												backgroundColor: token.colorBgElevated,
 											},
 											key: service.id,
 											label: (
