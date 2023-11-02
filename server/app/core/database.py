@@ -30,6 +30,6 @@ def get_database():
     if db.client is None:
         raise Exception("Database client not initialized")
     if TESTING == True:
-        return db.client.AREA
+        return db.client.AREA_TESING
     else:
-        return db.client.AREA_TESTING
+        return db.client.AREA
