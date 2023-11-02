@@ -18,7 +18,12 @@ const hoverStyle: React.CSSProperties = {
 	transform: 'scale(1.05)',
 };
 
-const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, setSelectedTriggerId }) => {
+const ChooseTrigger: FC<ChooseTriggerProps> = ({
+	triggers,
+	selectedTriggerId,
+	setSelectedTriggerId,
+	setSelectedTriggerName,
+}) => {
 	const [hovered, setHovered] = useState<string | null>(null);
 	const { isTriggersLoading } = useTriggerStore((state) => state);
 	const { t } = useTranslation();
