@@ -1,21 +1,25 @@
 import asyncio
-from app.main import app
-import uvicorn
-import sys
 import multiprocessing
+import sys
+from typing import List, Union
 
-from tests.test_register import RegisterTestCase
+import uvicorn
+
+from app.main import app
 from tests.test_actions import GetActionTestCase
+from tests.test_register import RegisterTestCase
 from tests.test_services import GetServiceTestCase
+
 
 def run_fastapi():
     uvicorn.run(app, host="0.0.0.0", port=8000)
 
+
 def test_endpoints():
-    test_cases = [
+    test_cases: List[Union[RegisterTestCase, GetActionTestCase, GetServiceTestCase]] = [
         RegisterTestCase(),
         GetActionTestCase(),
-        GetServiceTestCase()
+        GetServiceTestCase(),
     ]
 
     all_passed = True
@@ -28,6 +32,7 @@ def test_endpoints():
             all_passed = False
 
     return 0 if all_passed else 84
+
 
 if __name__ == "__main__":
     fastapi_process = multiprocessing.Process(target=run_fastapi)

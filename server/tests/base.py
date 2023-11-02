@@ -1,4 +1,7 @@
-class TestCase():
+from abc import ABC, abstractmethod
+
+
+class TestCase(ABC):
     def __init__(self):
         self.success = 0
         self.failure = 0
@@ -18,3 +21,7 @@ class TestCase():
         print(f"✔ Success: {self.success}/{self.total}")
         print(f"✘ Failure: {self.failure}/{self.total}")
         print("=============================\n\n")
+
+    @abstractmethod
+    def run_tests(self):
+        pass
