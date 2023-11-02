@@ -4,10 +4,9 @@ import uvicorn
 import sys
 import multiprocessing
 
-from auth.test_register import RegisterTestCase
-from actions.test_get_all_actions import GetAllActionsTestCase
-from actions.test_get_action import GetActionTestCase
-from actions.test_get_action_by_service import GetActionByServiceTestCase
+from tests.test_register import RegisterTestCase
+from tests.test_actions import GetActionTestCase
+from tests.test_services import GetServiceTestCase
 
 def run_fastapi():
     uvicorn.run(app, host="0.0.0.0", port=8000)
@@ -15,9 +14,8 @@ def run_fastapi():
 def test_endpoints():
     test_cases = [
         RegisterTestCase(),
-        GetAllActionsTestCase(),
         GetActionTestCase(),
-        GetActionByServiceTestCase(),
+        GetServiceTestCase()
     ]
 
     all_passed = True
