@@ -11,6 +11,7 @@ interface ChooseTriggerProps {
 	triggers: TriggerModelDTO[];
 	selectedTriggerId: TriggerModelDTO['id'] | null;
 	setSelectedTriggerId: (id: TriggerModelDTO['id'] | null) => void;
+	setSelectedTriggerName: (name: string) => void;
 }
 
 const hoverStyle: React.CSSProperties = {
@@ -83,6 +84,7 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 										onMouseLeave={() => setHovered(null)}
 										onClick={() => {
 											setSelectedTriggerId(trigger.id);
+											setSelectedTriggerName(trigger.name);
 										}}
 									>
 										<Text>{capitalizeFirstLetter(trigger.name)}</Text>

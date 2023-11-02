@@ -15,9 +15,23 @@ interface ChooseActionProps {
 	actions: ActionModelDTO[];
 	selectedActionId: ActionModelDTO['id'] | null;
 	setSelectedActionId: (id: ActionModelDTO['id'] | null) => void;
+	selectedTriggerName: string;
+	automationName: string;
+	setAutomationName: (name: string) => void;
+	selectedTriggerServiceName: string;
+	selectedActionServiceName: string;
 }
 
-const ChooseAction: FC<ChooseActionProps> = ({ actions, selectedActionId, setSelectedActionId }) => {
+const ChooseAction: FC<ChooseActionProps> = ({
+	actions,
+	selectedActionId,
+	setSelectedActionId,
+	selectedTriggerName,
+	automationName,
+	setAutomationName,
+	selectedTriggerServiceName,
+	selectedActionServiceName,
+}) => {
 	const [hovered, setHovered] = useState<string | null>(null);
 	const { isActionsLoading } = useActionStore((state) => state);
 	const { t } = useTranslation();
@@ -83,6 +97,19 @@ const ChooseAction: FC<ChooseActionProps> = ({ actions, selectedActionId, setSel
 										onMouseLeave={() => setHovered(null)}
 										onClick={() => {
 											setSelectedActionId(action.id);
+											if (automationName == '') {
+												setAutomationName(
+													'[' +
+														selectedTriggerServiceName +
+														'] ' +
+														selectedTriggerName +
+														' ==> ' +
+														'[' +
+														selectedActionServiceName +
+														'] ' +
+														action.name,
+												);
+											}
 										}}
 									>
 										<Text>{capitalizeFirstLetter(action.name)}</Text>
