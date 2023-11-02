@@ -6,6 +6,9 @@ import useServicesStore from '../../../../core/zustand/useServiceStore';
 
 const { Text } = Typography;
 
+const hoverStyle: React.CSSProperties = {
+	transform: 'scale(1.05)',
+};
 interface ChooseServiceProps {
 	title: string;
 	services: ServiceModelDTO[];
@@ -33,10 +36,6 @@ const ChooseService: FC<ChooseServiceProps> = ({ title, services, selectedServic
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: '16px',
-	};
-
-	const hoverStyle: React.CSSProperties = {
-		transform: 'scale(1.05)',
 	};
 
 	return (

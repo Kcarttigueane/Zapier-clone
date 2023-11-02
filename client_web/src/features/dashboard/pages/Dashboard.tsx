@@ -4,21 +4,21 @@ import React from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
 import AutomationTable from '../components/AutomationTable';
 
+const contentStyle: React.CSSProperties = {
+	padding: '48px 24px',
+	color: '#000',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '50px',
+	alignItems: 'center',
+};
+
 const Dashboard = () => {
 	const { token } = theme.useToken();
 
 	const layoutStyle: React.CSSProperties = {
 		minHeight: '100vh',
 		backgroundColor: token.colorBgBase,
-	};
-
-	const contentStyle: React.CSSProperties = {
-		padding: '48px 24px',
-		color: '#000',
-		display: 'flex',
-		flexDirection: 'column',
-		gap: '50px',
-		alignItems: 'center',
 	};
 
 	const MainZapStyle: React.CSSProperties = {

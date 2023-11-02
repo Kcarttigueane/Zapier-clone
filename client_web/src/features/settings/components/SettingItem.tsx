@@ -7,20 +7,14 @@ interface SettingItemProps {
 	children?: React.ReactNode;
 	switchable?: boolean;
 	defaultChecked?: boolean;
-	onToggleChange?: (checked: boolean) => void; // Ajoutez cette prop pour gérer le changement
+	onToggleChange?: (checked: boolean) => void;
 }
 
-const SettingItem: React.FC<SettingItemProps> = ({
-	label,
-	children,
-	switchable,
-	defaultChecked,
-	onToggleChange, // Ajoutez cette prop
-}) => {
+const SettingItem: React.FC<SettingItemProps> = ({ label, children, switchable, defaultChecked, onToggleChange }) => {
 	const { token } = theme.useToken();
 
 	const labelStyle: React.CSSProperties = {
-		textAlign: 'center' as React.CSSProperties['textAlign'],
+		textAlign: 'center',
 		color: token.colorText,
 		fontSize: 14,
 		fontWeight: 600,
@@ -36,7 +30,7 @@ const SettingItem: React.FC<SettingItemProps> = ({
 					checkedChildren={<CheckOutlined />}
 					unCheckedChildren={<CloseOutlined />}
 					defaultChecked={defaultChecked}
-					onChange={onToggleChange} // Associez cette prop à l'événement onChange du Switch
+					onChange={onToggleChange}
 				/>
 			)}
 		</Space>

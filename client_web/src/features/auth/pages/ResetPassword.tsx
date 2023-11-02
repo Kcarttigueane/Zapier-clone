@@ -7,6 +7,8 @@ import AuthLanguageSelect from '../components/AuthLanguageSelect';
 import ResetForm from '../components/ResetPasswordForm';
 import RightArea from '../components/RightArea';
 
+const { Text } = Typography;
+
 const ForgotPassword = () => {
 	const { t } = useTranslation();
 	const { token } = theme.useToken();
@@ -31,8 +33,6 @@ const ForgotPassword = () => {
 		backgroundColor: token.colorBgContainer,
 		color: token.colorText,
 	};
-
-	const { Text } = Typography;
 
 	const titleStyle: React.CSSProperties = {
 		fontSize: 36,

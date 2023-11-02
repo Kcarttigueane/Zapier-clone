@@ -1,9 +1,9 @@
 import { Col, Popover, Skeleton, Space, Typography, theme } from 'antd';
 import { FC, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TriggerModelDTO } from '../../../../core/models/trigger';
 import { capitalizeFirstLetter } from '../../../../core/utils/capitalizeFirstLetter';
 import useTriggerStore from '../../../../core/zustand/useTriggerStore';
-import { useTranslation } from 'react-i18next';
 
 const { Text } = Typography;
 
@@ -12,6 +12,10 @@ interface ChooseTriggerProps {
 	selectedTriggerId: TriggerModelDTO['id'] | null;
 	setSelectedTriggerId: (id: TriggerModelDTO['id'] | null) => void;
 }
+
+const hoverStyle: React.CSSProperties = {
+	transform: 'scale(1.05)',
+};
 
 const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, setSelectedTriggerId }) => {
 	const [hovered, setHovered] = useState<string | null>(null);
@@ -32,10 +36,6 @@ const ChooseTrigger: FC<ChooseTriggerProps> = ({ triggers, selectedTriggerId, se
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: '16px',
-	};
-
-	const hoverStyle: React.CSSProperties = {
-		transform: 'scale(1.05)',
 	};
 
 	return (

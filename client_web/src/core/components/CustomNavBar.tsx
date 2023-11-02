@@ -7,6 +7,16 @@ import { useNavigate } from 'react-router-dom';
 
 const { Text } = Typography;
 
+const rightHeaderStyle: React.CSSProperties = {
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'space-between',
+	borderRadius: '50px',
+	border: '1px solid #d9d9d9',
+	height: '50px',
+	padding: '8px 8px 8px 16px',
+};
+
 const CustomNavBar = () => {
 	const { token } = theme.useToken();
 	const headerStyle: React.CSSProperties = {
@@ -17,16 +27,6 @@ const CustomNavBar = () => {
 		borderRadius: '50px',
 		boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
 		backgroundColor: token.colorBgElevated,
-	};
-
-	const rightHeaderStyle: React.CSSProperties = {
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'space-between',
-		borderRadius: '50px',
-		border: '1px solid #d9d9d9',
-		height: '50px',
-		padding: '8px 8px 8px 16px',
 	};
 
 	const navigate = useNavigate();

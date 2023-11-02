@@ -1,9 +1,9 @@
 import { Input, Space } from 'antd';
 import { useTranslation } from 'react-i18next';
+import { UserModelDTO } from '../../../core/models/user';
 import useUserStore from '../../../core/zustand/useUserStore';
 import SettingItem from './SettingItem';
 import UploadNewImage from './UploadNewImage';
-import { UserModelDTO } from '../../../core/models/user';
 
 const containerStyle: React.CSSProperties = {
 	border: '1px solid #d9d9d9',
@@ -14,8 +14,11 @@ const containerStyle: React.CSSProperties = {
 const GeneralSettings = () => {
 	const { t } = useTranslation();
 	const { user, updateUser } = useUserStore((state) => state);
+
 	const changeTheme = () => {
-		if (user === null) return;
+		if (user === null) {
+			return;
+		}
 		const currentTheme = user?.profile.theme;
 		const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
 		const updatedUser: Partial<UserModelDTO> = {
@@ -43,7 +46,7 @@ const GeneralSettings = () => {
 				label={t('settings.settingScreen.profile.mode')}
 				switchable
 				defaultChecked={user?.profile.theme === 'dark'}
-				onToggleChange={changeTheme} // Passez la fonction changeTheme
+				onToggleChange={changeTheme}
 			/>
 		</Space>
 	);

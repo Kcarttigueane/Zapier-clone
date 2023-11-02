@@ -9,6 +9,8 @@ import ProviderAuth from '../components/ProviderAuth';
 import RegisterForm from '../components/RegisterForm';
 import RightArea from '../components/RightArea';
 
+const { Text } = Typography;
+
 const Register = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
@@ -34,8 +36,6 @@ const Register = () => {
 		backgroundColor: token.colorBgContainer,
 		color: token.colorText,
 	};
-
-	const { Text } = Typography;
 
 	const titleStyle: React.CSSProperties = {
 		fontSize: 36,

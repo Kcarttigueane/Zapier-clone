@@ -6,6 +6,14 @@ import useServicesStore from '../../../core/zustand/useServiceStore';
 import RecommendServices from '../components/RecommendServices';
 import AutomationCreation from '../components/automationCreation/AutomationCreation';
 
+const contentStyle: React.CSSProperties = {
+	padding: '48px 24px',
+	display: 'flex',
+	flexDirection: 'column',
+	gap: '24px',
+	alignItems: 'center',
+};
+
 const Home = () => {
 	const { fetchServices } = useServicesStore((state) => state);
 	const { token } = theme.useToken();
@@ -13,14 +21,6 @@ const Home = () => {
 	const layoutStyle: React.CSSProperties = {
 		minHeight: '100vh',
 		backgroundColor: token.colorBgBase,
-	};
-
-	const contentStyle: React.CSSProperties = {
-		padding: '48px 24px',
-		display: 'flex',
-		flexDirection: 'column',
-		gap: '24px',
-		alignItems: 'center',
 	};
 
 	const MainZapStyle: React.CSSProperties = {

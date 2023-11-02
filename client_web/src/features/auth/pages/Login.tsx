@@ -9,6 +9,8 @@ import LoginForm from '../components/LoginForm';
 import ProviderAuth from '../components/ProviderAuth';
 import RightArea from '../components/RightArea';
 
+const { Text } = Typography;
+
 const Login = () => {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
@@ -34,8 +36,6 @@ const Login = () => {
 		backgroundColor: token.colorBgContainer,
 		color: token.colorText,
 	};
-
-	const { Text } = Typography;
 
 	const titleStyle: React.CSSProperties = {
 		fontSize: 36,

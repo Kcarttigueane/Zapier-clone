@@ -1,7 +1,7 @@
 import { Space, theme } from 'antd';
+import i18next from 'i18next';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
 import LanguageItem from './LanguageItem';
 
 const languages = [
@@ -10,19 +10,19 @@ const languages = [
 	{ code: 'es', name: 'spanish', url: 'sp' },
 ];
 
+const containerStyle: React.CSSProperties = {
+	border: '1px solid #d9d9d9',
+	padding: '60px 140px',
+	borderRadius: '12px',
+};
+
 const Language = () => {
 	const { t } = useTranslation();
 	const [currentLanguage, setCurrentLanguage] = useState<string>(i18next.language);
 	const { token } = theme.useToken();
 
-	const containerStyle: React.CSSProperties = {
-		border: '1px solid #d9d9d9',
-		padding: '60px 140px',
-		borderRadius: '12px',
-	};
-
 	const labelStyle: React.CSSProperties = {
-		textAlign: 'center' as React.CSSProperties['textAlign'],
+		textAlign: 'center',
 		color: token.colorText,
 		fontSize: 14,
 		fontWeight: 600,
