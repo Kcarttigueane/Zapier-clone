@@ -11,14 +11,14 @@ services:
     volumes:
       - ./server:/usr/app/server/
 
-  client_mobile:
-    build: ./client_mobile
-    container_name: client_mobile
-    platform: linux/amd64
-    volumes:
-      - ./client_mobile:/usr/app/client_mobile/
-      - /usr/app/client_mobile/node_modules
-      - apk:/build/:rw
+  # client_mobile:
+  #   build: ./client_mobile
+  #   container_name: client_mobile
+  #   platform: linux/amd64
+  #   volumes:
+  #     - ./client_mobile:/usr/app/client_mobile/
+  #     - /usr/app/client_mobile/node_modules
+  #     - apk:/build/:rw
 
   client_web:
     build: ./client_web

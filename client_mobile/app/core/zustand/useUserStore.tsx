@@ -29,7 +29,6 @@ const useUserStore = create<UserState & UserActions>()(set => ({
       const response = await apiV2.get('/users/me', { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        console.log('Current user:', response.data);
         set({ user: response.data, isLoading: false });
       }
     } catch (error: any) {

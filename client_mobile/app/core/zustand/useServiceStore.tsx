@@ -45,6 +45,7 @@ const useServicesStore = create<ServicesState & ServiceActions>()(set => ({
   fetchCompatibleServices: async (serviceId: ServiceModelDTO['id']) => {
     set({ isLoading: true });
     try {
+      throw new Error('No access token found');
       const response = await apiV2.get(`/services/${serviceId}/compatibilities`);
 
       if (response.status === HttpStatusCode.Ok && response.data) {

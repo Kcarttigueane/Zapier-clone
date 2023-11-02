@@ -163,11 +163,24 @@
     "terms": "Acepta nuestros Términos de Servicio y Política de Privacidad."
   },
   "zap": {
+    "create": {
+      "title": "Crear un Zap",
+      "action1": "Conectar este servicio...",
+      "reaction1": "...con este otro.",
+      "action2": "Elegir un Desencadenante",
+      "reaction2": "Elegir una Reacción",
+      "authorize": "Conectar",
+      "connected": "Ya Conectado",
+      "disabled": "Autorizar Servicios",
+      "enabled": "¡Pruébalo!",
+      "service": "Seleccione un servicio",
+      "name": "Nombre de la automatización"
+    },
     "createZapScreen": {
       "title": "Crear un Zap",
       "button1": "Disparador",
       "button2": "Acción",
-      "submit": "Continuar"
+      "submit": "Crear Automatización"
     },
     "reactionScreen": {
       "title": "Elige una Reacción"

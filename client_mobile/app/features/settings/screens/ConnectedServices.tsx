@@ -2,6 +2,7 @@ import { Button, ButtonText, HStack, Spinner, Switch, Toast, ToastTitle, VStack,
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
 import Base64SvgDisplay from '../../../core/components/Base64SvgDisplay';
+import { capitalizeFirstLetter } from '../../../core/utils/capitalizeFirstLetter';
 import useServicesStore from '../../../core/zustand/useServiceStore';
 
 const ConnectedServices = () => {
@@ -79,7 +80,7 @@ const ConnectedServices = () => {
           <HStack alignItems="center" justifyContent="flex-start" flexDirection="row">
             <Base64SvgDisplay base64Svg={item.icon_svg_base64} width={30} height={30} />
 
-            <Text style={styles.title}>{item.name}</Text>
+            <Text style={styles.title}>{capitalizeFirstLetter(item.name)}</Text>
           </HStack>
           <Switch size="md" isDisabled={false} />
         </HStack>

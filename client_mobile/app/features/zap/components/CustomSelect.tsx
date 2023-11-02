@@ -26,7 +26,7 @@ type CustomSelectProps = {
 
 const CustomSelect: React.FC<CustomSelectProps> = ({ items, onValueChange, placeholder }) => (
   <Select onValueChange={onValueChange}>
-    <SelectTrigger variant="outline" size="lg">
+    <SelectTrigger variant="rounded" size="xl">
       <SelectInput placeholder={placeholder} />
       <SelectIcon mr="$3">
         <Icon as={ChevronDownIcon} />
@@ -34,7 +34,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({ items, onValueChange, place
     </SelectTrigger>
     <SelectPortal>
       <SelectBackdrop />
-      <SelectContent>
+      <SelectContent borderRadius={12} elevation={4} backgroundColor="$white" height="50%">
         <SelectDragIndicatorWrapper>
           <SelectDragIndicator />
         </SelectDragIndicatorWrapper>

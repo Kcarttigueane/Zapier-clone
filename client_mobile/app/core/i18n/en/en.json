@@ -163,11 +163,24 @@
     "terms": "Agree to our Terms of Service and Privacy Policy."
   },
   "zap": {
+    "create": {
+      "title": "Create a Zap",
+      "action1": "Connect this service...",
+      "reaction1": "...with this one.",
+      "action2": "Choose a Trigger",
+      "reaction2": "Choose a Reaction",
+      "authorize": "Connect",
+      "connected": "Already Connected",
+      "disabled": "Authorize Services",
+      "enabled": "Try It!",
+      "service": "🔎 Select a Service",
+      "name": "Name of the automation"
+    },
     "createZapScreen": {
       "title": "Create a Zap",
       "button1": "Trigger",
       "button2": "Action",
-      "submit": "Continue"
+      "submit": "Create Automation"
     },
     "reactionScreen": {
       "title": "Choose a Reaction"
