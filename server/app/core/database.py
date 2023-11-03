@@ -29,7 +29,7 @@ async def close_mongo_connection():
 def get_database():
     if db.client is None:
         raise Exception("Database client not initialized")
-    if TESTING is True:
-        return db.client.AREA_TESING
+    if TESTING == 'True':
+        return db.client.AREA_TESTING
     else:
         return db.client.AREA
