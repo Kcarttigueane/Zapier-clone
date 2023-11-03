@@ -93,7 +93,10 @@ class GetActionTestCase(TestCase):
         self.test_assert(
             response.status_code,
             status.HTTP_200_OK,
-            "GET /actions/service/service_id: Status Code for getting all actions by service_id",
+            (
+                "GET /actions/service/service_id: Status Code for getting all "
+                "actions by service_id"
+            ),
         )
 
         data = response.json()
@@ -112,7 +115,10 @@ class GetActionTestCase(TestCase):
             self.test_assert(
                 "service_id" in action,
                 True,
-                "GET /actions/service/service_id: Action should have a 'service_id' field",
+                (
+                    "GET /actions/service/service_id: Action should have "
+                    "a 'service_id' field"
+                ),
             )
             self.test_assert(
                 "name" in action,
@@ -122,10 +128,16 @@ class GetActionTestCase(TestCase):
             self.test_assert(
                 "description" in action,
                 True,
-                "GET /actions/service/service_id: Action should have a 'description' field",
+                (
+                    "GET /actions/service/service_id: Action should have a "
+                    "'description' field"
+                ),
             )
             self.test_assert(
                 action["service_id"],
                 service_id,
-                "GET /actions/service/service_id: 'service_id' value in action should match requested service_id",
+                (
+                    "GET /actions/service/service_id: 'service_id' value in action "
+                    "should match requested service_id"
+                ),
             )
