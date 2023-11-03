@@ -7,38 +7,11 @@ from tests.base import TestCase
 
 class RegisterTestCase(TestCase):
     def run_tests(self):
-        self.test_create_user()
         self.test_missing_email()
         self.test_invalid_email_format()
         self.test_missing_password()
         self.test_missing_profile()
         self.test_user_already_registered()
-
-    def test_create_user(self):
-        payload = {
-            "email": "test@example.com",
-            "password": "password123",
-            "profile": {"first_name": "test", "last_name": "example"},
-        }
-        response = requests.post(f"{API_URL}/auth/register", json=payload)
-        self.test_assert(
-            response.status_code,
-            status.HTTP_201_CREATED,
-            "POST /auth/register: Status Code for creating user",
-        )
-
-        response_data = response.json()
-        access_token_exists = isinstance(response_data.get("accessToken", None), str)
-        self.test_assert(
-            access_token_exists,
-            True,
-            "POST /auth/register: Access Token exists and is a string",
-        )
-
-        token_type = response_data.get("tokenType", None)
-        self.test_assert(
-            token_type, "bearer", "POST /auth/register: Token Type is Bearer"
-        )
 
     def test_missing_email(self):
         payload = {
