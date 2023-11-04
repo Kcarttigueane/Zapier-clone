@@ -14,7 +14,7 @@ const AuthLanguageSelect = () => {
 
 	return (
 		<Space style={{ width: '100%', justifyContent: 'space-between', marginBottom: 24 }}>
-			<h2 style={{ color: '#000', fontSize: 32 }}>Area.</h2>
+			<h2 style={{ fontSize: 32 }}>Area.</h2>
 			<Select
 				defaultValue={selectedLanguage}
 				style={{ width: 60 }}

@@ -1,17 +1,19 @@
-import { Space, Spin, message } from 'antd';
+import { Space, Spin, message, theme } from 'antd';
 import React, { useEffect } from 'react';
 import useServicesStore from '../../../core/zustand/useServiceStore';
 import ConnectedServiceItem from './ConnectedServiceItem';
 
-const containerStyle: React.CSSProperties = {
-	border: '1px solid #d9d9d9',
-	padding: '60px 140px',
-	borderRadius: '12px',
-};
-
 const ConnectedServices = () => {
 	const { userAuthorizedServices, fetchUserAuthorizedServices, isLoading } = useServicesStore((state) => state);
 	const [messageApi, contextHolder] = message.useMessage();
+	const { token } = theme.useToken();
+
+	const containerStyle: React.CSSProperties = {
+		border: '1px solid #d9d9d9',
+		padding: '60px 140px',
+		borderRadius: '12px',
+		color: token.colorText,
+	};
 
 	useEffect(() => {
 		if (userAuthorizedServices.length > 0) {

@@ -1,4 +1,4 @@
-import { Image, Space, Checkbox } from 'antd';
+import { Checkbox, Image, Space, theme } from 'antd';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -21,10 +21,14 @@ const cardStyle: React.CSSProperties = {
 
 const LanguageItem: React.FC<LanguageItemProps> = ({ imageUrl, language, onChange, checked }) => {
 	const { t } = useTranslation();
+	const { token } = theme.useToken();
+
 	return (
 		<Space style={cardStyle}>
 			<Image width={32} src={imageUrl} />
-			<p style={{ margin: '0 0 0 16px' }}>{t(`settings.settingScreen.languages.${language}`)}</p>
+			<p style={{ margin: '0 0 0 16px', color: token.colorText }}>
+				{t(`settings.settingScreen.languages.${language}`)}
+			</p>
 			<Checkbox checked={checked} onChange={onChange} />
 		</Space>
 	);

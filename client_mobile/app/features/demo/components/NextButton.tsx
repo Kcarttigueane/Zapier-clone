@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { Animated, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Circle, G, Svg } from 'react-native-svg';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -18,13 +18,16 @@ const NextButton: FC<NextButtonProps> = ({ percentage, scrollTo }) => {
   const progressAnimation = useRef(new Animated.Value(percentage)).current;
   const progressRef = useRef<any>(null);
 
-  const animation = (toValue: number) => {
-    return Animated.timing(progressAnimation, {
-      toValue,
-      duration: 250,
-      useNativeDriver: true,
-    }).start();
-  };
+  const animation = useCallback(
+    (toValue: number) => {
+      return Animated.timing(progressAnimation, {
+        toValue,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    },
+    [progressAnimation],
+  );
 
   useEffect(() => {
     if (progressRef?.current) {
@@ -33,11 +36,13 @@ const NextButton: FC<NextButtonProps> = ({ percentage, scrollTo }) => {
         strokeDashoffset: initialStrokeDashoffset,
       });
     }
-  }, []);
+
+    animation(percentage);
+  }, [circumference, percentage, animation]);
 
   useEffect(() => {
     animation(percentage);
-  }, [percentage]);
+  }, [percentage, animation]);
 
   useEffect(() => {
     progressAnimation.addListener((value: any) => {

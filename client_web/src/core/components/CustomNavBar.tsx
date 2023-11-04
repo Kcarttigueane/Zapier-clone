@@ -1,5 +1,5 @@
 import { BellOutlined, LogoutOutlined, SettingOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Dropdown, MenuProps, Space, Typography, message } from 'antd';
+import { Avatar, Badge, Dropdown, MenuProps, Space, Typography, message, theme } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,16 +8,6 @@ import useUserStore from '../zustand/useUserStore';
 import { base64ToImageUrl, baseUserProfileBase64 } from '../utils/base64ToImageUrl';
 
 const { Text } = Typography;
-
-const headerStyle: React.CSSProperties = {
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'space-between',
-	margin: '12px 24px',
-	borderRadius: '50px',
-	boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
-	backgroundColor: '#fff',
-};
 
 const rightHeaderStyle: React.CSSProperties = {
 	display: 'flex',
@@ -30,6 +20,17 @@ const rightHeaderStyle: React.CSSProperties = {
 };
 
 const CustomNavBar = () => {
+	const { token } = theme.useToken();
+	const headerStyle: React.CSSProperties = {
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		margin: '12px 24px',
+		borderRadius: '50px',
+		boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+		backgroundColor: token.colorBgElevated,
+	};
+
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const { user } = useUserStore((state) => state);
@@ -91,7 +92,7 @@ const CustomNavBar = () => {
 			</Space>
 			<Space style={rightHeaderStyle} size="large">
 				<Badge count={5} size="small">
-					<BellOutlined style={{ fontSize: '20px' }} />
+					<BellOutlined style={{ fontSize: '20px', color: token.colorText }} />
 				</Badge>
 				<Dropdown menu={{ items, onClick }} placement="bottom" trigger={['click']}>
 					<Avatar

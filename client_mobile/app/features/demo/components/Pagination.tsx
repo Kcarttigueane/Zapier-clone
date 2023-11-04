@@ -50,6 +50,7 @@ export default Pagination;
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 10,
     flexDirection: 'row',
     height: 64,
   },
