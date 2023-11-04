@@ -5,7 +5,7 @@ import { UserModelDTO } from '../models/user';
 
 type UserState = {
   user: UserModelDTO | null;
-  isLoading: boolean;
+  isUserLoading: boolean;
   error?: string;
 };
 
@@ -19,27 +19,27 @@ type UserActions = {
 
 const useUserStore = create<UserState & UserActions>()(set => ({
   user: null,
-  isLoading: false,
+  isUserLoading: false,
   error: undefined,
   setUser: user => set(() => ({ user })),
   clearUser: () => set(() => ({ user: null })),
   fetchCurrentUser: async accessToken => {
-    set({ isLoading: true, error: undefined });
+    set({ isUserLoading: true, error: undefined });
     try {
       const response = await apiV2.get('/users/me', { headers: getApiHeaders(accessToken) });
 
       if (response.status === HttpStatusCode.Ok && response.data) {
-        set({ user: response.data, isLoading: false });
+        set({ user: response.data, isUserLoading: false });
       }
     } catch (error: any) {
       console.error('Error fetching current user:', error);
       set({ error: error.message });
     } finally {
-      set({ isLoading: false });
+      set({ isUserLoading: false });
     }
   },
   updateUser: async user => {
-    set({ isLoading: true, error: undefined });
+    set({ isUserLoading: true, error: undefined });
     const accessToken = await getAccessToken();
     if (!accessToken) {
       throw new Error('No access token found');
@@ -57,11 +57,11 @@ const useUserStore = create<UserState & UserActions>()(set => ({
       console.error('Error updating user:', error);
       set({ error: error.message });
     } finally {
-      set({ isLoading: false });
+      set({ isUserLoading: false });
     }
   },
   deleteUser: async () => {
-    set({ isLoading: true, error: undefined });
+    set({ isUserLoading: true, error: undefined });
     const accessToken = await getAccessToken();
     if (!accessToken) {
       throw new Error('No access token found');
@@ -79,7 +79,7 @@ const useUserStore = create<UserState & UserActions>()(set => ({
       console.error('Error deleting user:', error);
       set({ error: error.message });
     } finally {
-      set({ isLoading: false });
+      set({ isUserLoading: false });
     }
   },
 }));

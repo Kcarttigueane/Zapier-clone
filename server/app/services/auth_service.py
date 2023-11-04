@@ -87,7 +87,6 @@ class AuthServices:
         else:
             frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
 
-        frontend_url = f"{WEB_CLIENT_URL}/home?token={jwt_token}"
         return RedirectResponse(frontend_url)
 
     async def register_user_email_password(self, user_data: UserInDTO) -> UserOutDTO:

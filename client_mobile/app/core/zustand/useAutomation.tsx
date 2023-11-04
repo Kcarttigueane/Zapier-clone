@@ -1,8 +1,7 @@
 import { HttpStatusCode } from 'axios';
 import { create } from 'zustand';
-import { apiV2, getApiHeaders } from '../api';
+import { apiV2, getAccessToken, getApiHeaders } from '../api';
 import { AutomationCreationDTO, AutomationDTO, DetailedAutomationDTO } from '../models/automation';
-import { useAuthStore } from './useAuthStore';
 
 type AutomationState = {
   automations: AutomationDTO[];
@@ -29,11 +28,7 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
   ...initialState,
   fetchAutomations: async () => {
     set({ isAutomationsLoading: true });
-    // const accessToken = await getAccessToken();
-    // if (!accessToken) {
-    //   throw new Error('No access token found');
-    // }
-    const accessToken = useAuthStore.getState().accessToken;
+    const accessToken = await getAccessToken();
 
     if (!accessToken) {
       throw new Error('No access token found');
@@ -54,7 +49,7 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
   },
   fetchDetailedAutomations: async () => {
     set({ isAutomationsLoading: true });
-    const accessToken = useAuthStore.getState().accessToken;
+    const accessToken = await getAccessToken();
 
     if (!accessToken) {
       throw new Error('No access token found');
@@ -76,7 +71,7 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
   },
   createAutomation: async (automationData: AutomationCreationDTO) => {
     set({ isAutomationsLoading: true });
-    const accessToken = useAuthStore.getState().accessToken;
+    const accessToken = await getAccessToken();
 
     if (!accessToken) {
       throw new Error('No access token found');
@@ -96,7 +91,7 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
   },
   deleteAutomation: async (automationId: AutomationDTO['id']) => {
     set({ isAutomationsLoading: true });
-    const accessToken = useAuthStore.getState().accessToken;
+    const accessToken = await getAccessToken();
 
     if (!accessToken) {
       throw new Error('No access token found');
@@ -121,7 +116,7 @@ const useAutomationStore = create<AutomationState & AutomationActions>()(set => 
   clearAutomations: () => set(() => ({ automations: [] })),
   updateAutomation: async (automationId: AutomationDTO['id'], automationData: AutomationCreationDTO) => {
     set({ isAutomationsLoading: true });
-    const accessToken = useAuthStore.getState().accessToken;
+    const accessToken = await getAccessToken();
 
     if (!accessToken) {
       throw new Error('No access token found');

@@ -67,7 +67,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
     try {
       await loginFn(email, password);
     } catch (error: any) {
-      console.error('Error registering user:', error.response.data.detail);
+      console.error('Error login user:', error.response.data.detail);
       toast.show({
         placement: 'top',
         render: ({ id }) => {

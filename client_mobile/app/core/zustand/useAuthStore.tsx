@@ -2,17 +2,18 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HttpStatusCode } from 'axios';
 import { Linking } from 'react-native';
 import { create } from 'zustand';
-import { BASE_URL, apiV2, getApiHeaders, setAccessToken } from '../api';
+import { BASE_URL, apiV2, getAccessToken, getApiHeaders, setAccessToken } from '../api';
 import useUserStore from './useUserStore';
 
 type AuthState = {
   isLoading: boolean;
-  accessToken?: string;
+  isLoggedIn: boolean;
 };
 
 type AuthActions = {
   loginFn: (email: string, password: string) => Promise<void>;
   registerFn: (firstName: string, lastName: string, email: string, password: string) => Promise<void>;
+  setLoggedIn: (isLoggedIn: boolean) => void;
   logoutFn: () => void;
   loginWithGoogle: () => void;
   loginWithSpotify: () => void;
@@ -22,6 +23,7 @@ type AuthActions = {
 
 const initialState: AuthState = {
   isLoading: false,
+  isLoggedIn: false,
 };
 
 export const useAuthStore = create<AuthState & AuthActions>()(set => {
@@ -46,7 +48,7 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
           try {
             set({ isLoading: true });
             await useUserStore.getState().fetchCurrentUser(accessToken);
-            set({ accessToken: accessToken });
+            set({ isLoggedIn: true });
             await setAccessToken(accessToken);
           } catch (error: any) {
             console.error('Error fetching current user:', error);
@@ -75,13 +77,13 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
 
         const response = await apiV2.post('/auth/register', newUser);
 
-        if (response.status === HttpStatusCode.Ok && response.data) {
+        if (response.status === HttpStatusCode.Created && response.data) {
           const { accessToken } = response.data;
 
           try {
             set({ isLoading: true });
             await useUserStore.getState().fetchCurrentUser(accessToken);
-            set({ accessToken: accessToken });
+            set({ isLoggedIn: true });
             await setAccessToken(accessToken);
           } catch (error: any) {
             console.error('Error fetching current user:', error);
@@ -98,34 +100,40 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
         set({ isLoading: false });
       }
     },
+    setLoggedIn: (isLoggedIn: boolean) => {
+      set({ isLoggedIn: isLoggedIn });
+    },
     logoutFn: () => {
-      console.log('Logging out');
-      AsyncStorage.removeItem('access_token');
+      console.info('Logging out');
+      AsyncStorage.removeItem('@access_token');
       useUserStore.getState().clearUser();
+      set({ isLoggedIn: false });
     },
     loginWithGoogle: async () => {
       const url = `${BASE_URL}/auth/login/mobile/google`;
-      const supported = await Linking.canOpenURL(url);
-      Linking.openURL(url);
+      await Linking.openURL(url);
 
-      if (supported) {
-        Linking.openURL(url);
-      } else {
-        console.error('Cannot open URL:', url);
-      }
+      // try {
+      //   const supported = await Linking.canOpenURL(url);
+      //   if (supported) {
+      //     await Linking.openURL(url);
+      //   } else {
+      //     console.error('Cannot open URL:', url);
+      //   }
+      // } catch (error) {
+      //   console.error('An error occurred while trying to open URL:', url, error);
+      // }
     },
     loginWithSpotify: async () => {
       const url = `${BASE_URL}/auth/login/mobile/spotify`;
-      // const supported = await Linking.canOpenURL(url);
-      Linking.openURL(url);
+      await Linking.openURL(url);
     },
     loginWithGitHub: async () => {
       const url = `${BASE_URL}/auth/login/mobile/github`;
-      // const supported = await Linking.canOpenURL(url);
-      Linking.openURL(url);
+      await Linking.openURL(url);
     },
     authorizeService: async (provider: string, service: string) => {
-      const accessToken = useAuthStore.getState().accessToken;
+      const accessToken = await getAccessToken();
       if (!accessToken) {
         throw new Error('No access token found');
       }
