@@ -2,11 +2,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HttpStatusCode } from 'axios';
 import { Linking } from 'react-native';
 import { create } from 'zustand';
-import { BASE_URL, apiV2, getAccessToken, getApiHeaders, setAccessToken } from '../api';
+import { BASE_URL, apiV2, getApiHeaders, setAccessToken } from '../api';
 import useUserStore from './useUserStore';
 
 type AuthState = {
   isLoading: boolean;
+  accessToken?: string;
 };
 
 type AuthActions = {
@@ -45,9 +46,8 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
           try {
             set({ isLoading: true });
             await useUserStore.getState().fetchCurrentUser(accessToken);
+            set({ accessToken: accessToken });
             await setAccessToken(accessToken);
-            const tokenFromStorage = await getAccessToken();
-            console.log('Token from storage:', tokenFromStorage);
           } catch (error: any) {
             console.error('Error fetching current user:', error);
             throw error;
@@ -81,7 +81,8 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
           try {
             set({ isLoading: true });
             await useUserStore.getState().fetchCurrentUser(accessToken);
-            AsyncStorage.setItem('access_token', accessToken);
+            set({ accessToken: accessToken });
+            await setAccessToken(accessToken);
           } catch (error: any) {
             console.error('Error fetching current user:', error);
             throw error;
@@ -124,17 +125,19 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
       Linking.openURL(url);
     },
     authorizeService: async (provider: string, service: string) => {
-      const accessToken = await getAccessToken();
+      const accessToken = useAuthStore.getState().accessToken;
       if (!accessToken) {
         throw new Error('No access token found');
       }
 
       try {
-        const response = await apiV2.get('/auth/authorize/' + provider + '/' + service, {
+        const response = await apiV2.get('/auth/authorize/mobile/' + provider + '/' + service, {
           headers: getApiHeaders(accessToken),
         });
         if (response.status === HttpStatusCode.Ok && response.data) {
           const url = response.data;
+          Linking.openURL(url);
+
           const supported = await Linking.canOpenURL(url);
           if (supported) {
             Linking.openURL(url);

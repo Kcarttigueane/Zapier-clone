@@ -1,7 +1,8 @@
 import { HttpStatusCode } from 'axios';
 import { create } from 'zustand';
-import { apiV2, getAccessToken, getApiHeaders } from '../api';
+import { apiV2, getApiHeaders } from '../api';
 import { ServiceModeWithAuthorizationDTO, ServiceModelDTO } from '../models/service';
+import { useAuthStore } from './useAuthStore';
 
 type ServicesState = {
   services: ServiceModelDTO[];
@@ -45,7 +46,6 @@ const useServicesStore = create<ServicesState & ServiceActions>()(set => ({
   fetchCompatibleServices: async (serviceId: ServiceModelDTO['id']) => {
     set({ isLoading: true });
     try {
-      throw new Error('No access token found');
       const response = await apiV2.get(`/services/${serviceId}/compatibilities`);
 
       if (response.status === HttpStatusCode.Ok && response.data) {
@@ -60,7 +60,8 @@ const useServicesStore = create<ServicesState & ServiceActions>()(set => ({
   },
   fetchUserAuthorizedServices: async () => {
     set({ isLoading: true });
-    const accessToken = await getAccessToken();
+    const accessToken = useAuthStore.getState().accessToken;
+
     if (!accessToken) {
       throw new Error('No access token found');
     }

@@ -1,9 +1,8 @@
 import { config, GluestackUIProvider } from '@gluestack-ui/themed';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useCallback, useEffect, useState } from 'react';
-import { Linking, Text } from 'react-native';
+import React, { useState } from 'react';
+import { Text } from 'react-native';
 import CustomBottomTabBar from './core/components/CustomBottomNavBar';
 import './core/i18n/i18next';
 import { ServiceModelDTO } from './core/models/service';
@@ -13,6 +12,7 @@ import HomeStackRouting from './core/routes/HomeStackRouting';
 import ServicesStackRouting from './core/routes/ServicesStackRouting';
 import SettingsStackRouting from './core/routes/SettingsStackRouting';
 import ZapStackRouting from './core/routes/ZapStackRouting';
+import { useAuthStore } from './core/zustand/useAuthStore';
 import useUserStore from './core/zustand/useUserStore';
 
 export type RootStackParamList = {
@@ -50,53 +50,56 @@ const Tab = createBottomTabNavigator();
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const { fetchCurrentUser, isLoading } = useUserStore(state => state);
+  const { accessToken, logoutFn } = useAuthStore(state => state);
 
-  const getQueryParam = (url: string, param: string) => {
-    const regex = new RegExp(`[?&]${param}(=([^&#]*)|&|#|$)`),
-      results = regex.exec(url);
-    if (!results) {
-      return null;
-    }
-    if (!results[2]) {
-      return '';
-    }
-    return decodeURIComponent(results[2].replace(/\+/g, ' '));
-  };
+  // const getQueryParam = (url: string, param: string) => {
+  //   const regex = new RegExp(`[?&]${param}(=([^&#]*)|&|#|$)`),
+  //     results = regex.exec(url);
+  //   if (!results) {
+  //     return null;
+  //   }
+  //   if (!results[2]) {
+  //     return '';
+  //   }
+  //   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+  // };
 
-  const checkUserToken = useCallback(async () => {
-    let tokenFromStorage = await AsyncStorage.getItem('access_token');
-    if (tokenFromStorage) {
-      try {
-        await fetchCurrentUser(tokenFromStorage).then(() => setIsLoggedIn(true));
-      } catch (error) {
-        console.error('Error fetching current user:', error);
-      }
-    } else {
-      setIsLoggedIn(false); // Set isLoggedIn to false if token is not found
-    }
-  }, [fetchCurrentUser]);
+  // const checkUserToken = useCallback(async () => {
+  //   let tokenFromStorage = await AsyncStorage.getItem('access_token');
+  //   if (tokenFromStorage) {
+  //     try {
+  //       await fetchCurrentUser(tokenFromStorage).then(() => setIsLoggedIn(true));
+  //     } catch (error) {
+  //       logoutFn();
+  //       console.error('Error fetching current user:', error);
+  //       setIsLoggedIn(false); // Set isLoggedIn to false if token is not found
+  //     }
+  //   } else {
+  //     setIsLoggedIn(false); // Set isLoggedIn to false if token is not found
+  //   }
+  // }, [fetchCurrentUser, logoutFn]);
 
-  useEffect(() => {
-    const handleDeepLink = async (event: { url?: string; nativeEvent?: { data?: string; url?: string } }) => {
-      const actualURL = event.url || event.nativeEvent?.url || event.nativeEvent?.data;
-      console.log('Deep link detected:', actualURL);
+  // useEffect(() => {
+  //   const handleDeepLink = async (event: { url?: string; nativeEvent?: { data?: string; url?: string } }) => {
+  //     const actualURL = event.url || event.nativeEvent?.url || event.nativeEvent?.data;
+  //     console.log('Deep link detected:', actualURL);
 
-      if (actualURL && actualURL.includes('myapp://oauthredirect')) {
-        const tokenFromURL = getQueryParam(actualURL, 'token');
-        if (tokenFromURL) {
-          console.log('Token from deep link:', tokenFromURL);
-          await AsyncStorage.setItem('access_token', tokenFromURL);
-        }
-      }
-    };
+  //     if (actualURL && actualURL.includes('myapp://oauthredirect')) {
+  //       const tokenFromURL = getQueryParam(actualURL, 'token');
+  //       if (tokenFromURL) {
+  //         console.log('Token from deep link:', tokenFromURL);
+  //         await AsyncStorage.setItem('access_token', tokenFromURL);
+  //       }
+  //     }
+  //   };
 
-    Linking.addEventListener('url', handleDeepLink);
-    checkUserToken();
+  //   Linking.addEventListener('url', handleDeepLink);
+  //   checkUserToken();
 
-    return () => {
-      Linking.removeAllListeners('url');
-    };
-  }, [checkUserToken]);
+  //   return () => {
+  //     Linking.removeAllListeners('url');
+  //   };
+  // }, [checkUserToken, logoutFn]);
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -105,7 +108,7 @@ const App = () => {
   return (
     <GluestackUIProvider config={config.theme}>
       <NavigationContainer>
-        {isLoggedIn ? (
+        {accessToken ? (
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
             <>
               <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />

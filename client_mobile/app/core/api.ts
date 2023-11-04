@@ -17,7 +17,7 @@ export const getApiHeaders = (accessToken: string) => ({
 
 export const getAccessToken = async () => {
   try {
-    return await AsyncStorage.getItem('access_token');
+    return await AsyncStorage.getItem('@access_token');
   } catch (error: any) {
     throw new Error(error.message);
   }
@@ -25,7 +25,7 @@ export const getAccessToken = async () => {
 
 export const setAccessToken = async (accessToken: string) => {
   try {
-    await AsyncStorage.setItem('access_token', accessToken);
+    await AsyncStorage.setItem('@access_token', accessToken);
   } catch (error: any) {
     throw new Error(error.message);
   }

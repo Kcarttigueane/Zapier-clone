@@ -39,7 +39,7 @@ const LanguageSelect = () => {
       </SelectTrigger>
       <SelectPortal>
         <SelectBackdrop />
-        <SelectContent borderRadius={12} elevation={4} backgroundColor="$white" height="100%">
+        <SelectContent borderRadius={12} elevation={4} backgroundColor="$white" height="50%">
           <SelectDragIndicatorWrapper>
             <SelectDragIndicator />
           </SelectDragIndicatorWrapper>

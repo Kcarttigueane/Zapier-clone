@@ -3,11 +3,13 @@ import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
 import Base64SvgDisplay from '../../../core/components/Base64SvgDisplay';
 import { capitalizeFirstLetter } from '../../../core/utils/capitalizeFirstLetter';
+import { useAuthStore } from '../../../core/zustand/useAuthStore';
 import useServicesStore from '../../../core/zustand/useServiceStore';
 
 const ConnectedServices = () => {
   const toast = useToast();
   const { userAuthorizedServices, fetchUserAuthorizedServices, isLoading } = useServicesStore(state => state);
+  const { authorizeService } = useAuthStore(state => state);
 
   useEffect(() => {
     if (userAuthorizedServices.length > 0) {
@@ -39,6 +41,28 @@ const ConnectedServices = () => {
       </VStack>
     );
   }
+
+  const googleServices = ['calendar', 'drive', 'gmail', 'youtube'];
+
+  const getGoogleServiceName = (service: string) => {
+    const isGoogleService = service.toLowerCase().startsWith('google');
+    if (isGoogleService) {
+      return service.split(' ')[1];
+    }
+    return service.toLowerCase();
+  };
+
+  const handleConnectService = (service: string) => {
+    const googleServiceName = getGoogleServiceName(service);
+
+    if (googleServices.includes(googleServiceName)) {
+      authorizeService('google', googleServiceName);
+    } else if (service == 'spotify') {
+      authorizeService('spotify', 'spotify');
+    } else if (service == 'github') {
+      authorizeService('github', 'github');
+    }
+  };
 
   // TODO: To check
   if (userAuthorizedServices.length === 0) {
@@ -82,7 +106,14 @@ const ConnectedServices = () => {
 
             <Text style={styles.title}>{capitalizeFirstLetter(item.name)}</Text>
           </HStack>
-          <Switch size="md" isDisabled={false} />
+          <Switch
+            size="md"
+            isDisabled={false}
+            onToggle={() => {
+              handleConnectService(item.name);
+            }}
+            isChecked={true}
+          />
         </HStack>
       )}
     />
