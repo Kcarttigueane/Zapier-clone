@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+
 import { Button, ButtonText, HStack, Spinner, Switch, Toast, ToastTitle, VStack, useToast } from '@gluestack-ui/themed';
 import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
@@ -57,14 +59,13 @@ const ConnectedServices = () => {
 
     if (googleServices.includes(googleServiceName)) {
       authorizeService('google', googleServiceName);
-    } else if (service == 'spotify') {
+    } else if (service === 'spotify') {
       authorizeService('spotify', 'spotify');
-    } else if (service == 'github') {
+    } else if (service === 'github') {
       authorizeService('github', 'github');
     }
   };
 
-  // TODO: To check
   if (userAuthorizedServices.length === 0) {
     return (
       <VStack justifyContent="center" alignItems="center" flex={1}>

@@ -116,12 +116,12 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
     },
     loginWithSpotify: async () => {
       const url = `${BASE_URL}/auth/login/mobile/spotify`;
-      const supported = await Linking.canOpenURL(url);
+      // const supported = await Linking.canOpenURL(url);
       Linking.openURL(url);
     },
     loginWithGitHub: async () => {
       const url = `${BASE_URL}/auth/login/mobile/github`;
-      const supported = await Linking.canOpenURL(url);
+      // const supported = await Linking.canOpenURL(url);
       Linking.openURL(url);
     },
     authorizeService: async (provider: string, service: string) => {

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, ButtonText, ScrollView, Spinner, Toast, ToastTitle, VStack, useToast } from '@gluestack-ui/themed';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useEffect } from 'react';

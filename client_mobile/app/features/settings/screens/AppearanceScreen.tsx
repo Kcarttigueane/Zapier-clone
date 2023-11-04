@@ -15,6 +15,7 @@ const appearanceData = [
 ];
 
 const AppearanceScreen = () => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleCheckboxPress = (newTheme: string) => {
     // setTheme(newTheme);
   };

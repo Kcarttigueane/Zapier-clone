@@ -1,7 +1,7 @@
 import { config, GluestackUIProvider } from '@gluestack-ui/themed';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
 import { Text } from 'react-native';
 import CustomBottomTabBar from './core/components/CustomBottomNavBar';
 import './core/i18n/i18next';
@@ -48,9 +48,9 @@ export type RootStackParamList = {
 const Tab = createBottomTabNavigator();
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-  const { fetchCurrentUser, isLoading } = useUserStore(state => state);
-  const { accessToken, logoutFn } = useAuthStore(state => state);
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const { /* fetchCurrentUser, */ isLoading } = useUserStore(state => state);
+  const { accessToken /* , logoutFn */ } = useAuthStore(state => state);
 
   // const getQueryParam = (url: string, param: string) => {
   //   const regex = new RegExp(`[?&]${param}(=([^&#]*)|&|#|$)`),
@@ -109,6 +109,7 @@ const App = () => {
     <GluestackUIProvider config={config.theme}>
       <NavigationContainer>
         {accessToken ? (
+          // eslint-disable-next-line react/no-unstable-nested-components
           <Tab.Navigator tabBar={props => <CustomBottomTabBar {...props} />}>
             <>
               <Tab.Screen name="Home" component={HomeStackRouting} options={{ headerShown: false }} />

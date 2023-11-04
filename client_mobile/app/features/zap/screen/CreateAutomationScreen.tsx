@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, ButtonText, FormControl, Heading, Toast, ToastTitle, VStack, useToast } from '@gluestack-ui/themed';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -33,8 +35,8 @@ const CreateAutomationScreen = ({ navigation }: ZapScreenProps) => {
   const [selectedActionId, setSelectedActionId] = useState<ActionModelDTO['id'] | null>(null);
 
   const { services, compatibleServices, fetchServices, fetchCompatibleServices } = useServicesStore(state => state);
-  const { actionsAssociatedToTrigger, fetchActionsByTriggerId, isActionsLoading } = useActionStore(state => state);
-  const { triggersAssociatedToService, fetchTriggersByService, isTriggersLoading } = useTriggerStore(state => state);
+  const { actionsAssociatedToTrigger, fetchActionsByTriggerId } = useActionStore(state => state);
+  const { triggersAssociatedToService, fetchTriggersByService } = useTriggerStore(state => state);
   const { createAutomation } = useAutomationStore(state => state);
   const { user } = useUserStore(state => state);
   const toast = useToast();
