@@ -5,7 +5,6 @@ import useUserStore from '../../../core/zustand/useUserStore';
 import { base64ToImageUrl, baseUserProfileBase64 } from '../../../core/utils/base64ToImageUrl';
 import { UserModelDTO } from '../../../core/models/user';
 
-
 const UploadNewImage: React.FC = () => {
 	const { user, updateUser } = useUserStore((state) => state);
 
@@ -14,11 +13,11 @@ const UploadNewImage: React.FC = () => {
 			uid: '-1',
 			name: 'image.png',
 			status: 'done',
-			url: base64ToImageUrl(user?.profile.profile_picture || baseUserProfileBase64)
+			url: base64ToImageUrl(user?.profile.profile_picture || baseUserProfileBase64),
 		},
 	]);
 
-	const onChange: UploadProps['onChange'] = ({ fileList: newFileList, file, }) => {
+	const onChange: UploadProps['onChange'] = ({ fileList: newFileList, file }) => {
 		setFileList(newFileList);
 		if (user === null || newFileList.length === 0) {
 			return;
@@ -26,17 +25,16 @@ const UploadNewImage: React.FC = () => {
 
 		const updatedUser: Partial<UserModelDTO> = { ...user };
 
-
 		if (file && file.thumbUrl) {
 			updatedUser.profile = updatedUser.profile || undefined;
 			if (updatedUser.profile === undefined) {
 				return;
 			}
 			updatedUser.profile.profile_picture = file.thumbUrl.split(',')[1];
-			console.log("Updated User: ", updatedUser);
+			console.log('Updated User: ', updatedUser);
 			updateUser(updatedUser);
 		} else {
-			console.log("thumbUrl is undefined");
+			console.log('thumbUrl is undefined');
 		}
 	};
 

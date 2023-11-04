@@ -10,7 +10,6 @@ import Language from '../components/Language';
 import useUserStore from '../../../core/zustand/useUserStore';
 import { base64ToImageUrl, baseUserProfileBase64 } from '../../../core/utils/base64ToImageUrl';
 
-
 const layoutStyle: React.CSSProperties = {
 	minHeight: '100vh',
 	backgroundColor: '#fff',
@@ -48,7 +47,6 @@ const Settings = () => {
 
 	const [selectedMenu, setSelectedMenu] = useState<string>('1');
 	const { user } = useUserStore((state) => state);
-
 
 	const renderRightContent = () => {
 		switch (selectedMenu) {
