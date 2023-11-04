@@ -32,16 +32,20 @@ def extract_todays_event(credentials):
     )
 
     events = events_result.get("items", [])
+    body = "Hello, here are today's events:\n"
+    for event in events:
+        summary = event.get("summary", "Untitled Event")
+        body += f"\t- {summary}\n"
     return (
-        TriggerAnswer(
-            header="[Area] Event Today Google Calendar", body=events[0]["summary"]
-        )
+        TriggerAnswer(header="[Area] Event Today Google Calendar", body=body)
         if events
         else None
     )
 
 
-def check_todays_event(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer | None:
+def check_todays_event(
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
+) -> TriggerAnswer | None:
     if (
         service_auth := get_service_auth(user, "calendar")
     ) and service_auth.refresh_token:
@@ -51,7 +55,7 @@ def check_todays_event(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer
     else:
         return None
 
-    if last_polled.day == datetime.utcnow().day:
+    if last_polled.day == datetime.utcnow().day and not first_poll:
         return None
 
     try:
@@ -96,7 +100,7 @@ def extract_upcoming_events(credentials, last_polled) -> TriggerAnswer | None:
 
 
 def check_upcoming_events_calendar(
-    user: UserOutDTO, last_polled: datetime
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
 ) -> TriggerAnswer | None:
     if (
         service_auth := get_service_auth(user, "calendar")

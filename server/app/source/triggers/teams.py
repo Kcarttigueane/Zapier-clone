@@ -52,7 +52,7 @@ def extract_upcoming_events(token, last_polled: datetime):
 
 
 def check_upcoming_events_team(
-    user: UserOutDTO, last_polled: datetime
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
 ) -> TriggerAnswer | None:
     if service_auth := get_service_auth(user, "teams"):
         token = service_auth.access_token

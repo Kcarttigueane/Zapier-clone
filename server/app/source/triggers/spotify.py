@@ -33,7 +33,9 @@ def extract_spotify_likes(token) -> TriggerAnswer | None:
     return TriggerAnswer(objs=song_names)
 
 
-def check_spotify_like(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer | None:
+def check_spotify_like(
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
+) -> TriggerAnswer | None:
     if service_auth := get_service_auth(user, "spotify"):
         token = service_auth.access_token
     else:

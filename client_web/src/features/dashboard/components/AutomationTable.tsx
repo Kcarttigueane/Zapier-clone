@@ -122,6 +122,8 @@ const AutomationTable = () => {
 			authorizeService('spotify', 'spotify');
 		} else if (service == 'github') {
 			authorizeService('github', 'github');
+		} else if (service == 'teams') {
+			authorizeService('microsoft', 'teams');
 		}
 	};
 
@@ -172,7 +174,7 @@ const AutomationTable = () => {
 					<Space size="middle">
 						<ConnectServiceButton
 							service={record.trigger_service}
-							connected={record.trigger_service.is_authorized}
+							connected={record.trigger_service.is_authorized || record.trigger_service.name == 'open meteo'}
 							onClick={handleConnectService}
 						/>
 						<ConnectServiceButton

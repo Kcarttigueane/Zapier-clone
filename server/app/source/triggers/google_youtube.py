@@ -1,7 +1,7 @@
 import logging
 from typing import List
 from googleapiclient.discovery import build
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from app.schemas.triggers_dto import TriggerAnswer
 from app.schemas.users_dto import UserOutDTO
@@ -20,7 +20,9 @@ def extract_youtube_likes(credentials):
     return TriggerAnswer(objs=objs)
 
 
-def check_youtube_like(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer | None:
+def check_youtube_like(
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
+) -> TriggerAnswer | None:
     if (
         service_auth := get_service_auth(user, "youtube")
     ) and service_auth.refresh_token:
@@ -43,7 +45,7 @@ def get_subscribed_channels(service, last_polled):
 
     response = (
         service.subscriptions()
-        .list(part="snippet", mine=True, maxResults=5, pageToken=None)
+        .list(part="snippet", mine=True, maxResults=10, pageToken=None)
         .execute()
     )
 
@@ -52,8 +54,11 @@ def get_subscribed_channels(service, last_polled):
     return subscribed_channels
 
 
-def get_latest_videos(service, last_polled, channels):
+def get_latest_videos(service, last_polled, channels, first_poll):
     latest_videos: List[dict] = []
+
+    if not first_poll:
+        last_polled = last_polled - timedelta(days=1)
 
     for channel in channels:
         channel_id = channel["snippet"]["resourceId"]["channelId"]
@@ -97,12 +102,12 @@ def create_body_str(videos):
     return body
 
 
-def extract_new_videos(credentials, last_polled) -> TriggerAnswer | None:
+def extract_new_videos(credentials, last_polled, first_poll) -> TriggerAnswer | None:
     service = build("youtube", "v3", credentials=credentials, cache_discovery=False)
     channels = get_subscribed_channels(service, last_polled)
     if channels == []:
         return None
-    videos = get_latest_videos(service, last_polled, channels)
+    videos = get_latest_videos(service, last_polled, channels, first_poll)
     if videos == []:
         return None
     body = create_body_str(videos)
@@ -113,7 +118,9 @@ def extract_new_videos(credentials, last_polled) -> TriggerAnswer | None:
     )
 
 
-def check_new_videos(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer | None:
+def check_new_videos(
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
+) -> TriggerAnswer | None:
     if (
         service_auth := get_service_auth(user, "youtube")
     ) and service_auth.refresh_token:
@@ -123,8 +130,11 @@ def check_new_videos(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer |
     else:
         return None
 
+    if last_polled.day == datetime.utcnow().day and not first_poll:
+        return None
+
     try:
-        return extract_new_videos(credentials, last_polled)
+        return extract_new_videos(credentials, last_polled, first_poll)
     except Exception as e:
         logger.info(f"An error occurred: {e}")
         return None
