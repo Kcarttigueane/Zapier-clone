@@ -25,7 +25,10 @@ const Slider = ({ navigation }: DemoProps) => {
     useNativeDriver: false,
   });
 
-  const handleOnScroll = useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => animatedEvent(event), []);
+  const handleOnScroll = useCallback(
+    (event: NativeSyntheticEvent<NativeScrollEvent>) => animatedEvent(event),
+    [animatedEvent],
+  );
 
   const handleOnViewableItemsChangedRef = useRef(({ viewableItems }: { viewableItems: any[] }) => {
     if (viewableItems.length > 0) {

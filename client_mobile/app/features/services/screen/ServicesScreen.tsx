@@ -1,27 +1,12 @@
-import { ScrollView } from '@gluestack-ui/themed';
+import { ScrollView, Spinner } from '@gluestack-ui/themed';
 import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import React, { useEffect } from 'react';
+import { SafeAreaView, StyleSheet } from 'react-native';
 import { RootStackParamList } from '../../../App';
 
+import useServicesStore from '../../../core/zustand/useServiceStore';
 import ServiceCard from '../components/ServiceCard';
-import ServiceSearchBar from '../components/ServiceSearchBar';
-
-const cardsData = [
-  { title: 'Gmail', logo: require('../../../core/assets/gmail.png') },
-  { title: 'Tinder', logo: require('../../../core/assets/tinder.png') },
-  { title: 'Spotify', logo: require('../../../core/assets/spotify.png') },
-  { title: 'Drive', logo: require('../../../core/assets/google_drive.png') },
-  { title: 'Reddit', logo: require('../../../core/assets/reddit.png') },
-  { title: 'Twitter', logo: require('../../../core/assets/X.png') },
-  { title: 'Calendar', logo: require('../../../core/assets/google_calendar.png') },
-  { title: 'Google', logo: require('../../../core/assets/google.png') },
-  { title: 'Signal', logo: require('../../../core/assets/signal.png') },
-  { title: 'Weater', logo: require('../../../core/assets/weater.png') },
-  { title: 'WhatsApp', logo: require('../../../core/assets/whatApps.png') },
-  { title: 'Youtube', logo: require('../../../core/assets/ytb.png') },
-];
 
 type ServicesScreenRouteProp = RouteProp<RootStackParamList, 'ServicesScreen'>;
 export type ServicesScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'ServicesScreen'>;
@@ -31,22 +16,28 @@ type ServicesScreenProps = {
 };
 
 const ServicesScreen = ({ navigation }: ServicesScreenProps) => {
-  const [filteredCards, setFilteredCards] = useState(cardsData);
-  const [searchText, setSearchText] = useState('');
+  const { services, fetchServices, isLoading } = useServicesStore(state => state);
 
   useEffect(() => {
-    const filtered = cardsData.filter(card => card.title.toLowerCase().includes(searchText.toLowerCase()));
-    setFilteredCards(filtered);
-  }, [searchText]);
+    if (!services.length) {
+      try {
+        fetchServices();
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      }
+    }
+  }, [fetchServices, services]);
+
+  if (isLoading) {
+    <Spinner size="large" />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
-      <ServiceSearchBar onChangeText={setSearchText} value={searchText} />
       <ScrollView contentContainerStyle={styles.cardsContainer} showsVerticalScrollIndicator={false}>
-        {filteredCards.map((data, index) => (
-          <ServiceCard key={index} item={data} navigation={navigation} />
+        {services.map((data, index) => (
+          <ServiceCard key={index} service={data} navigation={navigation} />
         ))}
-        <View style={{ height: 100, width: 1000 }} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -55,9 +46,7 @@ const ServicesScreen = ({ navigation }: ServicesScreenProps) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
-    display: 'flex',
-    alignItems: 'center',
-    gap: 20,
+    paddingVertical: 16,
   },
   cardsContainer: {
     display: 'flex',
@@ -65,6 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexWrap: 'wrap',
     gap: 20,
+    paddingBottom: 12,
   },
 });
 

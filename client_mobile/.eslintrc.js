@@ -5,5 +5,6 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react-native/no-inline-styles': 0,
     '@typescript-eslint/no-unused-vars': 'warn',
+    '@typescript-eslint/no-explicit-any': 0,
   },
 };
