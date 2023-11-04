@@ -7,6 +7,9 @@ import GeneralSettings from '../components/GeneralSettings';
 import HelpAndSupport from '../components/HelpAndSupport';
 import SettingsMenu from '../components/SettingsMenu';
 import Language from '../components/Language';
+import useUserStore from '../../../core/zustand/useUserStore';
+import { base64ToImageUrl, baseUserProfileBase64 } from '../../../core/utils/base64ToImageUrl';
+
 
 const layoutStyle: React.CSSProperties = {
 	minHeight: '100vh',
@@ -44,6 +47,8 @@ const Settings = () => {
 	} = theme.useToken();
 
 	const [selectedMenu, setSelectedMenu] = useState<string>('1');
+	const { user } = useUserStore((state) => state);
+
 
 	const renderRightContent = () => {
 		switch (selectedMenu) {
@@ -77,7 +82,8 @@ const Settings = () => {
 						<Space direction="vertical" size="large" align="center">
 							<Image
 								width={180}
-								src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+								height={180}
+								src={base64ToImageUrl(user?.profile.profile_picture || baseUserProfileBase64)}
 								style={imageStyle}
 							/>
 							<SettingsMenu onSelect={(key) => setSelectedMenu(key)} />

@@ -20,6 +20,9 @@ class UserProfileDTO(BaseModel):
     last_name: Optional[str] = Field(
         None, title="Last Name", description="The last name of the user."
     )
+    profile_picture: Optional[str] = Field(
+        None, title="Profile Picture", description="The profile picture encoded in base64"
+    )
     language: str = Field(
         "English", title="Language", description="The preferred language of the user."
     )
