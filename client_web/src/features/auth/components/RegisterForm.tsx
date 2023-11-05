@@ -8,10 +8,10 @@ import * as Yup from 'yup';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const initialValues = {
-	firstName: 'Oliver',
-	lastName: 'Lewis',
-	email: 'oliver.lewis@masurao.jp',
-	password: 'password',
+	firstName: '',
+	lastName: '',
+	email: '',
+	password: '',
 };
 
 const validationSchema = Yup.object({

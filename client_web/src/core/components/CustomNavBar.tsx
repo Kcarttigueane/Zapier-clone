@@ -11,8 +11,6 @@ const rightHeaderStyle: React.CSSProperties = {
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'space-between',
-	borderRadius: '50px',
-	border: '1px solid #d9d9d9',
 	height: '50px',
 	padding: '8px 8px 8px 16px',
 };
@@ -88,9 +86,6 @@ const CustomNavBar = () => {
 				<p style={{ margin: '0 0 0 16px' }}>Area.</p>
 			</Space>
 			<Space style={rightHeaderStyle} size="large">
-				<Badge count={5} size="small">
-					<BellOutlined style={{ fontSize: '20px', color: token.colorText }} />
-				</Badge>
 				<Dropdown menu={{ items, onClick }} placement="bottom" trigger={['click']}>
 					<Avatar
 						size="large"

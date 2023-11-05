@@ -36,6 +36,6 @@ API_URL = os.getenv("API_URL")
 MAILJET_API_KEY = os.getenv("MAILJET_API_KEY")
 MAILJET_SECRET_KEY = os.getenv("MAILJET_SECRET_KEY")
 
-POLLING = 0.5
+POLLING = os.getenv("POLLING")
 
 TESTING = os.getenv("TESTING")
