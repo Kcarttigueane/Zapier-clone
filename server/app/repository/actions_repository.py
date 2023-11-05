@@ -25,7 +25,7 @@ class ActionRepository:
     async def delete(self, action_id: PyObjectId):
         await self.collection.delete_one({"_id": action_id})
 
-    async def get_all(self):
+    async def get_all(self) -> List[ActionOutDTO]:
         result = await self.collection.find().to_list(1000)
         return [ActionOutDTO.from_mongo(action) for action in result]
 
