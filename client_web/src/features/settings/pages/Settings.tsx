@@ -2,12 +2,11 @@ import { Image, Layout, Space, theme } from 'antd';
 import { Footer } from 'antd/es/layout/layout';
 import { useState } from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
+import useUserStore from '../../../core/zustand/useUserStore';
 import ConnectedServices from '../components/ConnectedServices';
 import GeneralSettings from '../components/GeneralSettings';
 import HelpAndSupport from '../components/HelpAndSupport';
 import Language from '../components/Language';
-import useUserStore from '../../../core/zustand/useUserStore';
-import { base64ToImageUrl, baseUserProfileBase64 } from '../../../core/utils/base64ToImageUrl';
 import SettingsMenu from '../components/SettingsMenu';
 
 const { Content } = Layout;
@@ -15,7 +14,8 @@ const { Content } = Layout;
 const imageStyle: React.CSSProperties = {
 	borderRadius: '50%',
 	padding: '2px',
-	background: 'linear-gradient(#1BFFFF, #2E3192), linear-gradient(to left,  #1BFFFF, #2E3192)',
+	borderWidth: '2px',
+	borderColor: '#1890ff',
 	backgroundOrigin: 'border-box',
 	backgroundClip: 'content-box, border-box',
 };
@@ -77,12 +77,7 @@ const Settings = () => {
 				>
 					<Space direction="horizontal" size={120} style={{ height: '600px' }}>
 						<Space direction="vertical" size="large" align="center">
-							<Image
-								width={180}
-								height={180}
-								src={base64ToImageUrl(user?.profile.profile_picture || baseUserProfileBase64)}
-								style={imageStyle}
-							/>
+							<Image width={180} height={180} src={user?.profile?.profile_picture} style={imageStyle} />
 							<SettingsMenu onSelect={(key) => setSelectedMenu(key)} />
 						</Space>
 						{renderRightContent()}

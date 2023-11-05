@@ -5,7 +5,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../zustand/useUserStore';
-import { base64ToImageUrl, baseUserProfileBase64 } from '../utils/base64ToImageUrl';
 
 const { Text } = Typography;
 
@@ -90,10 +89,7 @@ const CustomNavBar = () => {
 			</Space>
 			<Space style={rightHeaderStyle} size="large">
 				<Dropdown menu={{ items, onClick }} placement="bottom" trigger={['click']}>
-					<Avatar
-						size="large"
-						icon={<img src={base64ToImageUrl(user?.profile.profile_picture || baseUserProfileBase64)} alt="Avatar" />}
-					/>
+					<Avatar size="large" icon={<img src={user?.profile.profile_picture} alt="Avatar" />} />
 				</Dropdown>
 			</Space>
 		</Header>
