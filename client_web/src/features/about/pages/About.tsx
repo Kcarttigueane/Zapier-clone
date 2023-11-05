@@ -1,5 +1,5 @@
-import { NodeCollapseOutlined, NodeExpandOutlined, WifiOutlined } from '@ant-design/icons';
-import { Col, Collapse, Divider, Image, Layout, Row, Skeleton, Space, Typography, message, theme } from 'antd';
+import { AppstoreOutlined, ExpandAltOutlined, NodeCollapseOutlined, WifiOutlined } from '@ant-design/icons';
+import { Button, Col, Collapse, Divider, Image, Layout, Row, Skeleton, Space, Typography, message, theme } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,7 +31,7 @@ const About = () => {
 	const { token } = theme.useToken();
 	const [messageApi, contextHolder] = message.useMessage();
 
-	const [aboutData, setAboutData] = useState(null);
+	const [aboutData, setAboutData] = useState<AboutData | null>(null);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
@@ -39,9 +39,12 @@ const About = () => {
 			try {
 				const response = await apiV2.get('/about.json');
 				setAboutData(response.data);
-			} catch (error) {
+			} catch (error: any) {
 				console.error('Error fetching about data:', error);
-				message.error('Error fetching about data');
+				messageApi.open({
+					type: 'error',
+					content: error.response.data.detail || 'Something went wrong',
+				});
 			} finally {
 				setLoading(false);
 			}
@@ -49,6 +52,16 @@ const About = () => {
 
 		fetchAboutData();
 	}, []);
+
+	const [activeKey, setActiveKey] = useState<string[]>([]);
+
+	const handleToggleExpand = () => {
+		if (activeKey.length === aboutData?.server.services.length) {
+			setActiveKey([]);
+		} else {
+			setActiveKey(aboutData?.server.services.map((service) => service.name) || []);
+		}
+	};
 
 	if (loading) {
 		return <Skeleton active />;
@@ -81,11 +94,13 @@ const About = () => {
 		alignItems: 'center',
 		justifyContent: 'center',
 		gap: '16px',
+		borderWidth: '2px',
 		borderColor: '#1890ff',
 	};
 
 	return (
 		<>
+			{contextHolder}
 			<Layout style={layoutStyle}>
 				<CustomNavBar />
 				<Content style={contentStyle}>
@@ -113,6 +128,10 @@ const About = () => {
 					>
 						About
 					</Title>
+					<Button onClick={handleToggleExpand} icon={<ExpandAltOutlined />} size="large">
+						{activeKey.length === aboutData?.server.services.length ? 'Collapse All' : 'Expand All'}
+					</Button>
+
 					<Row
 						style={{
 							width: '80%',
@@ -126,20 +145,21 @@ const About = () => {
 							<Text strong> {aboutData?.client?.host ?? 'No host'}</Text>
 						</Space>
 						<Space direction="vertical" style={cardStyle}>
-							<NodeExpandOutlined size={24} color="#1890ff" style={{ fontSize: '24px', color: '#1890ff' }} />
-							<Text strong>{aboutData?.client?.services ?? 'No host'}</Text>
+							<AppstoreOutlined size={24} color="#1890ff" style={{ fontSize: '24px', color: '#1890ff' }} />
+							<Text strong>Number of Services {aboutData?.client?.services ?? 'No host'}</Text>
 						</Space>
 						<Space direction="vertical" style={cardStyle}>
 							<NodeCollapseOutlined size={24} color="#1890ff" style={{ fontSize: '24px', color: '#1890ff' }} />
-							<Text strong>Nb Triggers {aboutData?.client?.triggers ?? 'No host'}</Text>
+							<Text strong>Nb of Triggers {aboutData?.client?.triggers ?? 'No host'}</Text>
 						</Space>
 						<Space direction="vertical" style={cardStyle}>
 							<WifiOutlined size={24} color="#1890ff" style={{ fontSize: '24px', color: '#1890ff' }} />
-							<Text strong>Nb Reactions {aboutData?.client?.actions ?? 'No host'}</Text>
+							<Text strong>Nb of Reactions {aboutData?.client?.actions ?? 'No host'}</Text>
 						</Space>
 					</Row>
 					<Col
 						style={{
+							marginTop: '24px',
 							display: 'flex',
 							width: '80%',
 							gap: '24px',
@@ -149,17 +169,18 @@ const About = () => {
 						}}
 					>
 						{aboutData?.server?.services.map((service) => (
-							<Collapse key={service.name} bordered style={{ width: '100%' }}>
+							<Collapse
+								activeKey={activeKey}
+								onChange={setActiveKey}
+								key={service.name}
+								bordered
+								style={{ width: '100%', backgroundColor: token.colorBgElevated }}
+							>
 								<Collapse.Panel
 									key={service.name}
 									header={
 										<Space style={imageStyle}>
-											{/* Assuming the service icons are SVGs stored as base64 strings */}
-											<Image
-												width={24}
-												src={`data:image/svg+xml;base64,${service.icon_svg_base64}`}
-												preview={false}
-											/>{' '}
+											<Image width={24} src={`data:image/svg+xml;base64,${service.icon_svg_base64}`} preview={false} />
 											<Title level={5}>{service.name}</Title>
 										</Space>
 									}
@@ -174,7 +195,6 @@ const About = () => {
 											gap: '12px',
 										}}
 									>
-										{/* Assuming CustomServiceDetailList is a component you have defined */}
 										<CustomServiceDetailList title="Actions" items={service.actions} borderLeftColor="#1890ff" />
 										<CustomServiceDetailList title="Reactions" items={service.reactions} borderLeftColor="#52c41a" />
 									</Row>
