@@ -1,5 +1,5 @@
-import { BellOutlined, LogoutOutlined, SettingOutlined, UnorderedListOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Dropdown, MenuProps, Space, Typography, message, theme } from 'antd';
+import { LogoutOutlined, SettingOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import { Avatar, Dropdown, MenuProps, Space, Typography, message, theme } from 'antd';
 import { Header } from 'antd/es/layout/layout';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
