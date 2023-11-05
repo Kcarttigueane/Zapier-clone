@@ -1,6 +1,6 @@
-import { CheckIcon, Checkbox, CheckboxIcon, CheckboxIndicator, HStack, Image } from '@gluestack-ui/themed';
-import React, { useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { CheckIcon, Checkbox, CheckboxIcon, CheckboxIndicator, HStack } from '@gluestack-ui/themed';
+import React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 
 const appearanceData = [
   {
@@ -15,10 +15,8 @@ const appearanceData = [
 ];
 
 const AppearanceScreen = () => {
-  const [checked, setChecked] = useState('colorScheme');
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleCheckboxPress = (newTheme: string) => {
-    setChecked(newTheme);
     // setTheme(newTheme);
   };
 
@@ -27,7 +25,7 @@ const AppearanceScreen = () => {
       {appearanceData.map((item, index) => {
         return (
           <View style={styles.imageContainer} key={index}>
-            <Image size="lg" source={item.img} style={styles.image} alt="mode" />
+            <Image source={item.img} style={styles.image} alt="mode" />
 
             <Checkbox
               marginLeft={8}

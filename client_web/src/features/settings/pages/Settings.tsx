@@ -5,12 +5,10 @@ import CustomNavBar from '../../../core/components/CustomNavBar';
 import ConnectedServices from '../components/ConnectedServices';
 import GeneralSettings from '../components/GeneralSettings';
 import HelpAndSupport from '../components/HelpAndSupport';
+import Language from '../components/Language';
 import SettingsMenu from '../components/SettingsMenu';
 
-const layoutStyle: React.CSSProperties = {
-	minHeight: '100vh',
-	backgroundColor: '#fff',
-};
+const { Content } = Layout;
 
 const imageStyle: React.CSSProperties = {
 	borderRadius: '50%',
@@ -27,20 +25,21 @@ const contentStyle: React.CSSProperties = {
 	alignItems: 'center',
 };
 
-const footerStyle: React.CSSProperties = {
-	display: 'flex',
-	justifyContent: 'space-between',
-	alignItems: 'center',
-	boxShadow: '0 -1px 4px rgba(0, 0, 0, 0.1)',
-	background: '#fff',
-};
-
-const { Content } = Layout;
-
 const Settings = () => {
-	const {
-		token: { colorBgContainer },
-	} = theme.useToken();
+	const { token } = theme.useToken();
+
+	const layoutStyle: React.CSSProperties = {
+		minHeight: '100vh',
+		backgroundColor: token.colorBgBase,
+	};
+
+	const footerStyle: React.CSSProperties = {
+		display: 'flex',
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		boxShadow: '0 -1px 4px rgba(0, 0, 0, 0.1)',
+		background: token.colorBgElevated,
+	};
 
 	const [selectedMenu, setSelectedMenu] = useState<string>('1');
 
@@ -51,6 +50,8 @@ const Settings = () => {
 			case '2':
 				return <ConnectedServices />;
 			case '3':
+				return <Language />;
+			case '4':
 				return <HelpAndSupport />;
 			default:
 				return null;
@@ -63,14 +64,15 @@ const Settings = () => {
 			<Content style={contentStyle}>
 				<Layout
 					style={{
-						padding: '24px 0',
-						background: colorBgContainer,
+						padding: '24px',
+						background: token.colorBgElevated,
 						display: 'flex',
 						alignItems: 'center',
 						justifyContent: 'center',
+						borderRadius: 12,
 					}}
 				>
-					<Space direction="horizontal" size={120}>
+					<Space direction="horizontal" size={120} style={{ height: '600px' }}>
 						<Space direction="vertical" size="large" align="center">
 							<Image
 								width={180}

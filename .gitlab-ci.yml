@@ -1,0 +1,94 @@
+stages:
+  - check
+  - build
+  - deploy
+
+check-web:
+  stage: check
+  image: node:16
+  before_script:
+    - cd client_web
+    - npm install -g pnpm
+    - pnpm install
+  script:
+    - pnpm lint
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+check-mobile:
+  stage: check
+  image: node:16
+  before_script:
+    - cd client_mobile
+    - npm install
+  script:
+    - npm run lint
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+check-server:
+  stage: check
+  image: python:3.12
+  before_script:
+    - cd server
+    - pip3 install -r requirements.txt
+    - pip3 install -r requirements-dev.txt
+  script:
+    - black . --check --diff
+    - ruff check . --diff
+    - mypy .
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+
+build-web:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/client_web ./client_web --platform=linux/amd64
+    - docker push $CI_REGISTRY_IMAGE/client_web:latest
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+
+build-server:
+  stage: build
+  image: docker
+  services:
+    - docker:dind
+  before_script:
+    - "cp $ENV_FILE ./server/.env"
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/server ./server --platform=linux/amd64
+    - docker push $CI_REGISTRY_IMAGE/server:latest
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"
+
+deploy:
+  stage: deploy
+  image: ubuntu
+  before_script:
+    - apt-get update -qy
+    - apt-get install -y openssh-client
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p /root/.ssh
+    - chmod 700 /root/.ssh
+    - echo "$SSH_PRIVATE_KEY" > /root/.ssh/id_rsa
+    - chmod 600 /root/.ssh/id_rsa
+    - ssh-keyscan -H $IP_PREPROD >> ~/.ssh/known_hosts
+    - ssh-keyscan -H $IP_PREPROD >> /root/.ssh/known_hosts
+    - scp $ENV_FILE $USER@$IP_PREPROD:~/.env
+  script:
+    - ssh $USER@$IP_PREPROD "docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY"
+    - ssh $USER@$IP_PREPROD "docker pull $CI_REGISTRY_IMAGE/client_web:latest"
+    - ssh $USER@$IP_PREPROD "docker pull $CI_REGISTRY_IMAGE/server:latest"
+    - ssh $USER@$IP_PREPROD "docker-compose down"
+    - ssh $USER@$IP_PREPROD "docker-compose up -d"
+  rules:
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"

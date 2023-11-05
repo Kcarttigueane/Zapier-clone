@@ -1,5 +1,5 @@
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Space, Switch } from 'antd';
+import { Space, Switch, theme } from 'antd';
 import React from 'react';
 
 interface SettingItemProps {
@@ -7,17 +7,20 @@ interface SettingItemProps {
 	children?: React.ReactNode;
 	switchable?: boolean;
 	defaultChecked?: boolean;
+	onToggleChange?: (checked: boolean) => void;
 }
 
-const labelStyle: React.CSSProperties = {
-	textAlign: 'center' as React.CSSProperties['textAlign'],
-	color: 'black',
-	fontSize: 14,
-	fontWeight: 600,
-	wordWrap: 'break-word',
-};
+const SettingItem: React.FC<SettingItemProps> = ({ label, children, switchable, defaultChecked, onToggleChange }) => {
+	const { token } = theme.useToken();
 
-const SettingItem: React.FC<SettingItemProps> = ({ label, children, switchable, defaultChecked }) => {
+	const labelStyle: React.CSSProperties = {
+		textAlign: 'center',
+		color: token.colorText,
+		fontSize: 14,
+		fontWeight: 600,
+		wordWrap: 'break-word',
+	};
+
 	return (
 		<Space direction="horizontal" size={32}>
 			<div style={labelStyle}>{label}</div>
@@ -27,6 +30,7 @@ const SettingItem: React.FC<SettingItemProps> = ({ label, children, switchable, 
 					checkedChildren={<CheckOutlined />}
 					unCheckedChildren={<CloseOutlined />}
 					defaultChecked={defaultChecked}
+					onChange={onToggleChange}
 				/>
 			)}
 		</Space>

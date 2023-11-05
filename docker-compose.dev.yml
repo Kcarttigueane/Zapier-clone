@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  server:
+    build: ./server
+    container_name: server
+    platform: linux/amd64
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./server:/usr/app/server/
+
+  client_mobile:
+    build: ./client_mobile
+    container_name: client_mobile
+    platform: linux/amd64
+    volumes:
+      - ./client_mobile:/usr/app/client_mobile/
+      - /usr/app/client_mobile/node_modules
+      - apk:/build/:rw
+
+  client_web:
+    build:
+      context: ./client_web
+      dockerfile: Dockerfile-dev
+    container_name: client_web
+    platform: linux/amd64
+    restart: on-failure
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./client_web:/usr/app/client_web/
+      - /usr/app/client_web/node_modules
+      - apk:/build/:ro
+
+volumes:
+  apk:

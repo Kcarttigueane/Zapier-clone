@@ -15,7 +15,11 @@
       "valid": "Válido",
       "yes": "Sí",
       "wait": "Por favor espera...",
-      "or": "o"
+      "or": "o",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "finish":  "Terminar",
+      "reset": "Reiniciar"
     },
     "date": {
       "display": "{{month}}/{{day}}",
@@ -97,6 +101,12 @@
       "december": "Diciembre"
     }
   },
+  "navigation": {
+    "home": "Inicio",
+    "dashboard": "Tablero",
+    "settings": "Configuraciones",
+    "logout": "Cerrar sesión"
+  },
   "demo_guides": {
     "automation": {
       "title": "La automatización es clave",
@@ -126,14 +136,14 @@
   "settings": {
     "headerTitle": "Configuraciones",
     "placeholder": "introducir texto de búsqueda",
-    "enabled": "activado",
-    "disabled": "desactivado",
+    "enabled": "Activado",
+    "disabled": "Desactivado",
     "settingScreen": {
       "profile": {
         "title": "Configuración General",
         "pic": "Foto de perfil",
         "name": "Nombre",
-        "email": "Correo electrónico",
+        "email": "Correo",
         "phone": "Número de teléfono",
         "pushNotif": "Notificaciones Push",
         "emailNotif": "Notificaciones por correo electrónico",
@@ -152,6 +162,13 @@
         "question": "Hacer una pregunta",
         "other": "Otro",
         "textAreaPlaceholder": "Ingresa tu mensaje aquí..."
+      },
+      "languages": {
+        "title": "Idiomas",
+        "description": "Elija su idioma",
+        "english": "Inglés",
+        "french": "Francés",
+        "spanish": "Español"
       }
     }
   },
@@ -168,6 +185,10 @@
       "title": "Olvidé mi contraseña",
       "welcome": "Ingresa tu dirección de correo electrónico para restablecer tu contraseña"
     },
+    "resetPassword": {
+      "title": "Restablecer la contraseña",
+      "welcome": "Introduzca su nueva contraseña."
+    },
     "rightArea": {
       "text": "Vincula tus aplicaciones favoritas y simplifica tu vida utilizando el poder de la automatización."
     },
@@ -183,40 +204,64 @@
       "reaction1": "...con este otro.",
       "action2": "Elegir un Desencadenante",
       "reaction2": "Elegir una Reacción",
-      "authorize": "Autorizar",
+      "authorize": "Conectar",
       "connected": "Ya Conectado",
       "disabled": "Autorizar Servicios",
       "enabled": "¡Pruébalo!",
-      "service": "Seleccione un servicio"
+      "service": "Seleccione un servicio",
+      "name": "Nombre de la automatización"
     },
-    "trigger": {
-      "like": "Recibir Me Gusta",
-      "reply": "Recibir Respuesta",
-      "folder": "Nueva Carpeta",
-      "file": "Nuevo Archivo",
-      "event": "Evento",
-      "birthday": "Evento de Cumpleaños",
-      "forecast": "Pronóstico Horario",
-      "video": "Video Gustado",
-      "attachment": "Nuevo Adjunto"
-    },
-    "reaction": {
-      "notification": "Notificación de la Aplicación",
-      "message": "Enviar Mensaje",
-      "playlist": "Agregar a la Lista de Reproducción",
-      "file": "Subir Archivo"
+    "recommendedSection": {
+      "serviceTitle": "Servicios Recomendados"
     }
   },
   "dashboard": {
     "filter": "Filtrar automatizaciones",
     "service": "Servicio",
     "name": "Nombre",
-    "polled": "Última consulta",
+    "authorized": "Servicios Autorizados",
+    "polled": "Última Automatización",
+    "created": "Creado hace",
+    "delete": "Eliminar",
     "running": "En ejecución",
     "confirm": "¿Seguro que deseas eliminar?",
     "cancel": "Cancelar",
     "ok": "Aceptar",
-    "time": "Hace {{time}}"
+    "makeSure": {
+      "part1": "Para garantizar que la automatización funcione correctamente, asegúrese de que esté ",
+      "bold1": "activada",
+      "part2": " y que esté ",
+      "bold2": "conectado",
+      "part3": " a los servicios necesarios."
+    }
   },
-  "error": "Algo salió mal"
+  "actions": {
+    "AddToPlaylist": "Añade automáticamente una canción a una lista de reproducción designada.",
+    "UploadToDrive": "Carga automáticamente archivos a Google Drive cuando se activa.",
+    "SendMail": "Envía un correo electrónico a ti mismo.",
+    "SendMessage": "Envía un mensaje a ti mismo.",
+    "AddEventsCalendar": "Añade eventos a Google Calendar.",
+    "AddEventsTeams": "Añade eventos a Teams."
+  },
+  "triggers": {
+    "LikeSong": "Se activa cuando te gusta una canción en plataformas como YouTube, Spotify.",
+    "NewAttachment": "Se activa al recibir nuevos archivos adjuntos en correos electrónicos.",
+    "NewFile": "Se activa cuando se añade un archivo nuevo a Drive.",
+    "TodayEvent": "Se activa cuando hay un evento en el calendario en el día actual.",
+    "TodayWeather": "Proporciona información meteorológica diaria.",
+    "UpcomingEventsTeams": "Se activa cuando hay eventos próximos en Teams.",
+    "UpcomingEventsCalendar": "Se activa cuando hay eventos próximos en Google Calendar.",
+    "NewVideo": "Se activa cuando un canal al que estás suscrito carga un nuevo vídeo."
+  },
+  "services": {
+    "google_drive": "Google Drive te permite almacenar y acceder a tus archivos en cualquier lugar: en la web, en tu disco duro o en movimiento.",
+    "google_calendar": "Un servicio de calendario para la gestión del tiempo y la programación.",
+    "gmail": "Un servicio de correo electrónico gratuito desarrollado por Google. Los usuarios pueden acceder a Gmail en la web y a través de programas de terceros que sincronizan el contenido de correo electrónico mediante los protocolos POP o IMAP.",
+    "spotify": "Un servicio de streaming de música digital que te brinda acceso a millones de canciones, podcasts y videos de artistas de todo el mundo.",
+    "youtube": "Una plataforma que permite a los usuarios cargar, ver, calificar, compartir y comentar videos.",
+    "open_meteo": "Una API gratuita de información meteorológica.",
+    "teams": "Microsoft Teams es una herramienta de comunicación y colaboración unificada."
+  },
+  "error": "Algo salió mal",
+  "code": "es"
 }

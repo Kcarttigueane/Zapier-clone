@@ -1,47 +1,29 @@
-import { FC, CSSProperties } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Button, Image } from 'antd';
-import Spotify from '../../../core/assets/logo2D/Spotify.png';
-import Youtube from '../../../core/assets/logo2D/Youtube.png';
-import Discord from '../../../core/assets/logo2D/Discord.png';
-import Gmail from '../../../core/assets/logo2D/Gmail.png';
-import GoogleDrive from '../../../core/assets/logo2D/GoogleDrive.png';
-import GoogleCalendar from '../../../core/assets/logo2D/GoogleCalandar.png';
-
+import { CSSProperties, FC } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ServiceModelDTO } from '../../../core/models/service';
 
 type ConnectServiceButtonProps = {
-	service: string;
+	service: ServiceModelDTO;
 	connected: boolean;
 	onClick: (service: string) => void;
 	style?: CSSProperties;
 };
 
-const serviceToImageSrc: Record<string, string> = {
-	'discord': Discord,
-	'google calendar': GoogleCalendar,
-	'google drive': GoogleDrive,
-	'gmail': Gmail,
-	'youtube': Youtube,
-	'spotify': Spotify,
-};
-
 const defaultStyles: CSSProperties = {
-	alignItems: 'center',
-	width: '200px',
-	height: '50px',
-	borderRadius: '50px',
-	fontSize: '20px',
-	fontWeight: 'bold',
 	display: 'flex',
-	justifyContent: 'center'
+	padding: '20px 16px',
+	justifyContent: 'center',
+	alignItems: 'center',
+	borderRadius: '50px',
+	fontWeight: 'bold',
+	gap: '10px',
 };
-
 
 const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connected, onClick, style }) => {
 	const { t } = useTranslation();
-	const handleClick = () => {
-		onClick(service);
-	};
+
+	const handleClick = () => onClick(service.name);
 
 	const buttonStyle = {
 		...defaultStyles,
@@ -49,20 +31,16 @@ const ConnectServiceButton: FC<ConnectServiceButtonProps> = ({ service, connecte
 	};
 
 	return (
-		connected ? (
-			<Button style={buttonStyle} disabled={true}>
-				{t('home.create.connected')}
-			</Button>
-		) : (
-			<Button style={buttonStyle} onClick={handleClick}>
-				<Image
-					src={serviceToImageSrc[service.toLowerCase()]}
-					alt={service}
-					style={{ width: '30px', height: '30px',  verticalAlign: 'middle', marginRight: 15}}
-				/>
-				{t('home.create.authorize')}
-			</Button>
-		)
+		<Button style={buttonStyle} disabled={connected} size="small" {...(connected ? {} : { onClick: handleClick })}>
+			<Image
+				preview={false}
+				src={`data:image/svg+xml;base64,${service.icon_svg_base64}`}
+				alt={service.name}
+				style={{ verticalAlign: 'middle', marginRight: 15 }}
+				width={24}
+			/>
+			{connected ? t('home.create.connected') : t('home.create.authorize')}
+		</Button>
 	);
 };
 

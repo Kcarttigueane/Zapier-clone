@@ -1,18 +1,36 @@
 import { createBrowserRouter } from 'react-router-dom';
+import About from '../../features/about/pages/About';
+import ForgotPassword from '../../features/auth/pages/ForgotPassword';
 import Login from '../../features/auth/pages/Login';
 import Register from '../../features/auth/pages/Register';
-import Home from '../../features/home/pages/Home';
+import ResetPassword from '../../features/auth/pages/ResetPassword';
 import Dashboard from '../../features/dashboard/pages/Dashboard';
+import Home from '../../features/home/pages/Home';
 import Landing from '../../features/landing/pages/Landing';
 import Settings from '../../features/settings/pages/Settings';
 import Error404 from '../pages/Error404';
 import LoadingPage from '../pages/LoadingPage';
+import GuestRoute from './GuestRoutes';
 import ProtectedRoute from './ProtectedRoutes';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <Landing />,
+		element: (
+			<GuestRoute>
+				<Landing />
+			</GuestRoute>
+		),
+		errorElement: <Error404 />,
+		loader: LoadingPage,
+	},
+	{
+		path: '/about-json',
+		element: (
+			<ProtectedRoute>
+				<About />
+			</ProtectedRoute>
+		),
 		errorElement: <Error404 />,
 		loader: LoadingPage,
 	},
@@ -48,13 +66,41 @@ const router = createBrowserRouter([
 	},
 	{
 		path: '/auth/login',
-		element: <Login />,
+		element: (
+			<GuestRoute>
+				<Login />
+			</GuestRoute>
+		),
+		errorElement: <Error404 />,
+		loader: LoadingPage,
+	},
+	{
+		path: '/auth/login/forgot-password',
+		element: (
+			<GuestRoute>
+				<ForgotPassword />
+			</GuestRoute>
+		),
+		errorElement: <Error404 />,
+		loader: LoadingPage,
+	},
+	{
+		path: '/auth/login/reset-password',
+		element: (
+			<GuestRoute>
+				<ResetPassword />
+			</GuestRoute>
+		),
 		errorElement: <Error404 />,
 		loader: LoadingPage,
 	},
 	{
 		path: '/auth/register',
-		element: <Register />,
+		element: (
+			<GuestRoute>
+				<Register />
+			</GuestRoute>
+		),
 		errorElement: <Error404 />,
 		loader: LoadingPage,
 	},

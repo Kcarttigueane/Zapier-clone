@@ -161,5 +161,61 @@
     "noAccount": "Don't have an account ?",
     "haveAccount": "Already have an account ?",
     "terms": "Agree to our Terms of Service and Privacy Policy."
-  }
+  },
+  "zap": {
+    "create": {
+      "title": "Create a Zap",
+      "action1": "Connect this service...",
+      "reaction1": "...with this one.",
+      "action2": "Choose a Trigger",
+      "reaction2": "Choose a Reaction",
+      "authorize": "Connect",
+      "connected": "Already Connected",
+      "disabled": "Authorize Services",
+      "enabled": "Try It!",
+      "service": "🔎 Select a Service",
+      "name": "Name of the automation"
+    },
+    "createZapScreen": {
+      "title": "Create a Zap",
+      "button1": "Trigger",
+      "button2": "Action",
+      "submit": "Create Automation"
+    },
+    "reactionScreen": {
+      "title": "Choose a Reaction"
+    },
+    "triggerScreen": {
+      "title": "Choose a Trigger"
+    }
+  },
+  "actions": {
+    "AddToPlaylist": "Automatically adds a song to a designated playlist.",
+    "UploadToDrive": "Auto-uploads files to Google Drive when triggered.",
+    "SendMail": "Send a mail to yourself",
+    "SendMessage": "Send a message to yourself.",
+    "AddEventsCalendar": "Add events on Google Calendar",
+    "AddEventsTeam": "Add events on Teams"
+  },
+  "triggers": {
+    "LikeSong": "Fires when a song is liked on platforms like YouTube, Spotify.",
+    "NewAttachment": "Triggers upon receiving new file attachments in emails.",
+    "NewFile": "Triggers when new file is added to Drive",
+    "TodayEvent": "Triggers when a calendar event is on the current day.",
+    "TodayWeather": "Triggers daily weather information",
+    "UpcomingEventsTeams": "Triggers when upcoming events on Teams",
+    "UpcomingEventsCalendar": "Triggers when upcoming events on Google Calendar",
+    "NewVideo": "Fires when a channel that the user has subscribed to uploads a new video."
+  },
+  "services": {
+    "google_drive": "Google Drive lets you store and access your files anywhere — on the web, on your hard drive, or on the go",
+    "google_calendar": "A time-management and scheduling calendar service.",
+    "gmail": "A free email service developed by Google. Users can access Gmail on the web and using third-party programs that synchronize email content through POP or IMAP protocols.",
+    "spotify": "A digital music streaming service that gives you access to millions of songs, podcasts, and videos from artists all over the world.",
+    "youtube": "A platform that allows users to upload, view, rate, share, and comment on videos.",
+    "open_meteo": "A free weather api.",
+    "teams": "Microsoft Teams is a unified communication and collaboration tool."
+  },
+  "error": "Something went wrong",
+  "code": "en"
 }
