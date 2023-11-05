@@ -145,13 +145,6 @@ export const useAuthStore = create<AuthState & AuthActions>()(set => {
         if (response.status === HttpStatusCode.Ok && response.data) {
           const url = response.data;
           Linking.openURL(url);
-
-          const supported = await Linking.canOpenURL(url);
-          if (supported) {
-            Linking.openURL(url);
-          } else {
-            console.error('Cannot open URL:', url);
-          }
         }
       } catch (error: any) {
         console.error('Error authorizing service:', error);
