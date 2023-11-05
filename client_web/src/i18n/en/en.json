@@ -241,7 +241,7 @@
     "SendMail": "Send a mail to yourself",
     "SendMessage": "Send a message to yourself.",
     "AddEventsCalendar" : "Add events on Google Calendar",
-    "AddEventsTeam": "Add events on Teams"
+    "AddEventsTeams": "Add events on Teams"
   },
   "triggers" : {
     "LikeSong": "Fires when a song is liked on platforms like YouTube, Spotify.",
