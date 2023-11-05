@@ -6,7 +6,6 @@ import { UserModelDTO } from '../models/user';
 type UserState = {
 	user: UserModelDTO | null;
 	isLoading: boolean;
-	error?: string;
 };
 
 type UserActions = {
@@ -24,7 +23,7 @@ const useUserStore = create<UserState & UserActions>()((set) => ({
 	setUser: (user) => set(() => ({ user })),
 	clearUser: () => set(() => ({ user: null })),
 	fetchCurrentUser: async (accessToken: string) => {
-		set({ isLoading: true, error: undefined });
+		set({ isLoading: true });
 		try {
 			const response = await apiV2.get('/users/me', { headers: getApiHeaders(accessToken) });
 
@@ -32,54 +31,51 @@ const useUserStore = create<UserState & UserActions>()((set) => ({
 				set({ user: response.data, isLoading: false });
 			}
 		} catch (error: any) {
-			console.error('Error fetching current user:', error);
-			set({ error: error.message });
+			throw error;
 		} finally {
 			set({ isLoading: false });
 		}
 	},
 	updateUser: async (user) => {
-		set({ isLoading: true, error: undefined });
+		set({ isLoading: true });
+		const accessToken = localStorage.getItem('access_token');
+		if (!accessToken) {
+			throw new Error('No access token found');
+		}
 
 		try {
-			const accessToken = localStorage.getItem('access_token');
-			if (!accessToken) {
-				throw new Error('No access token found');
-			}
-
 			const userId = useUserStore.getState().user?.id;
 
 			const response = await apiV2.patch(`/users/${userId}`, user, {
 				headers: getApiHeaders(accessToken),
 			});
 
-			set({ user: response.data });
+			if (response.status === HttpStatusCode.Ok && response.data) {
+				set({ user: response.data, isLoading: false });
+			}
 		} catch (error: any) {
-			console.error('Error updating user:', error);
-			set({ error: error.message });
+			throw error;
 		} finally {
 			set({ isLoading: false });
 		}
 	},
 	deleteUser: async () => {
-		set({ isLoading: true, error: undefined });
+		set({ isLoading: true });
+		const accessToken = localStorage.getItem('access_token');
+		if (!accessToken) {
+			throw new Error('No access token found');
+		}
 
 		try {
-			const accessToken = localStorage.getItem('access_token');
-			if (!accessToken) {
-				throw new Error('No access token found');
-			}
-
 			const userId = useUserStore.getState().user?.id;
 			const response = await apiV2.delete(`/users/${userId}`, {
 				headers: getApiHeaders(accessToken),
 			});
 			if (response.status === HttpStatusCode.Ok && response.data) {
-				set({ user: null });
+				set({ user: null, isLoading: false });
 			}
 		} catch (error: any) {
-			console.error('Error deleting user:', error);
-			set({ error: error.message });
+			throw error;
 		} finally {
 			set({ isLoading: false });
 		}

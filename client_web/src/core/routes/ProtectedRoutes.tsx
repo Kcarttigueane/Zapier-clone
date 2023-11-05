@@ -26,10 +26,12 @@ const ProtectedRoute: FC<Props> = ({ children }) => {
 					if (tokenFromURL) {
 						localStorage.setItem('access_token', token);
 					}
-				} catch (error) {
+				} catch (error: any) {
 					console.error('Error fetching current user:', error);
+					localStorage.removeItem('access_token');
 				}
 			} else {
+				localStorage.removeItem('access_token');
 				navigate('/auth/login');
 			}
 

@@ -66,7 +66,7 @@ const RegisterForm: React.FC = () => {
 				{({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
 					<Form layout="vertical" onSubmitCapture={handleSubmit} form={form}>
 						<Form.Item
-							label="firstName"
+							label={t('basic.fields.firstName')}
 							validateStatus={touched.firstName && errors.firstName ? 'error' : undefined}
 							help={touched.firstName && errors.firstName ? errors.firstName : undefined}
 							hasFeedback
@@ -83,7 +83,7 @@ const RegisterForm: React.FC = () => {
 							/>
 						</Form.Item>
 						<Form.Item
-							label="LastName"
+							label={t('basic.fields.lastName')}
 							validateStatus={touched.lastName && errors.lastName ? 'error' : undefined}
 							help={touched.lastName && errors.lastName ? errors.lastName : undefined}
 							hasFeedback
