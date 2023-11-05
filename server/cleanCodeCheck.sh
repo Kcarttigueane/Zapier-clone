@@ -11,6 +11,27 @@ color_print() {
     fi
 }
 
+# Function to run Docker-related commands
+run_docker() {
+    # TODO: Export PYTHONPATH and run Docker commands
+    export PYTHONPATH=$(pwd)
+    cd ..
+    docker-compose -f docker-compose.dev.yml up server -d
+    # Wait for the server to be up
+    while [ "$(docker ps -q -f name=server -f status=running)" == "" ]; do
+        sleep 5
+    done
+}
+
+# Function to run tests and display results
+run_tests() {
+    TEST_SCRIPT=$1
+    printf "Running tests...\n"
+    python3 "$TEST_SCRIPT"
+    TEST_STATUS=$?
+    return $TEST_STATUS
+}
+
 # Run black for formatting check
 black .
 BLACK_STATUS=$?
@@ -27,8 +48,14 @@ mypy --check-untyped-defs .
 MYPY_STATUS=$?
 color_print $MYPY_STATUS "Mypy type checking"
 
-# If all checks pass, allow the push to continue
-if [ $BLACK_STATUS -eq 0 ] && [ $RUFF_STATUS -eq 0 ] && [ $MYPY_STATUS -eq 0 ]; then
+# Run tests
+run_docker
+run_tests "server/tests/main_test_file.py"
+sleep 10
+docker-compose -f docker-compose.dev.yml down
+
+# If all checks and tests pass, allow the push to continue
+if [ $BLACK_STATUS -eq 0 ] && [ $RUFF_STATUS -eq 0 ] && [ $MYPY_STATUS -eq 0 ] && [run_tests -eq 0 ]; then
     printf "\033[32m✓ All checks passed! Push can continue.\033[0m\n"
     exit 0
 else
