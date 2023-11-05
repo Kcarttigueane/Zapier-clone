@@ -15,8 +15,9 @@ def extract_spotify_likes(token) -> TriggerAnswer | None:
     url = "https://api.spotify.com/v1/me/tracks"
 
     headers = {"Authorization": f"Bearer {token}"}
+    params = {"limit": 20}
 
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers, params=params)
 
     if response.status_code != status.HTTP_200_OK:
         logger.info(f"Status Code: {response.status_code}")
@@ -29,7 +30,6 @@ def extract_spotify_likes(token) -> TriggerAnswer | None:
         track["track"]["name"] + " " + track["track"]["artists"][0]["name"]
         for track in data["items"]
     ]
-    print(song_names)
     return TriggerAnswer(objs=song_names)
 
 
