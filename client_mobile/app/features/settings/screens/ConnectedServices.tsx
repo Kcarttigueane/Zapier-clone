@@ -14,9 +14,6 @@ const ConnectedServices = () => {
   const { authorizeService } = useAuthStore(state => state);
 
   useEffect(() => {
-    if (userAuthorizedServices.length > 0) {
-      return;
-    }
     try {
       fetchUserAuthorizedServices();
     } catch (error: any) {
@@ -53,7 +50,6 @@ const ConnectedServices = () => {
     }
     return service.toLowerCase();
   };
-
   const handleConnectService = (service: string) => {
     const googleServiceName = getGoogleServiceName(service);
 
@@ -63,6 +59,8 @@ const ConnectedServices = () => {
       authorizeService('spotify', 'spotify');
     } else if (service === 'github') {
       authorizeService('github', 'github');
+    } else if (service === 'teams') {
+      authorizeService('microsoft', 'teams');
     }
   };
 
@@ -113,7 +111,7 @@ const ConnectedServices = () => {
             onToggle={() => {
               handleConnectService(item.name);
             }}
-            isChecked={true}
+            defaultValue={item.name !== 'open meteo' ? item.is_authorized : true}
           />
         </HStack>
       )}

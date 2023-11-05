@@ -136,6 +136,14 @@ OAUTH2_PROVIDERS = {
         "user_info_url": "https://graph.microsoft.com/v1.0/me",
         "scope": "offline_access User.Read Mail.Read Chat.ReadWrite Chat.Read Chat.ReadBasic Calendars.Read Calendars.ReadWrite",
     },
+    "microsoft_mobile": {
+        "client_id": AZURE_CLIENT_ID,
+        "client_secret": AZURE_CLIENT_SECRET,
+        "authorization_url": f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/authorize",
+        "token_url": f"https://login.microsoftonline.com/{AZURE_TENANT_ID}/oauth2/v2.0/token",
+        "user_info_url": "https://graph.microsoft.com/v1.0/me",
+        "scope": "offline_access User.Read Mail.Read Chat.ReadWrite Chat.Read Chat.ReadBasic Calendars.Read Calendars.ReadWrite",
+    },
 }
 
 oauth2_providers = {
