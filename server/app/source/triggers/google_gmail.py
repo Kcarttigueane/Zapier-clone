@@ -67,7 +67,7 @@ def extract_gmail_attachments(credentials, last_polled):
 
 
 def check_gmail_attachment(
-    user: UserOutDTO, last_polled: datetime
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
 ) -> TriggerAnswer | None:
     if (service_auth := get_service_auth(user, "gmail")) and service_auth.refresh_token:
         credentials = get_google_credentials(

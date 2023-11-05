@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 
 def extract_todays_weather(user: UserOutDTO, data):
-    temperatures = data["temperature_2m"]
+    temperatures = data["hourly"]["temperature_2m"]
     min_temp = min(temperatures)
     max_temp = max(temperatures)
     avg_temp = sum(temperatures) / len(temperatures)
@@ -27,17 +27,16 @@ def extract_todays_weather(user: UserOutDTO, data):
         Plan your day accordingly. Enjoy!
 
         Best,
-        [Your App Name]
+        AREA
     """
     return TriggerAnswer(header="[AREA] Today's Weather Update", body=content)
 
 
 def check_todays_weather(
-    user: UserOutDTO, last_polled: datetime
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
 ) -> TriggerAnswer | None:
-    if last_polled.day == datetime.utcnow().day:
+    if last_polled.day == datetime.utcnow().day and not first_poll:
         return None
-
     url = "https://api.open-meteo.com/v1/forecast"
 
     params = {
