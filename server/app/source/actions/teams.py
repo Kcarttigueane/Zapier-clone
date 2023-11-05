@@ -25,7 +25,7 @@ def send_message_in_chat(access_token, body):
 
     response = requests.post(send_message_url, json=message_data, headers=headers)
 
-    if response.status_code != status.HTTP_200_OK:
+    if response.status_code != status.HTTP_201_CREATED:
         logger.info(f"Failed to send message in chat 48:notes: {response.text}")
 
 

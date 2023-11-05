@@ -73,7 +73,9 @@ def extract_new_files(credentials, last_polled):
     )
 
 
-def check_new_files(user: UserOutDTO, last_polled: datetime) -> TriggerAnswer | None:
+def check_new_files(
+    user: UserOutDTO, last_polled: datetime, first_poll: bool
+) -> TriggerAnswer | None:
     if (service_auth := get_service_auth(user, "drive")) and service_auth.refresh_token:
         credentials = get_google_credentials(
             service_auth.access_token, service_auth.refresh_token

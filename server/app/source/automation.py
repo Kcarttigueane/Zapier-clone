@@ -1,7 +1,6 @@
 import asyncio
 from datetime import datetime, timezone
-
-from fastapi import HTTPException, status
+from typing import Tuple
 
 from app.repository.actions_repository import ActionRepository
 from app.repository.automations_repository import (
@@ -31,6 +30,7 @@ from app.source.triggers.google_youtube import check_new_videos, check_youtube_l
 from app.source.triggers.open_meteo import check_todays_weather
 from app.source.triggers.spotify import check_spotify_like
 from app.source.triggers.teams import check_upcoming_events_team
+from fastapi import HTTPException, status
 
 user_repository = UserRepository()
 automation_repository = AutomationRepository()
@@ -79,7 +79,7 @@ action_dict = {
         "AddEvents": add_events_google_calendar,
     },
     "teams": {
-        "sendMessage": send_message,
+        "SendMessage": send_message,
         "AddEvents": add_events_team,
     },
     "youtube": {
@@ -111,7 +111,11 @@ async def handle_trigger(
     trigger_function = trigger_dict.get(trigger_service_name, {}).get(
         trigger_name, None
     )
-    return trigger_function(user, automation.last_polled) if trigger_function else None
+    return (
+        trigger_function(user, automation.last_polled, automation.first_poll)
+        if trigger_function
+        else None
+    )
 
 
 async def handle_action(
@@ -140,9 +144,11 @@ async def handle_action(
         action_function(user, trigger_answer)
 
 
-async def handle_automation(automation: AutomationOutDTO) -> AutomationOutDTO:
+async def handle_automation(
+    automation: AutomationOutDTO,
+) -> Tuple[AutomationOutDTO, bool]:
     if not automation_poll_status(automation=automation):
-        return automation
+        return automation, False
 
     user = await user_repository.get(str(automation.user_id))
     if user is None:
@@ -161,18 +167,20 @@ async def handle_automation(automation: AutomationOutDTO) -> AutomationOutDTO:
             details=f"Triggered automation with ID {automation.id}",
         )
         automation.logs.append(new_log)
+        return automation, True
 
-    return automation
+    return automation, False
 
 
 async def run_automations():
-    return
-    automation_list = await automation_repository.get_all()
-
     while True:
+        automation_list = await automation_repository.get_all()
         for i, automation in enumerate(automation_list):
-            automation_list[i] = await handle_automation(automation=automation)
-            await automation_repository.update(
-                automation_list[i].id, AutomationInDTO(**automation_list[i].dict())
+            automation_list[i], need_update = await handle_automation(
+                automation=automation
             )
+            if need_update:
+                await automation_repository.update(
+                    automation_list[i].id, AutomationInDTO(**automation_list[i].dict())
+                )
         await asyncio.sleep(5)

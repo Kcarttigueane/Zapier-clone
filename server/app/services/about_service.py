@@ -1,6 +1,6 @@
 import time
 
-from fastapi import Request
+from fastapi import HTTPException, Request, status
 
 from app.repository.actions_repository import ActionRepository
 from app.repository.service_repository import ServiceRepository
@@ -15,6 +15,13 @@ class AboutService:
         self.a_repo = ActionRepository()
 
     async def generate_about_json(self, request: Request):
+        client = request.client
+        if client is None:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND, detail="Client not found"
+            )
+        client_host = client.host
+
         my_services = await self.s_repo.get_all()
         my_triggers = await self.t_repo.get_all()
         my_actions = await self.a_repo.get_all()
@@ -26,7 +33,7 @@ class AboutService:
 
         about = About(
             client=Client(
-                host=request.client.host,
+                host=client_host,
                 services=len(my_services),
                 triggers=len(my_services),
                 actions=len(my_actions),
