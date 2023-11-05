@@ -2,38 +2,35 @@ import asyncio
 from datetime import datetime, timezone
 from typing import Tuple
 
-from fastapi import HTTPException, status
-
 from app.repository.actions_repository import ActionRepository
 from app.repository.automations_repository import (
     AutomationInDTO,
     AutomationOutDTO,
     AutomationRepository,
 )
-from app.schemas.automations_dto import AutomationLogInDTO
 from app.repository.service_repository import ServiceRepository
 from app.repository.triggers_repository import TriggerRepository
 from app.repository.users_repository import UserOutDTO, UserRepository
+from app.schemas.automations_dto import AutomationLogInDTO
 from app.schemas.triggers_dto import TriggerAnswer
-from app.source.helpers import automation_poll_status, handle_refresh_token
-
-from app.source.actions.google_gmail import send_myself_mail
-from app.source.actions.google_drive import add_attachments_to_drive
-from app.source.actions.spotify import add_songs_to_playlist_spotify
-from app.source.actions.teams import send_message, add_events_team
 from app.source.actions.google_calendar import add_events_google_calendar
+from app.source.actions.google_drive import add_attachments_to_drive
+from app.source.actions.google_gmail import send_myself_mail
 from app.source.actions.google_youtube import add_songs_to_playlist_youtube
-
-from app.source.triggers.google_gmail import check_gmail_attachment
-from app.source.triggers.google_youtube import check_youtube_like, check_new_videos
-from app.source.triggers.google_drive import check_new_files
+from app.source.actions.spotify import add_songs_to_playlist_spotify
+from app.source.actions.teams import add_events_team, send_message
+from app.source.helpers import automation_poll_status, handle_refresh_token
 from app.source.triggers.google_calendar import (
     check_todays_event,
     check_upcoming_events_calendar,
 )
+from app.source.triggers.google_drive import check_new_files
+from app.source.triggers.google_gmail import check_gmail_attachment
+from app.source.triggers.google_youtube import check_new_videos, check_youtube_like
 from app.source.triggers.open_meteo import check_todays_weather
-from app.source.triggers.teams import check_upcoming_events_team
 from app.source.triggers.spotify import check_spotify_like
+from app.source.triggers.teams import check_upcoming_events_team
+from fastapi import HTTPException, status
 
 user_repository = UserRepository()
 automation_repository = AutomationRepository()

@@ -1,9 +1,8 @@
 from typing import Literal
 
-from pydantic import Field
-
 from app.schemas.mongoModel import MongoModel
 from app.schemas.py_object_id import PyObjectId
+from pydantic import Field
 
 
 class ActionInDTO(MongoModel):
@@ -34,11 +33,8 @@ class ActionInDTO(MongoModel):
         }
 
 
-class ActionOutDTO(MongoModel):
+class ActionOutDTO(ActionInDTO):
     id: PyObjectId
-    service_id: PyObjectId
-    name: str
-    description: str
 
     class Config:
         json_schema_extra = {
