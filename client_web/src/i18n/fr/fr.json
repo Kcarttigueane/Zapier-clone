@@ -240,7 +240,7 @@
     "SendMail": "Envoyez un e-mail à vous-même.",
     "SendMessage": "Envoyez un message à vous-même.",
     "AddEventsCalendar": "Ajoute des événements à Google Calendar.",
-    "AddEventsTeam": "Ajoute des événements à Teams."
+    "AddEventsTeams": "Ajoute des événements à Teams."
   },
   "triggers": {
     "LikeSong": "Se déclenche lorsque vous aimez une chanson sur des plateformes comme YouTube, Spotify.",

@@ -21,7 +21,9 @@ services:
       - apk:/build/:rw
 
   client_web:
-    build: ./client_web
+    build:
+      context: ./client_web
+      dockerfile: Dockerfile-dev
     container_name: client_web
     platform: linux/amd64
     restart: on-failure

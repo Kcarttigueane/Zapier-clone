@@ -1,7 +1,6 @@
 import asyncio
 from datetime import datetime, timezone
-
-from fastapi import HTTPException, status
+from typing import Tuple
 
 from app.repository.actions_repository import ActionRepository
 from app.repository.automations_repository import (
@@ -9,30 +8,29 @@ from app.repository.automations_repository import (
     AutomationOutDTO,
     AutomationRepository,
 )
-from app.schemas.automations_dto import AutomationLogInDTO
 from app.repository.service_repository import ServiceRepository
 from app.repository.triggers_repository import TriggerRepository
 from app.repository.users_repository import UserOutDTO, UserRepository
+from app.schemas.automations_dto import AutomationLogInDTO
 from app.schemas.triggers_dto import TriggerAnswer
-from app.source.helpers import automation_poll_status, handle_refresh_token
-
-from app.source.actions.google_gmail import send_myself_mail
-from app.source.actions.google_drive import add_attachments_to_drive
-from app.source.actions.spotify import add_songs_to_playlist_spotify
-from app.source.actions.teams import send_message, add_events_team
 from app.source.actions.google_calendar import add_events_google_calendar
+from app.source.actions.google_drive import add_attachments_to_drive
+from app.source.actions.google_gmail import send_myself_mail
 from app.source.actions.google_youtube import add_songs_to_playlist_youtube
-
-from app.source.triggers.google_gmail import check_gmail_attachment
-from app.source.triggers.google_youtube import check_youtube_like, check_new_videos
-from app.source.triggers.google_drive import check_new_files
+from app.source.actions.spotify import add_songs_to_playlist_spotify
+from app.source.actions.teams import add_events_team, send_message
+from app.source.helpers import automation_poll_status, handle_refresh_token
 from app.source.triggers.google_calendar import (
     check_todays_event,
     check_upcoming_events_calendar,
 )
+from app.source.triggers.google_drive import check_new_files
+from app.source.triggers.google_gmail import check_gmail_attachment
+from app.source.triggers.google_youtube import check_new_videos, check_youtube_like
 from app.source.triggers.open_meteo import check_todays_weather
-from app.source.triggers.teams import check_upcoming_events_team
 from app.source.triggers.spotify import check_spotify_like
+from app.source.triggers.teams import check_upcoming_events_team
+from fastapi import HTTPException, status
 
 user_repository = UserRepository()
 automation_repository = AutomationRepository()
@@ -81,7 +79,7 @@ action_dict = {
         "AddEvents": add_events_google_calendar,
     },
     "teams": {
-        "sendMessage": send_message,
+        "SendMessage": send_message,
         "AddEvents": add_events_team,
     },
     "youtube": {
@@ -113,7 +111,11 @@ async def handle_trigger(
     trigger_function = trigger_dict.get(trigger_service_name, {}).get(
         trigger_name, None
     )
-    return trigger_function(user, automation.last_polled) if trigger_function else None
+    return (
+        trigger_function(user, automation.last_polled, automation.first_poll)
+        if trigger_function
+        else None
+    )
 
 
 async def handle_action(
@@ -142,9 +144,11 @@ async def handle_action(
         action_function(user, trigger_answer)
 
 
-async def handle_automation(automation: AutomationOutDTO) -> AutomationOutDTO:
+async def handle_automation(
+    automation: AutomationOutDTO,
+) -> Tuple[AutomationOutDTO, bool]:
     if not automation_poll_status(automation=automation):
-        return automation
+        return automation, False
 
     user = await user_repository.get(str(automation.user_id))
     if user is None:
@@ -163,17 +167,20 @@ async def handle_automation(automation: AutomationOutDTO) -> AutomationOutDTO:
             details=f"Triggered automation with ID {automation.id}",
         )
         automation.logs.append(new_log)
+        return automation, True
 
-    return automation
+    return automation, False
 
 
 async def run_automations():
-    automation_list = await automation_repository.get_all()
-
     while True:
+        automation_list = await automation_repository.get_all()
         for i, automation in enumerate(automation_list):
-            automation_list[i] = await handle_automation(automation=automation)
-            await automation_repository.update(
-                automation_list[i].id, AutomationInDTO(**automation_list[i].dict())
+            automation_list[i], need_update = await handle_automation(
+                automation=automation
             )
+            if need_update:
+                await automation_repository.update(
+                    automation_list[i].id, AutomationInDTO(**automation_list[i].dict())
+                )
         await asyncio.sleep(5)

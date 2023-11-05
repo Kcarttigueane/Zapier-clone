@@ -241,7 +241,7 @@
     "SendMail": "Envía un correo electrónico a ti mismo.",
     "SendMessage": "Envía un mensaje a ti mismo.",
     "AddEventsCalendar": "Añade eventos a Google Calendar.",
-    "AddEventsTeam": "Añade eventos a Teams."
+    "AddEventsTeams": "Añade eventos a Teams."
   },
   "triggers": {
     "LikeSong": "Se activa cuando te gusta una canción en plataformas como YouTube, Spotify.",

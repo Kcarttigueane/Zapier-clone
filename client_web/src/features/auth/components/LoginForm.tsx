@@ -8,8 +8,8 @@ import * as Yup from 'yup';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const initialValues = {
-	email: 'oliver.lewis@masurao.jp',
-	password: 'password',
+	email: '',
+	password: '',
 };
 
 const validationSchema = Yup.object({

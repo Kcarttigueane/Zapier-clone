@@ -10,7 +10,7 @@ import { apiV2 } from '../../../core/api';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
 
 const initialValues = {
-	email: 'oliver.lewis@masurao.jp',
+	email: '',
 };
 
 const validationSchema = Yup.object({

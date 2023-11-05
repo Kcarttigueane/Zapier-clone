@@ -195,9 +195,16 @@ class AuthServices:
             return await self.repository.update(user_id=str(user.id), user=user)
 
     def authorize_additional_access(
-        self, provider: str, service_name: str, current_user: UserOutDTO
+        self,
+        provider: str,
+        service_name: str,
+        current_user: UserOutDTO,
+        isMobile: bool = False,
     ):
-        oauth2_scheme = oauth2_providers.get(provider)
+        if isMobile:
+            oauth2_scheme = oauth2_providers.get(f"{provider}_mobile")
+        else:
+            oauth2_scheme = oauth2_providers.get(provider)
 
         if not oauth2_scheme:
             raise HTTPException(
@@ -205,7 +212,10 @@ class AuthServices:
                 detail=f"Provider {self} not found",
             )
 
-        redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/callback/{provider}/{service_name}"
+        if isMobile:
+            redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/mobile/callback/{provider}/{service_name}"
+        else:
+            redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/callback/{provider}/{service_name}"
 
         uri, state = oauth2_scheme.create_authorization_url(
             redirect_uri,
@@ -219,9 +229,18 @@ class AuthServices:
         return uri
 
     async def authorize_additional_access_callback(
-        self, provider: str, service_name: str, request: Request, code: str, state: str
+        self,
+        provider: str,
+        service_name: str,
+        request: Request,
+        code: str,
+        state: str,
+        isMobile: bool = False,
     ):
-        oauth2_scheme = oauth2_providers.get(provider)
+        if isMobile:
+            oauth2_scheme = oauth2_providers.get(f"{provider}_mobile")
+        else:
+            oauth2_scheme = oauth2_providers.get(provider)
 
         state = state.strip("',")
 
@@ -231,7 +250,10 @@ class AuthServices:
                 detail=f"Provider {provider} not found",
             )
 
-        redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/callback/{provider}/{service_name}"
+        if isMobile:
+            redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/mobile/callback/{provider}/{service_name}"
+        else:
+            redirect_uri = f"http://localhost:8080/api/v2/auth/authorize/callback/{provider}/{service_name}"
 
         response = await oauth2_scheme.fetch_token(redirect_uri, code, str(request.url))
 
@@ -243,7 +265,11 @@ class AuthServices:
 
         jwt_token = create_jwt_user_token(user)
 
-        frontend_url = f"{WEB_CLIENT_URL}/dashboard?token={jwt_token}"
+        if isMobile:
+            frontend_url = f"myapp://oauthredirect?token={jwt_token}"
+        else:
+            frontend_url = f"{WEB_CLIENT_URL}/dashboard?token={jwt_token}"
+
         return RedirectResponse(frontend_url)
 
     async def forgot_password(self, email: str):

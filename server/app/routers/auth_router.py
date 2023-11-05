@@ -92,6 +92,31 @@ async def authorize_additional_access_callback(
     )
 
 
+@auth_router.get(
+    "/authorize/mobile/{provider}/{service_name}",
+    description="Authorize with OAuth2 provider",
+)
+async def authorize_mobile_additional_access(
+    provider: str, service_name: str, current_user=Depends(get_current_user)
+):
+    return AuthService.authorize_additional_access(
+        provider, service_name, current_user, True
+    )
+
+
+@auth_router.get(
+    "/authorize/mobile/callback/{provider}/{service_name}",
+    description="Authorize with OAuth2 provider",
+)
+async def authorize_mobile_additional_access_callback(
+    provider: str, service_name: str, request: Request, code: str, state: str
+):
+    print("authorize_mobile_additional_access_callback")
+    return await AuthService.authorize_additional_access_callback(
+        provider, service_name, request, code, state, True
+    )
+
+
 @auth_router.post("/forgot-password", description="Forgot password")
 async def forgot_password(email: str):
     return await AuthService.forgot_password(email)

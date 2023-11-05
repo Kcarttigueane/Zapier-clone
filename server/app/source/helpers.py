@@ -135,4 +135,4 @@ def automation_poll_status(automation: AutomationOutDTO):
         return False
     utc_now = datetime.utcnow()
     automation_last_polled = automation.last_polled.replace(tzinfo=None)
-    return (utc_now - automation_last_polled).total_seconds() / 60 >= POLLING
+    return (utc_now - automation_last_polled).total_seconds() / 60 >= float(POLLING)

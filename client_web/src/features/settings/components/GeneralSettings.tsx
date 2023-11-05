@@ -35,11 +35,17 @@ const GeneralSettings = () => {
 				<UploadNewImage />
 			</SettingItem>
 			<SettingItem label={t('settings.settingScreen.profile.name')}>
-				<Input placeholder={user?.profile.first_name} size="large" style={{ width: '337px' }} disabled />
+				<Input
+					placeholder={user?.profile.first_name + ' ' + user?.profile.last_name}
+					size="large"
+					style={{ width: '337px' }}
+					disabled
+				/>
 			</SettingItem>
 			<SettingItem label={t('settings.settingScreen.profile.email')}>
-				<Input placeholder={user?.profile.last_name} size="large" style={{ width: '337px' }} disabled />
+				<Input placeholder={user?.email} size="large" style={{ width: '337px' }} disabled />
 			</SettingItem>
+
 			<SettingItem label={t('settings.settingScreen.profile.pushNotif')} switchable defaultChecked />
 			<SettingItem label={t('settings.settingScreen.profile.emailNotif')} switchable defaultChecked />
 			<SettingItem
