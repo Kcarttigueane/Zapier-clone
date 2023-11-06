@@ -172,6 +172,7 @@ class AuthServices:
                     last_name=last_name,
                     language="English",
                     theme="light",
+                    profile_picture=None,
                 ),
                 oauth=[oauth_data],
             )

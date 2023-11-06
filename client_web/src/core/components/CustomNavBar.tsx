@@ -4,6 +4,7 @@ import { Header } from 'antd/es/layout/layout';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import useUserStore from '../zustand/useUserStore';
 
 const { Text } = Typography;
 
@@ -29,6 +30,7 @@ const CustomNavBar = () => {
 
 	const navigate = useNavigate();
 	const { t } = useTranslation();
+	const { user } = useUserStore((state) => state);
 
 	const handleLogout = () => localStorage.clear();
 
@@ -87,17 +89,7 @@ const CustomNavBar = () => {
 			</Space>
 			<Space style={rightHeaderStyle} size="large">
 				<Dropdown menu={{ items, onClick }} placement="bottom" trigger={['click']}>
-					<Avatar
-						size="large"
-						icon={
-							<img
-								src={
-									'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60'
-								}
-								alt="Avatar"
-							/>
-						}
-					/>
+					<Avatar size="large" icon={<img src={user?.profile.profile_picture} alt="Avatar" />} />
 				</Dropdown>
 			</Space>
 		</Header>

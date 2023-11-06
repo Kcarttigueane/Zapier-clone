@@ -2,6 +2,7 @@ export interface UserProfileDTO {
 	first_name?: string;
 	last_name?: string;
 	language: string;
+	profile_picture?: string;
 	theme: 'dark' | 'light' | 'system';
 }
 
