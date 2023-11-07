@@ -1,4 +1,10 @@
-import { DeleteTwoTone, ExclamationCircleTwoTone, InfoCircleTwoTone, ReloadOutlined } from '@ant-design/icons';
+import {
+	AreaChartOutlined,
+	DeleteTwoTone,
+	ExclamationCircleTwoTone,
+	InfoCircleTwoTone,
+	ReloadOutlined,
+} from '@ant-design/icons';
 import { Button, Col, Image, Popconfirm, Row, Space, Switch, Table, Typography, message, theme } from 'antd';
 import Search from 'antd/es/input/Search';
 import type { ColumnsType } from 'antd/es/table';
@@ -20,7 +26,12 @@ const imageStyle: React.CSSProperties = {
 	boxShadow: '0 0 8px rgba(0, 0, 0, .2)',
 };
 
-const AutomationTable = () => {
+interface AutomationTableProps {
+	openDrawer: boolean;
+	setOpenDrawer: (open: boolean) => void;
+}
+
+const AutomationTable: React.FC<AutomationTableProps> = ({ setOpenDrawer }) => {
 	const { t } = useTranslation();
 	const { token } = theme.useToken();
 	const [inputString, setInputString] = useState<string>('');
@@ -276,7 +287,18 @@ const AutomationTable = () => {
 	return (
 		<>
 			{contextHolder}
-			<div style={{ padding: '8px', backgroundColor: token.colorBgBase, borderRadius: '6px' }}>
+			<div
+				style={{
+					padding: '8px',
+					width: '100%',
+					backgroundColor: token.colorBgBase,
+					borderRadius: '6px',
+					display: 'flex',
+					flexDirection: 'row',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+				}}
+			>
 				<Row align="middle">
 					<Col style={{ marginRight: '8px' }}>
 						<InfoCircleTwoTone />
@@ -291,6 +313,9 @@ const AutomationTable = () => {
 						</Text>
 					</Col>
 				</Row>
+				<Button icon={<AreaChartOutlined />} onClick={() => setOpenDrawer(true)}>
+					Analytics
+				</Button>
 			</div>
 			<div
 				style={{
