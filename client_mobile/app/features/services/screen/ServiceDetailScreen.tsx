@@ -91,8 +91,6 @@ const ServiceDetailScreen = () => {
         });
       }
     };
-    getTriggers();
-    getActions();
     if (userAuthorizedServices && userAuthorizedServices.length > 0) {
       const authorizedService = getServiceByName(userAuthorizedServices, service.name);
       if (authorizedService) {
