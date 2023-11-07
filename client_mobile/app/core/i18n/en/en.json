@@ -1,6 +1,10 @@
 {
   "basic": {
     "actions": {
+      "names": {
+        "trigger": "Trigger",
+        "action": "Action"
+      },
       "add": "Add",
       "cancel": "Cancel",
       "confirm": "Confirm",
@@ -170,11 +174,14 @@
       "action2": "Choose a Trigger",
       "reaction2": "Choose a Reaction",
       "authorize": "Connect",
+      "integration": "Integration",
       "connected": "Already Connected",
       "disabled": "Authorize Services",
       "enabled": "Try It!",
       "service": "🔎 Select a Service",
-      "name": "Name of the automation"
+      "name": "Name of the automation",
+      "noTrigger": "No trigger available for this service",
+      "noAction": "No action available for this service"
     },
     "createZapScreen": {
       "title": "Create a Zap",

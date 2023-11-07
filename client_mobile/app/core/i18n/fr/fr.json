@@ -1,6 +1,10 @@
 {
   "basic": {
     "actions": {
+      "names": {
+        "trigger": "Action",
+        "action": "Réaction"
+      },
       "add": "Ajouter",
       "cancel": "Annuler",
       "confirm": "Confirmer",
@@ -169,12 +173,15 @@
       "reaction1": "...avec celui-ci.",
       "action2": "Choisir un Déclencheur",
       "reaction2": "Choisir une Réaction",
+      "integration": "Intégration",
       "authorize": "Connecter",
       "connected": "Déjà Connecté",
       "disabled": "Autoriser les Services",
       "enabled": "Essayer!",
       "service": "🔎 Sélectionner un service",
-      "name": "Nom de l'automation"
+      "name": "Nom de l'automation",
+      "noTrigger": "Aucune action disponible pour ce service",
+      "noAction": "Aucune réaction disponible pour ce service"
     },
     "createZapScreen": {
       "title": "Créer un Zap",
