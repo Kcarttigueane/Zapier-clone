@@ -1,6 +1,10 @@
 {
   "basic": {
     "actions": {
+      "names": {
+        "trigger": "Action",
+        "action": "Réaction"
+      },
       "add": "Añadir",
       "cancel": "Cancelar",
       "confirm": "Confirmar",
@@ -169,12 +173,15 @@
       "reaction1": "...con este otro.",
       "action2": "Elegir un Desencadenante",
       "reaction2": "Elegir una Reacción",
+      "integration": "Integración",
       "authorize": "Conectar",
       "connected": "Ya Conectado",
       "disabled": "Autorizar Servicios",
       "enabled": "¡Pruébalo!",
       "service": "Seleccione un servicio",
-      "name": "Nombre de la automatización"
+      "name": "Nombre de la automatización",
+      "noTrigger": "No trigger available for this service",
+      "noAction": "No action available for this service"
     },
     "createZapScreen": {
       "title": "Crear un Zap",
