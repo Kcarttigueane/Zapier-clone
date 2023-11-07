@@ -1,7 +1,8 @@
-import { Layout, theme } from 'antd';
+import { Button, Drawer, Layout, Space, theme } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
-import React from 'react';
+import React, { useState } from 'react';
 import CustomNavBar from '../../../core/components/CustomNavBar';
+import AutomationUsageChart from '../components/AutomationCharts';
 import AutomationTable from '../components/AutomationTable';
 
 const contentStyle: React.CSSProperties = {
@@ -15,6 +16,7 @@ const contentStyle: React.CSSProperties = {
 
 const Dashboard = () => {
 	const { token } = theme.useToken();
+	const [openDrawer, setOpenDrawer] = useState(false);
 
 	const layoutStyle: React.CSSProperties = {
 		minHeight: '100vh',
@@ -40,12 +42,30 @@ const Dashboard = () => {
 		background: token.colorBgElevated,
 	};
 
+	const showLargeDrawer = () => setOpenDrawer(true);
+
+	const onDrawerClose = () => setOpenDrawer(false);
+
 	return (
 		<Layout style={layoutStyle}>
 			<CustomNavBar />
 			<Content style={contentStyle}>
+				<Drawer
+					title="Automation Charts"
+					placement="right"
+					size="large"
+					onClose={onDrawerClose}
+					open={openDrawer}
+					extra={
+						<Space>
+							<Button onClick={onDrawerClose}>Go back</Button>
+						</Space>
+					}
+				>
+					<AutomationUsageChart />
+				</Drawer>
 				<Layout style={MainZapStyle}>
-					<AutomationTable />
+					<AutomationTable openDrawer={openDrawer} setOpenDrawer={showLargeDrawer} />
 				</Layout>
 			</Content>
 			<Footer style={footerStyle}>Area ©2023 Created by AREA EPITECH</Footer>
