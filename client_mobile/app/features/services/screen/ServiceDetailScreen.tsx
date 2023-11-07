@@ -1,13 +1,18 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+P; /* eslint-disable react-hooks/exhaustive-deps */
 import { Button, ButtonText, ScrollView, Spinner, Toast, ToastTitle, VStack, useToast } from '@gluestack-ui/themed';
 import { RouteProp, useRoute } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { RootStackParamList } from '../../../App';
 import { ActionModelDTO } from '../../../core/models/action';
+import { ServiceModeWithAuthorizationDTO } from '../../../core/models/service';
 import { TriggerModelDTO } from '../../../core/models/trigger';
 import { capitalizeFirstLetter } from '../../../core/utils/capitalizeFirstLetter';
+import { handleConnectService } from '../../../core/utils/handleConnectService';
 import useActionStore from '../../../core/zustand/useActionStore';
+import { useAuthStore } from '../../../core/zustand/useAuthStore';
+import useServicesStore from '../../../core/zustand/useServiceStore';
 import useTriggerStore from '../../../core/zustand/useTriggerStore';
 import ItemModalDescription from '../components/ItemModalDescription';
 
@@ -16,10 +21,14 @@ type ServiceDetailRouteProp = RouteProp<RootStackParamList, 'ServiceDetailScreen
 const ServiceDetailScreen = () => {
   const route = useRoute<ServiceDetailRouteProp>();
   const { service } = route.params;
+  const { t } = useTranslation();
   const { triggersAssociatedToService, fetchTriggersByService, isTriggersLoading } = useTriggerStore(state => state);
   const { actionsAssociatedToService, isActionsLoading, fetchActionsByServiceId } = useActionStore(state => state);
   const [showModal, setShowModal] = React.useState(false);
   const [selectedItem, setSelectedItem] = React.useState<TriggerModelDTO | ActionModelDTO | null>(null);
+  const { authorizeService } = useAuthStore(state => state);
+  const { userAuthorizedServices, fetchUserAuthorizedServices } = useServicesStore(state => state);
+  const [isAuthorized, setisAuthorized] = useState(false);
 
   const toast = useToast();
 
@@ -63,9 +72,43 @@ const ServiceDetailScreen = () => {
         });
       }
     };
-    getTriggers();
-    getActions();
-  }, []);
+    const getAuthorizedServices = async () => {
+      try {
+        await fetchUserAuthorizedServices();
+      } catch (error: any) {
+        console.error('Error fetching automations', error);
+        toast.show({
+          placement: 'top',
+          render: ({ id }) => {
+            return (
+              <Toast nativeID={'toast-' + id} action="error" variant="accent">
+                <VStack space="sm">
+                  <ToastTitle>{error.response.data.detail}</ToastTitle>
+                </VStack>
+              </Toast>
+            );
+          },
+        });
+      }
+    };
+    if (userAuthorizedServices && userAuthorizedServices.length > 0) {
+      const authorizedService = getServiceByName(userAuthorizedServices, service.name);
+      if (authorizedService) {
+        setisAuthorized(authorizedService.is_authorized);
+      }
+    } else {
+      getTriggers();
+      getActions();
+      getAuthorizedServices();
+    }
+  }, [userAuthorizedServices]);
+
+  const getServiceByName = (services: ServiceModeWithAuthorizationDTO[], serviceName: string) => {
+    const serviceFound = services.find((item: ServiceModeWithAuthorizationDTO) => item.name === serviceName);
+    return serviceFound;
+  };
+
+  const handleConnect = (serviceName: string) => handleConnectService(serviceName, authorizeService);
 
   return (
     <SafeAreaView>
@@ -79,22 +122,22 @@ const ServiceDetailScreen = () => {
         }}>
         <View style={styles.cardsContainer}>
           <Text style={{ fontSize: 22, color: 'white', fontWeight: 'bold' }}>
-            {capitalizeFirstLetter(service.name)} Integrations
-            {/* TODO : Translation */}
+            {capitalizeFirstLetter(service.name)} {t('zap.create.integration')}
           </Text>
           <Text style={{ color: 'white', fontSize: 14, fontFamily: 'Inter', textAlign: 'center' }}>
-            {service.description}
+            {t(service.description)}
           </Text>
           <Button
             size="md"
             variant="solid"
             action="primary"
-            isDisabled={false}
+            isDisabled={service.name !== 'open meteo' ? isAuthorized : true}
             isFocusVisible={false}
-            style={{ borderRadius: 30, width: 119, height: 40, backgroundColor: '#FFF', marginBottom: 10 }}
-            onPress={() => console.log('Connect')}>
-            <ButtonText style={{ color: 'black', fontSize: 16 }}>Authorize</ButtonText>
-            {/* TODO : Translation */}
+            style={{ borderRadius: 30, width: 169, height: 40, backgroundColor: '#FFF', marginBottom: 10 }}
+            onPress={() => handleConnect(service.name)}>
+            <ButtonText style={{ color: 'black', fontSize: 16 }}>
+              {isAuthorized ? t('zap.create.connected') : t('zap.create.authorize')}
+            </ButtonText>
           </Button>
         </View>
 
@@ -119,8 +162,7 @@ const ServiceDetailScreen = () => {
                   fontWeight: 'bold',
                   marginVertical: 10,
                 }}>
-                Trigger
-                {/* TODO : Translation */}
+                {t('basic.names.trigger')}
               </Text>
               {triggersAssociatedToService.length === 0 ? (
                 <Text
@@ -130,7 +172,7 @@ const ServiceDetailScreen = () => {
                     fontFamily: 'Inter',
                     textAlign: 'center',
                   }}>
-                  No trigger available for this service
+                  {t('zap.create.noTrigger')}
                 </Text>
               ) : (
                 <VStack space="md" style={{ width: '100%' }} alignItems="center">
@@ -163,12 +205,11 @@ const ServiceDetailScreen = () => {
                   fontWeight: 'bold',
                   marginVertical: 10,
                 }}>
-                Actions
-                {/* TODO : Translation */}
+                {t('basic.names.action')}
               </Text>
               {actionsAssociatedToService.length === 0 ? (
                 <Text style={{ color: 'black', fontSize: 14, fontFamily: 'Inter', textAlign: 'center' }}>
-                  No trigger available for this service
+                  {t('zap.create.noAction')}
                 </Text>
               ) : (
                 <VStack space="md" style={{ width: '100%' }} alignItems="center">
@@ -204,6 +245,7 @@ const ServiceDetailScreen = () => {
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   cardsContainer: {
     backgroundColor: '#424242',

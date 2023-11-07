@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { FlatList, StyleSheet, Text } from 'react-native';
 import Base64SvgDisplay from '../../../core/components/Base64SvgDisplay';
 import { capitalizeFirstLetter } from '../../../core/utils/capitalizeFirstLetter';
+import { handleConnectService } from '../../../core/utils/handleConnectService';
 import { useAuthStore } from '../../../core/zustand/useAuthStore';
 import useServicesStore from '../../../core/zustand/useServiceStore';
 
@@ -41,28 +42,7 @@ const ConnectedServices = () => {
     );
   }
 
-  const googleServices = ['calendar', 'drive', 'gmail', 'youtube'];
-
-  const getGoogleServiceName = (service: string) => {
-    const isGoogleService = service.toLowerCase().startsWith('google');
-    if (isGoogleService) {
-      return service.split(' ')[1];
-    }
-    return service.toLowerCase();
-  };
-  const handleConnectService = (service: string) => {
-    const googleServiceName = getGoogleServiceName(service);
-
-    if (googleServices.includes(googleServiceName)) {
-      authorizeService('google', googleServiceName);
-    } else if (service === 'spotify') {
-      authorizeService('spotify', 'spotify');
-    } else if (service === 'github') {
-      authorizeService('github', 'github');
-    } else if (service === 'teams') {
-      authorizeService('microsoft', 'teams');
-    }
-  };
+  const handleConnect = (serviceName: string) => handleConnectService(serviceName, authorizeService);
 
   if (userAuthorizedServices.length === 0) {
     return (
@@ -108,9 +88,7 @@ const ConnectedServices = () => {
           <Switch
             size="md"
             isDisabled={false}
-            onToggle={() => {
-              handleConnectService(item.name);
-            }}
+            onToggle={() => handleConnect(item.name)}
             defaultValue={item.name !== 'open meteo' ? item.is_authorized : true}
           />
         </HStack>
