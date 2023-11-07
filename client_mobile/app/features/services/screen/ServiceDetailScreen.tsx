@@ -1,4 +1,4 @@
-P; /* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Button, ButtonText, ScrollView, Spinner, Toast, ToastTitle, VStack, useToast } from '@gluestack-ui/themed';
 import { RouteProp, useRoute } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
@@ -91,6 +91,8 @@ const ServiceDetailScreen = () => {
         });
       }
     };
+    getTriggers();
+    getActions();
     if (userAuthorizedServices && userAuthorizedServices.length > 0) {
       const authorizedService = getServiceByName(userAuthorizedServices, service.name);
       if (authorizedService) {
@@ -162,7 +164,7 @@ const ServiceDetailScreen = () => {
                   fontWeight: 'bold',
                   marginVertical: 10,
                 }}>
-                {t('basic.names.trigger')}
+                {t('basic.actions.names.trigger')}
               </Text>
               {triggersAssociatedToService.length === 0 ? (
                 <Text
@@ -205,7 +207,7 @@ const ServiceDetailScreen = () => {
                   fontWeight: 'bold',
                   marginVertical: 10,
                 }}>
-                {t('basic.names.action')}
+                {t('basic.actions.names.action')}
               </Text>
               {actionsAssociatedToService.length === 0 ? (
                 <Text style={{ color: 'black', fontSize: 14, fontFamily: 'Inter', textAlign: 'center' }}>
