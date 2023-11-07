@@ -1,4 +1,4 @@
-interface AboutData {
+export interface AboutData {
 	client: {
 		host: string;
 		services: number;

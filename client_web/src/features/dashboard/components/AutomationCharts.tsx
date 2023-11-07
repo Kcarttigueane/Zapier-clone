@@ -1,13 +1,13 @@
 import {
-  BarElement,
-  CategoryScale,
-  Chart as ChartJS,
-  Legend,
-  LineElement,
-  LinearScale,
-  PointElement,
-  Title,
-  Tooltip,
+	BarElement,
+	CategoryScale,
+	Chart as ChartJS,
+	Legend,
+	LineElement,
+	LinearScale,
+	PointElement,
+	Title,
+	Tooltip,
 } from 'chart.js';
 import { useEffect, useState } from 'react';
 import { Bar, Line } from 'react-chartjs-2';

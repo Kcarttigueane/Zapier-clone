@@ -2,9 +2,9 @@ import { AppstoreOutlined, ExpandAltOutlined, NodeCollapseOutlined, WifiOutlined
 import { Button, Col, Collapse, Divider, Image, Layout, Row, Skeleton, Space, Typography, message, theme } from 'antd';
 import { Content, Footer } from 'antd/es/layout/layout';
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { apiV2 } from '../../../core/api';
 import CustomNavBar from '../../../core/components/CustomNavBar';
+import { AboutData } from '../../../core/models/about';
 import CustomServiceDetailList from '../../home/components/CustomServiceDetailList';
 
 const { Title, Text } = Typography;
@@ -27,7 +27,6 @@ const contentStyle: React.CSSProperties = {
 };
 
 const About = () => {
-	const { t } = useTranslation();
 	const { token } = theme.useToken();
 	const [messageApi, contextHolder] = message.useMessage();
 
@@ -53,7 +52,7 @@ const About = () => {
 		fetchAboutData();
 	}, []);
 
-	const [activeKey, setActiveKey] = useState<string[]>([]);
+	const [activeKey, setActiveKey] = useState<string | string[]>([]);
 
 	const handleToggleExpand = () => {
 		if (activeKey.length === aboutData?.server.services.length) {
