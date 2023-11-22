@@ -4,6 +4,8 @@
 
 AREA is an automation platform inspired by Zapier and IFTTT, designed to enable users to create custom workflows by interconnecting various web services. This project allows users to automate tasks across different platforms, such as Yammer, Facebook, Twitter, OneDrive, and more, through a combination of Action and REAction components.
 
+https://github.com/EpitechPromo2026/B-DEV-500-LYN-5-1-area-kevin.carttigueane/assets/91593713/8259df88-aceb-4c7b-b554-9aae6d3f3ae4
+
 ## Features
 
 - **User Registration and Authentication**: Secure user registration and authentication process, including OAuth2 integration for services like Yammer, Facebook, Twitter, etc.
@@ -77,6 +79,7 @@ TESTING=False
 # Frequency for polling external services (in seconds)
 POLLING=0.8
 ```
+
 
 ## Technology Stack
 
