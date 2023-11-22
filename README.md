@@ -95,7 +95,7 @@ The database is use is **Mongodb** but for visualization purposes with design th
 ![drawSQL-area-export-2023-11-22](https://github.com/EpitechPromo2026/B-DEV-500-LYN-5-1-area-kevin.carttigueane/assets/91593713/084b12c2-ff67-4061-b014-cb7e69d38365)
 
 
-## Core maintainers :sunglasses:
+## Contributors:sunglasses:
 
 - [Yann DEMUYT](https://github.com/demisIsTired)
 - [Jules DUTEL](https://github.com/jvlxz)
