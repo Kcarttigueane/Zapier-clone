@@ -12,7 +12,6 @@
 
 ## What do I need to test the code:
 
-- [ ] Mobile
 - [ ] Web
 - [ ] Backend
 

@@ -12,7 +12,7 @@ https://github.com/EpitechPromo2026/B-DEV-500-LYN-5-1-area-kevin.carttigueane/as
 - **Service Subscription**: Allows users to subscribe to various services and configure them for automation.
 - **Action and REAction Components**: Each service offers Action components to trigger events and REAction components to perform tasks based on those triggers.
 - **Custom Workflow Creation (AREA)**: Users can create AREA by connecting an Action to a previously configured REAction, automating complex workflows.
-- **Web and Mobile Support**: Compatible with both web and mobile platforms through a REST API.
+- **Web Support**: Compatible with both web platforms through a REST API.
 
 Prerequisites
 -------------
@@ -38,9 +38,6 @@ SPOTIFY_CLIENT_SECRET=
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
 
-# GitHub OAuth credentials for mobile clients
-GITHUB_CLIENT_ID_MOBILE=
-GITHUB_CLIENT_SECRET_MOBILE=
 
 # Discord OAuth credentials for authenticating users
 DISCORD_CLIENT_ID=
@@ -83,7 +80,7 @@ POLLING=0.8
 
 ## Technology Stack
 
-Below is the technology stack used in the AREA project, outlining the main components of the web client, mobile client, server, and CI/CD pipeline.
+Below is the technology stack used in the AREA project, outlining the main components of the web client, server, and CI/CD pipeline.
 
 ![Screenshot from 2023-11-22 11-44-58](https://github.com/EpitechPromo2026/B-DEV-500-LYN-5-1-area-kevin.carttigueane/assets/91593713/460b7772-5e55-4c6e-b604-9eccf093b1f3)
 

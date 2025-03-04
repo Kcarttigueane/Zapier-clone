@@ -15,16 +15,6 @@ check-web:
   rules:
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
-check-mobile:
-  stage: check
-  image: node:16
-  before_script:
-    - cd client_mobile
-    - npm install
-  script:
-    - npm run lint
-  rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 
 check-server:
   stage: check

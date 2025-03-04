@@ -18,31 +18,12 @@ async def authenticate_with_provider(provider: str):
     return AuthService.authenticate_with_provider(provider, False)
 
 
-@auth_router.get(
-    "/login/mobile/{provider}", description="Login with OAuth2 provider for mobile"
-)
-async def authenticate_with_provider_mobile(provider: str):
-    return AuthService.authenticate_with_provider(provider, True)
-
-
 @auth_router.get("/login/{provider}/callback", description="Login with OAuth2 provider")
 async def authenticate_with_provider_callback(
     provider: str, request: Request, code: str
 ):
     return await AuthService.authenticate_with_provider_callback(
         provider, request, code, False
-    )
-
-
-@auth_router.get(
-    "/login/mobile/{provider}/callback",
-    description="Login with OAuth2 provider for mobile",
-)
-async def authenticate_with_provider_callback_mobile(
-    provider: str, request: Request, code: str
-):
-    return await AuthService.authenticate_with_provider_callback(
-        provider, request, code, True
     )
 
 
@@ -89,31 +70,6 @@ async def authorize_additional_access_callback(
 ):
     return await AuthService.authorize_additional_access_callback(
         provider, service_name, request, code, state
-    )
-
-
-@auth_router.get(
-    "/authorize/mobile/{provider}/{service_name}",
-    description="Authorize with OAuth2 provider",
-)
-async def authorize_mobile_additional_access(
-    provider: str, service_name: str, current_user=Depends(get_current_user)
-):
-    return AuthService.authorize_additional_access(
-        provider, service_name, current_user, True
-    )
-
-
-@auth_router.get(
-    "/authorize/mobile/callback/{provider}/{service_name}",
-    description="Authorize with OAuth2 provider",
-)
-async def authorize_mobile_additional_access_callback(
-    provider: str, service_name: str, request: Request, code: str, state: str
-):
-    print("authorize_mobile_additional_access_callback")
-    return await AuthService.authorize_additional_access_callback(
-        provider, service_name, request, code, state, True
     )
 
 
